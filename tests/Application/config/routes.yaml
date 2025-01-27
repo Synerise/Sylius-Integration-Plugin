@@ -1,0 +1,9 @@
+synerise_sylius_integration_plugin_shop:
+    resource: "@SyneriseSyliusIntegrationPlugin/config/shop_routing.yaml"
+    prefix: /{_locale}
+    requirements:
+        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
+
+synerise_sylius_integration_plugin_admin:
+    resource: "@SyneriseSyliusIntegrationPlugin/config/admin_routing.yaml"
+    prefix: /admin
