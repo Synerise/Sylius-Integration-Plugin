@@ -1,2 +1,24 @@
 imports:
     - { resource: "app/twig_hooks/**/*.yaml" }
+
+sylius_grid:    
+    grids:
+        synerise_integration_workspace:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: 'Synerise\SyliusIntegrationPlugin\Entity\Workspace'
+            sorting:
+                id: desc
+            fields:
+                id:
+                    type: integer
+                    label: synerise_integration.ui.workspace_id
+                    sortable: true
+                    
+sylius_resource:
+    resources:
+        synerise_integration.workspace:
+            classes:
+                model: \Synerise\SyliusIntegrationPlugin\Entity\Workspace
+                interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface

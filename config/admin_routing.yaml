@@ -1,1 +1,26 @@
-# Define your own admin routes here
+synerise_integration_workspace:
+    resource: |
+        alias: synerise_integration.workspace
+        section: admin
+        templates: "@SyliusAdmin\\shared\\crud"
+        only: ['index']
+        grid: synerise_integration_workspace
+        permission: true
+        vars:
+            all:
+                header: synerise_integration.ui.workspaces
+                subheader: synerise_integration.ui.manage_workspaces
+                breadcrumb: synerise_integration.ui.workspaces
+            index:
+                icon: inbox
+    type: sylius.resource
+
+synerise_integration_admin_workspace_show:
+    path: /workspaces/{id}
+    methods: [GET]
+    defaults:
+        _controller: synerise_integration.controller.workspace::showAction
+        _sylius:
+            section: admin
+            permission: true
+            template: "@SyliusAdmin/shared/crud/show.html.twig"

@@ -15,7 +15,7 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'tabler:currency-dollar');
 
         $syneriseMenu
-            ->addChild('workspaces', ['route' => 'sylius_admin_product_index'])
+            ->addChild('workspaces', ['route' => 'synerise_integration_admin_workspace_index'])
             ->setLabel('synerise_integration.ui.workspaces')
             ->setLabelAttribute('icon', 'file')
         ;
