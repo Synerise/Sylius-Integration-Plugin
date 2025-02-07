@@ -1,0 +1,3 @@
+synerise_integration:
+    ui:
+        workspaces: 'Workspaces'
