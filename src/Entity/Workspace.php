@@ -5,16 +5,17 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 class Workspace implements WorkspaceInterface
 {
 
-    private $id;
+    private ?int $id = null;
 
-    public function getId(): string
-    {
-        return $this->id();
-    }
+    private ?string $name = null;
 
-    public function id(): string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 }

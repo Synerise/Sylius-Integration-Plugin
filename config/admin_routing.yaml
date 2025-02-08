@@ -3,7 +3,6 @@ synerise_integration_workspace:
         alias: synerise_integration.workspace
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
-        only: ['index']
         grid: synerise_integration_workspace
         permission: true
         vars:

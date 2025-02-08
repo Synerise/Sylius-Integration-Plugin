@@ -1,0 +1,5 @@
+synerise_integration:
+    ui:
+        workspaces: 'Workspaces'
+        workspace: 'Workspace'
+        workspace_create_new: 'Create'

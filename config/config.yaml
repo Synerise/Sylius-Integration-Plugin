@@ -15,10 +15,20 @@ sylius_grid:
                     type: integer
                     label: synerise_integration.ui.workspace_id
                     sortable: true
+            actions:
+                main:
+                    create:
+                        type: create
+                        label: 'synerise_integration.ui.workspace_create_new'
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
                     
 sylius_resource:
     resources:
         synerise_integration.workspace:
             classes:
-                model: \Synerise\SyliusIntegrationPlugin\Entity\Workspace
+                model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
                 interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
