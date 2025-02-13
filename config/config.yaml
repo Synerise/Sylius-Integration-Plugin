@@ -7,14 +7,23 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: 'Synerise\SyliusIntegrationPlugin\Entity\Workspace'
+                    class: "%synerise_integration.model.workspace.class%"
             sorting:
                 id: desc
             fields:
                 id:
-                    type: integer
+                    type: string
                     label: synerise_integration.ui.workspace_id
                     sortable: true
+                name:
+                    type: string
+                    label: synerise_integration.ui.workspace_name
+                    sortable: true
+                channel:
+                    type: string
+                    label: synerise_integration.ui.workspace_name
+                    sortable: true
+
             actions:
                 main:
                     create:
@@ -31,4 +40,6 @@ sylius_resource:
         synerise_integration.workspace:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
                 interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
+                repository: Synerise\SyliusIntegrationPlugin\Repository\WorkspaceRepository

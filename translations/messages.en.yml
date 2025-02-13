@@ -2,4 +2,21 @@ synerise_integration:
     ui:
         workspaces: 'Workspaces'
         workspace: 'Workspace'
+        workspace_id: 'ID'
+        workspace_name: 'Name'
         workspace_create_new: 'Create'
+    form:
+        workspace:
+            name: 'Name'
+            environment: 'Environment'
+            api_key: 'API Key'
+            api_guid: 'API GUID'
+            authentication_method: 'Authentication Method'
+        channel_workspace_config:
+            events_enabled: 'Events enabled'
+    authentication_method:
+        basic: 'Basic'
+        bearer: 'Bearer'
+
+
+

@@ -4,6 +4,9 @@ synerise_integration_workspace:
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
         grid: synerise_integration_workspace
+        form:
+            type: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
+        except: ['show']
         permission: true
         vars:
             all:
@@ -13,13 +16,3 @@ synerise_integration_workspace:
             index:
                 icon: inbox
     type: sylius.resource
-
-synerise_integration_admin_workspace_show:
-    path: /workspaces/{id}
-    methods: [GET]
-    defaults:
-        _controller: synerise_integration.controller.workspace::showAction
-        _sylius:
-            section: admin
-            permission: true
-            template: "@SyliusAdmin/shared/crud/show.html.twig"
