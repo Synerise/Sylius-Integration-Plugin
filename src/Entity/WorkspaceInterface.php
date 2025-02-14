@@ -2,7 +2,6 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
-use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\Uid\Uuid;
 use Synerise\Sdk\Model\EnvironmentEnum;
@@ -43,8 +42,4 @@ interface WorkspaceInterface extends ResourceInterface
     public function getPermissions(): ?array;
 
     public function setPermissions(?array $permissions): static;
-
-    public function getChannel(): ?ChannelInterface;
-
-    public function setChannel(?ChannelInterface $channel): static;
 }

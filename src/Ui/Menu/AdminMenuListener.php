@@ -20,6 +20,12 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'file')
         ;
 
+        $syneriseMenu
+            ->addChild('configurations', ['route' => 'synerise_integration_admin_channel_configuration_index'])
+            ->setLabel('synerise_integration.ui.channel_configurations')
+            ->setLabelAttribute('icon', 'file')
+        ;
+
         $menuChildren = $event->getMenu()->getChildren();
         $marketingKey = array_search('marketing', array_keys($menuChildren)) ?: 4;
         ++$marketingKey;

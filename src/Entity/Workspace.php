@@ -2,7 +2,6 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
-use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Synerise\Sdk\Model\EnvironmentEnum;
@@ -26,7 +25,10 @@ class Workspace implements WorkspaceInterface, Config
 
     private ?array $permissions = null;
 
-    private ?ChannelInterface $channel = null;
+    public function __toString(): string
+    {
+        return (string) $this->name;
+    }
 
     public function getId(): ?int
     {
@@ -121,18 +123,6 @@ class Workspace implements WorkspaceInterface, Config
     public function setPermissions(?array $permissions): static
     {
         $this->permissions = $permissions;
-
-        return $this;
-    }
-
-    public function getChannel(): ?ChannelInterface
-    {
-        return $this->channel;
-    }
-
-    public function setChannel(?ChannelInterface $channel): static
-    {
-        $this->channel = $channel;
 
         return $this;
     }

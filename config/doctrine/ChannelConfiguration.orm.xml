@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration" table="synerise_channel_configuration">
+        <id name="id" column="id" type="integer">
+            <generator />
+        </id>
+
+        <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
+            <join-column name="channel_id"  />
+        </one-to-one>
+        <many-to-one field="workspace" target-entity="Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface">
+            <join-column name="workspace_id"  />
+        </many-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

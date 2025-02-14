@@ -19,9 +19,5 @@
             </options>
         </field>
         <field name="permissions" column="permissions" type="array" nullable="true" />
-
-        <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
-            <join-column name="channel_id" referenced-column-name="id" />
-        </one-to-one>
     </mapped-superclass>
 </doctrine-mapping>

@@ -2,9 +2,10 @@ synerise_integration:
     ui:
         workspaces: 'Workspaces'
         workspace: 'Workspace'
-        workspace_id: 'ID'
-        workspace_name: 'Name'
         workspace_create_new: 'Add'
+        channel_configurations: 'Configurations'
+        channel_configuration: 'Configuration'
+        channel_configuration_create_new: 'Add'
     form:
         workspace:
             name: 'Name'

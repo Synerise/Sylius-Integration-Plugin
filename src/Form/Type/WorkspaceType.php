@@ -16,10 +16,6 @@ class WorkspaceType extends AbstractResourceType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('channel', ChannelChoiceType::class, [
-                'label' => 'sylius.ui.channel',
-                'required' => false
-            ])
             ->add('environment', EnumType::class, [
                 'class' => EnvironmentEnum::class,
                 'label' => 'synerise_integration.form.workspace.environment',

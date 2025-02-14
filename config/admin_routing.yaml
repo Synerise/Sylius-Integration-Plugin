@@ -1,4 +1,23 @@
-synerise_integration_workspace:
+synerise_integration_channel_configuration:
+    resource: |
+        alias: synerise_integration.channel_configuration
+        section: admin
+        templates: "@SyliusAdmin\\shared\\crud"
+        grid: synerise_integration_channel_configuration
+        form:
+            type: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
+        except: ['show']
+        permission: true
+        vars:
+            all:
+                header: synerise_integration.ui.channel_configurations
+                subheader: synerise_integration.ui.manage_channel_configurations
+                breadcrumb: synerise_integration.ui.channel_configurations
+            index:
+                icon: cogs
+        path: /synerise/configuration
+    type: sylius.resource
+synerise_integration_admin_workspace:
     resource: |
         alias: synerise_integration.workspace
         section: admin
@@ -14,6 +33,6 @@ synerise_integration_workspace:
                 subheader: synerise_integration.ui.manage_workspaces
                 breadcrumb: synerise_integration.ui.workspaces
             index:
-                icon: inbox
-        path: /admin/synerise/workspace
+                icon: cogs
+        path: /synerise/workspace
     type: sylius.resource
