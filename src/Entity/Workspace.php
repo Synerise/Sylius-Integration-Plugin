@@ -13,7 +13,6 @@ class Workspace implements WorkspaceInterface, Config
 {
     private ?int $id = null;
 
-    #[Assert\NotBlank]
     private ?string $name = null;
 
     private ?Uuid $apiKey = null;
@@ -89,6 +88,8 @@ class Workspace implements WorkspaceInterface, Config
 
     public function setEnvironment(EnvironmentEnum $environment): static
     {
+        $this->environment = $environment;
+
         return $this;
     }
 

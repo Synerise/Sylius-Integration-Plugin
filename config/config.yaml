@@ -8,22 +8,20 @@ sylius_grid:
                 name: doctrine/orm
                 options:
                     class: "%synerise_integration.model.workspace.class%"
-            sorting:
-                id: desc
             fields:
-                id:
-                    type: string
-                    label: synerise_integration.ui.workspace_id
-                    sortable: true
                 name:
                     type: string
-                    label: synerise_integration.ui.workspace_name
+                    label: synerise_integration.grid.workspace.name
                     sortable: true
                 channel:
                     type: string
-                    label: synerise_integration.ui.workspace_name
+                    label: sylius.ui.channel
                     sortable: true
-
+                permissions:
+                    type: twig
+                    label: synerise_integration.grid.workspace.permissions
+                    options:
+                        template: "@SyneriseSyliusIntegrationPlugin/workspace/grid/field/permissions.html.twig"
             actions:
                 main:
                     create:
