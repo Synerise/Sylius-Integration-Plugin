@@ -15,4 +15,5 @@ synerise_integration_workspace:
                 breadcrumb: synerise_integration.ui.workspaces
             index:
                 icon: inbox
+        path: /admin/synerise/workspace
     type: sylius.resource
