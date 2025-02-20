@@ -1,0 +1,24 @@
+synerise_integration:
+    ui:
+        workspaces: 'Workspaces'
+        workspace: 'Workspace'
+        workspace_create_new: 'Add'
+        channel_configurations: 'Configurations'
+        channel_configuration: 'Configuration'
+        channel_configuration_create_new: 'Add'
+    form:
+        workspace:
+            name: 'Name'
+            environment: 'Environment'
+            api_key: 'API Key'
+            api_guid: 'API GUID'
+            authentication_method: 'Authentication Method'
+    authentication_method:
+        basic: 'Basic'
+        bearer: 'Bearer'
+    grid:
+        workspace:
+            name: 'Selected Workspace'
+            permissions: 'Missing Permissions'
+
+

@@ -1,2 +1,74 @@
 imports:
     - { resource: "app/twig_hooks/**/*.yaml" }
+
+sylius_grid:    
+    grids:
+        synerise_integration_channel_configuration:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%synerise_integration.model.channel_configuration.class%"
+            fields:
+                channel:
+                    type: string
+                    label: sylius.ui.channel
+                    sortable: true
+                workspace:
+                    type: string
+                    label: synerise_integration.ui.workspace
+                    sortable: true
+            actions:
+                main:
+                    create:
+                        type: create
+                        label: 'synerise_integration.ui.channel_configuration_create_new'
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
+        synerise_integration_workspace:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%synerise_integration.model.workspace.class%"
+            fields:
+                name:
+                    type: string
+                    label: synerise_integration.grid.workspace.name
+                    sortable: true
+                authentication_method:
+                    type: twig
+                    label: synerise_integration.form.workspace.authentication_method
+                    options:
+                        template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
+                permissions:
+                    type: twig
+                    label: synerise_integration.grid.workspace.permissions
+                    options:
+                        template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/array_raws.html.twig"
+            actions:
+                main:
+                    create:
+                        type: create
+                        label: 'synerise_integration.ui.workspace_create_new'
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
+                    
+sylius_resource:
+    resources:
+        synerise_integration.channel_configuration:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
+                interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
+                repository: Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepository
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
+        synerise_integration.workspace:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
+                interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
+                repository: Synerise\SyliusIntegrationPlugin\Repository\WorkspaceRepository
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType

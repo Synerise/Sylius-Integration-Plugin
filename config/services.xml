@@ -10,6 +10,21 @@
     </imports>
 
     <services>
-        <!-- Put your services here -->
+        <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType" >
+            <tag name="form.type" />
+            <argument>%synerise_integration.model.channel_configuration.class%</argument>
+        </service>
+        <service id="synerise_integration.form.type.workspace" class="Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType" >
+            <tag name="form.type" />
+            <argument>%synerise_integration.model.workspace.class%</argument>
+        </service>
+        <service id="synerise_integration.form.type.workspace_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceChoiceType">
+            <argument type="service" id="synerise_integration.repository.workspace" />
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.listener.workspace_modification" class="Synerise\SyliusIntegrationPlugin\EventListener\WorkspaceModificationListener">
+            <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_create" method="checkPermissionsRequest" />
+            <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_update" method="checkPermissionsRequest" />
+        </service>
     </services>
 </container>

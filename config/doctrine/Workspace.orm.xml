@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\Workspace" table="synerise_workspace">
+        <id name="id" column="id" type="integer">
+            <generator />
+        </id>
+        <field name="name" column="name" length="255" nullable="true" />
+        <field name="apiKey" column="apiKey" type="uuid" />
+        <field name="apiGuid" column="apiGuid" type="guid" nullable="true" />
+        <field name="authenticationMethod" column="authenticationMethod" length="10">
+            <options>
+                <option name="enumType">Synerise\Sdk\Model\AuthenticationMethodEnum</option>
+            </options>
+        </field>
+        <field name="environment" column="environment" length="10" >
+            <options>
+                <option name="enumType">Synerise\Sdk\Model\EnvironmentEnum</option>
+            </options>
+        </field>
+        <field name="permissions" column="permissions" type="array" nullable="true" />
+    </mapped-superclass>
+</doctrine-mapping>
