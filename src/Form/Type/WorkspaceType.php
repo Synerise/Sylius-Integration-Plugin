@@ -2,14 +2,13 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
-use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UuidType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Synerise\Sdk\Model\AuthenticationMethodEnum;
-use Synerise\Sdk\Model\EnvironmentEnum;
+use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Environment;
 
 class WorkspaceType extends AbstractResourceType
 {
@@ -17,14 +16,14 @@ class WorkspaceType extends AbstractResourceType
     {
         $builder
             ->add('environment', EnumType::class, [
-                'class' => EnvironmentEnum::class,
+                'class' => Environment::class,
                 'label' => 'synerise_integration.form.workspace.environment',
             ])
             ->add('authenticationMethod', EnumType::class, [
-                'class' => AuthenticationMethodEnum::class,
+                'class' => AuthenticationMethod::class,
                 'label' => 'synerise_integration.form.workspace.authentication_method',
             ])
-            ->add('apiKey', UuidType::class, [
+            ->add('apiKey', TextType::class, [
                 'label' => 'synerise_integration.form.workspace.api_key',
             ])
             ->add('guid', TextType::class, [

@@ -37,6 +37,11 @@ sylius_grid:
                     type: string
                     label: synerise_integration.grid.workspace.name
                     sortable: true
+                environment:
+                    type: twig
+                    label: synerise_integration.form.workspace.environment
+                    options:
+                        template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
                 authentication_method:
                     type: twig
                     label: synerise_integration.form.workspace.authentication_method
