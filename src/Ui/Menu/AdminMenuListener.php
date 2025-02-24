@@ -7,7 +7,7 @@ use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 final class AdminMenuListener
 {
-    private readonly ?MenuManipulator $menuManipulator;
+    private readonly MenuManipulator $menuManipulator;
 
     public function __construct(MenuManipulator $menuManipulator)
     {
