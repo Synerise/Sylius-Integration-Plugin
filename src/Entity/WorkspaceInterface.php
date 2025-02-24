@@ -3,8 +3,8 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Synerise\Sdk\Model\EnvironmentInterface;
-use Synerise\Sdk\Model\AuthenticationMethodInterface;
+use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Environment;
 
 interface WorkspaceInterface extends ResourceInterface
 {
@@ -22,13 +22,13 @@ interface WorkspaceInterface extends ResourceInterface
 
     public function setGuid(string $apiGuid): static;
 
-    public function getAuthenticationMethod(): ?AuthenticationMethodInterface;
+    public function getAuthenticationMethod(): ?AuthenticationMethod;
 
-    public function setAuthenticationMethod(?AuthenticationMethodInterface $authenticationMethod): static;
+    public function setAuthenticationMethod(AuthenticationMethod $authenticationMethod): static;
 
-    public function getEnvironment(): ?EnvironmentInterface;
+    public function getEnvironment(): ?Environment;
 
-    public function setEnvironment(EnvironmentInterface $environment): static;
+    public function setEnvironment(Environment $environment): static;
 
     public function getApiHost(): ?string;
 

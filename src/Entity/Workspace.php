@@ -4,8 +4,6 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Model\AuthenticationMethodInterface;
-use Synerise\Sdk\Model\EnvironmentInterface;
 use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Environment;
 
@@ -73,24 +71,24 @@ class Workspace implements WorkspaceInterface, Config
         return $this;
     }
 
-    public function getAuthenticationMethod(): ?AuthenticationMethodInterface
+    public function getAuthenticationMethod(): ?AuthenticationMethod
     {
         return $this->authenticationMethod;
     }
 
-    public function setAuthenticationMethod(?AuthenticationMethodInterface $authenticationMethod): static
+    public function setAuthenticationMethod(AuthenticationMethod $authenticationMethod): static
     {
         $this->authenticationMethod = $authenticationMethod;
 
         return $this;
     }
 
-    public function getEnvironment(): ?EnvironmentInterface
+    public function getEnvironment(): ?Environment
     {
         return $this->environment;
     }
 
-    public function setEnvironment(EnvironmentInterface $environment): static
+    public function setEnvironment(Environment $environment): static
     {
         $this->environment = $environment;
 
