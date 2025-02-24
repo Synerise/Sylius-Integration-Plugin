@@ -2,11 +2,18 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Ui\Menu;
 
-use Knp\Menu\ItemInterface;
+use Knp\Menu\Util\MenuManipulator;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 final class AdminMenuListener
 {
+    private readonly ?MenuManipulator $menuManipulator;
+
+    public function __construct(MenuManipulator $menuManipulator)
+    {
+        $this->menuManipulator = $menuManipulator;
+    }
+
     public function __invoke(MenuBuilderEvent $event): void
     {
         $syneriseMenu = $event->getMenu()
@@ -17,21 +24,14 @@ final class AdminMenuListener
         $syneriseMenu
             ->addChild('workspaces', ['route' => 'synerise_integration_admin_workspace_index'])
             ->setLabel('synerise_integration.ui.workspaces')
-            ->setLabelAttribute('icon', 'file')
-        ;
+            ->setLabelAttribute('icon', 'file');
 
         $syneriseMenu
             ->addChild('configurations', ['route' => 'synerise_integration_admin_channel_configuration_index'])
             ->setLabel('synerise_integration.ui.channel_configurations')
-            ->setLabelAttribute('icon', 'file')
-        ;
+            ->setLabelAttribute('icon', 'file');
 
-        $menuChildren = $event->getMenu()->getChildren();
-        $marketingKey = array_search('marketing', array_keys($menuChildren)) ?: 4;
-        ++$marketingKey;
-        $menuChildren = array_slice($menuChildren, 0, $marketingKey, true) +
-            ['synerise' => $menuChildren['synerise']] +
-            array_slice($menuChildren, $marketingKey, (count($menuChildren) - 1) - $marketingKey, true);
-        $event->getMenu()->setChildren($menuChildren);
+        $position = array_search('marketing', array_keys($event->getMenu()->getChildren())) ?: 4;
+        $this->menuManipulator->moveToPosition($syneriseMenu, ++$position);
     }
 }
