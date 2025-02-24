@@ -2,11 +2,12 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
-use Synerise\Sdk\Model\EnvironmentEnum;
 use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Model\AuthenticationMethodEnum;
+use Synerise\Sdk\Model\AuthenticationMethodInterface;
+use Synerise\Sdk\Model\EnvironmentInterface;
+use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Environment;
 
 class Workspace implements WorkspaceInterface, Config
 {
@@ -14,14 +15,15 @@ class Workspace implements WorkspaceInterface, Config
 
     private ?string $name = null;
 
-    private ?Uuid $apiKey = null;
+    #[Assert\Uuid]
+    private ?string $apiKey = null;
 
     #[Assert\Uuid]
     private ?string $apiGuid = null;
 
-    private ?AuthenticationMethodEnum $authenticationMethod = null;
+    private ?AuthenticationMethod $authenticationMethod = null;
 
-    private ?EnvironmentEnum $environment = null;
+    private ?Environment $environment = null;
 
     private ?array $permissions = null;
 
@@ -47,12 +49,12 @@ class Workspace implements WorkspaceInterface, Config
         return $this;
     }
 
-    public function getApiKey(): ?Uuid
+    public function getApiKey(): ?string
     {
         return $this->apiKey;
     }
 
-    public function setApiKey(Uuid $apiKey): static
+    public function setApiKey(string $apiKey): static
     {
         $this->apiKey = $apiKey;
 
@@ -71,24 +73,24 @@ class Workspace implements WorkspaceInterface, Config
         return $this;
     }
 
-    public function getAuthenticationMethod(): ?AuthenticationMethodEnum
+    public function getAuthenticationMethod(): ?AuthenticationMethodInterface
     {
         return $this->authenticationMethod;
     }
 
-    public function setAuthenticationMethod(?AuthenticationMethodEnum $authenticationMethod): static
+    public function setAuthenticationMethod(?AuthenticationMethodInterface $authenticationMethod): static
     {
         $this->authenticationMethod = $authenticationMethod;
 
         return $this;
     }
 
-    public function getEnvironment(): ?EnvironmentEnum
+    public function getEnvironment(): ?EnvironmentInterface
     {
         return $this->environment;
     }
 
-    public function setEnvironment(EnvironmentEnum $environment): static
+    public function setEnvironment(EnvironmentInterface $environment): static
     {
         $this->environment = $environment;
 

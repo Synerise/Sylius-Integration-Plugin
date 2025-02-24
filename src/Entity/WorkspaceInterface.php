@@ -3,9 +3,8 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Symfony\Component\Uid\Uuid;
-use Synerise\Sdk\Model\EnvironmentEnum;
-use Synerise\Sdk\Model\AuthenticationMethodEnum;
+use Synerise\Sdk\Model\EnvironmentInterface;
+use Synerise\Sdk\Model\AuthenticationMethodInterface;
 
 interface WorkspaceInterface extends ResourceInterface
 {
@@ -15,21 +14,21 @@ interface WorkspaceInterface extends ResourceInterface
 
     public function setName(string $name): static;
 
-    public function getApiKey(): ?Uuid;
+    public function getApiKey(): ?string;
 
-    public function setApiKey(Uuid $apiKey): static;
+    public function setApiKey(string $apiKey): static;
 
     public function getGuid(): ?string;
 
     public function setGuid(string $apiGuid): static;
 
-    public function getAuthenticationMethod(): ?AuthenticationMethodEnum;
+    public function getAuthenticationMethod(): ?AuthenticationMethodInterface;
 
-    public function setAuthenticationMethod(?AuthenticationMethodEnum $authenticationMethod): static;
+    public function setAuthenticationMethod(?AuthenticationMethodInterface $authenticationMethod): static;
 
-    public function getEnvironment(): ?EnvironmentEnum;
+    public function getEnvironment(): ?EnvironmentInterface;
 
-    public function setEnvironment(EnvironmentEnum $environment): static;
+    public function setEnvironment(EnvironmentInterface $environment): static;
 
     public function getApiHost(): ?string;
 
