@@ -38,16 +38,19 @@ class WorkspaceModificationListener
         $clientBuilder = new ClientBuilder($workspace);
         try {
             $response = $clientBuilder->uauth()->apiKey()->permissionCheck()->post(self::REQUIRED_PERMISSIONS)->wait();
-            $workspace->setName($response->getBusinessProfileName());
-            $permissions = $response->getPermissions();
-            $missingPermissions = [];
-            foreach($permissions as $permission => $isSet) {
-                if(!$isSet) {
-                    $missingPermissions[] = $permission;
+            if ($response && $response->getBusinessProfileName()) {
+                $workspace->setName($response->getBusinessProfileName());
+                $permissions = $response->getPermissions() ?: [];
+                $missingPermissions = [];
+                foreach($permissions as $permission => $isSet) {
+                    if(!$isSet) {
+                        $missingPermissions[] = $permission;
+                    }
                 }
+                $workspace->setPermissions($missingPermissions);
+            } else {
+                $event->stop('Permissions check request failed. Empty response');
             }
-            $workspace->setPermissions($missingPermissions);
-
         } catch (\Exception $e) {
             $event->stop('Permissions check request failed');
         }
