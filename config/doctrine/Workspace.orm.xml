@@ -10,12 +10,12 @@
         <field name="apiGuid" column="apiGuid" type="guid" nullable="true" />
         <field name="authenticationMethod" column="authenticationMethod" length="10">
             <options>
-                <option name="enumType">Synerise\Sdk\Model\AuthenticationMethodEnum</option>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod</option>
             </options>
         </field>
         <field name="environment" column="environment" length="10" >
             <options>
-                <option name="enumType">Synerise\Sdk\Model\EnvironmentEnum</option>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Model\Environment</option>
             </options>
         </field>
         <field name="permissions" column="permissions" type="array" nullable="true" />
