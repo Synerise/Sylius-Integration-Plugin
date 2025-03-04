@@ -1,9 +1,9 @@
-synerise_integration_channel_configuration:
+synerise_integration_admin_channel_configuration:
     resource: |
         alias: synerise_integration.channel_configuration
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
-        grid: synerise_integration_channel_configuration
+        grid: synerise_integration_admin_channel_configuration
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
         except: ['show']
@@ -22,7 +22,7 @@ synerise_integration_admin_workspace:
         alias: synerise_integration.workspace
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
-        grid: synerise_integration_workspace
+        grid: synerise_integration_admin_workspace
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
         except: ['show']

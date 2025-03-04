@@ -22,11 +22,9 @@ class ChannelConfiguration implements ChannelConfigurationInterface
         return $this->channel;
     }
 
-    public function setChannel(?ChannelInterface $channel): static
+    public function setChannel(?ChannelInterface $channel): void
     {
         $this->channel = $channel;
-
-        return $this;
     }
 
     public function getWorkspace(): ?WorkspaceInterface
@@ -34,10 +32,8 @@ class ChannelConfiguration implements ChannelConfigurationInterface
         return $this->workspace;
     }
 
-    public function setWorkspace(?WorkspaceInterface $workspace): static
+    public function setWorkspace(?WorkspaceInterface $workspace): void
     {
         $this->workspace = $workspace;
-
-        return $this;
     }
 }

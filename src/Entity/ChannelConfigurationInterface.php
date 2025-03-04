@@ -11,9 +11,9 @@ interface ChannelConfigurationInterface extends ResourceInterface
 
     public function getChannel(): ?ChannelInterface;
 
-    public function setChannel(?ChannelInterface $channel): static;
+    public function setChannel(?ChannelInterface $channel): void;
 
     public function getWorkspace(): ?WorkspaceInterface;
 
-    public function setWorkspace(?WorkspaceInterface $workspace): static;
+    public function setWorkspace(?WorkspaceInterface $workspace): void;
 }

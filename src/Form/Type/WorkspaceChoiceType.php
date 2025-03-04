@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface;
 
-class WorkspaceChoiceType extends AbstractType
+final class WorkspaceChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<WorkspaceInterface> $workspaceRepository */
     public function __construct(private RepositoryInterface $workspaceRepository)
