@@ -69,11 +69,9 @@ sylius_resource:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
                 interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
-                repository: Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepository
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
         synerise_integration.workspace:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
                 interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
-                repository: Synerise\SyliusIntegrationPlugin\Repository\WorkspaceRepository
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType

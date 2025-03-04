@@ -2,20 +2,20 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepository;
 
 class ChannelConfigurationFactory
 {
     private ChannelContextInterface $channel;
 
-    private ChannelConfigurationRepository $repository;
+    private EntityRepository $repository;
 
     private ?ChannelConfigurationInterface $instance = null;
 
     public function __construct(
         ChannelContextInterface $channel,
-        ChannelConfigurationRepository $repository,
+        EntityRepository $repository,
     ) {
         $this->channel = $channel;
         $this->repository = $repository;
