@@ -4,6 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class ChannelConfigurationType extends AbstractResourceType
@@ -17,6 +18,10 @@ class ChannelConfigurationType extends AbstractResourceType
             ])
             ->add('workspace', WorkspaceChoiceType::class, [
                 'label' => 'synerise_integration.ui.workspace',
+                'required' => false
+            ])
+            ->add('tracking_enabled', CheckboxType::class, [
+                'label' => 'synerise_integration.ui.tracking_enabled',
                 'required' => false
             ])
         ;

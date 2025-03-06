@@ -6,6 +6,9 @@
             <generator />
         </id>
 
+        <field name="trackingCode" column="tracking_code" length="255" nullable="true" />
+        <field name="trackingEnabled" column="tracking_enabled" type="boolean" nullable="true" />
+        
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />
         </one-to-one>
