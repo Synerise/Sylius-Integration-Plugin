@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Environment;
 
-class WorkspaceType extends AbstractResourceType
+final class WorkspaceType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

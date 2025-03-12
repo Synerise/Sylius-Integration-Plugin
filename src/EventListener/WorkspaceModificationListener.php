@@ -3,7 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\EventListener;
 
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Synerise\Sdk\Api\ClientBuilder;
+use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
 
 class WorkspaceModificationListener
@@ -26,16 +26,23 @@ class WorkspaceModificationListener
         "TRACKER_CREATE"
     ];
 
+    private ClientBuilderFactory $clientBuilderFactory;
+
+    public function __construct(ClientBuilderFactory $clientBuilderFactory)
+    {
+        $this->clientBuilderFactory = $clientBuilderFactory;
+    }
+
     /**
      * @param ResourceControllerEvent $event
      * @return void
      */
-    public function checkPermissionsRequest($event)
+    public function checkPermissionsRequest(ResourceControllerEvent $event): void
     {
         /** @var Workspace $workspace */
         $workspace = $event->getSubject();
 
-        $clientBuilder = new ClientBuilder($workspace);
+        $clientBuilder = $this->clientBuilderFactory->create($workspace);
         try {
             $response = $clientBuilder->uauth()->apiKey()->permissionCheck()->post(self::REQUIRED_PERMISSIONS)->wait();
             if ($response && $response->getBusinessProfileName()) {

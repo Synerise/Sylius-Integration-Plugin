@@ -3,7 +3,7 @@ imports:
 
 sylius_grid:    
     grids:
-        synerise_integration_channel_configuration:
+        synerise_integration_admin_channel_configuration:
             driver:
                 name: doctrine/orm
                 options:
@@ -27,7 +27,7 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete
-        synerise_integration_workspace:
+        synerise_integration_admin_workspace:
             driver:
                 name: doctrine/orm
                 options:
@@ -69,11 +69,9 @@ sylius_resource:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
                 interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
-                repository: Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepository
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
         synerise_integration.workspace:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
                 interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
-                repository: Synerise\SyliusIntegrationPlugin\Repository\WorkspaceRepository
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType

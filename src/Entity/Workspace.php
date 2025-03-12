@@ -40,11 +40,9 @@ class Workspace implements WorkspaceInterface, Config
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getApiKey(): ?string
@@ -52,11 +50,9 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiKey;
     }
 
-    public function setApiKey(string $apiKey): static
+    public function setApiKey(string $apiKey): void
     {
         $this->apiKey = $apiKey;
-
-        return $this;
     }
 
     public function getGuid(): ?string
@@ -64,11 +60,9 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiGuid;
     }
 
-    public function setGuid(string $apiGuid): static
+    public function setGuid(string $apiGuid): void
     {
         $this->apiGuid = $apiGuid;
-
-        return $this;
     }
 
     public function getAuthenticationMethod(): ?AuthenticationMethod
@@ -76,11 +70,9 @@ class Workspace implements WorkspaceInterface, Config
         return $this->authenticationMethod;
     }
 
-    public function setAuthenticationMethod(AuthenticationMethod $authenticationMethod): static
+    public function setAuthenticationMethod(AuthenticationMethod $authenticationMethod): void
     {
         $this->authenticationMethod = $authenticationMethod;
-
-        return $this;
     }
 
     public function getEnvironment(): ?Environment
@@ -88,11 +80,9 @@ class Workspace implements WorkspaceInterface, Config
         return $this->environment;
     }
 
-    public function setEnvironment(Environment $environment): static
+    public function setEnvironment(Environment $environment): void
     {
         $this->environment = $environment;
-
-        return $this;
     }
 
     public function getApiHost(): ?string
@@ -120,10 +110,8 @@ class Workspace implements WorkspaceInterface, Config
         return $this->permissions;
     }
 
-    public function setPermissions(?array $permissions): static
+    public function setPermissions(?array $permissions): void
     {
         $this->permissions = $permissions;
-
-        return $this;
     }
 }
