@@ -57,6 +57,7 @@ $bundles = [
     Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Sylius\Abstraction\StateMachine\SyliusStateMachineAbstractionBundle::class => ['all' => true],
+    Symfony\Bundle\MakerBundle\MakerBundle::class => ['all' => true],
     Synerise\SyliusIntegrationPlugin\SyneriseSyliusIntegrationPlugin::class => ['all' => true],
 ];
 
