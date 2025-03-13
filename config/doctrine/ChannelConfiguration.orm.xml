@@ -6,6 +6,12 @@
             <generator />
         </id>
 
+        <field name="trackingCode" column="tracking_code" length="255" nullable="true" />
+        <field name="trackingEnabled" column="tracking_enabled" type="boolean" />
+        <field name="cookieDomain" column="cookie_domain" length="255" nullable="true" />
+        <field name="customPageVisit" column="custom_page_visit" type="boolean" />
+        <field name="virtualPage" column="virtual_page" type="boolean" />
+
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />
         </one-to-one>
