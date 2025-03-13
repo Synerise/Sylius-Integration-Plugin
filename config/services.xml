@@ -19,6 +19,17 @@
 
             <tag name="sylius.twig_component" key="synerise_integration:tracking:script" />
         </service>
+        <service
+            id="synerise_integration.twig.component.channel_configuration.form"
+            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="form.factory" />
+            <argument>%synerise_integration.model.channel_configuration.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:channel_configuration:form" />
+        </service>
         <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType" >
             <argument>%synerise_integration.model.channel_configuration.class%</argument>
 

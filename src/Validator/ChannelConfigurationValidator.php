@@ -36,7 +36,7 @@ class ChannelConfigurationValidator extends ConstraintValidator
         if (!$hostname) {
             $this->context
                 ->buildViolation($constraint->channelHasNoHostname)
-                ->atPath('channel')
+                ->atPath('trackingEnabled')
                 ->addViolation();
         } elseif($cookieDomain && !str_contains($hostname, $cookieDomain)) {
             $this->context
