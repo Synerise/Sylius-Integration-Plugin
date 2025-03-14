@@ -34,19 +34,17 @@ class ChannelConfigurationModificationListener
         $workspace = $channelConfiguration->getWorkspace();
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
         try {
-            $request = new TrackingCodeCreationByDomainRequest();
             $cookieDomain = $channelConfiguration->getCookieDomain();
-            if (!$cookieDomain) {
-                $cookieDomain = $channelConfiguration->getChannel()?->getHostname();
-                $channelConfiguration->setCookieDomain($cookieDomain);
+            if (!$channelConfiguration->getCookieDomain()) {
+                $channelConfiguration->setCookieDomain($channelConfiguration->getChannel()?->getHostname());
             }
 
+            $request = new TrackingCodeCreationByDomainRequest();
             $request->setDomain($cookieDomain);
+
             $response = $clientBuilder->workspace()->tracker()->getOrCreateByDomain()->post($request)->wait();
             if ($response) {
-                $contents = json_decode($response->getContents());
-                // @phpstan-ignore-next-line
-                $channelConfiguration->setTrackingCode($contents?->code);
+                $channelConfiguration->setTrackingCode($response->getCode());
             } else {
                 $event->stop('Tracking code request failed. Empty response');
             }
