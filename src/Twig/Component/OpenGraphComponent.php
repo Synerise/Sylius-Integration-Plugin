@@ -15,7 +15,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 
-#[AsTwigComponent]
 class OpenGraphComponent
 {
     use HookableComponentTrait;
@@ -75,7 +74,7 @@ class OpenGraphComponent
         $channel = $this->channelContext->getChannel();
         $currency = $channel->getBaseCurrency()?->getCode();
 
-        if (!$currency) {
+        if (null === $currency) {
             return $price;
         }
 

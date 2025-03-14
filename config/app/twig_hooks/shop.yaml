@@ -16,4 +16,4 @@ sylius_twig_hooks:
                 props:
                     product: '@=_context.product'
                     template: '@SyneriseSyliusIntegrationPlugin/shop/shared/layout/base/open_graph.html.twig'
-                priority: 100           
+                priority: 100
