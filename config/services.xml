@@ -11,6 +11,17 @@
     </imports>
 
     <services>
+        <service
+            id="synerise_integration.twig.component.open_graph"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\OpenGraphComponent"
+        >
+            <argument type="service" id="sylius.calculator.product_variant_price" />
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="sylius.context.currency" />
+            <argument type="service" id="sylius.converter.currency" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:open_graph" />
+        </service>
         <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType" >
             <argument>%synerise_integration.model.channel_configuration.class%</argument>
 

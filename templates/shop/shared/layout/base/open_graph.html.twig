@@ -1,0 +1,16 @@
+{% if(product) %}
+<meta property="og:type" content="product">
+<meta property="product:retailer_part_no" content="{{ product.code }}">
+{% if(imagePath) %}<meta property="og:image" content="{{ absolute_url(asset('media/image/' ~ imagePath)) }}">
+{% endif %}
+<meta property="og:title" content="{{ product.name }}">
+<meta property="og:url" content="{{ absolute_url('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) }}">
+{% for taxon in product.taxons %}
+<meta property="product:category" content="{{ taxon.getFullName(' > ')|raw }}">
+{% endfor %}
+<meta property="product:price:amount" content="{{ price }}">
+{% if(has_discount) %}
+<meta property="product:sale_price:amount" content="{{ price }}" />
+<meta property="product:original_price:amount" content="{{ original_price }}">
+{% endif %}
+{% endif %}
