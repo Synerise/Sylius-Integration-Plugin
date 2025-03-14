@@ -1,13 +1,13 @@
 <?php
 
-namespace Synerise\SyliusIntegrationPlugin\Twig\Component\Tracking;
+namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
 #[AsTwigComponent]
-readonly class ScriptComponent
+readonly class TrackingScriptComponent
 {
     private ChannelConfigurationInterface $channelConfiguration;
 
@@ -38,7 +38,7 @@ readonly class ScriptComponent
         }
 
         if ($cookieDomain = $this->channelConfiguration->getCookieDomain()) {
-            $options['domain'] = $cookieDomain;
+            $options['domain'] = '.'.$cookieDomain;
         }
 
         if ($this->channelConfiguration->isCustomPageVisit()) {

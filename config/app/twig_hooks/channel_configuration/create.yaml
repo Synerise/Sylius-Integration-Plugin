@@ -34,7 +34,7 @@ sylius_twig_hooks:
         'sylius_admin.channel_configuration.create.content.form.sections.tracking':
             tracking_enabled:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/enabled.html.twig'
-                priority: 1400
+                priority: 1300
             cookie_domain:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/cookie_domain.html.twig'
                 priority: 1200

@@ -17,9 +17,9 @@ interface ChannelConfigurationInterface extends ResourceInterface
 
     public function setWorkspace(?WorkspaceInterface $workspace): void;
 
-    public function isTrackingEnabled(): ?bool;
+    public function isTrackingEnabled(): bool;
 
-    public function setTrackingEnabled(?bool $trackingEnabled): void;
+    public function setTrackingEnabled(bool $trackingEnabled): void;
 
     public function getTrackingCode(): ?string;
 

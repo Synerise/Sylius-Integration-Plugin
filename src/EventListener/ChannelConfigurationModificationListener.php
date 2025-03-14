@@ -8,19 +8,12 @@ use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
 
-class ChannelConfigurationModificationListener
+final readonly class ChannelConfigurationModificationListener
 {
-    private ClientBuilderFactory $clientBuilderFactory;
-
-    public function __construct(ClientBuilderFactory $clientBuilderFactory)
+    public function __construct(private ClientBuilderFactory $clientBuilderFactory)
     {
-        $this->clientBuilderFactory = $clientBuilderFactory;
     }
 
-    /**
-     * @param ResourceControllerEvent $event
-     * @return void
-     */
     public function getTrackingCodeRequest(ResourceControllerEvent $event): void
     {
         /** @var ChannelConfiguration $channelConfiguration */

@@ -13,7 +13,7 @@ class ChannelConfiguration implements ChannelConfigurationInterface
 
     private ?WorkspaceInterface $workspace = null;
 
-    private ?bool $trackingEnabled = false;
+    private bool $trackingEnabled = false;
 
     private ?string $trackingCode = null;
 
@@ -48,12 +48,12 @@ class ChannelConfiguration implements ChannelConfigurationInterface
         $this->workspace = $workspace;
     }
 
-    public function isTrackingEnabled(): ?bool
+    public function isTrackingEnabled(): bool
     {
         return $this->trackingEnabled;
     }
 
-    public function setTrackingEnabled(?bool $trackingEnabled): void
+    public function setTrackingEnabled(bool $trackingEnabled): void
     {
         $this->trackingEnabled = $trackingEnabled;
     }

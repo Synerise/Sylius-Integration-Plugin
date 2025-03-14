@@ -22,11 +22,7 @@ class ChannelConfigurationValidator extends ConstraintValidator
             throw new UnexpectedValueException($constraint, ChannelConfiguration::class);
         }
 
-        if (!$value->getChannel()) {
-            return;
-        }
-
-        if (!$value->isTrackingEnabled()) {
+        if (!$value->getChannel() || !$value->isTrackingEnabled()) {
             return;
         }
 
@@ -38,7 +34,11 @@ class ChannelConfigurationValidator extends ConstraintValidator
                 ->buildViolation($constraint->channelHasNoHostname)
                 ->atPath('trackingEnabled')
                 ->addViolation();
-        } elseif($cookieDomain && !str_contains($hostname, $cookieDomain)) {
+
+            return;
+        }
+
+        if ($cookieDomain && !str_contains($hostname, $cookieDomain)) {
             $this->context
                 ->buildViolation($constraint->cookieDomainDoesNotMatchHostname)
                 ->setParameter('{{ hostname }}', $hostname)

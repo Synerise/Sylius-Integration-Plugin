@@ -13,11 +13,11 @@
     <services>
         <service
             id="synerise_integration.twig.component.tracking_script"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Tracking\ScriptComponent"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\TrackingScriptComponent"
         >
             <argument type="service" id="synerise_integration.context.channel_configuration" />
 
-            <tag name="sylius.twig_component" key="synerise_integration:tracking:script" />
+            <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
         </service>
         <service
             id="synerise_integration.twig.component.channel_configuration.form"

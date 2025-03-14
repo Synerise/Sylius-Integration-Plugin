@@ -10,7 +10,7 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/shop/shared/layout/base/scripts.html.twig'
                 priority: -100
             tracking_script:
-                component: synerise_integration:tracking:script
+                component: synerise_integration:tracking_script
                 props:
                     template: '@SyneriseSyliusIntegrationPlugin/shop/shared/layout/base/tracking_script.html.twig'
-                priority: -100               
+                priority: -100
