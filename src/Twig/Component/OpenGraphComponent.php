@@ -25,7 +25,7 @@ class OpenGraphComponent
     #[ExposeInTemplate]
     public ?float $price = null;
 
-    #[ExposeInTemplate]
+    #[ExposeInTemplate(name: 'image_path')]
     public ?string $imagePath = null;
 
     #[ExposeInTemplate(name: 'original_price')]
@@ -62,9 +62,7 @@ class OpenGraphComponent
             $this->price = $this->formatPrice($price);
             $this->originalPrice = $this->formatPrice($originalPrice);
             $this->hasDiscount = $originalPrice > $price;
-            if ($this->getMainImage()) {
-                $this->imagePath = $this->getMainImage()->getPath();
-            }
+            $this->imagePath = $this->getMainImage()?->getPath();
         }
     }
 
@@ -91,16 +89,8 @@ class OpenGraphComponent
         return abs($amount / 100);
     }
 
-    /**
-     * @return ImageInterface|false
-     */
-    private function getMainImage(): ImageInterface|false
+    private function getMainImage(): ?ImageInterface
     {
-        $images = $this->product?->getImagesByType('main');
-        if ($images && $images->count()) {
-            return $images->first();
-        }
-
-        return false;
+        return $this->product?->getImagesByType('main')->first() ?: null;
     }
 }
