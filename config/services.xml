@@ -11,6 +11,25 @@
     </imports>
 
     <services>
+        <service
+            id="synerise_integration.twig.component.tracking_script"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\TrackingScriptComponent"
+        >
+            <argument type="service" id="synerise_integration.context.channel_configuration" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
+        </service>
+        <service
+            id="synerise_integration.twig.component.channel_configuration.form"
+            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="form.factory" />
+            <argument>%synerise_integration.model.channel_configuration.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:channel_configuration:form" />
+        </service>
         <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType" >
             <argument>%synerise_integration.model.channel_configuration.class%</argument>
 
@@ -28,13 +47,16 @@
         </service>
         <service id="synerise_integration.api_client_builder_factory" class="Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory" />
         <service id="synerise_integration.api_client_builder" class="Synerise\Sdk\Api\ClientBuilder">
-            <argument type="service" id="synerise_integration.channel_configuration_workspace" />
+            <argument type="service" id="synerise_integration.context.workspace" />
         </service>
         <service id="synerise_integration.current_channel_configuration_factory" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory">
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
         </service>
-        <service id="synerise_integration.channel_configuration_workspace" class="Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface">
+        <service id="synerise_integration.context.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface">
+            <factory service="synerise_integration.current_channel_configuration_factory" method="get" />
+        </service>
+        <service id="synerise_integration.context.workspace" class="Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface">
             <factory service="synerise_integration.current_channel_configuration_factory" method="getWorkspace" />
         </service>
         <service id="synerise_integration.cookie_profile_manager" class="Synerise\Sdk\Cookie\CookieProfileManager">
@@ -55,6 +77,12 @@
 
             <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_create" method="checkPermissionsRequest" />
             <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_update" method="checkPermissionsRequest" />
+        </service>
+        <service id="synerise_integration.listener.channel_configuration_modification" class="Synerise\SyliusIntegrationPlugin\EventListener\ChannelConfigurationModificationListener">
+            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+
+            <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_create" method="getTrackingCodeRequest" />
+            <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_update" method="getTrackingCodeRequest" />
         </service>
     </services>
 </container>

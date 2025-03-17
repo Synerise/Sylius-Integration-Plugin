@@ -6,6 +6,11 @@ synerise_integration:
         channel_configurations: 'Configurations'
         channel_configuration: 'Configuration'
         channel_configuration_create_new: 'Add'
+        tracking: 'Tracking'
+        tracking_enabled: 'Tracking enabled'
+        cookie_domain: 'Cookie domain'
+        custom_page_visit: 'Custom page visit'
+        virtual_page: 'Virtual page'
     form:
         workspace:
             name: 'Name'
