@@ -35,6 +35,10 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'label' => 'synerise_integration.ui.virtual_page',
                 'required' => false
             ])
+            ->add('opengraphEnabled', CheckboxType::class, [
+                'label' => 'synerise_integration.ui.opengraph_enabled',
+                'required' => false
+            ])
         ;
     }
 

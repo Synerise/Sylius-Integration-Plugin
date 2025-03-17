@@ -11,6 +11,7 @@
         <field name="cookieDomain" column="cookie_domain" length="255" nullable="true" />
         <field name="customPageVisit" column="custom_page_visit" type="boolean" />
         <field name="virtualPage" column="virtual_page" type="boolean" />
+        <field name="opengraphEnabled" column="opengraph_enabled" type="boolean" />
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />

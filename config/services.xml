@@ -19,6 +19,7 @@
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="sylius.context.currency" />
             <argument type="service" id="sylius.converter.currency" />
+            <argument type="service" id="synerise_integration.context.channel_configuration" />
 
             <tag name="sylius.twig_component" key="synerise_integration:open_graph" />
         </service>

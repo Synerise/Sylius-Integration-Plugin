@@ -36,4 +36,8 @@ interface ChannelConfigurationInterface extends ResourceInterface
     public function isVirtualPage(): bool;
 
     public function setVirtualPage(bool $virtualPage): void;
+
+    public function isOpengraphEnabled(): bool;
+
+    public function setOpengraphEnabled(bool $opengraphEnabled): void;
 }

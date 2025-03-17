@@ -23,6 +23,8 @@ class ChannelConfiguration implements ChannelConfigurationInterface
 
     private bool $virtualPage = false;
 
+    private bool $opengraphEnabled = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,5 +98,15 @@ class ChannelConfiguration implements ChannelConfigurationInterface
     public function setVirtualPage(bool $virtualPage): void
     {
         $this->virtualPage = $virtualPage;
+    }
+
+    public function isOpengraphEnabled(): bool
+    {
+        return $this->opengraphEnabled;
+    }
+
+    public function setOpengraphEnabled(bool $opengraphEnabled): void
+    {
+        $this->opengraphEnabled = $opengraphEnabled;
     }
 }
