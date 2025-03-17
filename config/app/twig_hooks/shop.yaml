@@ -9,7 +9,12 @@ sylius_twig_hooks:
             custom_scripts:
                 template: '@SyneriseSyliusIntegrationPlugin/shop/shared/layout/base/scripts.html.twig'
                 priority: -100
-     
+            tracking_script:
+                component: synerise_integration:tracking_script
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/shop/shared/layout/base/tracking_script.html.twig'
+                priority: -100
+
         'sylius_shop.base#metatags':
             open_graph:
                 component: synerise_integration:open_graph
