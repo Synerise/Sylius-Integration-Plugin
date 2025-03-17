@@ -11,6 +11,7 @@ synerise_integration:
         cookie_domain: 'Cookie domain'
         custom_page_visit: 'Custom page visit'
         virtual_page: 'Virtual page'
+        opengraph_enabled: 'Open Graph'
     form:
         workspace:
             name: 'Name'

@@ -31,6 +31,9 @@ sylius_twig_hooks:
             workspace:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/workspace.html.twig'
                 priority: 1100
+            opengraph_enabled:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/opengraph_enabled.html.twig'
+                priority: 1100
         'sylius_admin.channel_configuration.update.content.form.sections.tracking':
             tracking_enabled:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/enabled.html.twig'
