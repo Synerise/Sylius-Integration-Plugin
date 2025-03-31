@@ -8,29 +8,35 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Synerise\Api\V4\Models\ClientCartEventRequest;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
-use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\RequestBody\Events\RemovedFromCartBuilder;
 use Synerise\Sdk\Tracking\IdentityManager;
+use Synerise\SyliusIntegrationPlugin\Service\EventService;
 use Webmozart\Assert\Assert;
 
 class CartItemRemoveListener
 {
-    private ClientBuilder $clientBuilder;
 
     private IdentityManager $identityManager;
 
+    private EventService $eventService;
+
     public function __construct(
-        ClientBuilder $clientBuilder,
-        IdentityManager $identityManagerProvider
+        IdentityManager $identityManagerProvider,
+        EventService $eventService
+
     ) {
-        $this->clientBuilder = $clientBuilder;
         $this->identityManager = $identityManagerProvider;
+        $this->eventService = $eventService;
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function process(GenericEvent $event): void
     {
         /** @var OrderItemInterface $cartItem */
@@ -41,8 +47,11 @@ class CartItemRemoveListener
         /** @var OrderInterface $cart */
         $cart = $cartItem->getOrder();
 
-        $requestBody = $this->prepareCartRequestBody($cart, $cartItem);
-        $this->clientBuilder->v4()->events()->removedFromCart()->post($requestBody)->wait();
+        $this->eventService->processEvent(
+            RemovedFromCartBuilder::ACTION,
+            $this->prepareCartRequestBody($cart, $cartItem),
+            $cart->getChannel()?->getId()
+        );
     }
 
     private function prepareCartRequestBody(OrderInterface $cart, OrderItemInterface $cartItem): ClientCartEventRequest

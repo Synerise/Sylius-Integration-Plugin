@@ -7,40 +7,46 @@ use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
 use Synerise\Api\V4\Models\Product;
 use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\RequestBody\Events\CartStatusBuilder;
 use Synerise\Sdk\Tracking\IdentityManager;
+use Synerise\SyliusIntegrationPlugin\Service\EventService;
 
 class CartStatusListener
 {
     private CartContextInterface $cartContext;
 
-    private ClientBuilder $clientBuilder;
-
     private IdentityManager $identityManager;
+
+    private EventService $eventService;
 
     public function __construct(
         CartContextInterface $cartContext,
-        ClientBuilder $clientBuilder,
-        IdentityManager $identityManager
+        IdentityManager $identityManager,
+        EventService $eventService
+
     ) {
         $this->cartContext = $cartContext;
-        $this->clientBuilder = $clientBuilder;
         $this->identityManager = $identityManager;
+        $this->eventService = $eventService;
     }
 
     /**
-     * @throws \Exception
+     * @throws \Exception|ExceptionInterface
      */
     public function process(GenericEvent $event): void
     {
         /** @var OrderInterface $cart */
         $cart = $this->cartContext->getCart();
 
-        $requestBody = $this->prepareCartStatusRequestBody($cart);
-        $this->clientBuilder->v4()->events()->custom()->post($requestBody)->wait();
+        $this->eventService->processEvent(
+            CartStatusBuilder::ACTION,
+            $this->prepareCartStatusRequestBody($cart),
+            $cart->getChannel()?->getId()
+        );
     }
 
     private function prepareCartStatusRequestBody(OrderInterface $cart): CustomPostRequestBody

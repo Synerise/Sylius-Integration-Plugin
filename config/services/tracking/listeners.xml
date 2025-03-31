@@ -5,29 +5,30 @@
 >
     <services>
         <service id="synerise_integration.listener.cart_item_add" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartItemAddListener">
-            <argument type="service" id="synerise_integration.api_client_builder" />
             <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Service\EventService" />
 
             <tag name="kernel.event_listener" event="sylius.cart_item_add" method="process" priority="-1000" />
         </service>
         <service id="synerise_integration.listener.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartItemRemoveListener">
-            <argument type="service" id="synerise_integration.api_client_builder" />
             <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Service\EventService" />
 
             <tag name="kernel.event_listener" event="sylius.cart_item_remove" method="process" priority="1000" />
         </service>
         <service id="synerise_integration.listener.cart_status" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartStatusListener">
             <argument type="service" id="sylius.context.cart" />
-            <argument type="service" id="synerise_integration.api_client_builder" />
             <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Service\EventService" />
 
             <tag name="kernel.event_listener" event="sylius.cart_item_add" method="process" priority="-1000" />
             <tag name="kernel.event_listener" event="sylius.cart_item_remove" method="process" priority="-1000" />
             <tag name="kernel.event_listener" event="sylius.cart_change" method="process" priority="-1000" />
         </service>
         <service id="synerise_integration.listener.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartStatusClearListener">
-            <argument type="service" id="synerise_integration.api_client_builder" />
+            <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Service\EventService" />
 
             <tag name="kernel.event_listener" event="sylius.cart_clear" method="process" />
         </service>

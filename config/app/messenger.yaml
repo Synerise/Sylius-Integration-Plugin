@@ -1,0 +1,5 @@
+framework:
+    messenger:
+        routing:
+            'Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage': main
+        default_bus: sylius.command_bus

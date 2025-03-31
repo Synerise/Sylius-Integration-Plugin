@@ -96,5 +96,32 @@
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_create" method="getTrackingCodeRequest" />
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_update" method="getTrackingCodeRequest" />
         </service>
+        <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory" />
+            <tag name="form.type" />
+        </service>
+        <service id="Synerise\SyliusIntegrationPlugin\Service\EventService">
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="sylius.event_bus" />
+        </service>
+        <service id="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
+        <!-- MESSAGE HANDLERS -->
+        <service id="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
+            <argument type="service" id="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
+            <argument type="service" id="Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+
+            <tag name="messenger.message_handler" bus="sylius.event_bus" />
+        </service>
+        <!-- REQUEST HANDLERS -->
+        <service id="Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory">
+            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+            <argument type="collection">
+                <argument key="product.addToCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AddedToCartRequestHandler</argument>
+                <argument key="product.removeFromCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CartItemRemoveListener</argument>
+                <argument key="cart.status">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CustomEventRequestHandler</argument>
+            </argument>
+        </service>
     </services>
 </container>
