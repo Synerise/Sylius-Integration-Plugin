@@ -2,6 +2,8 @@
 
 namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Message;
 
+use Synerise\Sdk\Api\RequestBody\Events\AbstractCartBuilder;
+
 class EventMessage
 {
     private string $payload;
@@ -23,10 +25,11 @@ class EventMessage
     }
 
     /**
-     * @return class-string<\Synerise\Sdk\Api\RequestBody\Events\AbstractCartBuilder>
+     * @return class-string<AbstractCartBuilder>
      */
     public function getAction(): string
     {
+        /* @phpstan-ignore return.type */
         return $this->action;
     }
 
