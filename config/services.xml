@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <container
-        xmlns="http://symfony.com/schema/dic/services"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <imports>
         <import resource="services/**" />
@@ -105,6 +105,11 @@
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="sylius.event_bus" />
         </service>
+        <service id="synerise_integration.processor.customer_processor" class="Synerise\SyliusIntegrationPlugin\Processor\CustomerProcessor">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event_service" />
+        </service>
         <service id="synerise_integration.serialization.string_json_parse_node_factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
         <!-- MESSAGE HANDLERS -->
         <service id="synerise_integration.message_queue.event_message_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
@@ -121,6 +126,7 @@
                 <argument key="product.addToCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AddedToCartRequestHandler</argument>
                 <argument key="product.removeFromCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CartItemRemoveListener</argument>
                 <argument key="cart.status">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CustomEventRequestHandler</argument>
+                <argument key="profile.update"></argument>
             </argument>
         </service>
     </services>

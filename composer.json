@@ -1,7 +1,7 @@
 {
     "name": "synerise/sylius-integration-plugin",
     "type": "sylius-plugin",
-    "description": "Plugin allowing straightforward integrtaion of Synerise platform in Sylius application.",
+    "description": "Plugin allowing straightforward integration of Synerise platform in Sylius application.",
     "keywords": [
         "synerise",
         "sylius",
@@ -52,7 +52,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": false,
             "php-http/discovery": false,
             "phpstan/extension-installer": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "tbachert/spi": true
         }
     },
     "extra": {

@@ -32,5 +32,9 @@
 
             <tag name="kernel.event_listener" event="sylius.cart_clear" method="process" />
         </service>
+        <service id="synerise_integration.listener.customer_registered" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CustomerRegisteredListener">
+            <tag name="kernel.event_listener" event="sylius.customer.post_register" />
+            <argument type="service" id="synerise_integration.processor.customer_processor" />
+        </service>
     </services>
 </container>
