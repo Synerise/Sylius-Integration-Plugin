@@ -50,7 +50,7 @@ sylius_twig_hooks:
             virtual_page:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/virtual_page.html.twig'
                 priority: 1000
-        'sylius_admin.channel_configuration.update.content.form.sections.events':
+        'sylius_admin.channel_configuration.create.content.form.sections.events':
             events:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events/events.html.twig'
                 priority: 1100
