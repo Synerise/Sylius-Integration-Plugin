@@ -35,7 +35,7 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
         $loggedInRequestBody = $this->prepareLoggedInRequestBody($customer);
 
         $channelId = $this->channel->getChannel()->getId();
-        $this->eventService->processEvent(LoggedInBuilder::ACTION, $loggedInRequestBody, $channelId);
+        $this->eventService->processEvent(LoggedInBuilder::ACTION, $loggedInRequestBody, (string)$channelId);
     }
 
     private function prepareLoggedInRequestBody(CustomerInterface $customer): LoggedInPostRequestBody

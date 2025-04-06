@@ -36,7 +36,7 @@ class CustomerRegisterProcessor implements CustomerProcessorInterface
         $clientRegisterRequestBody = $this->prepareCustomerRegisteredRequestBody($customer);
 
         $channelId = $this->channel->getChannel()->getId();
-        $this->eventService->processEvent(RegisteredBuilder::ACTION, $clientRegisterRequestBody, $channelId);
+        $this->eventService->processEvent(RegisteredBuilder::ACTION, $clientRegisterRequestBody, (string)$channelId);
     }
 
     private function prepareCustomerRegisteredRequestBody(CustomerInterface $customer): RegisteredPostRequestBody

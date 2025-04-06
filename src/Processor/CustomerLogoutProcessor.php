@@ -35,7 +35,7 @@ class CustomerLogoutProcessor implements CustomerProcessorInterface
         $loggedOutRequestBody = $this->prepareLoggedOutRequestBody($customer);
 
         $channelId = $this->channel->getChannel()->getId();
-        $this->eventService->processEvent(LoggedOutBuilder::ACTION, $loggedOutRequestBody, $channelId);
+        $this->eventService->processEvent(LoggedOutBuilder::ACTION, $loggedOutRequestBody, (string)$channelId);
     }
 
     private function prepareLoggedOutRequestBody(CustomerInterface $customer): LoggedOutPostRequestBody

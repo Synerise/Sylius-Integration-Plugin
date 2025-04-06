@@ -5,7 +5,6 @@ namespace Synerise\SyliusIntegrationPlugin\Service;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Microsoft\Kiota\Serialization\Json\JsonSerializationWriter;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
@@ -33,10 +32,9 @@ class EventService
     }
 
     /**
-     * @throws ExceptionInterface
      * @throws \Exception
      */
-    public function processEvent(string $action, Parsable $payload, $channelId): void
+    public function processEvent(string $action, Parsable $payload, string $channelId): void
     {
         if (!$this->isEnabled($channelId, $action)) {
             return;
