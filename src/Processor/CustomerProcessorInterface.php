@@ -8,5 +8,5 @@ use Sylius\Component\Core\Model\CustomerInterface;
 
 interface CustomerProcessorInterface
 {
-    public function process(CustomerInterface $customer, string $action): void;
+    public function process(CustomerInterface $customer): void;
 }

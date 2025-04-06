@@ -36,7 +36,7 @@ class EventService
      * @throws ExceptionInterface
      * @throws \Exception
      */
-    public function processEvent(string $action, Parsable $payload, string $channelId): void
+    public function processEvent(string $action, Parsable $payload, $channelId): void
     {
         if (!$this->isEnabled($channelId, $action)) {
             return;

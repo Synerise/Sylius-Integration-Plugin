@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Synerise\SyliusIntegrationPlugin\Processor\CustomerProcessorInterface;
 use Webmozart\Assert\Assert;
 
-final readonly class CustomerRegisteredListener
+final readonly class CustomerUpdatedListener
 {
     public function __construct(
         private CustomerProcessorInterface $customerProcessor,

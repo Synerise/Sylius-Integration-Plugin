@@ -126,8 +126,34 @@
                 <argument key="product.addToCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AddedToCartRequestHandler</argument>
                 <argument key="product.removeFromCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CartItemRemoveListener</argument>
                 <argument key="cart.status">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CustomEventRequestHandler</argument>
-                <argument key="profile.update"></argument>
+                <argument key="profile.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\ProfileRequestHandler</argument>
+                <argument key="client.login">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LoginRequestHandler</argument>
+                <argument key="client.logout">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LogoutRequestHandler</argument>
             </argument>
+        </service>
+        <!-- PROCESSORS -->
+        <service id="synerise_integration.processor.customer_register_processor" class="Synerise\SyliusIntegrationPlugin\Processor\CustomerRegisterProcessor">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event_service" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="synerise_integration.processor.customer_update_processor" class="Synerise\SyliusIntegrationPlugin\Processor\CustomerUpdateProcessor">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.event_service" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="synerise_integration.processor.customer_login_processor" class="Synerise\SyliusIntegrationPlugin\Processor\CustomerLoginProcessor">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event_service" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="synerise_integration.processor.customer_logout_processor" class="Synerise\SyliusIntegrationPlugin\Processor\CustomerLogoutProcessor">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event_service" />
+            <argument type="service" id="event_dispatcher" />
         </service>
     </services>
 </container>
