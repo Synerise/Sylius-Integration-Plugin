@@ -22,7 +22,7 @@ final readonly class CustomerLoggedInListener
             return;
         }
 
-        /** @var ShopUserInterface $customer */
+        /** @var ShopUserInterface $user */
         $user = $event->getUser();
         Assert::isInstanceOf($user, ShopUserInterface::class);
 

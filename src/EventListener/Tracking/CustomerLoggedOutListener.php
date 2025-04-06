@@ -27,7 +27,7 @@ final readonly class CustomerLoggedOutListener
             return;
         }
 
-        /** @var ShopUserInterface $customer */
+        /** @var ShopUserInterface $user */
         $user = $token->getUser();
         Assert::isInstanceOf($user, ShopUserInterface::class);
 
