@@ -5,7 +5,7 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 use Exception;
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Synerise\Api\V4\Events\LoggedIn\LoggedInPostRequestBody;
+use Synerise\Api\V4\Models\LoggedInEvent;
 use Synerise\Sdk\Api\Config;
 use Webmozart\Assert\Assert;
 
@@ -14,10 +14,10 @@ class LoginRequestHandler extends AbstractRequestHandler
     /**
      * @var class-string<Parsable>
      */
-    public static string $requestClass = LoggedInPostRequestBody::class;
+    public static string $requestClass = LoggedInEvent::class;
 
     /**
-     * @param LoggedInPostRequestBody $payload
+     * @param LoggedInEvent $payload
      * @return Promise<void|null>
      * @throws Exception
      */

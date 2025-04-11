@@ -6,22 +6,22 @@ namespace Synerise\SyliusIntegrationPlugin\Event;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
-use Synerise\Api\V4\Events\LoggedOut\LoggedOutPostRequestBody;
+use Synerise\Api\V4\Models\LoggedOutEvent;
 
 class BeforeLogoutRequestEvent extends Event
 {
     public const NAME = 'synerise.customer.logout.before_send';
 
     public function __construct(
-        private LoggedOutPostRequestBody   $loggedOutRequest,
+        private LoggedOutEvent   $loggedOutEvent,
         private readonly CustomerInterface $customer
     )
     {
     }
 
-    public function getLoggedOutRequest(): LoggedOutPostRequestBody
+    public function getLoggedOutEvent(): LoggedOutEvent
     {
-        return $this->loggedOutRequest;
+        return $this->loggedOutEvent;
     }
 
     public function getCustomer(): CustomerInterface

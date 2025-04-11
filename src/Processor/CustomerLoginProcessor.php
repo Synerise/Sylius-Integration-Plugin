@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Processor;
 
+use Exception;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Synerise\Api\V4\Events\LoggedIn\LoggedInPostRequestBody;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Api\V4\Models\LoggedInEvent;
 use Synerise\Sdk\Api\RequestBody\Events\LoggedInBuilder;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Tracking\IdentityManager;
@@ -28,17 +28,17 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
     }
 
     /**
-     * @throws ExceptionInterface
+     * @throws Exception
      */
     public function process(CustomerInterface $customer): void
     {
-        $loggedInRequestBody = $this->prepareLoggedInRequestBody($customer);
+        $loggedInEvent = $this->prepareLoggedInEvent($customer);
 
         $channelId = $this->channel->getChannel()->getId();
-        $this->eventService->processEvent(LoggedInBuilder::ACTION, $loggedInRequestBody, (string)$channelId);
+        $this->eventService->processEvent(LoggedInBuilder::ACTION, $loggedInEvent, (string)$channelId);
     }
 
-    private function prepareLoggedInRequestBody(CustomerInterface $customer): LoggedInPostRequestBody
+    private function prepareLoggedInEvent(CustomerInterface $customer): LoggedInEvent
     {
         $client = new Client();
 
@@ -50,11 +50,11 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
         $client->setEmail($customer->getEmail());
         $client->setCustomId((string)$customer->getId());
 
-        $loggedInPostRequestBody = LoggedInBuilder::initialize($client)->build();
+        $loggedInEvent = LoggedInBuilder::initialize($client)->build();
 
-        $event = new BeforeLoginRequestEvent($loggedInPostRequestBody, $customer);
+        $event = new BeforeLoginRequestEvent($loggedInEvent, $customer);
         $this->eventDispatcher->dispatch($event, BeforeLoginRequestEvent::NAME);
 
-        return $event->getLoggedInRequest();
+        return $event->getLoggedInEvent();
     }
 }

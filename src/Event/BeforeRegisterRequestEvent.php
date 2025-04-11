@@ -6,23 +6,22 @@ namespace Synerise\SyliusIntegrationPlugin\Event;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
-use Synerise\Api\V4\Events\LoggedIn\LoggedInPostRequestBody;
-use Synerise\Api\V4\Events\Registered\RegisteredPostRequestBody;
+use Synerise\Api\V4\Models\RegisteredEvent;
 
 class BeforeRegisterRequestEvent extends Event
 {
     public const NAME = 'synerise.customer.register.before_send';
 
     public function __construct(
-        private RegisteredPostRequestBody $registeredRequest,
+        private RegisteredEvent $registeredEvent,
         private readonly CustomerInterface $customer
     )
     {
     }
 
-    public function getRegisteredRequest(): RegisteredPostRequestBody
+    public function getRegisteredEvent(): RegisteredEvent
     {
-        return $this->registeredRequest;
+        return $this->registeredEvent;
     }
 
     public function getCustomer(): CustomerInterface {

@@ -2,15 +2,12 @@
 
 namespace Synerise\SyliusIntegrationPlugin\EventListener\Tracking;
 
-use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Product\Model\ProductVariantInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\Product;
-use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\RequestBody\Events\CartStatusBuilder;
 use Synerise\Sdk\Tracking\IdentityManager;
 use Synerise\SyliusIntegrationPlugin\Service\EventService;
@@ -49,7 +46,7 @@ class CartStatusListener
         );
     }
 
-    private function prepareCartStatusRequestBody(OrderInterface $cart): CustomPostRequestBody
+    private function prepareCartStatusRequestBody(OrderInterface $cart): CustomEvent
     {
         $products = [];
         foreach ($cart->getItems() as $item) {

@@ -10,12 +10,11 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Model\CustomerInterface as BaseCustomerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Synerise\Api\V4\Clients\ClientsPostRequestBody;
 use Synerise\Api\V4\Models\Agreements;
 use Synerise\Api\V4\Models\Attributes;
-use Synerise\Api\V4\Models\InBodyClientSex;
-use Synerise\Sdk\Exception\NotFoundException;
-use Synerise\SyliusIntegrationPlugin\Event\BeforeCustomerRequestEvent;
+use Synerise\Api\V4\Models\Profile;
+use Synerise\Api\V4\Models\ProfileSex;
+use Synerise\SyliusIntegrationPlugin\Event\BeforeProfileRequestEvent;
 use Synerise\SyliusIntegrationPlugin\Service\EventService;
 
 class CustomerUpdateProcessor implements CustomerProcessorInterface
@@ -29,13 +28,12 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
     }
 
     protected static array $genderMap = [
-        BaseCustomerInterface::MALE_GENDER => InBodyClientSex::M_A_L_E,
-        BaseCustomerInterface::FEMALE_GENDER => InBodyClientSex::F_E_M_A_L_E,
-        BaseCustomerInterface::UNKNOWN_GENDER => InBodyClientSex::N_O_T__S_P_E_C_I_F_I_E_D
+        BaseCustomerInterface::MALE_GENDER => ProfileSex::M_A_L_E,
+        BaseCustomerInterface::FEMALE_GENDER => ProfileSex::F_E_M_A_L_E,
+        BaseCustomerInterface::UNKNOWN_GENDER => ProfileSex::N_O_T__S_P_E_C_I_F_I_E_D
     ];
 
     /**
-     * @throws NotFoundException
      * @throws ExceptionInterface
      */
     public function process(CustomerInterface $customer): void
@@ -45,43 +43,43 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
         $this->eventService->processEvent("profile.update", $clientRequestBody, (string)$channelId);
     }
 
-    protected function prepareCustomerRequestBody(CustomerInterface $customer): ClientsPostRequestBody
+    protected function prepareCustomerRequestBody(CustomerInterface $customer): Profile
     {
-        $client = new ClientsPostRequestBody();
-        $client->setCustomId((string)$customer->getId());
-        $client->setEmail($customer->getEmail());
-        $client->setPhone($customer->getPhoneNumber());
-        $client->setFirstName($customer->getFirstName());
-        $client->setLastName($customer->getLastName());
-        $client->setBirthDate($customer->getBirthday()?->format("Y-m-d"));
-        $client->setSex($this->getClientGender($customer));
+        $profile = new Profile();
+        $profile->setCustomId((string)$customer->getId());
+        $profile->setEmail($customer->getEmail());
+        $profile->setPhone($customer->getPhoneNumber());
+        $profile->setFirstName($customer->getFirstName());
+        $profile->setLastName($customer->getLastName());
+        $profile->setBirthDate($customer->getBirthday()?->format("Y-m-d"));
+        $profile->setSex($this->getClientGender($customer));
 
         $customerDefaultAddress = $customer->getDefaultAddress();
-        $client->setCountryCode($customerDefaultAddress?->getCountryCode());
-        $client->setProvince($customerDefaultAddress?->getProvinceName());
-        $client->setZipCode($customerDefaultAddress?->getPostcode());
-        $client->setCity($customerDefaultAddress?->getCity());
-        $client->setAddress($customerDefaultAddress?->getStreet());
+        $profile->setCountryCode($customerDefaultAddress?->getCountryCode());
+        $profile->setProvince($customerDefaultAddress?->getProvinceName());
+        $profile->setZipCode($customerDefaultAddress?->getPostcode());
+        $profile->setCity($customerDefaultAddress?->getCity());
+        $profile->setAddress($customerDefaultAddress?->getStreet());
 
         $attributes = new Attributes();
         $attributes->setAdditionalData([
             "createdAt" => $customer->getCreatedAt()?->format(DateTimeInterface::ATOM),
         ]);
-        $client->setAttributes($attributes);
+        $profile->setAttributes($attributes);
 
         $agreements = new Agreements();
         $agreements->setEmail($customer->isSubscribedToNewsletter());
-        $client->setAgreements($agreements);
+        $profile->setAgreements($agreements);
 
-        $event = new BeforeCustomerRequestEvent($client, $customer);
-        $this->eventDispatcher->dispatch($event, BeforeCustomerRequestEvent::NAME);
+        $event = new BeforeProfileRequestEvent($profile, $customer);
+        $this->eventDispatcher->dispatch($event, BeforeProfileRequestEvent::NAME);
 
-        return $event->getClient();
+        return $event->getProfile();
     }
 
-    protected function getClientGender(CustomerInterface $customer): InBodyClientSex
+    protected function getClientGender(CustomerInterface $customer): ProfileSex
     {
-        $gender = self::$genderMap[$customer->getGender()] ?? InBodyClientSex::N_O_T__S_P_E_C_I_F_I_E_D;
-        return new InBodyClientSex($gender);
+        $gender = self::$genderMap[$customer->getGender()] ?? ProfileSex::N_O_T__S_P_E_C_I_F_I_E_D;
+        return new ProfileSex($gender);
     }
 }

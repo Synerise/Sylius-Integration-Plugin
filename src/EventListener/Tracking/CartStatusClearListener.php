@@ -5,7 +5,7 @@ namespace Synerise\SyliusIntegrationPlugin\EventListener\Tracking;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Sdk\Api\RequestBody\Events\CartStatusBuilder;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Tracking\IdentityManager;
@@ -44,7 +44,7 @@ class CartStatusClearListener
     /**
      * @throws NotFoundException
      */
-    private function prepareCartStatusRequestBody(): CustomPostRequestBody
+    private function prepareCartStatusRequestBody(): CustomEvent
     {
         return CartStatusBuilder::initialize($this->identityManager->getClient())
             ->setTotalAmount(0)

@@ -12,7 +12,8 @@
         "php": "^8.2",
         "mobiledetect/mobiledetectlib": "^4.8",
         "sylius/sylius": "~2.0.0",
-        "synerise/php-sdk": "^0.5.2"
+        "symfony/runtime": "^6.4",
+        "synerise/php-sdk": "^0.5.3"
     },
     "require-dev": {
         "behat/behat": "^3.16",
@@ -53,6 +54,7 @@
             "php-http/discovery": false,
             "phpstan/extension-installer": true,
             "symfony/flex": true,
+            "symfony/runtime": true,
             "tbachert/spi": true
         }
     },
@@ -61,7 +63,8 @@
             "dev-master": "2.0-dev"
         },
         "symfony": {
-            "require": "^6.4"
+            "require": "^6.4",
+            "docker": true
         }
     },
     "autoload": {

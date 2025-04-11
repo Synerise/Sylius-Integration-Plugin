@@ -5,7 +5,7 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 use Exception;
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Synerise\Api\V4\Clients\ClientsPostRequestBody;
+use Synerise\Api\V4\Models\Profile;
 use Synerise\Sdk\Api\Config;
 use Webmozart\Assert\Assert;
 
@@ -14,10 +14,10 @@ class ProfileRequestHandler extends AbstractRequestHandler
     /**
      * @var class-string<Parsable>
      */
-    public static string $requestClass = ClientsPostRequestBody::class;
+    public static string $requestClass = Profile::class;
 
     /**
-     * @param ClientsPostRequestBody $payload
+     * @param Profile $payload
      * @return Promise<void|null>
      * @throws Exception
      */

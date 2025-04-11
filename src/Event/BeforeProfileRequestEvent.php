@@ -6,22 +6,22 @@ namespace Synerise\SyliusIntegrationPlugin\Event;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
-use Synerise\Api\V4\Models\LoggedInEvent;
+use Synerise\Api\V4\Models\Profile;
 
-class BeforeLoginRequestEvent extends Event
+class BeforeProfileRequestEvent extends Event
 {
-    public const NAME = 'synerise.customer.login.before_send';
+    public const NAME = 'synerise.profile.update.before_send';
 
     public function __construct(
-        private LoggedInEvent $loggedInEvent,
-        private readonly CustomerInterface $customer
+        private Profile $profile,
+        private CustomerInterface $customer
     )
     {
     }
 
-    public function getLoggedInEvent(): LoggedInEvent
+    public function getProfile(): Profile
     {
-        return $this->loggedInEvent;
+        return $this->profile;
     }
 
     public function getCustomer(): CustomerInterface {

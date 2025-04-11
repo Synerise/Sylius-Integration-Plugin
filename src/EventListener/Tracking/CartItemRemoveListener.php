@@ -9,7 +9,7 @@ use Sylius\Component\Product\Model\ProductVariantInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Synerise\Api\V4\Models\ClientCartEventRequest;
+use Synerise\Api\V4\Models\CartEvent;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
@@ -54,7 +54,7 @@ class CartItemRemoveListener
         );
     }
 
-    private function prepareCartRequestBody(OrderInterface $cart, OrderItemInterface $cartItem): ClientCartEventRequest
+    private function prepareCartRequestBody(OrderInterface $cart, OrderItemInterface $cartItem): CartEvent
     {
         $currencyCode = $cart->getCurrencyCode();
 

@@ -49,5 +49,18 @@
             <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LogoutEvent" />
             <argument type="service" id="synerise_integration.processor.customer_logout_processor" />
         </service>
+        <service id="synerise_integration.listener.order_post_complete" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\OrderPostCreateListener">
+            <tag name="kernel.event_listener" event="sylius.order.post_complete" />
+            <argument type="service" id="synerise_integration.processor.order_processor" />
+        </service>
+        <service id="synerise_integration.listener.order_workflow" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\OrderWorkflowListener">
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" />
+            <argument type="service" id="synerise_integration.processor.order_processor" />
+        </service>
+        <!-- TEST -->
+        <service id="synerise_integration.listener.customer_before_login_request_listened" class="Synerise\SyliusIntegrationPlugin\EventListener\Test\SyneriseBeforeLoginRequestListener">
+            <tag name="kernel.event_listener" event="synerise.customer.login.before_send" />
+        </service>
     </services>
 </container>
