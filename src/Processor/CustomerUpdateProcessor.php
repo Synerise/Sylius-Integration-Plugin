@@ -38,9 +38,11 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
      */
     public function process(CustomerInterface $customer): void
     {
-        $channelId = $this->channel->getChannel()->getId();
-        $clientRequestBody = $this->prepareCustomerRequestBody($customer);
-        $this->eventService->processEvent("profile.update", $clientRequestBody, (string)$channelId);
+        $this->eventService->processEvent(
+            "profile.update",
+            $$this->prepareCustomerRequestBody($customer),
+            (string) $this->channel->getChannel()->getId(),
+        );
     }
 
     protected function prepareCustomerRequestBody(CustomerInterface $customer): Profile

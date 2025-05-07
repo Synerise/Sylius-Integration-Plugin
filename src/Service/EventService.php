@@ -12,7 +12,7 @@ use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
 use Webmozart\Assert\Assert;
 
-class EventService
+class EventDispatcher
 {
     private RequestHandlerFactory $requestHandlerFactory;
 

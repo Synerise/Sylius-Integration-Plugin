@@ -40,11 +40,10 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
 
     private function prepareLoggedInEvent(CustomerInterface $customer): LoggedInEvent
     {
-        $client = new Client();
-
         try {
             $client = $this->identityManager->getClient();
         } catch (NotFoundException $exception) {
+            $client = new Client();
         }
 
         $client->setEmail($customer->getEmail());

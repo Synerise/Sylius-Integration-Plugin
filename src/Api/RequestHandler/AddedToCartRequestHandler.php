@@ -15,8 +15,6 @@ class AddedToCartRequestHandler extends AbstractRequestHandler
      */
     public static string $requestClass = CartEvent::class;
 
-//    public static string $createMethod = 'createFromDiscriminatorValue';
-
     /**
      * @param CartEvent $payload
      * @return Promise<void|null>
