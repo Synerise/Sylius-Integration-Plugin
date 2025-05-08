@@ -3,7 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\Service;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Microsoft\Kiota\Serialization\Json\JsonSerializationWriter;
+use Microsoft\Kiota\Abstractions\Serialization\SerializationWriterFactory;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\Sdk\Api\Config;
@@ -12,7 +12,7 @@ use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
 use Webmozart\Assert\Assert;
 
-class EventDispatcher
+class EventService
 {
     private RequestHandlerFactory $requestHandlerFactory;
 
@@ -20,15 +20,19 @@ class EventDispatcher
 
     private MessageBusInterface $messageBus;
 
+    private SerializationWriterFactory $writerFactory;
+
     public function __construct(
         RequestHandlerFactory $requestHandlerFactory,
         EntityRepository $repository,
-        MessageBusInterface $messageBus
+        MessageBusInterface $messageBus,
+        SerializationWriterFactory $writerFactory
     )
     {
         $this->requestHandlerFactory = $requestHandlerFactory;
         $this->repository = $repository;
         $this->messageBus = $messageBus;
+        $this->writerFactory = $writerFactory;
     }
 
     /**
@@ -61,9 +65,9 @@ class EventDispatcher
         $requestHandler->send($payload, $config);
     }
 
-    public function serialize(Parsable $payload): string
+    private function serialize(Parsable $payload): string
     {
-        $writer = new JsonSerializationWriter();
+        $writer = $this->writerFactory->getSerializationWriter('application/json');
         $payload->serialize($writer);
         $string = (string) $writer->getSerializedContent();
         if (!str_starts_with($string, '{')) {

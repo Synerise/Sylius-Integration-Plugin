@@ -100,10 +100,12 @@
             <argument type="service" id="synerise_integration.api.request_handler_factory" />
             <tag name="form.type" />
         </service>
+        <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
         <service id="synerise_integration.event_service" class="Synerise\SyliusIntegrationPlugin\Service\EventService">
             <argument type="service" id="synerise_integration.api.request_handler_factory" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="sylius.event_bus" />
+            <argument type="service" id="synerise_integration.kiota.serialization.json.serialization_writer_factory" />
         </service>
         <service id="synerise_integration.serialization.string_json_parse_node_factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
         <!-- MESSAGE HANDLERS -->
