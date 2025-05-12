@@ -3,33 +3,22 @@
 namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Handler;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Serialization\StringJsonParseNodeFactory;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
-use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
 class EventMessageHandler
 {
-    private StringJsonParseNodeFactory $parseNodeFactory;
-
-    private RequestHandlerFactory $requestHandlerFactory;
-
-    private EntityRepository $repository;
-
     public function __construct(
-        StringJsonParseNodeFactory $parseNodeFactory,
-        RequestHandlerFactory $requestHandlerFactory,
-        EntityRepository $repository
-    )
-    {
-        $this->parseNodeFactory = $parseNodeFactory;
-        $this->requestHandlerFactory = $requestHandlerFactory;
-        $this->repository = $repository;
+        private StringJsonParseNodeFactory $parseNodeFactory,
+        private RequestHandlerFactory $requestHandlerFactory,
+        private ChannelConfigurationFactory $configurationFactory
+    ) {
     }
 
     /**
@@ -40,7 +29,7 @@ class EventMessageHandler
         $requestHandler = $this->requestHandlerFactory->get($message->getAction());
 
         /** @var Config $config */
-        $config = $this->getConfigurationByChannel($message->getSalesChannelId())?->getWorkspace();
+        $config = $this->configurationFactory->get($message->getSalesChannelId())?->getWorkspace();
         Assert::notNull($config);
 
         $payload = $this->deserialize($message->getPayload(), $requestHandler->getType());
@@ -67,14 +56,5 @@ class EventMessageHandler
         return $this->parseNodeFactory
             ->getRootParseNode($serializedPayload)
             ->getObjectValue($type);
-    }
-
-    /** @todo: move to separate service with cache */
-    private function getConfigurationByChannel(string $channel): ?ChannelConfigurationInterface
-    {
-        // @phpstan-ignore return.type
-        return $this->repository->findOneBy(
-            ['channel' => $channel]
-        );
     }
 }

@@ -26,7 +26,6 @@ use Webmozart\Assert\Assert;
 
 class OrderProcessor
 {
-
     public function __construct(
         private ChannelConfigurationFactory $configurationFactory,
         private IdentityManager $identityManager,
@@ -65,13 +64,15 @@ class OrderProcessor
             $client = new Client();
         }
 
+        Assert::notNull($customer);
+
         $client->setEmail($customer->getEmail());
         $client->setCustomId((string)$customer->getId());
 
         $transaction = new Transaction();
         $transaction->setClient($client);
         $transaction->setOrderId((string)$order->getId());
-        $transaction->setRecordedAt($order->getCheckoutCompletedAt()->format(\DateTimeInterface::ATOM));
+        $transaction->setRecordedAt($order->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
 
         $total = $order->getTotal();
         $taxTotal = $order->getTaxTotal();
@@ -117,16 +118,19 @@ class OrderProcessor
 
     private function prepareTransactionProductData(OrderItemInterface $orderItem): Product
     {
+        $order = $orderItem->getOrder();
+        Assert::implementsInterface($order, \Sylius\Component\Order\Model\OrderInterface::class);
+
         $orderProduct = $orderItem->getProduct();
-        $currencyCode = $orderItem->getOrder()->getCurrencyCode();
+        $currencyCode = $order->getCurrencyCode();
         $quantity = $orderItem->getQuantity();
-        $category = $orderProduct->getMainTaxon()->getFullname(' > ');
+        $category = $orderProduct?->getMainTaxon()?->getFullname(' > ');
 
         $product = new Product();
         $name = $orderItem->getProductName() . ($orderItem->getVariantName() ? ' - ' . $orderItem->getVariantName() : '');
         $product->setName($name);
         $product->setQuantity($quantity);
-        $product->setSku($orderProduct->getCode());
+        $product->setSku($orderProduct?->getCode());
 
         $unitPrice = $orderItem->getUnitPrice();
         $originalUnitPrice = $orderItem->getOriginalUnitPrice();

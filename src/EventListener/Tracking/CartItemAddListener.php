@@ -3,7 +3,6 @@
 namespace Synerise\SyliusIntegrationPlugin\EventListener\Tracking;
 
 use Sylius\Bundle\OrderBundle\Controller\AddToCartCommandInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Synerise\SyliusIntegrationPlugin\EventProcessor\CartItemAddProcessor;
 use Webmozart\Assert\Assert;
