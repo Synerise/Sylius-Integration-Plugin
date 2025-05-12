@@ -39,6 +39,16 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'label' => 'synerise_integration.ui.opengraph_enabled',
                 'required' => false
             ])
+            ->add('events', EventChoiceType::class, [
+                'label' => 'synerise_integration.ui.events',
+                'multiple' => true,
+                'required' => false
+            ])
+            ->add('queueEvents', EventChoiceType::class, [
+                'label' => 'synerise_integration.ui.queue_events',
+                'multiple' => true,
+                'required' => false
+            ])
         ;
     }
 

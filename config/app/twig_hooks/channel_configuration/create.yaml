@@ -9,7 +9,7 @@ sylius_twig_hooks:
                     template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form.html.twig'
                 priority: 0
                 configuration:
-                    method: 'PUT'
+                    method: 'POST'
         'sylius_admin.channel_configuration.create.content.form':
             sections:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections.html.twig'
@@ -22,6 +22,9 @@ sylius_twig_hooks:
             tracking:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking.html.twig'
                 priority: 300
+            events:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events.html.twig'
+                priority: 200
         'sylius_admin.channel_configuration.create.content.form.sections.general':
             default:
                 enabled: false
@@ -31,6 +34,9 @@ sylius_twig_hooks:
             workspace:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/workspace.html.twig'
                 priority: 1100
+            opengraph_enabled:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/opengraph_enabled.html.twig'
+                priority: 1000
         'sylius_admin.channel_configuration.create.content.form.sections.tracking':
             tracking_enabled:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/enabled.html.twig'
@@ -43,4 +49,11 @@ sylius_twig_hooks:
                 priority: 1100
             virtual_page:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/virtual_page.html.twig'
+                priority: 1000
+        'sylius_admin.channel_configuration.create.content.form.sections.events':
+            events:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events/events.html.twig'
+                priority: 1100
+            queue_events:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events/queue_events.html.twig'
                 priority: 1000

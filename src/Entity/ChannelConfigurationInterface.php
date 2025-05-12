@@ -40,4 +40,14 @@ interface ChannelConfigurationInterface extends ResourceInterface
     public function isOpengraphEnabled(): bool;
 
     public function setOpengraphEnabled(bool $opengraphEnabled): void;
+
+    public function getEvents(): ?array;
+
+    public function setEvents(array $events): void;
+
+    public function getQueueEvents(): ?array;
+
+    public function setQueueEvents(?array $queueEvents): void;
+
+    public function getEventHandlerType(string $action): ?string;
 }

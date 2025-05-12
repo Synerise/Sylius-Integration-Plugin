@@ -12,6 +12,8 @@ synerise_integration:
         custom_page_visit: 'Custom page visit'
         virtual_page: 'Virtual page'
         opengraph_enabled: 'Open Graph'
+        events: 'Events'
+        queue_events: 'Message Queue Events'
     form:
         workspace:
             name: 'Name'

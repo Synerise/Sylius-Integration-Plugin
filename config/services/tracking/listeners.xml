@@ -4,32 +4,66 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <!-- CART LISTENERS -->
         <service id="synerise_integration.listener.cart_item_add" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartItemAddListener">
-            <argument type="service" id="synerise_integration.api_client_builder" />
-            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.processor.cart_item_add" />
 
-            <tag name="kernel.event_listener" event="sylius.cart_item_add" method="process" priority="-1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_item_add" priority="-1000" />
         </service>
         <service id="synerise_integration.listener.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartItemRemoveListener">
-            <argument type="service" id="synerise_integration.api_client_builder" />
-            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.processor.cart_item_remove" />
 
-            <tag name="kernel.event_listener" event="sylius.cart_item_remove" method="process" priority="1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_item_remove" priority="1000" />
         </service>
         <service id="synerise_integration.listener.cart_status" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartStatusListener">
             <argument type="service" id="sylius.context.cart" />
-            <argument type="service" id="synerise_integration.api_client_builder" />
-            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.processor.cart_status" />
 
-            <tag name="kernel.event_listener" event="sylius.cart_item_add" method="process" priority="-1000" />
-            <tag name="kernel.event_listener" event="sylius.cart_item_remove" method="process" priority="-1000" />
-            <tag name="kernel.event_listener" event="sylius.cart_change" method="process" priority="-1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_item_add" priority="-1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_item_remove" priority="-1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_change" priority="-1000" />
         </service>
         <service id="synerise_integration.listener.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CartStatusClearListener">
-            <argument type="service" id="synerise_integration.api_client_builder" />
-            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.processor.cart_status_clear" />
 
-            <tag name="kernel.event_listener" event="sylius.cart_clear" method="process" />
+            <tag name="kernel.event_listener" event="sylius.cart_clear" />
+        </service>
+        <!-- CUSTOMER LISTENERS -->
+        <service id="synerise_integration.listener.customer_registered" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CustomerRegisteredListener">
+            <argument type="service" id="synerise_integration.processor.customer_register" />
+
+            <tag name="kernel.event_listener" event="sylius.customer.post_register" />
+        </service>
+        <service id="synerise_integration.listener.customer_updated" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CustomerUpdatedListener">
+            <argument type="service" id="synerise_integration.processor.customer_update" />
+
+            <tag name="kernel.event_listener" event="sylius.customer.post_update" />
+        </service>
+        <service id="synerise_integration.listener.customer_login" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CustomerLoggedInListener">
+            <argument type="service" id="synerise_integration.processor.customer_login" />
+
+            <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LoginSuccessEvent" />
+        </service>
+        <service id="synerise_integration.listener.customer_logout" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\CustomerLoggedOutListener">
+            <argument type="service" id="synerise_integration.processor.customer_logout" />
+
+            <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LogoutEvent" />
+        </service>
+        <!-- ORDER LISTENERS -->
+        <service id="synerise_integration.listener.order_post_complete" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\OrderPostCreateListener">
+            <argument type="service" id="synerise_integration.processor.order" />
+
+            <tag name="kernel.event_listener" event="sylius.order.post_complete" />
+        </service>
+        <service id="synerise_integration.listener.order_workflow" class="Synerise\SyliusIntegrationPlugin\EventListener\Tracking\OrderWorkflowListener">
+            <argument type="service" id="synerise_integration.processor.order" />
+
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" />
+        </service>
+        <!-- TEST -->
+        <service id="synerise_integration.listener.customer_before_login_request_listened" class="Synerise\SyliusIntegrationPlugin\EventListener\Test\SyneriseBeforeLoginRequestListener">
+            <tag name="kernel.event_listener" event="synerise.customer.login.before_send" />
         </service>
     </services>
 </container>

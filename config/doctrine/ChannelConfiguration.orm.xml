@@ -12,6 +12,8 @@
         <field name="customPageVisit" column="custom_page_visit" type="boolean" />
         <field name="virtualPage" column="virtual_page" type="boolean" />
         <field name="opengraphEnabled" column="opengraph_enabled" type="boolean" />
+        <field name="events" column="events" type="json" nullable="true" />
+        <field name="queueEvents" column="queue_events" type="json" nullable="true" />
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />

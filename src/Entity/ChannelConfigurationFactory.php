@@ -11,7 +11,7 @@ class ChannelConfigurationFactory
 
     private EntityRepository $repository;
 
-    private ?ChannelConfigurationInterface $instance = null;
+    private array $instance = [];
 
     public function __construct(
         ChannelContextInterface $channel,
@@ -21,33 +21,33 @@ class ChannelConfigurationFactory
         $this->repository = $repository;
     }
 
-    public function create(): ?ChannelConfigurationInterface
+    public function create(?string $channelId = null): ?ChannelConfigurationInterface
     {
-        return $this->getConfigurationByChannel();
-    }
-
-    public function get(): ?ChannelConfigurationInterface
-    {
-        if (!$this->instance) {
-            $this->instance = $this->create();
+        if ($channelId === null) {
+            $channelId = $this->channel->getChannel()->getId();
         }
 
-        return $this->instance;
+        // @phpstan-ignore return.type
+        return $this->repository->findOneBy(
+            ['channel' => $channelId]
+        );
+    }
+
+    public function get(?string $channelId = null): ?ChannelConfigurationInterface
+    {
+        if ($channelId === null) {
+            $channelId = $this->channel->getChannel()->getId();
+        }
+
+        if (!isset($this->instance[$channelId])) {
+            $this->instance[$channelId] = $this->create($channelId);
+        }
+
+        return $this->instance[$channelId];
     }
 
     public function getWorkspace(): ?WorkspaceInterface
     {
         return $this->get()?->getWorkspace();
-    }
-
-    /**
-     * @return ChannelConfigurationInterface|null
-     */
-    private function getConfigurationByChannel(): ?ChannelConfigurationInterface
-    {
-        // @phpstan-ignore return.type
-        return $this->repository->findOneBy(
-            ['channel' => $this->channel->getChannel()]
-        );
     }
 }

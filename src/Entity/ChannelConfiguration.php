@@ -25,6 +25,10 @@ class ChannelConfiguration implements ChannelConfigurationInterface
 
     private bool $opengraphEnabled = false;
 
+    private ?array $events = null;
+
+    private ?array $queueEvents = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,5 +112,34 @@ class ChannelConfiguration implements ChannelConfigurationInterface
     public function setOpengraphEnabled(bool $opengraphEnabled): void
     {
         $this->opengraphEnabled = $opengraphEnabled;
+    }
+
+    public function getEvents(): array
+    {
+        return (array) $this->events;
+    }
+
+    public function setEvents(array $events): void
+    {
+        $this->events = $events;
+    }
+
+    public function getQueueEvents(): array
+    {
+        return (array) $this->queueEvents;
+    }
+
+    public function setQueueEvents(?array $queueEvents): void
+    {
+        $this->queueEvents = $queueEvents;
+    }
+
+    public function getEventHandlerType(string $action): ?string
+    {
+        if (!in_array($action, $this->getEvents())) {
+            return null;
+        }
+
+        return in_array($action, $this->getQueueEvents()) ? 'message_queue' : 'live';
     }
 }
