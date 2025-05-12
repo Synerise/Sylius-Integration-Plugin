@@ -8,7 +8,7 @@ use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 
-abstract class AbstractRequestHandler implements RequestHandler
+abstract class AbstractRequestHandler implements RequestHandlerInterface
 {
     /**
      * @var class-string<Parsable>

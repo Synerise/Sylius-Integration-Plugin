@@ -2,41 +2,44 @@
 
 declare(strict_types=1);
 
-namespace Synerise\SyliusIntegrationPlugin\Processor;
+namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
-use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
-use Synerise\Api\V4\Events\LoggedOut\LoggedOutPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\LoggedOutEvent;
 use Synerise\Sdk\Api\RequestBody\Events\LoggedOutBuilder;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Tracking\IdentityManager;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\BeforeLogoutRequestEvent;
-use Synerise\SyliusIntegrationPlugin\Service\EventService;
+use Synerise\SyliusIntegrationPlugin\EventHandler\EventHandlerFactory;
+use Webmozart\Assert\Assert;
 
 class CustomerLogoutProcessor implements CustomerProcessorInterface
 {
     public function __construct(
-        private ChannelContextInterface  $channel,
-        private IdentityManager          $identityManager,
-        private EventService             $eventService,
+        private ChannelConfigurationFactory $configurationFactory,
+        private IdentityManager $identityManager,
+        private EventHandlerFactory $eventHandlerFactory,
         private EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
     public function process(CustomerInterface $customer): void
     {
-        $loggedOutRequestBody = $this->prepareLoggedOutRequestBody($customer);
+        $configuration = $this->configurationFactory->get();
+        if (!$type = $configuration?->getEventHandlerType(LoggedOutBuilder::ACTION)) {
+            return;
+        }
 
-        $channelId = $this->channel->getChannel()->getId();
-        $this->eventService->processEvent(LoggedOutBuilder::ACTION, $loggedOutRequestBody, (string)$channelId);
+        Assert::NotNull($configuration->getChannel());
+
+        $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
+            LoggedOutBuilder::ACTION,
+            $this->prepareLoggedOutRequestBody($customer),
+            $configuration->getChannel()->getId()
+        );
     }
 
     private function prepareLoggedOutRequestBody(CustomerInterface $customer): LoggedOutEvent

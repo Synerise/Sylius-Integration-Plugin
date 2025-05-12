@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synerise\SyliusIntegrationPlugin\Processor;
+namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -19,18 +19,20 @@ use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Tracking\IdentityManager;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\BeforeTransactionRequestEvent;
-use Synerise\SyliusIntegrationPlugin\Service\EventService;
+use Synerise\SyliusIntegrationPlugin\EventHandler\EventHandlerFactory;
+use Webmozart\Assert\Assert;
 
 class OrderProcessor
 {
 
     public function __construct(
-        private IdentityManager          $identityManager,
-        private EventService             $eventService,
+        private ChannelConfigurationFactory $configurationFactory,
+        private IdentityManager $identityManager,
+        private EventHandlerFactory $eventHandlerFactory,
         private EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
     }
 
     /**
@@ -38,9 +40,18 @@ class OrderProcessor
      */
     public function process(OrderInterface $order): void
     {
-        $transaction = $this->prepareTransaction($order);
-        $channelId = $order->getChannel()->getId();
-        $this->eventService->processEvent("transaction.charge", $transaction, (string)$channelId);
+        $configuration = $this->configurationFactory->get();
+        if (!$type = $configuration?->getEventHandlerType("transaction.charge")) {
+            return;
+        }
+
+        Assert::NotNull($configuration->getChannel());
+
+        $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
+            "transaction.charge",
+            $this->prepareTransaction($order),
+            $configuration->getChannel()->getId()
+        );
     }
 
 

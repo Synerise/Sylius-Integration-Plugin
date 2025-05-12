@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Synerise\SyliusIntegrationPlugin\Processor;
+namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
 use Exception;
-use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synerise\Api\V4\Models\Client;
@@ -13,18 +12,19 @@ use Synerise\Api\V4\Models\LoggedInEvent;
 use Synerise\Sdk\Api\RequestBody\Events\LoggedInBuilder;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Tracking\IdentityManager;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\BeforeLoginRequestEvent;
-use Synerise\SyliusIntegrationPlugin\Service\EventService;
+use Synerise\SyliusIntegrationPlugin\EventHandler\EventHandlerFactory;
+use Webmozart\Assert\Assert;
 
 class CustomerLoginProcessor implements CustomerProcessorInterface
 {
     public function __construct(
-        private ChannelContextInterface  $channel,
-        private IdentityManager          $identityManager,
-        private EventService             $eventService,
+        private ChannelConfigurationFactory $configurationFactory,
+        private IdentityManager $identityManager,
+        private EventHandlerFactory $eventHandlerFactory,
         private EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
     }
 
     /**
@@ -32,10 +32,18 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
      */
     public function process(CustomerInterface $customer): void
     {
-        $loggedInEvent = $this->prepareLoggedInEvent($customer);
+        $configuration = $this->configurationFactory->get();
+        if (!$type = $configuration?->getEventHandlerType(LoggedInBuilder::ACTION)) {
+            return;
+        }
 
-        $channelId = $this->channel->getChannel()->getId();
-        $this->eventService->processEvent(LoggedInBuilder::ACTION, $loggedInEvent, (string)$channelId);
+        Assert::NotNull($configuration->getChannel());
+
+        $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
+            LoggedInBuilder::ACTION,
+            $this->prepareLoggedInEvent($customer),
+            $configuration->getChannel()->getId()
+        );
     }
 
     private function prepareLoggedInEvent(CustomerInterface $customer): LoggedInEvent

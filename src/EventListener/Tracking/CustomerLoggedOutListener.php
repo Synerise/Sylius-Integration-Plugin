@@ -6,7 +6,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
-use Synerise\SyliusIntegrationPlugin\Processor\CustomerProcessorInterface;
+use Synerise\SyliusIntegrationPlugin\EventProcessor\CustomerProcessorInterface;
 use Webmozart\Assert\Assert;
 
 final readonly class CustomerLoggedOutListener

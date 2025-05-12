@@ -5,7 +5,7 @@ namespace Synerise\SyliusIntegrationPlugin\EventListener\Tracking;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
-use Synerise\SyliusIntegrationPlugin\Processor\CustomerProcessorInterface;
+use Synerise\SyliusIntegrationPlugin\EventProcessor\CustomerProcessorInterface;
 use Webmozart\Assert\Assert;
 
 final readonly class CustomerLoggedInListener

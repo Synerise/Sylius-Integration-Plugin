@@ -4,7 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\EventListener\Tracking;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Synerise\SyliusIntegrationPlugin\Processor\CustomerProcessorInterface;
+use Synerise\SyliusIntegrationPlugin\EventProcessor\CustomerProcessorInterface;
 use Webmozart\Assert\Assert;
 
 final readonly class CustomerUpdatedListener

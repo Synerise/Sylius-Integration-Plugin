@@ -48,4 +48,6 @@ interface ChannelConfigurationInterface extends ResourceInterface
     public function getQueueEvents(): ?array;
 
     public function setQueueEvents(?array $queueEvents): void;
+
+    public function getEventHandlerType(string $action): ?string;
 }

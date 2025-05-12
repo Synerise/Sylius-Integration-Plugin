@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Synerise\SyliusIntegrationPlugin\Processor;
+namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 

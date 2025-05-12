@@ -6,7 +6,7 @@ namespace Synerise\SyliusIntegrationPlugin\EventListener\Tracking;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
-use Synerise\SyliusIntegrationPlugin\Processor\OrderProcessor;
+use Synerise\SyliusIntegrationPlugin\EventProcessor\OrderProcessor;
 use Webmozart\Assert\Assert;
 
 class OrderWorkflowListener

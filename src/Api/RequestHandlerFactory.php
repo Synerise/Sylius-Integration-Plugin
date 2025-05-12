@@ -2,7 +2,7 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Api;
 
-use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RequestHandler;
+use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RequestHandlerInterface;
 use Webmozart\Assert\Assert;
 
 class RequestHandlerFactory
@@ -19,18 +19,18 @@ class RequestHandlerFactory
         $this->handlersPool = $handlersPool;
     }
 
-    public function create(string $action): RequestHandler
+    public function create(string $action): RequestHandlerInterface
     {
         Assert::keyExists($this->handlersPool, $action);
         Assert::classExists($this->handlersPool[$action]);
-        Assert::implementsInterface($this->handlersPool[$action], RequestHandler::class);
+        Assert::implementsInterface($this->handlersPool[$action], RequestHandlerInterface::class);
 
         $this->handlers[$action] = new $this->handlersPool[$action]($this->clientBuilderFactory);
 
         return $this->handlers[$action];
     }
 
-    public function get(string $action): RequestHandler
+    public function get(string $action): RequestHandlerInterface
     {
         if (!isset($this->handlers[$action])) {
             $this->create($action);

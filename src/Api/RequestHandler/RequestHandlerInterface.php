@@ -7,7 +7,7 @@ use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 
-interface RequestHandler
+interface RequestHandlerInterface
 {
     public function __construct(ClientBuilderFactory $clientBuilderFactory);
 

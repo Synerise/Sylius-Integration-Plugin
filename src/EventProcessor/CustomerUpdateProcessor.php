@@ -2,29 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Synerise\SyliusIntegrationPlugin\Processor;
+namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
-use DateTimeInterface;
-use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Model\CustomerInterface as BaseCustomerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Synerise\Api\V4\Models\Agreements;
 use Synerise\Api\V4\Models\Attributes;
 use Synerise\Api\V4\Models\Profile;
 use Synerise\Api\V4\Models\ProfileSex;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\BeforeProfileRequestEvent;
-use Synerise\SyliusIntegrationPlugin\Service\EventService;
+use Synerise\SyliusIntegrationPlugin\EventHandler\EventHandlerFactory;
+use Webmozart\Assert\Assert;
 
 class CustomerUpdateProcessor implements CustomerProcessorInterface
 {
     public function __construct(
-        private ChannelContextInterface  $channel,
-        private EventService             $eventService,
+        private ChannelConfigurationFactory $configurationFactory,
+        private EventHandlerFactory $eventHandlerFactory,
         private EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
     }
 
     protected static array $genderMap = [
@@ -33,15 +31,19 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
         BaseCustomerInterface::UNKNOWN_GENDER => ProfileSex::N_O_T__S_P_E_C_I_F_I_E_D
     ];
 
-    /**
-     * @throws ExceptionInterface
-     */
     public function process(CustomerInterface $customer): void
     {
-        $this->eventService->processEvent(
+        $configuration = $this->configurationFactory->get();
+        if (!$type = $configuration?->getEventHandlerType("profile.update")) {
+            return;
+        }
+
+        Assert::NotNull($configuration->getChannel());
+
+        $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             "profile.update",
-            $$this->prepareCustomerRequestBody($customer),
-            (string) $this->channel->getChannel()->getId(),
+            $this->prepareCustomerRequestBody($customer),
+            $configuration->getChannel()->getId()
         );
     }
 
@@ -65,7 +67,7 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
 
         $attributes = new Attributes();
         $attributes->setAdditionalData([
-            "createdAt" => $customer->getCreatedAt()?->format(DateTimeInterface::ATOM),
+            "createdAt" => $customer->getCreatedAt()?->format(\DateTimeInterface::ATOM),
         ]);
         $profile->setAttributes($attributes);
 
