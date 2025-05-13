@@ -17,6 +17,24 @@ synerise_integration_admin_channel_configuration:
                 icon: cogs
         path: /synerise/configuration
     type: sylius.resource
+synerise_integration_admin_synchronization:
+    resource: |
+        alias: synerise_integration.synchronization
+        section: admin
+        templates: "@SyliusAdmin\\shared\\crud"
+        grid: synerise_integration_admin_synchronization
+        form:
+            type: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
+        permission: true
+        vars:
+            all:
+                header: synerise_integration.ui.synchronization
+                subheader: synerise_integration.ui.manage_synchronization
+                breadcrumb: synerise_integration.ui.synchronization
+            index:
+                icon: cogs
+        path: /synerise/synchronization
+    type: sylius.resource
 synerise_integration_admin_workspace:
     resource: |
         alias: synerise_integration.workspace

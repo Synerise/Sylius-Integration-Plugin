@@ -14,6 +14,13 @@ synerise_integration:
         opengraph_enabled: 'Open Graph'
         events: 'Events'
         queue_events: 'Message Queue Events'
+        synchronization: 'Synchronization'
+        synchronization_list: 'Synchronization list'
+        synchronization_type: 'Synchronization type'
+        synchronization_sent: 'Sent'
+        synchronization_total: 'Total'
+        synchronizations: 'Synchronizations'
+        synchronization_create_new: 'Configure'
     form:
         workspace:
             name: 'Name'

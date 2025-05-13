@@ -31,6 +31,11 @@ final class AdminMenuListener
             ->setLabel('synerise_integration.ui.channel_configurations')
             ->setLabelAttribute('icon', 'file');
 
+        $syneriseMenu
+            ->addChild('synchronization', ['route' => 'synerise_integration_admin_synchronization_index'])
+            ->setLabel('synerise_integration.ui.synchronization')
+            ->setLabelAttribute('icon', 'file');
+
         $position = array_search('marketing', array_keys($event->getMenu()->getChildren())) ?: 4;
         $this->menuManipulator->moveToPosition($syneriseMenu, ++$position);
     }

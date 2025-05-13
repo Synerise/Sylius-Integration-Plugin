@@ -1,0 +1,28 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.synchronization.show.content':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections.html.twig'
+                priority: 0
+        'sylius_admin.synchronization.show.content.sections':
+            channel:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/channel.html.twig'
+                priority: 10
+            list:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list.html.twig'
+                priority: 0
+        'sylius_admin.synchronization.show.content.sections.list':
+            head:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/head.html.twig'
+                priority: 200
+            body:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body.html.twig'
+                priority: 100
+        'sylius_admin.synchronization.show.content.sections.list.body':
+            row:
+                component: synerise_integration:synchronization_list
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body/row.html.twig'
+                    channel: '@=_context.resource.getChannel()'
+                    type: '@=_context.type'
+                priority: 100
