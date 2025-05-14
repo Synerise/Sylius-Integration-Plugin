@@ -1,14 +1,3 @@
-{% set synchronization = hookable_metadata.context.resource %}
-
 <tbody>
-    {% for type in synchronization.dataTypes %}
-
-{#        <tr {{ sylius_test_html_attribute('item', item.productName) }}>#}
-        <tr>
-            {% hook 'body' with {type} %}
-{#            <td>{{ item|trans }}</td>#}
-{#            <td>{{ sent }}</td>#}
-{#            <td>{{ total }}</td>#}
-        </tr>
-    {% endfor %}
+    {% hook 'body' %}
 </tbody>

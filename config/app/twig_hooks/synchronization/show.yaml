@@ -19,10 +19,21 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body.html.twig'
                 priority: 100
         'sylius_admin.synchronization.show.content.sections.list.body':
-            row:
-                component: synerise_integration:synchronization_list
+            customer:
+                component: synerise_integration:synchronization_list_customer
                 props:
                     template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body/row.html.twig'
                     channel: '@=_context.resource.getChannel()'
-                    type: '@=_context.type'
+                priority: 100
+            product:
+                component: synerise_integration:synchronization_list_product
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body/row.html.twig'
+                    channel: '@=_context.resource.getChannel()'
+                priority: 100
+            order:
+                component: synerise_integration:synchronization_list_order
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body/row.html.twig'
+                    channel: '@=_context.resource.getChannel()'
                 priority: 100

@@ -1,5 +1,5 @@
-{% set type = hookable_metadata.context.type %}
-{#{{ component('synerise_integration:synchronization_list', {type: type | lower}) }}#}
-<td>{{ type|trans }}</td>
-<td>{{ sent }}</td>
-<td>{{ total }}</td>
+<tr>
+    <td>{{ type|trans }}</td>
+    <td>{{ sent }}</td>
+    <td>{{ total }}</td>
+</tr>
