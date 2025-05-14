@@ -7,10 +7,10 @@ sylius_twig_hooks:
         'sylius_admin.synchronization.show.content.sections':
             channel:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/channel.html.twig'
-                priority: 10
+                priority: 200
             list:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list.html.twig'
-                priority: 0
+                priority: 100
         'sylius_admin.synchronization.show.content.sections.list':
             head:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/head.html.twig'
@@ -24,13 +24,13 @@ sylius_twig_hooks:
                 props:
                     template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body/row.html.twig'
                     channel: '@=_context.resource.getChannel()'
-                priority: 100
+                priority: 300
             product:
                 component: synerise_integration:synchronization_list_product
                 props:
                     template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/show/content/sections/list/body/row.html.twig'
                     channel: '@=_context.resource.getChannel()'
-                priority: 100
+                priority: 200
             order:
                 component: synerise_integration:synchronization_list_order
                 props:
