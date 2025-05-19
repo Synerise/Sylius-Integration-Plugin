@@ -30,7 +30,7 @@ final class SyneriseSyliusIntegrationExtension extends AbstractResourceExtension
 
     protected function getMigrationsNamespace(): string
     {
-        return 'DoctrineMigrations';
+        return 'Synerise\SyliusIntegrationPlugin\Migrations';
     }
 
     protected function getMigrationsDirectory(): string
