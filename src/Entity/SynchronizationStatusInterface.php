@@ -9,8 +9,6 @@ interface SynchronizationStatusInterface extends ResourceInterface
 {
     public function getId(): ?int;
 
-    public function setId(?int $id): void;
-
     public function getChannel(): ?ChannelInterface;
 
     public function setChannel(?ChannelInterface $channel): void;

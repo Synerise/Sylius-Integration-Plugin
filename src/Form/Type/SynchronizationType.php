@@ -16,6 +16,7 @@ final class SynchronizationType extends AbstractResourceType
             ])
             ->add('dataTypes', SynchronizationDataTypeChoiceType::class, [
                 'label' => 'synerise_integration.ui.synchronization_data_types',
+                'choice_translation_domain' => true,
                 'multiple' => true,
                 'required' => false
             ])

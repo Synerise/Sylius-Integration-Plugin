@@ -5,7 +5,7 @@ namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 
 class SynchronizationDataTypeChoiceType extends AbstractType
 {
@@ -29,10 +29,11 @@ class SynchronizationDataTypeChoiceType extends AbstractType
 
     private function getChoices(): array
     {
-        return [
-            'customer' => 'Customer',
-            'product' => 'Product',
-            'order' => 'Order',
-        ];
+        $choices = [];
+        foreach (SynchronizationDataType::cases() as $case) {
+            $choices[$case->getLabel()] = $case->value;
+        }
+
+        return $choices;
     }
 }

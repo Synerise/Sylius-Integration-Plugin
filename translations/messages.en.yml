@@ -21,6 +21,7 @@ synerise_integration:
         synchronization_total: 'Total'
         synchronizations: 'Synchronizations'
         synchronization_create_new: 'Configure'
+        synchronization_data_types: 'Data types'
     form:
         workspace:
             name: 'Name'
@@ -35,5 +36,8 @@ synerise_integration:
         workspace:
             name: 'Selected Workspace'
             permissions: 'Missing Permissions'
-
+    synchronization:
+        customer: 'Customer'
+        product: 'Product'
+        order: 'Order'
 
