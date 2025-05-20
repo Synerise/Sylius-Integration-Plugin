@@ -1,0 +1,16 @@
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="card-title">
+            {{ 'sylius.ui.channel'|trans }}
+        </div>
+    </div>
+    <div class="card-body">
+        <div>
+            <div>
+                <div class="mb-3">
+                    <div>{% include('@SyliusAdmin/shared/grid/field/channel.html.twig') with { data: hookable_metadata.context.resource.channel } %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

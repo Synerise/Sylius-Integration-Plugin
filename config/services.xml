@@ -32,6 +32,33 @@
             <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
         </service>
         <service
+            id="synerise_integration.twig.component.synchronization_list_customer"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\CustomerComponent"
+        >
+            <argument type="service" id="sylius.repository.customer" />
+            <argument type="service" id="synerise_integration.repository.synchronization_status_customer" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_customer" />
+        </service>
+        <service
+            id="synerise_integration.twig.component.synchronization_list_order"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\OrderComponent"
+        >
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="synerise_integration.repository.synchronization_status_order" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_order" />
+        </service>
+        <service
+            id="synerise_integration.twig.component.synchronization_list_product"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\ProductComponent"
+        >
+            <argument type="service" id="sylius.repository.product" />
+            <argument type="service" id="synerise_integration.repository.synchronization_status_product" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_product" />
+        </service>
+        <service
             id="synerise_integration.twig.component.channel_configuration.form"
             class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
         >
@@ -44,6 +71,11 @@
         </service>
         <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType" >
             <argument>%synerise_integration.model.channel_configuration.class%</argument>
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.synchronization" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType" >
+            <argument>%synerise_integration.model.synchronization.class%</argument>
 
             <tag name="form.type" />
         </service>

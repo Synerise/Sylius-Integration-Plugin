@@ -5,7 +5,6 @@ namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UuidType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Environment;

@@ -28,6 +28,26 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete
+        synerise_integration_admin_synchronization:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%synerise_integration.model.synchronization.class%"
+            fields:
+                channel:
+                    type: string
+                    label: sylius.ui.channel
+                    sortable: true
+            actions:
+                main:
+                    create:
+                        type: create
+                        label: 'synerise_integration.ui.synchronization_create_new'
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
         synerise_integration_admin_workspace:
             driver:
                 name: doctrine/orm
@@ -71,6 +91,23 @@ sylius_resource:
                 model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
                 interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
+        synerise_integration.synchronization:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\Synchronization
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
+        synerise_integration.synchronization_status_customer:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusCustomer
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusInterface
+        synerise_integration.synchronization_status_order:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusOrder
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusInterface
+        synerise_integration.synchronization_status_product:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusProduct
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusInterface
         synerise_integration.workspace:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
