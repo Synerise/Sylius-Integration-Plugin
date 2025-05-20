@@ -33,7 +33,7 @@ class ChannelConfigurationFactory
         );
     }
 
-    public function get(?string $channelId = null): ?ChannelConfigurationInterface
+    public function get(string|int|null $channelId = null): ?ChannelConfigurationInterface
     {
         if ($channelId === null) {
             $channelId = $this->channel->getChannel()->getId();

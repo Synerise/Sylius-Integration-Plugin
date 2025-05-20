@@ -7,5 +7,5 @@ use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
 
 interface EventHandlerInterface
 {
-    public function processEvent(string $action, Parsable $payload, string $channelId): void;
+    public function processEvent(string $action, Parsable $payload, string|int|null $channelId): void;
 }

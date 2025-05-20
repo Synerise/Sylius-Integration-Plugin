@@ -6,6 +6,7 @@ use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Microsoft\Kiota\Abstractions\Serialization\SerializationWriterFactory;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
+use Webmozart\Assert\Assert;
 
 class MessageQueueHandler implements EventHandlerInterface
 {
@@ -15,8 +16,10 @@ class MessageQueueHandler implements EventHandlerInterface
     ) {
     }
 
-    public function processEvent(string $action, Parsable $payload, string $channelId): void
+    public function processEvent(string $action, Parsable $payload, string|int|null $channelId): void
     {
+        Assert::notNull($channelId);
+
         $this->messageBus->dispatch(new EventMessage($action, $this->serialize($payload), $channelId));
     }
 

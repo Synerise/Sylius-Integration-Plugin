@@ -16,7 +16,7 @@ class LiveHandler implements EventHandlerInterface
     ) {
     }
 
-    public function processEvent(string $action, Parsable $payload, string $channelId): void
+    public function processEvent(string $action, Parsable $payload, string|int|null $channelId): void
     {
         /** @var Config $config */
         $config = $this->configurationFactory->get($channelId)?->getWorkspace();
