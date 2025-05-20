@@ -20,7 +20,7 @@ class MessageQueueHandler implements EventHandlerInterface
     {
         Assert::notNull($channelId);
 
-        $this->messageBus->dispatch(new EventMessage($action, $this->serialize($payload), $channelId));
+        $this->messageBus->dispatch(new EventMessage($action, $this->serialize($payload), (string) $channelId));
     }
 
     private function serialize(Parsable $payload): string
