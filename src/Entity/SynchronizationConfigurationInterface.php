@@ -5,7 +5,7 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface SynchronizationInterface extends ResourceInterface
+interface SynchronizationConfigurationInterface extends ResourceInterface
 {
     public function getId(): ?int;
 

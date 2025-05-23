@@ -91,11 +91,14 @@ sylius_resource:
                 model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
                 interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
+        synerise_integration.synchronization_configuration:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
         synerise_integration.synchronization:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Synchronization
-                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface
-                form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
         synerise_integration.synchronization_status_customer:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusCustomer
