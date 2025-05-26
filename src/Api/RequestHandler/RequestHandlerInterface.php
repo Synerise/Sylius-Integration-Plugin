@@ -9,13 +9,11 @@ use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 
 interface RequestHandlerInterface
 {
-    public function __construct(ClientBuilderFactory $clientBuilderFactory);
-
     /**
      * @return Promise<mixed>
      * @throws \Exception
      */
-    public function send(Parsable $payload, Config $config): Promise;
+    public function send(Parsable $payload, Config $config, string|int|null $channelId): Promise;
 
     /**
      * @return array{class-string<Parsable>,string} $type The type for the Parsable object.

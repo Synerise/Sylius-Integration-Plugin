@@ -20,7 +20,7 @@ class AddedToCartRequestHandler extends AbstractRequestHandler
      * @return Promise<void|null>
      * @throws \Exception
      */
-    public function send(Parsable $payload, Config $config): Promise
+    public function send(Parsable $payload, Config $config, string|int|null $channelId): Promise
     {
         Assert::isInstanceOf($payload, self::$requestClass);
 

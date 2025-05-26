@@ -1,0 +1,39 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.synchronization_configuration.show.content':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections.html.twig'
+                priority: 0
+        'sylius_admin.synchronization_configuration.show.content.sections':
+            channel:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/channel.html.twig'
+                priority: 200
+            list:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/list.html.twig'
+                priority: 100
+        'sylius_admin.synchronization_configuration.show.content.sections.list':
+            head:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/list/head.html.twig'
+                priority: 200
+            body:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/list/body.html.twig'
+                priority: 100
+        'sylius_admin.synchronization_configuration.show.content.sections.list.body':
+            customer:
+                component: synerise_integration:synchronization_list_customer
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/list/body/row.html.twig'
+                    channel: '@=_context.resource.getChannel()'
+                priority: 300
+            product:
+                component: synerise_integration:synchronization_list_product
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/list/body/row.html.twig'
+                    channel: '@=_context.resource.getChannel()'
+                priority: 200
+            order:
+                component: synerise_integration:synchronization_list_order
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/list/body/row.html.twig'
+                    channel: '@=_context.resource.getChannel()'
+                priority: 100

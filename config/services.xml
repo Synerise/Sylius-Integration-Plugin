@@ -74,8 +74,19 @@
 
             <tag name="form.type" />
         </service>
-        <service id="synerise_integration.form.type.synchronization" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType" >
-            <argument>%synerise_integration.model.synchronization.class%</argument>
+        <service
+            id="synerise_integration.twig.component.channel_configuration.form"
+            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="form.factory" />
+            <argument>%synerise_integration.model.channel_configuration.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronization_configuration:form" />
+        </service>
+        <service id="synerise_integration.form.type.synchronization_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType" >
+            <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
 
             <tag name="form.type" />
         </service>
@@ -97,6 +108,10 @@
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
         </service>
+        <service id="synerise_integration.synchronization_configuration_factory" class="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+        </service>
         <service id="synerise_integration.context.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface">
             <factory service="synerise_integration.channel_configuration_factory" method="get" />
         </service>
@@ -104,17 +119,17 @@
             <factory service="synerise_integration.channel_configuration_factory" method="getWorkspace" />
         </service>
         <service id="synerise_integration.cookie_profile_manager" class="Synerise\Sdk\Cookie\CookieProfileManager">
-            <argument type="service" id="synerise_integration.cookie_container" />
+            <argument type="service" id="synerise_integration.helper.cookie_container" />
         </service>
         <service id="synerise_integration.identity_manager" class="Synerise\Sdk\Tracking\IdentityManager">
             <argument type="service" id="synerise_integration.cookie_profile_manager" />
-            <argument type="service" id="synerise_integration.uuid_generator" />
+            <argument type="service" id="synerise_integration.helper.uuid_generator" />
         </service>
-        <service id="synerise_integration.uuid_generator" class="\Synerise\SyliusIntegrationPlugin\Helper\UuidGenerator"/>
-        <service id="synerise_integration.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer"/>
+        <service id="synerise_integration.helper.uuid_generator" class="Synerise\SyliusIntegrationPlugin\Helper\UuidGenerator"/>
+        <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer"/>
         <service  id="synerise_integration.listener.cookie_setter" class="Synerise\SyliusIntegrationPlugin\EventListener\CookieSetterListener">
             <tag name="kernel.event_listener" event="kernel.response" method="setCookies" />
-            <argument type="service" id="synerise_integration.cookie_container" />
+            <argument type="service" id="synerise_integration.helper.cookie_container" />
         </service>
         <service id="synerise_integration.listener.workspace_modification" class="Synerise\SyliusIntegrationPlugin\EventListener\WorkspaceModificationListener">
             <argument type="service" id="synerise_integration.api_client_builder_factory" />
@@ -130,6 +145,12 @@
         </service>
         <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
             <argument type="service" id="synerise_integration.api.request_handler_factory" />
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.product_attribute" class="Synerise\SyliusIntegrationPlugin\Form\Type\ProductAttributeChoiceType">
+            <argument type="service" id="sylius.repository.product_attribute" />
+
             <tag name="form.type" />
         </service>
         <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
@@ -168,6 +189,7 @@
                 <argument key="client.login">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LoginRequestHandler</argument>
                 <argument key="client.logout">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LogoutRequestHandler</argument>
                 <argument key="transaction.charge">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\TransactionRequestHandler</argument>
+                <argument key="product.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\ProductRequestHandler</argument>
             </argument>
         </service>
     </services>
