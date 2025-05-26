@@ -1,5 +1,12 @@
 framework:
     messenger:
+        default_bus: sylius.command_bus
+        buses:
+            synerise.synchronization_bus:
+                middleware:
+                    - doctrine_transaction
+                    - doctrine_ping_connection
         routing:
             'Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage': main
-        default_bus: sylius.command_bus
+            'Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage': main
+            'Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage': main

@@ -25,6 +25,6 @@ final class SynchronizationConfigurationType extends AbstractResourceType
 
     public function getBlockPrefix(): string
     {
-        return 'synerise_integration_synchronization';
+        return 'synerise_integration_synchronization_configuration';
     }
 }

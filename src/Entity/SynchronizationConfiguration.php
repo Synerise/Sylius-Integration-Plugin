@@ -4,7 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
 
-class SynchronizationConfiguration implements SynchronizationConfigurationInterface
+class SynchronizationConfiguration implements SynchronizationConfigurationInterface, \JsonSerializable
 {
     private ?int $id = null;
 
@@ -36,4 +36,14 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
     {
         $this->dataTypes = $dataTypes;
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'channel' => $this->channel?->getCode(), // zakładając, że Channel ma metodę getCode()
+            'dataTypes' => $this->dataTypes,
+        ];
+    }
+
 }

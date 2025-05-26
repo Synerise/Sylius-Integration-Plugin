@@ -28,11 +28,11 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete
-        synerise_integration_admin_synchronization:
+        synerise_integration_admin_synchronization_configuration:
             driver:
                 name: doctrine/orm
                 options:
-                    class: "%synerise_integration.model.synchronization.class%"
+                    class: "%synerise_integration.model.synchronization_configuration.class%"
             fields:
                 channel:
                     type: string
@@ -91,14 +91,18 @@ sylius_resource:
                 model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
                 interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
+                repository: Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepository
         synerise_integration.synchronization_configuration:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration
                 interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
+                repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository
         synerise_integration.synchronization:
+            driver: doctrine/orm
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Synchronization
+                repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository
         synerise_integration.synchronization_status_customer:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusCustomer

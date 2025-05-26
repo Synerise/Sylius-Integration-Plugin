@@ -32,7 +32,7 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'file');
 
         $syneriseMenu
-            ->addChild('synchronization', ['route' => 'synerise_integration_admin_synchronization_index'])
+            ->addChild('synchronization', ['route' => 'synerise_integration_admin_synchronization_configuration_index'])
             ->setLabel('synerise_integration.ui.synchronization')
             ->setLabelAttribute('icon', 'file');
 

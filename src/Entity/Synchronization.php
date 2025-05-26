@@ -12,7 +12,7 @@ class Synchronization implements ResourceInterface
     private ?string $configurationSnapshot = null;
     private ?SynchronizationDataType $type = null;
     private ?SynchronizationStatus $status = null;
-    private ?int $current = null;
+    private ?int $sent = null;
     private ?int $total = null;
     private ?\DateTimeInterface $createdAt = null;
     private ?\DateTimeInterface $updatedAt = null;
@@ -82,14 +82,14 @@ class Synchronization implements ResourceInterface
         $this->updatedAt = $updatedAt;
     }
 
-    public function getCurrent(): ?int
+    public function getSent(): ?int
     {
-        return $this->current;
+        return $this->sent;
     }
 
-    public function setCurrent(?int $current): void
+    public function setSent(?int $sent): void
     {
-        $this->current = $current;
+        $this->sent = $sent;
     }
 
     public function getTotal(): ?int

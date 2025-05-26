@@ -19,12 +19,12 @@ synerise_integration_admin_channel_configuration:
     type: sylius.resource
 synerise_integration_admin_synchronization:
     resource: |
-        alias: synerise_integration.synchronization
+        alias: synerise_integration.synchronization_configuration
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
-        grid: synerise_integration_admin_synchronization
+        grid: synerise_integration_admin_synchronization_configuration
         form:
-            type: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
+            type: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
         permission: true
         vars:
             all:
