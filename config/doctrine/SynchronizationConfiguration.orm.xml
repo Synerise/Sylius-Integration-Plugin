@@ -9,6 +9,11 @@
         <field name="dataTypes" column="data_types" type="json" nullable="true" />
         <field name="productAttributes" column="product_attributes" type="json" nullable="true" />
         <field name="catalogId" column="catalog_id" type="integer" nullable="true" />
+        <field name="productAttributeValue" column="product_attribute_value" length="10">
+            <options>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue</option>
+            </options>
+        </field>
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />

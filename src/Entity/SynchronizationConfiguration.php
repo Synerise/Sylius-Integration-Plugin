@@ -16,6 +16,8 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
 
     private ?int $catalogId = null;
 
+    private ?ProductAttributeValue $productAttributeValue = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,5 +61,15 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
     public function setCatalogId(?int $catalogId): void
     {
         $this->catalogId = $catalogId;
+    }
+
+    public function getProductAttributeValue(): ?ProductAttributeValue
+    {
+        return $this->productAttributeValue;
+    }
+
+    public function setProductAttributeValue(?ProductAttributeValue $productAttributeValue): void
+    {
+        $this->productAttributeValue = $productAttributeValue;
     }
 }

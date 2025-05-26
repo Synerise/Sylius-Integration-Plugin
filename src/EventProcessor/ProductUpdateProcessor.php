@@ -2,6 +2,7 @@
 
 namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
+use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synerise\Api\Catalogs\Models\AddItem;
 use Synerise\Api\Catalogs\Models\AddItem_value;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Event\ProductUpdateRequestEvent;
@@ -91,7 +93,10 @@ class ProductUpdateProcessor implements ProductProcessorInterface
 
         foreach ($configuration->getProductAttributes() as $attribute) {
             if ($attributeValue = $product->getAttributeByCodeAndLocale($attribute)) {
-                $additionalData[$attribute] = $attributeValue->getValue();
+                $additionalData[$attribute] = $this->getProductAttributeValue(
+                    $attributeValue,
+                    $configuration->getProductAttributeValue()
+                );
             }
         }
 
@@ -108,7 +113,7 @@ class ProductUpdateProcessor implements ProductProcessorInterface
         return $event->getAddItem();
     }
 
-    private function getMainImage(ProductInterface$product): ?ImageInterface
+    private function getMainImage(ProductInterface $product): ?ImageInterface
     {
         return $product->getImagesByType('main')->first() ?: null;
     }
@@ -118,4 +123,17 @@ class ProductUpdateProcessor implements ProductProcessorInterface
         return abs($amount / 100);
     }
 
+    private function getProductAttributeValue(
+        AttributeValueInterface $attributeValue,
+        ?ProductAttributeValue $config): string|array
+    {
+        return match($config) {
+            ProductAttributeValue::ID_VALUE => [
+                'id' => $attributeValue->getId(),
+                'value' => $attributeValue->getValue()
+            ],
+            ProductAttributeValue::ID => $attributeValue->getId(),
+            default => $attributeValue->getValue()
+        };
+    }
 }
