@@ -24,6 +24,9 @@ synerise_integration:
         synchronization_configuration_create_new: 'Configure'
         synchronization_data_types: 'Data types'
         synchronization_product_attributes: 'Attributes'
+        key_label: 'Key & Label'
+        label: 'Label'
+        key: 'Key'
     form:
         workspace:
             name: 'Name'

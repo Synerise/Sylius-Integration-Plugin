@@ -38,7 +38,7 @@ class CustomerLogoutProcessor implements CustomerProcessorInterface
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             LoggedOutBuilder::ACTION,
             $this->prepareLoggedOutRequestBody($customer),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(), []
         );
     }
 

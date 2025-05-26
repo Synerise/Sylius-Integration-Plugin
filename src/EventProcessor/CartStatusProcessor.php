@@ -36,7 +36,8 @@ class CartStatusProcessor
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             CartStatusBuilder::ACTION,
             $this->prepareCartStatusRequestBody($cart),
-            $cart->getChannel()?->getId()
+            $cart->getChannel()?->getId(),
+            []
         );
     }
 

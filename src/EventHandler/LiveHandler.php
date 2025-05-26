@@ -16,12 +16,12 @@ class LiveHandler implements EventHandlerInterface
     ) {
     }
 
-    public function processEvent(string $action, Parsable $payload, string|int|null $channelId): void
+    public function processEvent(string $action, Parsable $payload, string|int|null $channelId, array $additionalData): void
     {
         /** @var Config $config */
         $config = $this->configurationFactory->get($channelId)?->getWorkspace();
         Assert::notNull($config);
 
-        $this->requestHandlerFactory->get($action)->send($payload, $config);
+       $this->requestHandlerFactory->get($action)->send($payload, $config, $channelId, $additionalData)->wait();
     }
 }

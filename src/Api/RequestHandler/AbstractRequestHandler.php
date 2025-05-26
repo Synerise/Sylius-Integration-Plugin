@@ -23,9 +23,10 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
     }
 
     /**
+     * @param array $additionalData
      * @inheritDoc
      */
-    abstract public function send(Parsable $payload, Config $config, string|int|null $channelId): Promise;
+    abstract public function send(Parsable $payload, Config $config, string|int|null $channelId, array $additionalData): Promise;
 
     /**
      * @inheritDoc

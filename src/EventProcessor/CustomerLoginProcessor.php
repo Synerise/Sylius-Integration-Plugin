@@ -42,7 +42,7 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             LoggedInBuilder::ACTION,
             $this->prepareLoggedInEvent($customer),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(), []
         );
     }
 

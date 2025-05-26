@@ -43,7 +43,7 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             "profile.update",
             $this->prepareCustomerRequestBody($customer),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(), []
         );
     }
 

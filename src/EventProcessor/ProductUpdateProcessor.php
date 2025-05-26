@@ -11,6 +11,7 @@ use Synerise\Api\Catalogs\Models\AddItem;
 use Synerise\Api\Catalogs\Models\AddItem_value;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Event\ProductUpdateRequestEvent;
 use Synerise\SyliusIntegrationPlugin\EventHandler\EventHandlerFactory;
 use Webmozart\Assert\Assert;
@@ -30,6 +31,9 @@ class ProductUpdateProcessor implements ProductProcessorInterface
         foreach ($product->getChannels() as $channel) {
             Assert::isInstanceOf($channel, ChannelInterface::class);
 
+            $synchronizationConfiguration = $this->synchronizationConfigurationFactory->get($channel->getId());
+            Assert::notNull($synchronizationConfiguration);
+
             $configuration = $this->channelConfigurationFactory->get();
             if (!$type = $configuration?->getEventHandlerType("product.update")) {
                 return;
@@ -37,17 +41,23 @@ class ProductUpdateProcessor implements ProductProcessorInterface
 
             $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
                 "product.update",
-                $this->prepareProductUpdateRequest($product, $channel),
-                $channel->getId()
+                $this->prepareProductUpdateRequest($product, $synchronizationConfiguration),
+                $channel->getId(),
+                [
+                    'catalog_id' => $synchronizationConfiguration->getCatalogId()
+                ]
             );
         }
     }
 
     private function prepareProductUpdateRequest(
         ProductInterface $product,
-        ChannelInterface $channel
+        SynchronizationConfigurationInterface $synchronizationConfiguration
     ): AddItem
     {
+        $channel = $synchronizationConfiguration->getChannel();
+        Assert::notNull($channel);
+
         $configuration = $this->synchronizationConfigurationFactory->get($channel->getId());
         Assert::notNull($configuration);
 

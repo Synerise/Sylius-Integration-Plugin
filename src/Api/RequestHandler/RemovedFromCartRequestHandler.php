@@ -16,11 +16,12 @@ class RemovedFromCartRequestHandler extends AbstractRequestHandler
     public static string $requestClass = CartEvent::class;
 
     /**
+     * @param array $additionalData
      * @param CartEvent $payload
      * @return Promise<void|null>
      * @throws \Exception
      */
-    public function send(Parsable $payload, Config $config, string|int|null $channelId): Promise
+    public function send(Parsable $payload, Config $config, string|int|null $channelId, array $additionalData): Promise
     {
         Assert::isInstanceOf($payload, self::$requestClass);
 

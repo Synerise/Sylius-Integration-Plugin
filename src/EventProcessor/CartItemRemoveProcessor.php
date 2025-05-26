@@ -45,7 +45,8 @@ class CartItemRemoveProcessor
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             RemovedFromCartBuilder::ACTION,
             $this->prepareCartRequestBody($cart, $cartItem),
-            $cart->getChannel()?->getId()
+            $cart->getChannel()?->getId(),
+            []
         );
     }
 

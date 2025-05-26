@@ -35,7 +35,12 @@ class EventMessageHandler
         $payload = $this->deserialize($message->getPayload(), $requestHandler->getType());
         Assert::notNull($payload);
 
-        $requestHandler->send($payload, $config);
+        $requestHandler->send(
+            $payload,
+            $config,
+            $message->getSalesChannelId(),
+            $message->getAdditionalData()
+        )->wait();
     }
 
     public static function getHandledMessages(): iterable
