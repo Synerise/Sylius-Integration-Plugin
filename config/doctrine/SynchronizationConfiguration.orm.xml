@@ -7,6 +7,8 @@
         </id>
 
         <field name="dataTypes" column="data_types" type="json" nullable="true" />
+        <field name="productAttributes" column="product_attributes" type="json" nullable="true" />
+        <field name="catalogId" column="catalog_id" type="integer" nullable="true" />
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />

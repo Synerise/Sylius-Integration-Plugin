@@ -42,7 +42,7 @@ sylius_grid:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.ui.synchronization_create_new'
+                        label: 'synerise_integration.ui.synchronization_configuration_create_new'
                 item:
                     update:
                         type: update

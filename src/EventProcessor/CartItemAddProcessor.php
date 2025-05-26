@@ -46,7 +46,8 @@ class CartItemAddProcessor
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             AddedToCartBuilder::ACTION,
             $this->prepareCartRequestBody($cart, $cartItem),
-            $cart->getChannel()?->getId()
+            $cart->getChannel()?->getId(),
+            []
         );
     }
 

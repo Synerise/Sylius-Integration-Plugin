@@ -17,18 +17,16 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
 
     public static string $createMethod = 'createFromDiscriminatorValue';
 
-    private ClientBuilderFactory $clientBuilderFactory;
-
     public function  __construct(
-        ClientBuilderFactory $clientBuilderFactory
+        private ClientBuilderFactory $clientBuilderFactory
     ){
-        $this->clientBuilderFactory = $clientBuilderFactory;
     }
 
     /**
+     * @param array $additionalData
      * @inheritDoc
      */
-    abstract public function send(Parsable $payload, Config $config): Promise;
+    abstract public function send(Parsable $payload, Config $config, string|int|null $channelId, array $additionalData): Promise;
 
     /**
      * @inheritDoc

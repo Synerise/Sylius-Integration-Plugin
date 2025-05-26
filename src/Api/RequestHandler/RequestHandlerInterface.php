@@ -15,7 +15,11 @@ interface RequestHandlerInterface
      * @return Promise<mixed>
      * @throws \Exception
      */
-    public function send(Parsable $payload, Config $config): Promise;
+    public function send(
+        Parsable $payload,
+        Config $config, string|int|null $channelId,
+        array $additionalData
+    ): Promise;
 
     /**
      * @return array{class-string<Parsable>,string} $type The type for the Parsable object.

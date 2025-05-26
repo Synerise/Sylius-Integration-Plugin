@@ -49,7 +49,7 @@ class OrderProcessor
         $this->eventHandlerFactory->getHandlerByType($type)->processEvent(
             "transaction.charge",
             $this->prepareTransaction($order),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(), []
         );
     }
 

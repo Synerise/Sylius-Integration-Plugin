@@ -17,11 +17,12 @@ class LogoutRequestHandler extends AbstractRequestHandler
     public static string $requestClass = LoggedOutEvent::class;
 
     /**
+     * @param array $additionalData
      * @param LoggedOutEvent $payload
      * @return Promise<void|null>
      * @throws Exception
      */
-    public function send(Parsable $payload, Config $config): Promise
+    public function send(Parsable $payload, Config $config, string|int|null $channelId, array $additionalData): Promise
     {
         Assert::isInstanceOf($payload, self::$requestClass);
 

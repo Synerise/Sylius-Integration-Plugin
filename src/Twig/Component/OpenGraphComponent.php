@@ -58,7 +58,7 @@ class OpenGraphComponent
 
             $price = $this->convertPrice(
                 $this->productVariantPricesCalculator
-                    ->calculate($variant, ['channel' => $this->channelContext->getChannel()]),
+                    ->calculate($variant, ['channel' => $this->channelContext->getChannel()])
             );
 
             $originalPrice = $this->convertPrice(

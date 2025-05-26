@@ -61,5 +61,12 @@
             <argument type="service" id="synerise_integration.event_handler.event_handler_factory" />
             <argument type="service" id="event_dispatcher" />
         </service>
+        <!-- PRODUCT PROCESSORS -->
+        <service id="synerise_integration.processor.product_update" class="Synerise\SyliusIntegrationPlugin\EventProcessor\ProductUpdateProcessor">
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.event_handler.event_handler_factory" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
     </services>
 </container>

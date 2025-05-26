@@ -17,11 +17,12 @@ class LoginRequestHandler extends AbstractRequestHandler
     public static string $requestClass = LoggedInEvent::class;
 
     /**
+     * @param array $additionalData
      * @param LoggedInEvent $payload
      * @return Promise<void|null>
      * @throws Exception
      */
-    public function send(Parsable $payload, Config $config): Promise
+    public function send(Parsable $payload, Config $config, string|int|null $channelId, array $additionalData): Promise
     {
         Assert::isInstanceOf($payload, self::$requestClass);
 

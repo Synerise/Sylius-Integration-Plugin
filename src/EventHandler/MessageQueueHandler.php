@@ -16,11 +16,11 @@ class MessageQueueHandler implements EventHandlerInterface
     ) {
     }
 
-    public function processEvent(string $action, Parsable $payload, string|int|null $channelId): void
+    public function processEvent(string $action, Parsable $payload, string|int|null $channelId, array $additionalData): void
     {
         Assert::notNull($channelId);
 
-        $this->messageBus->dispatch(new EventMessage($action, $this->serialize($payload), (string) $channelId));
+        $this->messageBus->dispatch(new EventMessage($action, $this->serialize($payload), (string) $channelId, $additionalData));
     }
 
     private function serialize(Parsable $payload): string

@@ -20,6 +20,12 @@ final class SynchronizationConfigurationType extends AbstractResourceType
                 'multiple' => true,
                 'required' => false
             ])
+            ->add('productAttributes', ProductAttributeChoiceType::class, [
+                'label' => 'synerise_integration.ui.synchronization_product_attributes',
+                'choice_translation_domain' => true,
+                'multiple' => true,
+                'required' => false
+            ])
         ;
     }
 

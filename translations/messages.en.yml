@@ -19,9 +19,14 @@ synerise_integration:
         synchronization_type: 'Synchronization type'
         synchronization_sent: 'Sent'
         synchronization_total: 'Total'
-        synchronizations: 'Synchronizations'
-        synchronization_create_new: 'Configure'
+        synchronization_configuration: 'Synchronization configuration'
+        synchronization_configurations: 'Synchronization configurations'
+        synchronization_configuration_create_new: 'Configure'
         synchronization_data_types: 'Data types'
+        synchronization_product_attributes: 'Attributes'
+        key_label: 'Key & Label'
+        label: 'Label'
+        key: 'Key'
     form:
         workspace:
             name: 'Name'

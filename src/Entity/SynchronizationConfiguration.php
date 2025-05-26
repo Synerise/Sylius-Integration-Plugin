@@ -12,6 +12,10 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
 
     private ?array $dataTypes = null;
 
+    private ?array $productAttributes = null;
+
+    private ?int $catalogId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,7 +33,7 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
 
     public function getDataTypes(): ?array
     {
-        return $this->dataTypes;
+        return $this->dataTypes ?: [];
     }
 
     public function setDataTypes(?array $dataTypes): void
@@ -37,13 +41,32 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
         $this->dataTypes = $dataTypes;
     }
 
+    public function getProductAttributes(): array
+    {
+        return $this->productAttributes ?: [];
+    }
+
+    public function setProductAttributes(?array $productAttributes): void
+    {
+        $this->productAttributes = $productAttributes;
+    }
+
+    public function getCatalogId(): ?int
+    {
+        return $this->catalogId;
+    }
+
+    public function setCatalogId(?int $catalogId): void
+    {
+        $this->catalogId = $catalogId;
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->id,
-            'channel' => $this->channel?->getCode(), // zakładając, że Channel ma metodę getCode()
+            'channel' => $this->channel?->getCode(),
             'dataTypes' => $this->dataTypes,
         ];
     }
-
 }
