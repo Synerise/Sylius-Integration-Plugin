@@ -7,6 +7,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synerise\Api\Catalogs\Models\AddItem;
 use Synerise\Api\Catalogs\Models\AddItem_value;
@@ -100,6 +101,20 @@ class ProductUpdateProcessor implements ProductProcessorInterface
             }
         }
 
+        $options = $product->getOptions();
+        foreach ($options as $option) {
+            $values =[];
+
+            foreach($option->getValues() as $value) {
+                $values[] = $this->getProductOptionValue(
+                    $value,
+                    $configuration->getProductAttributeValue()
+                );
+            }
+
+            $additionalData[$option->getCode()] = $values;
+        }
+
         $value = new AddItem_value();
         $value->setAdditionalData($additionalData);
 
@@ -125,6 +140,20 @@ class ProductUpdateProcessor implements ProductProcessorInterface
 
     private function getProductAttributeValue(
         AttributeValueInterface $attributeValue,
+        ?ProductAttributeValue $config): string|array
+    {
+        return match($config) {
+            ProductAttributeValue::ID_VALUE => [
+                'id' => $attributeValue->getId(),
+                'value' => $attributeValue->getValue()
+            ],
+            ProductAttributeValue::ID => $attributeValue->getId(),
+            default => $attributeValue->getValue()
+        };
+    }
+
+    private function getProductOptionValue(
+        ProductOptionValueInterface $attributeValue,
         ?ProductAttributeValue $config): string|array
     {
         return match($config) {
