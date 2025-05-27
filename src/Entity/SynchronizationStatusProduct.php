@@ -30,7 +30,6 @@ class SynchronizationStatusProduct
     {
         $this->channel = $channel;
     }
-
     public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;

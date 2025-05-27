@@ -12,6 +12,7 @@ class SynchronizationConfigurationRepository extends EntityRepository
 
     public function findOneByChannel(ChannelInterface $channel): ?SynchronizationConfiguration
     {
+        // @phpstan-ignore return.type
         return $this->findOneBy(["channel" => $channel], self::ORDER_BY);
     }
 }

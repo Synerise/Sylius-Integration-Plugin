@@ -33,7 +33,7 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
     public function dispatchSynchronization(SyncStartMessage $message): void
     {
         $synchronization = $this->entityManager->getRepository(Synchronization::class)->find($message->getSynchronizationId());
-        if (null === $synchronization) {
+        if (null === $synchronization?->getId()) {
             return;
         }
 
@@ -50,6 +50,9 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
 
         foreach ($iterableResult as $row) {
             $totalCount += 1;
+
+            Assert::isArray($row);
+            Assert::keyExists($row, 'id');
             $orderIds[] = $row['id'];
 
             if (count($orderIds) >= 20) {
@@ -89,6 +92,8 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
         }
 
         $channel = $synchronization->getChannel();
+        Assert::notNull($channel);
+
         $this->sendToSynerise($channel, $ordersArray);
         $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
         $this->entityManager->persist($synchronization);
@@ -97,7 +102,7 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
     private function sendToSynerise(ChannelInterface $channel, array $orders): void
     {
         $channelConfiguration = $this->channelConfigurationFactory->get($channel->getId());
-        $config = $channelConfiguration->getWorkspace();
+        $config = $channelConfiguration?->getWorkspace();
 
         Assert::isInstanceOf($config, Config::class);
         $client = $this->clientBuilderFactory->create($config);

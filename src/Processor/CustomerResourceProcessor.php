@@ -2,6 +2,7 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Processor;
 
+use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Model\CustomerInterface as BaseCustomerInterface;
 use Sylius\Resource\Model\ResourceInterface;
@@ -47,7 +48,7 @@ class CustomerResourceProcessor implements ResourceProcessorInterface
      * @param CustomerInterface $customer
      * @return Profile
      */
-    private function prepareProfileRequestBody(CustomerInterface $customer): Profile
+    private function prepareProfileRequestBody(CustomerInterface $customer): Parsable
     {
         $profile = new Profile();
         $profile->setCustomId((string)$customer->getId());

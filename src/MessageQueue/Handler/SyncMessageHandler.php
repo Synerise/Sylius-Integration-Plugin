@@ -7,6 +7,7 @@ use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository;
 use Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationFactory;
+use Webmozart\Assert\Assert;
 
 #[AsMessageHandler(bus: 'synerise.synchronization_bus')]
 class SyncMessageHandler
@@ -20,16 +21,14 @@ class SyncMessageHandler
 
     public function __invoke(SyncMessage $syncMessage): void
     {
-        /**
-         * @var Synchronization $synchronization
-         */
+        /** @var Synchronization|null $synchronization */
         $synchronization = $this->synchronizationRepository->find($syncMessage->getSynchronizationId());
-        if ($synchronization === null) {
+        if (!$type = $synchronization?->getType()) {
             return;
         }
 
-        $processor = $this->synchronizationFactory->get($synchronization->getType()->value);
-
+        $processor = $this->synchronizationFactory->get($type->value);
+        Assert::notNull($processor);
 
         $processor->processSynchronization($syncMessage);
     }

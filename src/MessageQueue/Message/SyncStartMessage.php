@@ -12,7 +12,7 @@ class SyncStartMessage
         $this->type = $type;
     }
 
-    public function getSynchronizationId(): string
+    public function getSynchronizationId(): int
     {
         return $this->synchronizationId;
     }

@@ -28,7 +28,7 @@ class SynchronizationStatusCustomer
         return $this->channel;
     }
 
-    public function setChannel(?ChannelInterface $channel): void
+    public function setChannel(ChannelInterface $channel): void
     {
         $this->channel = $channel;
     }

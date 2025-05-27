@@ -17,7 +17,7 @@ use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepo
 
 class CreateSynchronizationCommand extends Command
 {
-    protected static $defaultName = 'synerise:create-synchronization';
+    protected static string $defaultName = 'synerise:create-synchronization';
 
     private ChannelRepositoryInterface $channelRepository;
     private MessageBusInterface $messageBus;

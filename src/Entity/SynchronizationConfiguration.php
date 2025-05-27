@@ -73,7 +73,7 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
     {
         $this->productAttributeValue = $productAttributeValue;
     }
-    
+
     public function jsonSerialize(): mixed
     {
         return [
