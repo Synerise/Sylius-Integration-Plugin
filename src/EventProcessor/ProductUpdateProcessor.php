@@ -10,7 +10,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synerise\Api\Catalogs\Models\AddItem;
-use Synerise\Api\Catalogs\Models\AddItem_value;
+use Synerise\Api\Catalogs\Models\AddItemValue;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
@@ -114,7 +114,7 @@ class ProductUpdateProcessor implements ProductProcessorInterface
             $additionalData[$option->getCode()] = $values;
         }
 
-        $value = new AddItem_value();
+        $value = new AddItemValue();
         $value->setAdditionalData($additionalData);
 
         $request = new AddItem();
