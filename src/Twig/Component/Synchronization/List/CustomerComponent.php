@@ -12,7 +12,7 @@ class CustomerComponent extends AbstractComponent
     #[PostMount]
     public function postMount(): void
     {
-        $this->sent = $this->statusRepository->count(['channel' => $this->channel]);
+        $this->sent = 0;
         $this->total = $this->entityRepository->count([]);
     }
 }

@@ -24,7 +24,7 @@ class SynchronizationDataTypeChoiceType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'synerise_integration_synchronization_data_choice';
+        return 'synerise_integration_synchronization_configuration_data_choice';
     }
 
     private function getChoices(): array

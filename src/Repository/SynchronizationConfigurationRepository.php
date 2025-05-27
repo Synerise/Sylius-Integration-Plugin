@@ -1,0 +1,17 @@
+<?php
+
+namespace Synerise\SyliusIntegrationPlugin\Repository;
+
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration;
+
+class SynchronizationConfigurationRepository extends EntityRepository
+{
+    private const ORDER_BY = ['id' => 'ASC'];
+
+    public function findOneByChannel(ChannelInterface $channel): ?SynchronizationConfiguration
+    {
+        return $this->findOneBy(["channel" => $channel], self::ORDER_BY);
+    }
+}

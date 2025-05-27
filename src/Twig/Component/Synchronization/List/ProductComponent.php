@@ -12,7 +12,7 @@ class ProductComponent extends AbstractComponent
     #[PostMount]
     public function postMount(): void
     {
-        $this->sent = $this->statusRepository->count(['channel' => $this->channel]);
+        $this->sent = 0;
         $this->total = (int) $this->entityRepository->createQueryBuilder('o')
             ->select('COUNT(o)')
             ->andWhere(':channel MEMBER OF o.channels')
