@@ -103,8 +103,7 @@ class ProductUpdateProcessor implements ProductProcessorInterface
 
         $options = $product->getOptions();
         foreach ($options as $option) {
-            $values =[];
-
+            $values = [];
             foreach($option->getValues() as $value) {
                 $values[] = $this->getProductOptionValue(
                     $value,
