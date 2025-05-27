@@ -3,21 +3,27 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 
-class SynchronizationStatusCustomer implements SynchronizationStatusInterface
+class SynchronizationStatusCustomer
 {
-    private ?int $id = null;
+    private CustomerInterface $customer;
 
-    private ?ChannelInterface $channel = null;
+    private ChannelInterface $channel;
 
-    private ?array $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
-    public function getId(): ?int
+    public function getCustomer(): CustomerInterface
     {
-        return $this->id;
+        return $this->customer;
     }
 
-    public function getChannel(): ?ChannelInterface
+    public function setCustomer(CustomerInterface $customer): void
+    {
+        $this->customer = $customer;
+    }
+
+    public function getChannel(): ChannelInterface
     {
         return $this->channel;
     }
@@ -27,14 +33,13 @@ class SynchronizationStatusCustomer implements SynchronizationStatusInterface
         $this->channel = $channel;
     }
 
-    public function getUpdatedAt(): ?array
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?array $updatedAt): void
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
-
 }

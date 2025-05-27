@@ -31,7 +31,7 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
         $this->channel = $channel;
     }
 
-    public function getDataTypes(): ?array
+    public function getDataTypes(): array
     {
         return $this->dataTypes ?: [];
     }

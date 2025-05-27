@@ -67,9 +67,5 @@
 
             <tag name="kernel.event_listener" event="sylius.product.post_update" />
         </service>
-        <!-- TEST -->
-        <service id="synerise_integration.listener.customer_before_login_request_listened" class="Synerise\SyliusIntegrationPlugin\EventListener\Test\SyneriseBeforeLoginRequestListener">
-            <tag name="kernel.event_listener" event="synerise.customer.login.before_send" />
-        </service>
     </services>
 </container>

@@ -4,7 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\Synchronization;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\Customer;
+use Sylius\Component\Core\Model\Order;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\Sdk\Api\Config;
@@ -13,10 +13,10 @@ use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
-use Synerise\SyliusIntegrationPlugin\Processor\CustomerResourceProcessor;
+use Synerise\SyliusIntegrationPlugin\Processor\OrderResourceProcessor;
 use Webmozart\Assert\Assert;
 
-class CustomerSynchronizationProcessor extends CustomerResourceProcessor implements SynchronizationProcessorInterface
+class OrderSynchronizationProcessor extends OrderResourceProcessor implements SynchronizationProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface      $entityManager,
@@ -37,26 +37,30 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
             return;
         }
 
-        $customerIds = [];
+        $orderIds = [];
         $totalCount = 0;
 
         $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('c.id')->from(Customer::class, 'c');
+        $queryBuilder
+            ->select('o.id')
+            ->from(Order::class, 'o')
+            ->where('o.channel = :channel')
+            ->setParameter('channel', $synchronization->getChannel());
         $iterableResult = $queryBuilder->getQuery()->toIterable();
 
         foreach ($iterableResult as $row) {
             $totalCount += 1;
-            $customerIds[] = $row['id'];
+            $orderIds[] = $row['id'];
 
-            if (count($customerIds) >= 20) {
-                $syncMessage = new SyncMessage($synchronization->getId(), $customerIds);
+            if (count($orderIds) >= 20) {
+                $syncMessage = new SyncMessage($synchronization->getId(), $orderIds);
                 $this->messageBus->dispatch($syncMessage);
-                $customerIds = [];
+                $orderIds = [];
             }
         }
 
-        if (!empty($customerIds)) {
-            $syncMessage = new SyncMessage($synchronization->getId(), $customerIds);
+        if (!empty($orderIds)) {
+            $syncMessage = new SyncMessage($synchronization->getId(), $orderIds);
             $this->messageBus->dispatch($syncMessage);
         }
 
@@ -66,7 +70,7 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
 
     public function processSynchronization(SyncMessage $message): void
     {
-        $customerRepository = $this->entityManager->getRepository(Customer::class);
+        $orderRepository = $this->entityManager->getRepository(Order::class);
         $synchronizationRepository = $this->entityManager->getRepository(Synchronization::class);
 
         $synchronization = $synchronizationRepository->find($message->getSynchronizationId());
@@ -74,23 +78,23 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
             return;
         }
 
-        $customersArray = [];
+        $ordersArray = [];
         foreach ($message->getEntityIds() as $id) {
-            $customer = $customerRepository->find($id);
-            if ($customer === null) {
+            $order = $orderRepository->find($id);
+            if ($order === null) {
                 continue;
             }
 
-            $customersArray[] = $this->process($customer);
+            $ordersArray[] = $this->process($order);
         }
 
         $channel = $synchronization->getChannel();
-        $this->sendToSynerise($channel, $customersArray);
+        $this->sendToSynerise($channel, $ordersArray);
         $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
         $this->entityManager->persist($synchronization);
     }
 
-    private function sendToSynerise(ChannelInterface $channel, array $customers): void
+    private function sendToSynerise(ChannelInterface $channel, array $orders): void
     {
         $channelConfiguration = $this->channelConfigurationFactory->get($channel->getId());
         $config = $channelConfiguration->getWorkspace();
@@ -98,6 +102,6 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
         Assert::isInstanceOf($config, Config::class);
         $client = $this->clientBuilderFactory->create($config);
 
-        $client->v4()->clients()->batch()->post($customers)->wait();
+        $client->v4()->transactions()->batch()->post($orders)->wait();
     }
 }

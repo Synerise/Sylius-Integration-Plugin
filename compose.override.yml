@@ -25,6 +25,7 @@ services:
                 client_host=host.docker.internal
                 client_port=9003
                 idekey=PHPSTORM
+                xdebug.start_with_request=yes
             # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
             # Then PHPStorm will use the corresponding path mappings
             PHP_IDE_CONFIG: serverName=sylius

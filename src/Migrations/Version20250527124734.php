@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250526125030 extends AbstractMigration
+final class Version20250527124734 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,16 +27,7 @@ final class Version20250526125030 extends AbstractMigration
             CREATE TABLE synerise_synchronization (id INT AUTO_INCREMENT NOT NULL, channel_id INT NOT NULL, status VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, configuration_snapshot VARCHAR(255) NOT NULL, total INT DEFAULT NULL, sent INT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', updated_at DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)', INDEX IDX_A9B5B81A72F5A1AA (channel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE synerise_synchronization_config (id INT AUTO_INCREMENT NOT NULL, channel_id INT DEFAULT NULL, data_types JSON DEFAULT NULL, UNIQUE INDEX UNIQ_F0CA4B8C72F5A1AA (channel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE synerise_synchronization_status_customer (id INT AUTO_INCREMENT NOT NULL, channel_id INT DEFAULT NULL, updated_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_682765372F5A1AA (channel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE synerise_synchronization_status_order (id INT AUTO_INCREMENT NOT NULL, channel_id INT DEFAULT NULL, updated_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_DF03BCFD72F5A1AA (channel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE synerise_synchronization_status_product (id INT AUTO_INCREMENT NOT NULL, channel_id INT DEFAULT NULL, updated_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_60118C3C72F5A1AA (channel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE synerise_synchronization_config (id INT AUTO_INCREMENT NOT NULL, channel_id INT DEFAULT NULL, data_types JSON DEFAULT NULL, product_attributes JSON DEFAULT NULL, catalog_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_F0CA4B8C72F5A1AA (channel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE synerise_workspace (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, apiKey BINARY(16) NOT NULL COMMENT '(DC2Type:uuid)', apiGuid CHAR(36) DEFAULT NULL COMMENT '(DC2Type:guid)', authenticationMethod VARCHAR(10) NOT NULL, environment VARCHAR(10) NOT NULL, permissions LONGTEXT DEFAULT NULL COMMENT '(DC2Type:array)', PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB
@@ -52,15 +43,6 @@ final class Version20250526125030 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE synerise_synchronization_config ADD CONSTRAINT FK_F0CA4B8C72F5A1AA FOREIGN KEY (channel_id) REFERENCES sylius_channel (id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE synerise_synchronization_status_customer ADD CONSTRAINT FK_682765372F5A1AA FOREIGN KEY (channel_id) REFERENCES sylius_channel (id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE synerise_synchronization_status_order ADD CONSTRAINT FK_DF03BCFD72F5A1AA FOREIGN KEY (channel_id) REFERENCES sylius_channel (id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE synerise_synchronization_status_product ADD CONSTRAINT FK_60118C3C72F5A1AA FOREIGN KEY (channel_id) REFERENCES sylius_channel (id)
         SQL);
     }
 
@@ -80,15 +62,6 @@ final class Version20250526125030 extends AbstractMigration
             ALTER TABLE synerise_synchronization_config DROP FOREIGN KEY FK_F0CA4B8C72F5A1AA
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE synerise_synchronization_status_customer DROP FOREIGN KEY FK_682765372F5A1AA
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE synerise_synchronization_status_order DROP FOREIGN KEY FK_DF03BCFD72F5A1AA
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE synerise_synchronization_status_product DROP FOREIGN KEY FK_60118C3C72F5A1AA
-        SQL);
-        $this->addSql(<<<'SQL'
             DROP TABLE synerise_channel_configuration
         SQL);
         $this->addSql(<<<'SQL'
@@ -96,15 +69,6 @@ final class Version20250526125030 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE synerise_synchronization_config
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE synerise_synchronization_status_customer
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE synerise_synchronization_status_order
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE synerise_synchronization_status_product
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE synerise_workspace

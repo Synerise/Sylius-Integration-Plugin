@@ -25,7 +25,6 @@ abstract class AbstractComponent
 
     public function __construct(
         protected EntityRepository $entityRepository,
-        protected EntityRepository $statusRepository
     ) {
     }
 

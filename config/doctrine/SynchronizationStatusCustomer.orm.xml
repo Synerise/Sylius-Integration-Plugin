@@ -2,14 +2,15 @@
 
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusCustomer" table="synerise_synchronization_status_customer">
-        <id name="id" column="id" type="integer">
-            <generator />
-        </id>
-
+        <many-to-one field="customer" target-entity="Sylius\Component\Core\Model\CustomerInterface">
+            <join-column name="customer_id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
+            <join-column name="channel_id" nullable="false"/>
+        </many-to-one>
         <field name="updatedAt" column="updated_at" type="datetime_immutable" />
-
-        <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
-            <join-column name="channel_id"  />
-        </one-to-one>
+        <unique-constraints>
+            <unique-constraint columns="customer_id,channel_id" name="unique_customer_channel"/>
+        </unique-constraints>
     </mapped-superclass>
 </doctrine-mapping>

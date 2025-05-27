@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusProduct" table="synerise_synchronization_status_product">
-        <id name="id" column="id" type="integer">
-            <generator />
-        </id>
-
+    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatusProduct" table="synerise_synchronization_status_order">
+        <many-to-one field="product" target-entity="Sylius\Component\Core\Model\ProductInterface">
+            <join-column name="product_id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
+            <join-column name="channel_id" nullable="false"/>
+        </many-to-one>
         <field name="updatedAt" column="updated_at" type="datetime_immutable" />
-
-        <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
-            <join-column name="channel_id"  />
-        </one-to-one>
+        <unique-constraints>
+            <unique-constraint columns="product_id,channel_id" name="unique_product_channel"/>
+        </unique-constraints>
     </mapped-superclass>
 </doctrine-mapping>
