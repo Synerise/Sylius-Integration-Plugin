@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\EventProcessor;
 
-use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DiscountAmount;
@@ -28,10 +28,11 @@ class OrderProcessor
 {
     public function __construct(
         private ChannelConfigurationFactory $configurationFactory,
-        private IdentityManager $identityManager,
-        private EventHandlerFactory $eventHandlerFactory,
-        private EventDispatcherInterface $eventDispatcher
-    ) {
+        private IdentityManager             $identityManager,
+        private EventHandlerFactory         $eventHandlerFactory,
+        private EventDispatcherInterface    $eventDispatcher
+    )
+    {
     }
 
     /**
@@ -97,7 +98,8 @@ class OrderProcessor
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
             "status" => $order->getState(),
-            "discountCode" => $order->getPromotionCoupon()?->getCode()
+            "discountCode" => $order->getPromotionCoupon()?->getCode(),
+            "lastUpdateType" => "live"
         ]);
         $transaction->setMetadata($metadata);
 

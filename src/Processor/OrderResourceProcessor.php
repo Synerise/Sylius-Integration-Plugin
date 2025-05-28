@@ -96,7 +96,7 @@ class OrderResourceProcessor implements ResourceProcessorInterface
     private function prepareTransactionProductData(OrderItemInterface $orderItem): Product
     {
         $order = $orderItem->getOrder();
-        Assert::implementsInterface($order, \Sylius\Component\Order\Model\OrderInterface::class);
+        Assert::implementsInterface($order, OrderInterface::class);
 
         $orderProduct = $orderItem->getProduct();
         $currencyCode = $order->getCurrencyCode();

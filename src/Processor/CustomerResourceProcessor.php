@@ -39,7 +39,6 @@ class CustomerResourceProcessor implements ResourceProcessorInterface
     public function process(ResourceInterface $resource): Profile
     {
         Assert::implementsInterface($resource, CustomerInterface::class);
-
         return $this->prepareProfileRequestBody($resource);
     }
 

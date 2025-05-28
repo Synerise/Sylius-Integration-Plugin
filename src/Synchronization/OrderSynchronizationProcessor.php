@@ -5,8 +5,10 @@ namespace Synerise\SyliusIntegrationPlugin\Synchronization;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\Order;
+use Sylius\Component\Core\OrderCheckoutStates;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Synerise\Api\V4\Models\Transaction;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
@@ -33,7 +35,7 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
     public function dispatchSynchronization(SyncStartMessage $message): void
     {
         $synchronization = $this->entityManager->getRepository(Synchronization::class)->find($message->getSynchronizationId());
-        if (null === $synchronization) {
+        if ($synchronization === null) {
             return;
         }
 
@@ -45,9 +47,13 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
             ->select('o.id')
             ->from(Order::class, 'o')
             ->where('o.channel = :channel')
-            ->setParameter('channel', $synchronization->getChannel());
-        $iterableResult = $queryBuilder->getQuery()->toIterable();
+            ->andWhere('o.checkoutState = :checkoutState')
+            ->setParameters([
+                'channel' => $synchronization->getChannel(),
+                'checkoutState' => OrderCheckoutStates::STATE_COMPLETED
+            ]);
 
+        $iterableResult = $queryBuilder->getQuery()->toIterable();
         foreach ($iterableResult as $row) {
             $totalCount += 1;
             $orderIds[] = $row['id'];
@@ -85,13 +91,23 @@ class OrderSynchronizationProcessor extends OrderResourceProcessor implements Sy
                 continue;
             }
 
-            $ordersArray[] = $this->process($order);
+            $order = $this->process($order);
+            $ordersArray[] = $this->addTransactionSource($order);
         }
 
         $channel = $synchronization->getChannel();
         $this->sendToSynerise($channel, $ordersArray);
         $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
         $this->entityManager->persist($synchronization);
+    }
+
+    private function addTransactionSource(Transaction $order): Transaction
+    {
+        $additionalData = $order->getAdditionalData();
+        $additionalData['lastUpdateType'] = 'synchronization';
+        $order->setAdditionalData($additionalData);
+
+        return $order;
     }
 
     private function sendToSynerise(ChannelInterface $channel, array $orders): void
