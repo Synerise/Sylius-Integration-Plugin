@@ -2,6 +2,7 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Processor;
 
+use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Resource\Model\ResourceInterface;
@@ -33,7 +34,7 @@ class OrderResourceProcessor implements ResourceProcessorInterface
      * @param OrderInterface $resource
      * @return Transaction
      */
-    public function process(ResourceInterface $resource): Transaction
+    public function process(ResourceInterface $resource): Parsable
     {
         Assert::implementsInterface($resource, OrderInterface::class);
 

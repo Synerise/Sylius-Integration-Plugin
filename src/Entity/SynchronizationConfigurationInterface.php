@@ -24,4 +24,8 @@ interface SynchronizationConfigurationInterface extends ResourceInterface
     public function getCatalogId(): ?int;
 
     public function setCatalogId(?int $catalogId): void;
+
+    public function getProductAttributeValue(): ?ProductAttributeValue;
+
+    public function setProductAttributeValue(?ProductAttributeValue $productAttributeValue): void;
 }

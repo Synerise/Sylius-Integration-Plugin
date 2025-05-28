@@ -16,6 +16,8 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
 
     private ?int $catalogId = null;
 
+    private ?ProductAttributeValue $productAttributeValue = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +63,17 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
         $this->catalogId = $catalogId;
     }
 
+
+    public function getProductAttributeValue(): ?ProductAttributeValue
+    {
+        return $this->productAttributeValue;
+    }
+
+    public function setProductAttributeValue(?ProductAttributeValue $productAttributeValue): void
+    {
+        $this->productAttributeValue = $productAttributeValue;
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
@@ -68,5 +81,6 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
             'channel' => $this->channel?->getCode(),
             'dataTypes' => $this->dataTypes,
         ];
+
     }
 }

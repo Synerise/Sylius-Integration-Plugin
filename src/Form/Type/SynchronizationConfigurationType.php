@@ -4,7 +4,9 @@ namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 
 final class SynchronizationConfigurationType extends AbstractResourceType
 {
@@ -25,6 +27,11 @@ final class SynchronizationConfigurationType extends AbstractResourceType
                 'choice_translation_domain' => true,
                 'multiple' => true,
                 'required' => false
+            ])
+            ->add('productAttributeValue', EnumType::class, [
+                'class' => ProductAttributeValue::class,
+                'label' => 'synerise_integration.ui.synchronization_product_attribute_value',
+                'choice_translation_domain' => true
             ])
         ;
     }

@@ -3,7 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\Synchronization;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\Customer;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -33,7 +33,7 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
     public function dispatchSynchronization(SyncStartMessage $message): void
     {
         $synchronization = $this->entityManager->getRepository(Synchronization::class)->find($message->getSynchronizationId());
-        if (null === $synchronization) {
+        if (null === $synchronization?->getId()) {
             return;
         }
 
@@ -46,6 +46,9 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
 
         foreach ($iterableResult as $row) {
             $totalCount += 1;
+
+            Assert::isArray($row);
+            Assert::keyExists($row, 'id');
             $customerIds[] = $row['id'];
 
             if (count($customerIds) >= 20) {
@@ -85,6 +88,8 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
         }
 
         $channel = $synchronization->getChannel();
+        Assert::notNull($channel);
+
         $this->sendToSynerise($channel, $customersArray);
         $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
         $this->entityManager->persist($synchronization);
@@ -93,7 +98,7 @@ class CustomerSynchronizationProcessor extends CustomerResourceProcessor impleme
     private function sendToSynerise(ChannelInterface $channel, array $customers): void
     {
         $channelConfiguration = $this->channelConfigurationFactory->get($channel->getId());
-        $config = $channelConfiguration->getWorkspace();
+        $config = $channelConfiguration?->getWorkspace();
 
         Assert::isInstanceOf($config, Config::class);
         $client = $this->clientBuilderFactory->create($config);

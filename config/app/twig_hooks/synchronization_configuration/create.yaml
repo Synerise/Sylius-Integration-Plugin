@@ -9,7 +9,7 @@ sylius_twig_hooks:
                     template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
                 priority: 0
                 configuration:
-                    method: 'PUT'
+                    method: 'POST'
         'sylius_admin.synchronization_configuration.create.content.form':
             sections:
                 template: '@SyliusAdmin/shared/crud/common/content/form/sections.html.twig'
@@ -32,6 +32,9 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/general/form_types.html.twig'
                 priority: 1100
         'sylius_admin.synchronization_configuration.create.content.form.sections.product':
+            product_attribute_value:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/product/attribute_value.html.twig'
+                priority: 1200
             product_attributes:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/general/product_attributes.html.twig'
-                priority: 1000
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/product/attributes.html.twig'
+                priority: 1100
