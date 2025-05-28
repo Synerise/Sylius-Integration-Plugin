@@ -2,7 +2,7 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 class Synchronization implements ResourceInterface

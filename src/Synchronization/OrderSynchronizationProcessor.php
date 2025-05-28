@@ -3,7 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\Synchronization;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\Order;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
