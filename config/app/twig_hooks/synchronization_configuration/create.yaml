@@ -9,7 +9,7 @@ sylius_twig_hooks:
                     template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
                 priority: 0
                 configuration:
-                    method: 'PUT'
+                    method: 'POST'
         'sylius_admin.synchronization_configuration.create.content.form':
             sections:
                 template: '@SyliusAdmin/shared/crud/common/content/form/sections.html.twig'
