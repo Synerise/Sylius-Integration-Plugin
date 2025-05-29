@@ -1,8 +1,8 @@
 <?php
 
-namespace Synerise\SyliusIntegrationPlugin\Processor;
+namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper;
 
-use Microsoft\Kiota\Abstractions\Serialization\Parsable;
+use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Resource\Model\ResourceInterface;
@@ -16,34 +16,22 @@ use Synerise\Api\V4\Models\Revenue;
 use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
-use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 use Webmozart\Assert\Assert;
 
-class OrderResourceProcessor implements ResourceProcessorInterface
+class OrderToTransactionMapper implements RequestMapperInterface
 {
     /**
-     * @param string $resourceType
-     * @return bool
-     */
-    public function supports(string $resourceType): bool
-    {
-        return $resourceType == SynchronizationDataType::Order;
-    }
-
-    /**
      * @param OrderInterface $resource
-     * @return Transaction
      */
-    public function process(ResourceInterface $resource): Parsable
+    public function prepare(
+        ResourceInterface $resource,
+        string $type = 'synchronization',
+        ?ChannelInterface $channel = null
+    ): Transaction
     {
         Assert::implementsInterface($resource, OrderInterface::class);
 
-        return $this->prepareTransaction($resource);
-    }
-
-    private function prepareTransaction(OrderInterface $order): Transaction
-    {
-        $customer = $order->getCustomer();
+        $customer = $resource->getCustomer();
         Assert::notNull($customer);
 
         $client = new Client();
@@ -52,13 +40,13 @@ class OrderResourceProcessor implements ResourceProcessorInterface
 
         $transaction = new Transaction();
         $transaction->setClient($client);
-        $transaction->setOrderId((string)$order->getId());
-        $transaction->setRecordedAt($order->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
+        $transaction->setOrderId((string)$resource->getId());
+        $transaction->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
 
-        $total = $order->getTotal();
-        $taxTotal = $order->getTaxTotal();
-        $promotionTotal = abs($order->getOrderPromotionTotal());
-        $currency = $order->getCurrencyCode();
+        $total = $resource->getTotal();
+        $taxTotal = $resource->getTaxTotal();
+        $promotionTotal = abs($resource->getOrderPromotionTotal());
+        $currency = $resource->getCurrencyCode();
 
         $value = new Value();
         $value->setAmount(($total - $taxTotal) / 100);
@@ -77,43 +65,44 @@ class OrderResourceProcessor implements ResourceProcessorInterface
 
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
-            "status" => $order->getState(),
-            "discountCode" => $order->getPromotionCoupon()?->getCode()
+            "status" => $resource->getState(),
+            "discountCode" => $resource->getPromotionCoupon()?->getCode(),
+            "lastUpdateType" => $type
         ]);
         $transaction->setMetadata($metadata);
 
         /** @var array<Product> $products */
         $products = [];
-        foreach ($order->getItems() as $orderItem) {
-            /** @var OrderItemInterface $orderItem */
-            $products[] = $this->prepareTransactionProductData($orderItem);
+        foreach ($resource->getItems() as $resourceItem) {
+            /** @var OrderItemInterface $resourceItem */
+            $products[] = $this->prepareTransactionProductData($resourceItem);
         }
         $transaction->setProducts($products);
-        $transaction->setEventSalt($order->getNumber());
+        $transaction->setEventSalt($resource->getNumber());
 
         return $transaction;
     }
 
-    private function prepareTransactionProductData(OrderItemInterface $orderItem): Product
+    private function prepareTransactionProductData(OrderItemInterface $resourceItem): Product
     {
-        $order = $orderItem->getOrder();
-        Assert::implementsInterface($order, OrderInterface::class);
+        $resource = $resourceItem->getOrder();
+        Assert::implementsInterface($resource, \Sylius\Component\Order\Model\OrderInterface::class);
 
-        $orderProduct = $orderItem->getProduct();
-        $currencyCode = $order->getCurrencyCode();
-        $quantity = $orderItem->getQuantity();
-        $category = $orderProduct?->getMainTaxon()?->getFullname(' > ');
+        $resourceProduct = $resourceItem->getProduct();
+        $currencyCode = $resource->getCurrencyCode();
+        $quantity = $resourceItem->getQuantity();
+        $category = $resourceProduct?->getMainTaxon()?->getFullname(' > ');
 
         $product = new Product();
-        $name = $orderItem->getProductName() . ($orderItem->getVariantName() ? ' - ' . $orderItem->getVariantName() : '');
+        $name = $resourceItem->getProductName() . ($resourceItem->getVariantName() ? ' - ' . $resourceItem->getVariantName() : '');
         $product->setName($name);
         $product->setQuantity($quantity);
-        $product->setSku($orderProduct?->getCode());
+        $product->setSku($resourceProduct?->getCode());
 
-        $unitPrice = $orderItem->getUnitPrice();
-        $originalUnitPrice = $orderItem->getOriginalUnitPrice();
-        $discountedUnitPrice = $orderItem->getFullDiscountedUnitPrice();
-        $unitTax = $orderItem->getTaxTotal() / $quantity;
+        $unitPrice = $resourceItem->getUnitPrice();
+        $originalUnitPrice = $resourceItem->getOriginalUnitPrice();
+        $discountedUnitPrice = $resourceItem->getFullDiscountedUnitPrice();
+        $unitTax = $resourceItem->getTaxTotal() / $quantity;
 
         $regularPrice = new RegularPrice();
         $regularPrice->setCurrency($currencyCode);

@@ -1,0 +1,29 @@
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <!-- REQUEST HANDLERS -->
+        <service id="synerise_integration.api.request_handler.batch.customer" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchCustomerRequestHandler">
+            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+        </service>
+        <service id="synerise_integration.api.request_handler.batch.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchOrderRequestHandler">
+            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+        </service>
+        <service id="synerise_integration.api.request_handler.batch.product" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchProductRequestHandler">
+            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+        </service>
+        <!-- REQUEST MAPPERS -->
+        <service id="synerise_integration.api.request_mapper.customer" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\CustomerToProfileMapper" />
+        <service id="synerise_integration.api.request_mapper.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\OrderToTransactionMapper" />
+        <service id="synerise_integration.api.request_mapper.product" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\ProductToAddItemMapper">
+            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+    </services>
+</container>

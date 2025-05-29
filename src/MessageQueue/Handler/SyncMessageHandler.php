@@ -6,7 +6,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository;
-use Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationFactory;
+use Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler(bus: 'synerise.synchronization_bus')]
@@ -14,7 +14,7 @@ class SyncMessageHandler
 {
     public function __construct(
         private SynchronizationRepository $synchronizationRepository,
-        private SynchronizationFactory    $synchronizationFactory
+        private SynchronizationProcessorFactory $synchronizationProcessorFactory
     )
     {
     }
@@ -27,7 +27,7 @@ class SyncMessageHandler
             return;
         }
 
-        $processor = $this->synchronizationFactory->get($type->value);
+        $processor = $this->synchronizationProcessorFactory->get($type->value);
         Assert::notNull($processor);
 
         $processor->processSynchronization($syncMessage);
