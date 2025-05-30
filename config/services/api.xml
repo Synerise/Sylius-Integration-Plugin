@@ -15,6 +15,7 @@
                 <argument key="cart.status">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\CustomEventRequestHandler</argument>
                 <argument key="client.login">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\LoginRequestHandler</argument>
                 <argument key="client.logout">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\LogoutRequestHandler</argument>
+                <argument key="client.register">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RegisterRequestHandler</argument>
                 <argument key="profile.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource\ProfileRequestHandler</argument>
                 <argument key="transaction.charge">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource\TransactionRequestHandler</argument>
                 <argument key="product.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource\AddItemRequestHandler</argument>
