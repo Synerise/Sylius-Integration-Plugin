@@ -6,7 +6,7 @@ use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Serialization\StringJsonParseNodeFactory;
-use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
+use Synerise\SyliusIntegrationPlugin\Api\EventRequestHandlerFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
 use Webmozart\Assert\Assert;
@@ -15,8 +15,8 @@ use Webmozart\Assert\Assert;
 class EventMessageHandler
 {
     public function __construct(
-        private StringJsonParseNodeFactory $parseNodeFactory,
-        private RequestHandlerFactory $requestHandlerFactory,
+        private StringJsonParseNodeFactory  $parseNodeFactory,
+        private EventRequestHandlerFactory  $requestHandlerFactory,
         private ChannelConfigurationFactory $configurationFactory
     ) {
     }
@@ -37,9 +37,7 @@ class EventMessageHandler
 
         $requestHandler->send(
             $payload,
-            $config,
-            $message->getSalesChannelId(),
-            $message->getAdditionalData()
+            $message->getSalesChannelId()
         )->wait();
     }
 

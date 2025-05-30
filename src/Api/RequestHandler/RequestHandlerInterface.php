@@ -4,12 +4,17 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
 
 interface RequestHandlerInterface
 {
-    public function __construct(ClientBuilderFactory $clientBuilderFactory);
+    public function  __construct(
+        ClientBuilderFactory $clientBuilderFactory,
+        ChannelConfigurationFactory $channelConfigurationFactory,
+        SynchronizationConfigurationFactory $synchronizationConfigurationFactory
+    );
 
     /**
      * @return Promise<mixed>
@@ -17,8 +22,7 @@ interface RequestHandlerInterface
      */
     public function send(
         Parsable $payload,
-        Config $config, string|int|null $channelId,
-        array $additionalData
+        string|int $channelId
     ): Promise;
 
     /**

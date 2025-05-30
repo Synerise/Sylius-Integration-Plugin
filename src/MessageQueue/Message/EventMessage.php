@@ -12,14 +12,11 @@ class EventMessage
 
     private string $action;
 
-    private array $additionalData = [];
-
-    public function __construct(string $action, string $payload, string $salesChannelId, array $additionalData)
+    public function __construct(string $action, string $payload, string $salesChannelId)
     {
         $this->action = $action;
         $this->payload = $payload;
         $this->salesChannelId = $salesChannelId;
-        $this->additionalData = $additionalData;
     }
 
     public function getPayload(): string
@@ -40,10 +37,4 @@ class EventMessage
     {
         return $this->salesChannelId;
     }
-
-    public function getAdditionalData(): array
-    {
-        return $this->additionalData;
-    }
-
 }

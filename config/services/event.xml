@@ -1,0 +1,152 @@
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <!-- HANDLER RESOLVER -->
+        <service id="synerise_integration.event.handler_resolver" class="Synerise\SyliusIntegrationPlugin\Event\Handler\EventHandlerResolver">
+            <argument type="tagged_iterator" tag="synerise_integration.event.handler" index-by="handler_key" />
+        </service>
+        <!-- HANDLERS -->
+        <service id="synerise_integration.event_handler.live_handler" class="Synerise\SyliusIntegrationPlugin\Event\Handler\LiveHandler">
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
+
+            <tag name="synerise_integration.event.handler" handler_key="live" />
+        </service>
+        <service id="synerise_integration.event_handler.message_queue_handler" class="Synerise\SyliusIntegrationPlugin\Event\Handler\MessageQueueHandler">
+            <argument type="service" id="sylius.event_bus" />
+            <argument type="service" id="synerise_integration.kiota.serialization.json.serialization_writer_factory" />
+
+            <tag name="synerise_integration.event.handler" handler_key="message_queue" />
+        </service>
+        <!-- PROCESSORS -->
+        <!-- CART PROCESSORS -->
+        <service id="synerise_integration.event.processor.cart_item_add" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartItemAddProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.cart_item_add" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <service id="synerise_integration.processor.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartItemRemoveProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.cart_item_remove" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <service id="synerise_integration.processor.cart_status" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartStatusProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.cart_status" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <service id="synerise_integration.processor.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartStatusClearProcessor">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        <!-- CUSTOMER PROCESSORS -->
+        <service id="synerise_integration.processor.customer_register" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerRegisterProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.customer_registered" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <service id="synerise_integration.processor.customer_update" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerUpdateProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.resource.customer" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <service id="synerise_integration.processor.customer_login" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerLoginProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.customer_logged_in" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <service id="synerise_integration.processor.customer_logout" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerLogoutProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.customer_logged_out" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <!-- ORDER PROCESSORS -->
+        <service id="synerise_integration.processor.order" class="Synerise\SyliusIntegrationPlugin\Event\Processor\OrderProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.resource.order" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <!-- PRODUCT PROCESSORS -->
+        <service id="synerise_integration.processor.product_update" class="Synerise\SyliusIntegrationPlugin\Event\Processor\ProductUpdateProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.resource.product" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
+        <!-- LISTENERS -->
+        <!-- CART LISTENERS -->
+        <service id="synerise_integration.event.listener.cart_item_add" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartItemAddListener">
+            <argument type="service" id="synerise_integration.event.processor.cart_item_add" />
+
+            <tag name="kernel.event_listener" event="sylius.cart_item_add" priority="-1000" />
+        </service>
+        <service id="synerise_integration.listener.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartItemRemoveListener">
+            <argument type="service" id="synerise_integration.processor.cart_item_remove" />
+
+            <tag name="kernel.event_listener" event="sylius.cart_item_remove" priority="1000" />
+        </service>
+        <service id="synerise_integration.listener.cart_status" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartStatusListener">
+            <argument type="service" id="sylius.context.cart" />
+            <argument type="service" id="synerise_integration.processor.cart_status" />
+
+            <tag name="kernel.event_listener" event="sylius.cart_item_add" priority="-1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_item_remove" priority="-1000" />
+            <tag name="kernel.event_listener" event="sylius.cart_change" priority="-1000" />
+        </service>
+        <service id="synerise_integration.listener.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartStatusClearListener">
+            <argument type="service" id="synerise_integration.processor.cart_status_clear" />
+
+            <tag name="kernel.event_listener" event="sylius.cart_clear" />
+        </service>
+        <!-- CUSTOMER LISTENERS -->
+        <service id="synerise_integration.listener.customer_registered" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerRegisteredListener">
+            <argument type="service" id="synerise_integration.processor.customer_register" />
+
+            <tag name="kernel.event_listener" event="sylius.customer.post_register" />
+        </service>
+        <service id="synerise_integration.listener.customer_updated" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerUpdatedListener">
+            <argument type="service" id="synerise_integration.processor.customer_update" />
+
+            <tag name="kernel.event_listener" event="sylius.customer.post_update" />
+        </service>
+        <service id="synerise_integration.listener.customer_login" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerLoggedInListener">
+            <argument type="service" id="synerise_integration.processor.customer_login" />
+
+            <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LoginSuccessEvent" />
+        </service>
+        <service id="synerise_integration.listener.customer_logout" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerLoggedOutListener">
+            <argument type="service" id="synerise_integration.processor.customer_logout" />
+
+            <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LogoutEvent" />
+        </service>
+        <!-- ORDER LISTENERS -->
+        <service id="synerise_integration.listener.order_post_complete" class="Synerise\SyliusIntegrationPlugin\Event\Listener\OrderPostCreateListener">
+            <argument type="service" id="synerise_integration.processor.order" />
+
+            <tag name="kernel.event_listener" event="sylius.order.post_complete" />
+        </service>
+        <service id="synerise_integration.listener.order_workflow" class="Synerise\SyliusIntegrationPlugin\Event\Listener\OrderWorkflowListener">
+            <argument type="service" id="synerise_integration.processor.order" />
+
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" />
+        </service>
+        <!-- PRODUCT LISTENERS -->
+        <service id="synerise_integration.listener.product_updated" class="Synerise\SyliusIntegrationPlugin\Event\Listener\ProductUpdatedListener">
+            <argument type="service" id="synerise_integration.processor.product_update" />
+
+            <tag name="kernel.event_listener" event="sylius.product.post_update" />
+        </service>
+    </services>
+</container>

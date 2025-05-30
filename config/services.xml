@@ -7,7 +7,6 @@
 >
     <imports>
         <import resource="services/**" />
-        <import resource="services/tracking/**" />
     </imports>
 
     <services>
@@ -131,31 +130,8 @@
         </service>
         <service id="synerise_integration.helper.uuid_generator" class="Synerise\SyliusIntegrationPlugin\Helper\UuidGenerator"/>
         <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer"/>
-        <service  id="synerise_integration.listener.cookie_setter" class="Synerise\SyliusIntegrationPlugin\EventListener\CookieSetterListener">
-            <tag name="kernel.event_listener" event="kernel.response" method="setCookies" />
-            <argument type="service" id="synerise_integration.helper.cookie_container" />
-        </service>
-        <service id="synerise_integration.listener.workspace_modification" class="Synerise\SyliusIntegrationPlugin\EventListener\WorkspaceModificationListener">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-
-            <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_create" method="checkPermissionsRequest" />
-            <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_update" method="checkPermissionsRequest" />
-        </service>
-        <service id="synerise_integration.listener.channel_configuration_modification" class="Synerise\SyliusIntegrationPlugin\EventListener\ChannelConfigurationModificationListener">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-
-            <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_create" method="getTrackingCodeRequest" />
-            <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_update" method="getTrackingCodeRequest" />
-        </service>
-        <service id="synerise_integration.listener.synchronization_configuration_modification" class="Synerise\SyliusIntegrationPlugin\EventListener\SynchronizationConfigurationModificationListener">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-
-            <tag name="kernel.event_listener" event="synerise_integration.synchronization_configuration.pre_create" method="getCatalogIdRequest" />
-            <tag name="kernel.event_listener" event="synerise_integration.synchronization_configuration.pre_update" method="getCatalogIdRequest" />
-        </service>
         <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
-            <argument type="service" id="synerise_integration.api.request_handler_factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
 
             <tag name="form.type" />
         </service>
@@ -164,44 +140,16 @@
 
             <tag name="form.type" />
         </service>
+        <!-- KIOTA SERIALIZATION -->
         <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
-        <service id="synerise_integration.event_handler.event_handler_factory" class="Synerise\SyliusIntegrationPlugin\EventHandler\EventHandlerFactory">
-            <argument type="tagged_iterator" tag="app.handler" index-by="handler_key" />
-        </service>
-        <service id="synerise_integration.event_handler.live_handler" class="Synerise\SyliusIntegrationPlugin\EventHandler\LiveHandler">
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.api.request_handler_factory" />
-
-            <tag name="app.handler" handler_key="live" />
-        </service>
-        <service id="synerise_integration.event_handler.message_queue_handler" class="Synerise\SyliusIntegrationPlugin\EventHandler\MessageQueueHandler">
-            <argument type="service" id="sylius.event_bus" />
-            <argument type="service" id="synerise_integration.kiota.serialization.json.serialization_writer_factory" />
-
-            <tag name="app.handler" handler_key="message_queue" />
-        </service>
         <service id="synerise_integration.serialization.string_json_parse_node_factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
         <!-- MESSAGE HANDLERS -->
         <service id="synerise_integration.message_queue.event_message_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
             <argument type="service" id="synerise_integration.serialization.string_json_parse_node_factory" />
-            <argument type="service" id="synerise_integration.api.request_handler_factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
 
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
-        </service>
-        <!-- REQUEST HANDLERS -->
-        <service id="synerise_integration.api.request_handler_factory" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="collection">
-                <argument key="product.addToCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AddedToCartRequestHandler</argument>
-                <argument key="product.removeFromCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RemovedFromCartRequestHandler</argument>
-                <argument key="cart.status">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\CustomEventRequestHandler</argument>
-                <argument key="profile.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\ProfileRequestHandler</argument>
-                <argument key="client.login">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LoginRequestHandler</argument>
-                <argument key="client.logout">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LogoutRequestHandler</argument>
-                <argument key="transaction.charge">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\TransactionRequestHandler</argument>
-                <argument key="product.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\ProductRequestHandler</argument>
-            </argument>
         </service>
     </services>
 </container>

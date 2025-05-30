@@ -5,14 +5,14 @@ namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
+use Synerise\SyliusIntegrationPlugin\Api\EventRequestHandlerFactory;
 
 class EventChoiceType extends AbstractType
 {
-    private RequestHandlerFactory $requestHandlerFactory;
+    private EventRequestHandlerFactory $requestHandlerFactory;
 
     public function __construct(
-        RequestHandlerFactory $requestHandlerFactory
+        EventRequestHandlerFactory $requestHandlerFactory
     ) {
         $this->requestHandlerFactory = $requestHandlerFactory;
     }

@@ -4,14 +4,13 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Sylius\Component\Channel\Model\ChannelInterface;
 
-interface BatchRequestHandlerInterface
+interface BatchRequestHandlerInterface extends RequestHandlerInterface
 {
     /**
      * @param Parsable[] $payload
      * @return Promise<mixed>
      * @throws \Exception
      */
-    public function send(array $payload, ChannelInterface $channel): Promise;
+    public function sendBatch(array $payload, int|string $channelId): Promise;
 }

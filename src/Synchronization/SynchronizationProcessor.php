@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchRequestHandlerInterface;
-use Synerise\SyliusIntegrationPlugin\Api\RequestMapper\RequestMapperInterface;
+use Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\RequestMapperInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
@@ -90,7 +90,7 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
             }
         }
 
-        $this->requestHandler->send($batch, $channel);
+        $this->requestHandler->sendBatch($batch, $channel->getId());
 
         $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
         $this->entityManager->persist($synchronization);
