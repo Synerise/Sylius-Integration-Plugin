@@ -199,6 +199,7 @@
                 <argument key="profile.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\ProfileRequestHandler</argument>
                 <argument key="client.login">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LoginRequestHandler</argument>
                 <argument key="client.logout">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\LogoutRequestHandler</argument>
+                <argument key="client.register">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RegisterRequestHandler</argument>
                 <argument key="transaction.charge">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\TransactionRequestHandler</argument>
                 <argument key="product.update">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\ProductRequestHandler</argument>
             </argument>
