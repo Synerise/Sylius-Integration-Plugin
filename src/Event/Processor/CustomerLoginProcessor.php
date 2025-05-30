@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
-use Exception;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Sdk\Api\RequestBody\Events\LoggedInBuilder;
@@ -26,7 +25,7 @@ class CustomerLoginProcessor implements CustomerProcessorInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function process(CustomerInterface $customer): void
     {

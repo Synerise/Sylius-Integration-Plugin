@@ -2,7 +2,6 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event;
 
-use Exception;
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Synerise\Api\V4\Models\LoggedInEvent;
@@ -20,7 +19,7 @@ class LoginRequestHandler extends AbstractRequestHandler
     /**
      * @param LoggedInEvent $payload
      * @return Promise<void|null>
-     * @throws Exception
+     * @throws \Exception
      */
     public function send(Parsable $payload, string|int $channelId): Promise
     {
