@@ -42,11 +42,11 @@
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <service id="synerise_integration.processor.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartStatusClearProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.cart_status" />
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.channel_configuration_factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
-            <argument type="service" id="event_dispatcher" />
         </service>
         <!-- CUSTOMER PROCESSORS -->
         <service id="synerise_integration.processor.customer_register" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerRegisterProcessor">
