@@ -1,0 +1,54 @@
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="synerise_integration.twig.component.channel_configuration.form" class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent">
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="form.factory" />
+            <argument>%synerise_integration.model.channel_configuration.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:channel_configuration:form" />
+        </service>
+        <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType">
+            <argument>%synerise_integration.model.channel_configuration.class%</argument>
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.twig.component.synchronization_configuration.form" class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent">
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+            <argument type="service" id="form.factory" />
+            <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronization_configuration:form" />
+        </service>
+        <service id="synerise_integration.form.type.synchronization_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType" >
+            <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.workspace" class="Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType" >
+            <argument>%synerise_integration.model.workspace.class%</argument>
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.workspace_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceChoiceType">
+            <argument type="service" id="synerise_integration.repository.workspace" />
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
+
+            <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.product_attribute" class="Synerise\SyliusIntegrationPlugin\Form\Type\ProductAttributeChoiceType">
+            <argument type="service" id="sylius.repository.product_attribute" />
+
+            <tag name="form.type" />
+        </service>
+    </services>
+</container>

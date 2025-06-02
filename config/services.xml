@@ -10,103 +10,6 @@
     </imports>
 
     <services>
-        <service
-            id="synerise_integration.twig.component.open_graph"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\OpenGraphComponent"
-        >
-            <argument type="service" id="sylius.calculator.product_variant_price" />
-            <argument type="service" id="sylius.context.channel" />
-            <argument type="service" id="sylius.context.currency" />
-            <argument type="service" id="sylius.converter.currency" />
-            <argument type="service" id="synerise_integration.context.channel_configuration" />
-
-            <tag name="sylius.twig_component" key="synerise_integration:open_graph" />
-        </service>
-        <service
-            id="synerise_integration.twig.component.tracking_script"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\TrackingScriptComponent"
-        >
-            <argument type="service" id="synerise_integration.context.channel_configuration" />
-
-            <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
-        </service>
-        <service
-            id="synerise_integration.twig.component.synchronization_list_customer"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\CustomerComponent"
-        >
-            <argument type="service" id="sylius.repository.customer" />
-
-            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_customer" />
-        </service>
-        <service
-            id="synerise_integration.twig.component.synchronization_list_order"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\OrderComponent"
-        >
-            <argument type="service" id="sylius.repository.order" />
-
-
-            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_order" />
-        </service>
-        <service
-            id="synerise_integration.twig.component.synchronization_list_product"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\ProductComponent"
-        >
-            <argument type="service" id="sylius.repository.product" />
-
-
-            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_product" />
-        </service>
-        <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType">
-            <argument>%synerise_integration.model.channel_configuration.class%</argument>
-
-            <tag name="form.type" />
-        </service>
-        <service id="synerise_integration.form.type.synchronization" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType">
-            <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
-        </service>
-        <service
-            id="synerise_integration.twig.component.channel_configuration.form"
-            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
-        >
-            <argument type="service" id="synerise_integration.repository.channel_configuration" />
-            <argument type="service" id="form.factory" />
-            <argument>%synerise_integration.model.channel_configuration.class%</argument>
-            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType</argument>
-
-            <tag name="sylius.live_component.admin" key="synerise_integration:channel_configuration:form" />
-        </service>
-
-        <service
-            id="synerise_integration.twig.component.synchronization_configuration.form"
-            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
-        >
-            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
-            <argument type="service" id="form.factory" />
-            <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
-            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType</argument>
-
-            <tag name="sylius.live_component.admin" key="synerise_integration:synchronization_configuration:form" />
-        </service>
-
-        <service id="synerise_integration.form.type.synchronization_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType" >
-            <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
-
-            <tag name="form.type" />
-        </service>
-        <service id="synerise_integration.form.type.workspace" class="Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType" >
-            <argument>%synerise_integration.model.workspace.class%</argument>
-
-            <tag name="form.type" />
-        </service>
-        <service id="synerise_integration.form.type.workspace_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceChoiceType">
-            <argument type="service" id="synerise_integration.repository.workspace" />
-
-            <tag name="form.type" />
-        </service>
-        <service id="synerise_integration.api_client_builder_factory" class="Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory" />
-        <service id="synerise_integration.api_client_builder" class="Synerise\Sdk\Api\ClientBuilder">
-            <argument type="service" id="synerise_integration.context.workspace" />
-        </service>
         <service id="synerise_integration.channel_configuration_factory" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory">
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
@@ -130,26 +33,8 @@
         </service>
         <service id="synerise_integration.helper.uuid_generator" class="Synerise\SyliusIntegrationPlugin\Helper\UuidGenerator"/>
         <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer"/>
-        <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
-            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
-
-            <tag name="form.type" />
-        </service>
-        <service id="synerise_integration.form.type.product_attribute" class="Synerise\SyliusIntegrationPlugin\Form\Type\ProductAttributeChoiceType">
-            <argument type="service" id="sylius.repository.product_attribute" />
-
-            <tag name="form.type" />
-        </service>
         <!-- KIOTA SERIALIZATION -->
         <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
         <service id="synerise_integration.serialization.string_json_parse_node_factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
-        <!-- MESSAGE HANDLERS -->
-        <service id="synerise_integration.message_queue.event_message_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
-            <argument type="service" id="synerise_integration.serialization.string_json_parse_node_factory" />
-            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
-            <argument type="service" id="synerise_integration.repository.channel_configuration" />
-
-            <tag name="messenger.message_handler" bus="sylius.event_bus" />
-        </service>
     </services>
 </container>

@@ -13,23 +13,6 @@
 
             <tag name="console.command" />
         </service>
-        <!-- MESSENGER - MESSAGE BUS -->
-        <service id="synerise.synchronization_bus" class="Symfony\Component\Messenger\MessageBus">
-            <argument type="tagged_iterator" tag="messenger.bus.middleware"/>
-            <tag name="messenger.bus"/>
-        </service>
-        <!-- MESSENGER - MESSAGE HANDLERS -->
-        <service id="synerise_integration.message_queue.start_synchronization_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\SyncStartMessageHandler">
-            <argument type="service" id="synerise_integration.synchronization.processor_factory" />
-
-            <tag name="messenger.message_handler" bus="synerise.synchronization_bus" />
-        </service>
-        <service id="synerise_integration.message_queue.synchronization_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\SyncMessageHandler">
-            <argument type="service" id="synerise_integration.repository.synchronization" />
-            <argument type="service" id="synerise_integration.synchronization.processor_factory" />
-
-            <tag name="messenger.message_handler" bus="synerise.synchronization_bus" />
-        </service>
         <!-- PROCESSORS FACTORY -->
         <service id="synerise_integration.synchronization.processor_factory" class="Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory">
             <argument type="collection">

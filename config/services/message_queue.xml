@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <!-- MESSENGER - MESSAGE BUS -->
+        <service id="synerise.synchronization_bus" class="Symfony\Component\Messenger\MessageBus">
+            <argument type="tagged_iterator" tag="messenger.bus.middleware"/>
+            <tag name="messenger.bus"/>
+        </service>
+        <!-- MESSENGER - MESSAGE HANDLERS -->
+        <service id="synerise_integration.message_queue.start_synchronization_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\SyncStartMessageHandler">
+            <argument type="service" id="synerise_integration.synchronization.processor_factory" />
+
+            <tag name="messenger.message_handler" bus="synerise.synchronization_bus" />
+        </service>
+        <service id="synerise_integration.message_queue.synchronization_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\SyncMessageHandler">
+            <argument type="service" id="synerise_integration.repository.synchronization" />
+            <argument type="service" id="synerise_integration.synchronization.processor_factory" />
+
+            <tag name="messenger.message_handler" bus="synerise.synchronization_bus" />
+        </service>
+        <service id="synerise_integration.message_queue.event_message_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
+            <argument type="service" id="synerise_integration.serialization.string_json_parse_node_factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+
+            <tag name="messenger.message_handler" bus="sylius.event_bus" />
+        </service>
+    </services>
+</container>
