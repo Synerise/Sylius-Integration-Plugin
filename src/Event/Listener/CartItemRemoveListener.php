@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 class CartItemRemoveListener
 {
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $syneriseLogger,
         private CartItemRemoveProcessor $processor
     ) {
     }
@@ -26,7 +26,7 @@ class CartItemRemoveListener
 
             $this->processor->process($cartItem);
         } catch (\Throwable $e) {
-            $this->logger->error($e);
+            $this->syneriseLogger->error($e);
         }
     }
 }

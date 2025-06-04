@@ -10,7 +10,7 @@ use Synerise\SyliusIntegrationPlugin\Event\Processor\CartStatusProcessor;
 final readonly class CartStatusListener
 {
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $syneriseLogger,
         private CartStatusProcessor $processor,
         private ?CartContextInterface $cartContext = null
     ) {
@@ -21,7 +21,7 @@ final readonly class CartStatusListener
         try {
             $this->processor->process($this->cartContext?->getCart());
         } catch (\Throwable $e) {
-            $this->logger->error($e);
+            $this->syneriseLogger->error($e);
         }
     }
 }

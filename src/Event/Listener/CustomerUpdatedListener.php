@@ -12,7 +12,7 @@ final readonly class CustomerUpdatedListener
 {
     public function __construct(
         private LoggerInterface $syneriseLogger,
-        private CustomerProcessorInterface $customerProcessor,
+        private CustomerProcessorInterface $customerProcessor
     )
     {
     }

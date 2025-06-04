@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 final readonly class CartItemAddListener
 {
     public function __construct(
-        private LoggerInterface $logger,
+        private LoggerInterface $syneriseLogger,
         private CartItemAddProcessor $processor
     ) {
     }
@@ -23,7 +23,7 @@ final readonly class CartItemAddListener
             Assert::isInstanceOf($addToCartCommand, AddToCartCommandInterface::class);
             $this->processor->process($addToCartCommand);
         } catch (\Throwable $e) {
-            $this->logger->error($e);
+            $this->syneriseLogger->error($e);
         }
     }
 }

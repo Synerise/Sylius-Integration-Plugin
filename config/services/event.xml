@@ -112,42 +112,55 @@
         </service>
         <!-- CUSTOMER LISTENERS -->
         <service id="synerise_integration.listener.customer_registered" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerRegisteredListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.customer_register" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.customer.post_register" />
         </service>
         <service id="synerise_integration.listener.customer_updated" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerUpdatedListener">
             <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.customer_update" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.customer.post_update" />
         </service>
         <service id="synerise_integration.listener.customer_login" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerLoggedInListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.customer_login" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LoginSuccessEvent" />
         </service>
         <service id="synerise_integration.listener.customer_logout" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerLoggedOutListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.customer_logout" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LogoutEvent" />
         </service>
         <!-- ORDER LISTENERS -->
         <service id="synerise_integration.listener.order_post_complete" class="Synerise\SyliusIntegrationPlugin\Event\Listener\OrderPostCreateListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.order" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.order.post_complete" />
         </service>
         <service id="synerise_integration.listener.order_workflow" class="Synerise\SyliusIntegrationPlugin\Event\Listener\OrderWorkflowListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.order" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" />
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" />
         </service>
         <!-- PRODUCT LISTENERS -->
         <service id="synerise_integration.listener.product_updated" class="Synerise\SyliusIntegrationPlugin\Event\Listener\ProductUpdatedListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.product_update" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.product.post_update" />
         </service>
     </services>
