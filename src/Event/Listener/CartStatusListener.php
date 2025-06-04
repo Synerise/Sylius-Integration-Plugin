@@ -19,7 +19,10 @@ final readonly class CartStatusListener
     public function __invoke(GenericEvent $event): void
     {
         try {
-            $this->processor->process($this->cartContext?->getCart());
+            /** @var \Sylius\Component\Core\Model\OrderInterface|null $cart */
+            $cart = $this->cartContext?->getCart();
+
+            $this->processor->process($cart);
         } catch (\Throwable $e) {
             $this->syneriseLogger->error($e);
         }

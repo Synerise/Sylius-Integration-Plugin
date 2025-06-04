@@ -32,7 +32,7 @@ class CartStatusProcessor
         $this->eventHandlerResolver->get($type)->processEvent(
             CartStatusBuilder::ACTION,
             $this->mapper->prepare($this->identityManager->getClient(), $cart),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()?->getId()
         );
     }
 }
