@@ -9,9 +9,9 @@ x-mutagen:
           - ".github"
           - ".vscode"
           - "mysql-data"
-#          - "node_modules"
+          - "tests/Application/node_modules"
 #          - "tests/Application/var"
-          - "*.log"
+#          - "*.log"
           - ".idea"
           - ".docker"
       permissions:
@@ -28,13 +28,13 @@ x-mutagen:
         permissions:
           defaultOwner: "id:1000"
           defaultGroup: "id:1000"
-#    node-modules:
-#      alpha: "./tests/Application/node_modules"
-#      beta: "volume://node-modules"
-#      configurationBeta:
-#        permissions:
-#          defaultOwner: "id:1000"
-#          defaultGroup: "id:1000"
+    node-modules:
+      alpha: "./tests/Application/node_modules"
+      beta: "volume://node-modules"
+      configurationBeta:
+        permissions:
+          defaultOwner: "id:1000"
+          defaultGroup: "id:1000"
        
 #    var:
 #      alpha: "./tests/Application/var"
@@ -50,7 +50,8 @@ services:
   php:
     volumes:
       - sylius-data:/srv/sylius:rw,cached
-#      - symfony-cache:/srv/sylius/tests/Application/var:cached
+      - node-modules:/srv/sylius/tests/Application/node_modules:rw,cached      
+      #      - symfony-cache:/srv/sylius/tests/Application/var:cached
 
   nginx:
     volumes:
@@ -59,8 +60,9 @@ services:
   nodejs:
     volumes:
       - sylius-data:/srv/sylius:rw,cached
-#      - node-modules:/srv/sylius/node_modules:rw,cached
+      - node-modules:/srv/sylius/tests/Application/node_modules:rw,cached
 
 volumes:
   sylius-data:
+  node-modules:
 #  symfony-cache:
