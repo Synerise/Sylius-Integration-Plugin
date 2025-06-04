@@ -6,7 +6,9 @@
     <services>
         <!-- CLIENT BUILDER -->
         <service id="synerise_integration.api_client_builder_factory" class="Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory">
-            <argument type="service" id="logger" />
+            <argument type="service" id="logger" on-invalid="null" />
+
+            <tag name="monolog.logger" channel="synerise"/>
         </service>
         <service id="synerise_integration.api_client_builder" class="Synerise\Sdk\Api\ClientBuilder">
             <argument type="service" id="synerise_integration.context.workspace" />

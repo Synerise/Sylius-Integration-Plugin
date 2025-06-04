@@ -1,0 +1,8 @@
+# config/packages/monolog.yaml
+monolog:
+    handlers:
+        synerise:
+            type: stream
+            path: "%kernel.logs_dir%/synerise.log"
+            channels: ["synerise"]
+    channels: ['synerise']

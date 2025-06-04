@@ -1,6 +1,7 @@
 imports:
     - { resource: "app/twig_hooks/**/*.yaml" }
     - { resource: "app/messenger.yaml" }
+    - { resource: "packages/*.yaml" }
 
 sylius_grid:    
     grids:
