@@ -1,0 +1,66 @@
+x-mutagen:
+  sync:
+    defaults:
+      mode: "two-way-resolved"
+      ignore:
+        vcs: true
+        paths:
+          - ".git"
+          - ".github"
+          - ".vscode"
+          - "mysql-data"
+#          - "node_modules"
+#          - "tests/Application/var"
+          - "*.log"
+          - ".idea"
+          - ".docker"
+      permissions:
+        defaultFileMode: "0644"
+        defaultDirectoryMode: "0755"
+      symlink:
+        mode: "posix-raw"
+      watch:
+        mode: "portable"
+    sylius-data:
+      alpha: "."
+      beta: "volume://sylius-data"
+      configurationBeta:
+        permissions:
+          defaultOwner: "id:1000"
+          defaultGroup: "id:1000"
+#    node-modules:
+#      alpha: "./tests/Application/node_modules"
+#      beta: "volume://node-modules"
+#      configurationBeta:
+#        permissions:
+#          defaultOwner: "id:1000"
+#          defaultGroup: "id:1000"
+       
+#    var:
+#      alpha: "./tests/Application/var"
+#      beta: "volume://symfony-cache"
+#      configurationBeta:
+#        permissions:
+#          defaultOwner: "id:1000"
+#          defaultGroup: "id:1000"
+#          defaultFileMode: "0664"
+#          defaultDirectoryMode: "0775"
+
+services:
+  php:
+    volumes:
+      - sylius-data:/srv/sylius:rw,cached
+#      - symfony-cache:/srv/sylius/tests/Application/var:cached
+
+  nginx:
+    volumes:
+      - sylius-data:/srv/sylius:ro
+
+  nodejs:
+    volumes:
+      - sylius-data:/srv/sylius:rw,cached
+#      - node-modules:/srv/sylius/node_modules:rw,cached
+
+volumes:
+  sylius-data:
+#  symfony-cache:

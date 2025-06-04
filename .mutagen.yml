@@ -1,0 +1,23 @@
+beforeCreate:
+  - docker-compose -f compose.yml -f compose.override.yml -f docker-compose.mutagen.yml up -d
+
+beforeTerminate:
+  - docker-compose down
+
+sync:
+  defaults:
+    mode: two-way-resolved
+    ignore:
+      vcs: true
+      paths:
+          - ".git"
+          - ".github"
+          - ".vscode"
+          - "mysql-data"
+          - "*.log"
+          - ".idea"
+          - ".docker"
+    symlink:
+      mode: "posix-raw"
+    watch:
+      mode: "portable"
