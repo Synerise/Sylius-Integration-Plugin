@@ -22,9 +22,9 @@ class CartStatusProcessor
     /**
      * @throws \Exception
      */
-    public function process(OrderInterface $cart): void
+    public function process(?OrderInterface $cart = null): void
     {
-        $configuration = $this->configurationFactory->get($cart->getChannel()?->getId());
+        $configuration = $this->configurationFactory->get($cart?->getChannel()?->getId());
         if (!$type = $configuration?->getEventHandlerType(CartStatusBuilder::ACTION)) {
             return;
         }
@@ -32,7 +32,7 @@ class CartStatusProcessor
         $this->eventHandlerResolver->get($type)->processEvent(
             CartStatusBuilder::ACTION,
             $this->mapper->prepare($this->identityManager->getClient(), $cart),
-            $cart->getChannel()?->getId()
+            $configuration->getChannel()->getId()
         );
     }
 }

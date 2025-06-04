@@ -11,7 +11,7 @@ use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Guzzle\RequestAdapterFactory;
 use Synerise\SyliusIntegrationPlugin\Loguzz\Formatter\RequestCurlSanitizedFormatter;
 
-class ClientBuilderFactory implements \Psr\Log\LoggerAwareInterface
+class ClientBuilderFactory
 {
     public function __construct(
         private LoggerInterface $syneriseLogger
@@ -27,17 +27,14 @@ class ClientBuilderFactory implements \Psr\Log\LoggerAwareInterface
         ];
 
         $authenticationProviderFactory = new AuthenticationProviderFactory($config);
-        $requestAdapterFactory = new RequestAdapterFactory($config);
-        $requestAdapter = $requestAdapterFactory->create(
-            $authenticationProviderFactory->create(),
-            $middlewares
-        );
+        if (!$requestAdapter) {
+            $requestAdapterFactory = new RequestAdapterFactory($config);
+            $requestAdapter = $requestAdapterFactory->create(
+                $authenticationProviderFactory->create(),
+                $middlewares
+            );
+        }
 
         return new ClientBuilder($config, $requestAdapter);
-    }
-
-    public function setLogger(LoggerInterface $logger): void
-    {
-        $this->syneriseLogger = $logger;
     }
 }

@@ -41,13 +41,6 @@
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
-        <service id="synerise_integration.processor.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartStatusClearProcessor">
-            <argument type="service" id="synerise_integration.api.request_mapper.event.cart_status" />
-            <argument type="service" id="sylius.context.channel" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.identity_manager" />
-            <argument type="service" id="synerise_integration.event.handler_resolver" />
-        </service>
         <!-- CUSTOMER PROCESSORS -->
         <service id="synerise_integration.processor.customer_register" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerRegisterProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.customer_registered" />
@@ -87,26 +80,34 @@
         <!-- LISTENERS -->
         <!-- CART LISTENERS -->
         <service id="synerise_integration.event.listener.cart_item_add" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartItemAddListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.event.processor.cart_item_add" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.cart_item_add" priority="-1000" />
         </service>
         <service id="synerise_integration.listener.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartItemRemoveListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.cart_item_remove" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.cart_item_remove" priority="1000" />
         </service>
         <service id="synerise_integration.listener.cart_status" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartStatusListener">
-            <argument type="service" id="sylius.context.cart" />
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.cart_status" />
+            <argument type="service" id="sylius.context.cart" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.cart_item_add" priority="-1000" />
             <tag name="kernel.event_listener" event="sylius.cart_item_remove" priority="-1000" />
             <tag name="kernel.event_listener" event="sylius.cart_change" priority="-1000" />
         </service>
-        <service id="synerise_integration.listener.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartStatusClearListener">
-            <argument type="service" id="synerise_integration.processor.cart_status_clear" />
+        <service id="synerise_integration.listener.cart_status_clear" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CartStatusListener">
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="synerise_integration.processor.cart_status" />
 
+            <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.cart_clear" />
         </service>
         <!-- CUSTOMER LISTENERS -->
@@ -116,6 +117,7 @@
             <tag name="kernel.event_listener" event="sylius.customer.post_register" />
         </service>
         <service id="synerise_integration.listener.customer_updated" class="Synerise\SyliusIntegrationPlugin\Event\Listener\CustomerUpdatedListener">
+            <argument type="service" id="logger" on-invalid="null" />
             <argument type="service" id="synerise_integration.processor.customer_update" />
 
             <tag name="kernel.event_listener" event="sylius.customer.post_update" />
