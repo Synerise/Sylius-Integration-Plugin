@@ -7,16 +7,6 @@ beforeTerminate:
 sync:
   defaults:
     mode: two-way-resolved
-    ignore:
-      vcs: true
-      paths:
-          - ".git"
-          - ".github"
-          - ".vscode"
-          - "mysql-data"
-          - "*.log"
-          - ".idea"
-          - ".docker"
     symlink:
       mode: "posix-raw"
     watch:
