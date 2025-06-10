@@ -37,6 +37,9 @@ class CustomerRegisterProcessor implements CustomerProcessorInterface
         Assert::NotNull($configuration->getChannel());
 
         try {
+            if ($customer->getEmail()) {
+                $this->identityManager->identify($customer->getEmail());
+            }
             $client = $this->identityManager->getClient();
         } catch (NotFoundException $exception) {
             $client = new Client();

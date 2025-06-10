@@ -10,10 +10,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "anik/loguzz": "^2.2 || ^4.0",
         "mobiledetect/mobiledetectlib": "^4.8",
         "sylius/sylius": "~2.0.0",
-        "synerise/php-sdk": "^0.5.4",
-        "anik/loguzz": "^2.2 || ^4.0"
+        "synerise/php-sdk": "^0.5.6"
     },
     "require-dev": {
         "behat/behat": "^3.16",

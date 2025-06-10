@@ -4,6 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\Helper;
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Synerise\Sdk\Cookie\CookieAdapter;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
 class CookieContainer implements CookieAdapter
 {
@@ -12,6 +13,9 @@ class CookieContainer implements CookieAdapter
      */
     private array $cookies = [];
 
+    public function __construct(private ChannelConfigurationInterface $channelConfiguration)
+    {}
+
     public function setValue(string $name, string $value): void
     {
         $this->cookies[$name] = new Cookie(
@@ -19,9 +23,9 @@ class CookieContainer implements CookieAdapter
             $value,
             time() + 3600,
             '/',
-            null,
+            '.'.$this->channelConfiguration->getCookieDomain(),
             true,
-            true
+            false
         );
     }
 
