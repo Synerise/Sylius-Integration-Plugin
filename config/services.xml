@@ -33,6 +33,11 @@
         </service>
         <service id="synerise_integration.helper.uuid_generator" class="Synerise\SyliusIntegrationPlugin\Helper\UuidGenerator"/>
         <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer"/>
+        <!-- SOURCE PROVIDER -->
+        <service id="synerise_integration.mobile_detect" class="Detection\MobileDetect"/>
+        <service id="synerise_integration.sdk.source_provider" class="Synerise\Sdk\Tracking\DefaultEventSourceProvider">
+            <argument type="service" id="synerise_integration.mobile_detect" />
+        </service>
         <!-- KIOTA SERIALIZATION -->
         <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
         <service id="synerise_integration.serialization.string_json_parse_node_factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />

@@ -16,10 +16,17 @@ use Synerise\Api\V4\Models\Revenue;
 use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
+use Synerise\Sdk\Tracking\EventSourceProvider;
 use Webmozart\Assert\Assert;
 
 class OrderToTransactionMapper implements RequestMapperInterface
 {
+    public function __construct(
+        private ?EventSourceProvider $sourceProvider = null
+    )
+    {
+    }
+
     /**
      * @param OrderInterface $resource
      */
@@ -76,6 +83,9 @@ class OrderToTransactionMapper implements RequestMapperInterface
         foreach ($resource->getItems() as $resourceItem) {
             /** @var OrderItemInterface $resourceItem */
             $products[] = $this->prepareTransactionProductData($resourceItem);
+        }
+        if ($this->sourceProvider) {
+            $transaction->setSource($this->sourceProvider->getEventSource());
         }
         $transaction->setProducts($products);
         $transaction->setEventSalt($resource->getNumber());
