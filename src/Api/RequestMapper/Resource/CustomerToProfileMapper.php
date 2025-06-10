@@ -50,10 +50,16 @@ class CustomerToProfileMapper implements RequestMapperInterface
         $profile->setCity($resourceDefaultAddress?->getCity());
         $profile->setAddress($resourceDefaultAddress?->getStreet());
 
-        $attributes = new Attributes();
-        $attributes->setAdditionalData([
+        $additionalData = [
             "createdAt" => $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM),
-        ]);
+        ];
+
+        if ($resource->getGroup() != null) {
+            $additionalData['group'] = $resource->getGroup()->getCode();
+        }
+
+        $attributes = new Attributes();
+        $attributes->setAdditionalData($additionalData);
         $profile->setAttributes($attributes);
 
         $agreements = new Agreements();
