@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
-use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
 
 class SynchronizationController extends ResourceController
 {
@@ -70,9 +69,6 @@ class SynchronizationController extends ResourceController
             }
 
             $postEvent = $this->eventDispatcher->dispatchPostEvent(ResourceActions::CREATE, $configuration, $newResource);
-            $messageBus = $this->get('synerise.synchronization_bus');
-            $syncStartMessage = new SyncStartMessage($newResource->getId(), $newResource->getType()->value);
-            $messageBus->dispatch($syncStartMessage);
 
             if (!$configuration->isHtmlRequest()) {
                 return $this->createRestView($configuration, $newResource, Response::HTTP_CREATED);

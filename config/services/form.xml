@@ -25,6 +25,17 @@
 
             <tag name="sylius.live_component.admin" key="synerise_integration:synchronization_configuration:form" />
         </service>
+        <service
+            id="synerise_integration.twig.component.synchronization.form"
+            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
+            <argument type="service" id="form.factory"/>
+            <argument>%synerise_integration.model.synchronization.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronization:form"/>
+        </service>
         <service id="synerise_integration.form.type.synchronization_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType" >
             <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
 
@@ -49,6 +60,12 @@
             <argument type="service" id="sylius.repository.product_attribute" />
 
             <tag name="form.type" />
+        </service>
+        <service id="synerise_integration.form.type.synchronization" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType">
+            <argument type="service" id="translator" />
+            <argument>%synerise_integration.model.synchronization.class%</argument>
+
+            <tag name="form.type"/>
         </service>
     </services>
 </container>

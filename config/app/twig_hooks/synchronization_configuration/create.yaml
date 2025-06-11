@@ -8,7 +8,7 @@ sylius_twig_hooks:
                     subheader: synerise_integration.ui.synchronization_configuration.edit.subheader
         'sylius_admin.synchronization_configuration.create.content':
             form:
-                component: 'synerise_integration:synchronization:form'
+                component: 'synerise_integration:synchronization_configuration:form'
                 props:
                     resource: '@=_context.resource'
                     form: '@=_context.form'

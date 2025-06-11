@@ -24,29 +24,18 @@
 
             <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
         </service>
-        <service
-            id="synerise_integration.twig.component.synchronization_list_customer"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\CustomerComponent"
-        >
-            <argument type="service" id="sylius.repository.customer" />
+        <service id="synerise_integration.twig.component.synchronizations_list"
+                 class="Synerise\SyliusIntegrationPlugin\Twig\Component\SynchronizationsList">
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
+            <argument type="service" id="sylius.repository.channel"/>
 
-            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_customer" />
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronizations_list"/>
         </service>
-        <service
-            id="synerise_integration.twig.component.synchronization_list_order"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\OrderComponent"
-        >
-            <argument type="service" id="sylius.repository.order" />
+        <service id="synerise_integration.twig.component.synchronization_configuration_actions"
+                 class="Synerise\SyliusIntegrationPlugin\Twig\Component\SynchronizationConfigurationActions">
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration"/>
 
-            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_order" />
-        </service>
-        <service
-            id="synerise_integration.twig.component.synchronization_list_product"
-            class="Synerise\SyliusIntegrationPlugin\Twig\Component\Synchronization\List\ProductComponent"
-        >
-            <argument type="service" id="sylius.repository.product" />
-
-            <tag name="sylius.twig_component" key="synerise_integration:synchronization_list_product" />
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronization_configuration_actions"/>
         </service>
     </services>
 </container>

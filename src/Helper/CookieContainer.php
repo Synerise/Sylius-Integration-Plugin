@@ -13,7 +13,7 @@ class CookieContainer implements CookieAdapter
      */
     private array $cookies = [];
 
-    public function __construct(private ChannelConfigurationInterface $channelConfiguration)
+    public function __construct(private ?ChannelConfigurationInterface $channelConfiguration = null)
     {}
 
     public function setValue(string $name, string $value): void
@@ -23,7 +23,7 @@ class CookieContainer implements CookieAdapter
             $value,
             time() + 3600,
             '/',
-            '.'.$this->channelConfiguration->getCookieDomain(),
+            '.'.$this->channelConfiguration?->getCookieDomain(),
             true,
             false
         );
