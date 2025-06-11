@@ -63,8 +63,11 @@ x-mutagen:
           - "!tests/Application/package.json"
           - "!tests/Application/webpack.config.js"
           - "!tests/Application/yarn.lock"
-          - "!package.json"
-          - "!webpack.config.js"
+          - "!tests/Application/.babelrc"  # Dodane
+          - "!tests/Application/config/**"  # Dodane
+          - "!package.json"  # Dodane
+          - "!yarn.lock"  # Dodane
+          - "!node_modules/**"  # Dodane
     public:
         alpha: "./tests/Application/public"
         beta: "volume://public"
@@ -109,6 +112,7 @@ services:
       - node-data:/srv/sylius:rw,cached
       - public-build:/srv/sylius/tests/Application/public/build:rw,delegated
       - vendor:/srv/sylius/vendor:ro,cached
+      - ./tests/Application/node_modules:/srv/sylius/tests/Application/node_modules:rw,cached  # Dodane
 
 volumes:
     php-data:
