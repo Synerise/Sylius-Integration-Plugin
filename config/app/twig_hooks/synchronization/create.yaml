@@ -1,0 +1,28 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.synchronization.create.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/create/content/header/breadcrumbs.html.twig'
+        'sylius_admin.synchronization.create.content.header.title_block':
+            actions:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/create/content/header/title_block/actions.html.twig'
+            title:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/create/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.ui.synchronization.create.title
+        'sylius_admin.synchronization.create.content':
+            form:
+                component: 'synerise_integration:synchronization:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                priority: 0
+                configuration:
+                    method: 'POST'
+        'sylius_admin.synchronization.create.content.form':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/form/sections.html.twig'
+        'sylius_admin.synchronization.create.content.form.sections':
+            general:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/form/sections/general.html.twig'

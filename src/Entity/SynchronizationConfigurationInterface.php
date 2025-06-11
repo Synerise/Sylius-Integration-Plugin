@@ -2,7 +2,9 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Product\Model\ProductAttribute;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface SynchronizationConfigurationInterface extends ResourceInterface
@@ -17,9 +19,11 @@ interface SynchronizationConfigurationInterface extends ResourceInterface
 
     public function setDataTypes(?array $dataTypes): void;
 
-    public function getProductAttributes(): array;
+    public function getProductAttributes(): Collection;
 
-    public function setProductAttributes(?array $productAttributes): void;
+    public function addProductAttribute(ProductAttribute $productAttribute): void;
+
+    public function removeProductAttribute(ProductAttribute $productAttribute): void;
 
     public function getCatalogId(): ?int;
 

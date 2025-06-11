@@ -1,0 +1,184 @@
+{% macro status_badge(status) %}
+    {% set statusConfig = {
+        'created': {
+            'class': 'bg-primary',
+        },
+        'processing': {
+            'class': 'bg-info',
+        },
+        'ended': {
+            'class': 'bg-success',
+        },
+        'cancelled': {
+            'class': 'bg-warning',
+        }
+    } %}
+
+    {% set config = statusConfig[status.value]|default({
+        'class': 'bg-secondary',
+    }) %}
+
+    <!--suppress ALL -->
+    <span class="badge text-uppercase text-white fw-bold {{ config.class }} d-inline-flex gap-1">
+        {{ status.name }}
+    </span>
+{% endmacro %}
+
+<div {{ attributes }} class="card">
+    <div class="card-header">
+        <div class="card-title">
+            {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.card_title' | trans({ '%channel_name%': this.channel }) }}
+        </div>
+    </div>
+    <div class="accordion" id="filters-accordion">
+        <div class="accordion-item border-top-0 rounded-0 border-start-0 border-end-0">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        <span class="d-flex gap-2">
+                            <span class="d-flex align-items-center">
+                                {{ ux_icon('tabler:adjustments') }}
+                            </span>
+                            {{ 'sylius.ui.filters'|trans }}
+                        </span>
+                </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#filters-accordion" style="">
+                <div class="accordion-body">
+                    <div class="mb-3">
+                        <div class="sylius-filters">
+                            <div class="sylius-filters__item">
+                                <div class="mb-3 field">
+                                    <label class="form-label" for="criteria_enabled">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.status.label' | trans }}</label>
+                                    <select
+                                        class="form-select"
+                                        data-live-target="select"
+                                        data-action="live#update"
+                                        data-model="filterStatus"
+                                    >
+                                        <option value="">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.status.option_all' | trans }}</option>
+                                        {% for status in this.synchronizationStatusCases %}
+                                            <option value="{{ status.value }}">{{ status.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="sylius-filters__item">
+                                <div class="mb-3 field">
+                                    <label class="form-label" for="criteria_channel">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.type.label' | trans }}</label>
+                                    <select
+                                        class="form-select ms-2"
+                                        data-live-target="select"
+                                        data-action="live#update"
+                                        data-model="filterType"
+                                    >
+                                        <option value="">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.type.option_all' | trans }}</option>
+                                        {% for type in this.synchronizationDataTypeCases %}
+                                            <option value="{{ type.value }}">{{ type.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive position-relative">
+        <div class="position-absolute align-items-center justify-content-center w-100 h-100 bg-dark-overlay top-0"
+             style="display: none"
+             data-loading="addClass(d-flex)">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">{{ 'sylius.ui.loading' | trans }}</span>
+            </div>
+        </div>
+        <table class="table table-vcenter">
+            <thead>
+            <tr>
+                <th>
+                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.data_type' | trans }}
+                </th>
+                <th>
+                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.sent' | trans }}
+                </th>
+                <th>
+                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.total' | trans }}
+                </th>
+                <th>
+                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.date' | trans }}
+                </th>
+                <th>
+                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.status' | trans }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for synchronization in this.synchronizations %}
+                <tr>
+                    <td>{{ synchronization.type.name }}</td>
+                    <td>{{ synchronization.sent }}</td>
+                    <td>{{ synchronization.total }}</td>
+                    <td>{{ synchronization.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ _self.status_badge(synchronization.status) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+        <div>
+            {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.footer.showing' | trans({'%from%': ((this.page - 1) * this.limit) + 1, '%to%': min(this.page * this.limit, this.total), '%total%': this.total}) }}
+        </div>
+        <nav>
+            <ul class="pagination mb-0 align-items-center">
+                <li class="page-item {{ this.page <= 1 ? 'disabled' : '' }}">
+                    <button
+                        class="page-link"
+                        data-action="live#update"
+                        data-model="page"
+                        data-value="{{ this.page - 1 }}"
+                        {{ this.page <= 1 ? 'disabled' : '' }}
+                    >
+                        <span aria-hidden="true" class="page-link">
+                            {{ ux_icon('iconoir:nav-arrow-left') }}
+                            {{ 'sylius.ui.previous' | trans }}
+                        </span>
+                    </button>
+                </li>
+
+                {% for p in 1..this.pages %}
+                    {% if p == 1 or p == this.pages or (p >= this.page - 2 and p <= this.page + 2) %}
+                        <li class="page-item {{ p == this.page ? 'active' : '' }}">
+                            <button class="page-link"
+                                    data-action="live#update"
+                                    data-model="page"
+                                    data-value="{{ p }}">
+                                {{ p }}
+                            </button>
+                        </li>
+                    {% elseif p == this.page - 3 or p == this.page + 3 %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <li class="page-item {{ this.page >= this.pages ? 'disabled' : '' }}">
+                    <button
+                        class="page-link"
+                        data-action="live#update"
+                        data-model="page"
+                        data-value="{{ this.page + 1 }}"
+                        {{ this.page >= this.pages ? 'disabled' : '' }}
+                    >
+                        <span aria-hidden="true" class="page-link">
+                            {{ 'sylius.ui.next' | trans }}
+                            {{ ux_icon('iconoir:nav-arrow-right') }}
+                        </span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

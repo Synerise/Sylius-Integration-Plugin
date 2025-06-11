@@ -33,7 +33,7 @@ synerise_integration_admin_synchronization_configuration:
                 breadcrumb: synerise_integration.ui.synchronization
             index:
                 icon: cogs
-        path: /synerise/configuration/synchronization
+        path: /synerise/synchronization_configuration
     type: sylius.resource
 synerise_integration_admin_workspace:
     resource: |
@@ -53,4 +53,12 @@ synerise_integration_admin_workspace:
             index:
                 icon: cogs
         path: /synerise/workspace
+    type: sylius.resource
+synerise_integration_admin_synchronization:
+    resource: |
+        alias: synerise_integration.synchronization
+        templates: "@SyliusAdmin\\shared\\crud"
+        path: /synerise/synchronization_configuration/{configurationId}/synchronization
+        only: ['show', 'create', 'delete']
+        section: admin
     type: sylius.resource

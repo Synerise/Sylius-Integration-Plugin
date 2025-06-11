@@ -4,9 +4,8 @@ namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 final class SynchronizationConfigurationType extends AbstractResourceType
 {
@@ -14,26 +13,31 @@ final class SynchronizationConfigurationType extends AbstractResourceType
     {
         $builder
             ->add('channel', ChannelChoiceType::class, [
-                'label' => 'sylius.ui.channel'
-            ])
-            ->add('dataTypes', SynchronizationDataTypeChoiceType::class, [
-                'label' => 'synerise_integration.ui.synchronization_data_types',
-                'choice_translation_domain' => true,
-                'multiple' => true,
-                'required' => false
+                'label' => 'synerise_integration.ui.synchronization_configuration.form.channel.label'
             ])
             ->add('productAttributes', ProductAttributeChoiceType::class, [
-                'label' => 'synerise_integration.ui.synchronization_product_attributes',
+                'label' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes.label',
+                'placeholder' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes.placeholder',
                 'choice_translation_domain' => true,
                 'multiple' => true,
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'data-controller' => 'multiselect'
+                ]
             ])
-            ->add('productAttributeValue', EnumType::class, [
-                'class' => ProductAttributeValue::class,
-                'label' => 'synerise_integration.ui.synchronization_product_attribute_value',
-                'choice_translation_domain' => true
-            ])
-        ;
+            ->add('productAttributeValue', ProductAttributeValueChoiceType::class, [
+                'label' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.label',
+                'help' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.help',
+                'choice_translation_domain' => true,
+                'constraints' => [
+                    new NotNull([
+                        'message' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.errors.not_null'
+                    ])
+                ],
+                'expanded' => true,
+                'required' => true,
+                'multiple' => false
+            ]);
     }
 
     public function getBlockPrefix(): string

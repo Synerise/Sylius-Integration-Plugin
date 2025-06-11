@@ -1,5 +1,11 @@
 sylius_twig_hooks:
     hooks:
+        'sylius_admin.synchronization_configuration.update.content.header.title_block':
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.ui.synchronization_configuration.edit.title
+                    subheader: synerise_integration.ui.synchronization_configuration.edit.subheader
         'sylius_admin.synchronization_configuration.update.content':
             form:
                 component: 'synerise_integration:synchronization_configuration:form'
@@ -12,9 +18,7 @@ sylius_twig_hooks:
                     method: 'PUT'
         'sylius_admin.synchronization_configuration.update.content.form':
             sections:
-                template: '@SyliusAdmin/shared/crud/common/content/form/sections.html.twig'
-                priority: 0
-        
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections.html.twig'
         'sylius_admin.synchronization_configuration.update.content.form.sections':
             general:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/general.html.twig'
@@ -22,19 +26,3 @@ sylius_twig_hooks:
             product:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/product.html.twig'
                 priority: 300
-        'sylius_admin.synchronization_configuration.update.content.form.sections.general':
-            default:
-                enabled: false
-            channel:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/general/channel.html.twig'
-                priority: 1200
-            workspace:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/general/form_types.html.twig'
-                priority: 1100
-        'sylius_admin.synchronization_configuration.update.content.form.sections.product':
-            product_attribute_value:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/product/attribute_value.html.twig'
-                priority: 1200
-            product_attributes:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/product/attributes.html.twig'
-                priority: 1100

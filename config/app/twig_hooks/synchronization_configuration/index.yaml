@@ -1,0 +1,24 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.synchronization_configuration.index.content.grid':
+            no_data_block:
+                template: '@SyliusAdmin/shared/crud/index/content/grid/no_results.html.twig'
+        'sylius_admin.synchronization_configuration.index.content.grid.no_results':
+            image:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/index/content/grid/no_results/image.html.twig'
+                priority: 300
+            title:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/index/content/grid/no_results/title.html.twig'
+                priority: 200
+            subtitle:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/index/content/grid/no_results/subtitle.html.twig'
+                priority: 100
+            action:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/index/content/grid/no_results/action.html.twig'
+                priority: 0
+        'sylius_admin.synchronization_configuration.index.content.header.title_block':
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.ui.synchronization_configuration.title
+                    subheader: synerise_integration.ui.synchronization_configuration.subheader

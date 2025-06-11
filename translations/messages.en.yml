@@ -1,5 +1,6 @@
 synerise_integration:
     ui:
+        change: 'Change'
         workspaces: 'Workspaces'
         workspace: 'Workspace'
         workspace_create_new: 'Add'
@@ -14,20 +15,86 @@ synerise_integration:
         opengraph_enabled: 'Open Graph'
         events: 'Events'
         queue_events: 'Message Queue Events'
-        synchronization: 'Synchronization'
         synchronization_list: 'Synchronization list'
         synchronization_type: 'Synchronization type'
         synchronization_sent: 'Sent'
         synchronization_total: 'Total'
-        synchronization_configuration: 'Synchronization configuration'
-        synchronization_configurations: 'Synchronization configurations'
         synchronization_configuration_create_new: 'Configure'
         synchronization_data_types: 'Data types'
-        synchronization_product_attributes: 'Attributes'
-        synchronization_product_attribute_value: 'Attribute value'
         id_value: 'Id & Value'
         value: 'Value'
         id: 'Id'
+        synchronization_configurations: 'Synchronization'
+        synchronization_configuration:
+            title: 'Synchronization'
+            subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
+            form:
+                channel:
+                    label: 'Channel'
+                product_attributes:
+                    label: 'Product attributes'
+                    placeholder: 'Select product attributes'
+                product_attributes_value:
+                    label: 'Attribute value'
+                    help: 'Select the variant of attribute values you want to send.'
+                    errors:
+                        not_null: 'Please select an attribute value.'
+            edit:
+                title: 'Configuration'
+                subheader: 'Set up synchronization settings to control how data like products, customers, and orders are synced between Synerise and Sylius.'
+                sections:
+                    general:
+                        title: 'Main settings'
+                    product:
+                        title: 'Product settings'
+            show:
+                actions:
+                    new_sync: 'New sync'
+                sections:
+                    config:
+                        card_title: 'Configuration'
+                        table_header: 'PRODUCTS & CUSTOMERS SETTINGS'
+                    synchronizations:
+                        card_title: '%channel_name% sync list'
+                        card_subtitle: '%total% Synchronizations'
+                        table:
+                            header:
+                                total: 'TOTAL'
+                                sent: 'SENT'
+                                data_type: 'DATA SCOPE'
+                                status: 'STATUS'
+                                date: 'DATE'
+                            footer:
+                                showing: 'Showing %from% to %to% of %total% entries'
+                        filters:
+                            type:
+                                label: 'Data scope'
+                                option_all: 'All types'
+                            status:
+                                label: 'Status'
+                                option_all: 'All statuses'
+        synchronization:
+            form:
+                type:
+                    label: 'Data scope'
+                    errors:
+                        not_null: 'Please select an data scope.'
+                since_when:
+                    label: 'Since when'
+                    errors:
+                        not_null: 'Since when date can not be null'
+                        less_than_or_equal: 'The "Since when" field must be less than or equal to the "Until when" field'
+                until_when:
+                    label: 'Until when'
+                    errors:
+                        not_null: 'Until when date can not be null'
+                        greater_than_or_equal: 'The "Until when" field must be greater than or equal to the "Since when" field'
+            create:
+                title: 'New Sync %channel%'
+                breadcrumbs_name: 'New sync'
+                sections:
+                    general:
+                        title: 'Sync settings'
     form:
         workspace:
             name: 'Name'

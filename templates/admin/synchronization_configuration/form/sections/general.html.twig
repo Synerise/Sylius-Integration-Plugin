@@ -1,11 +1,10 @@
-<div class="g-col-12 g-col-xl-12 card" style="grid-row: 1 / 4;">
+<div class="card">
     <div class="card-header">
-        <div class="card-title">{{ 'sylius.ui.general'|trans }}</div>
-    </div>
-
-    <div class="card-body">
-        <div class="row">
-            {% hook 'general' %}
+        <div class="card-title">
+            {{ 'synerise_integration.ui.synchronization_configuration.edit.sections.general.title'|trans }}
         </div>
+    </div>
+    <div class="card-body">
+        {{ form_row(hookable_metadata.context.form.channel, sylius_test_form_attribute('channel')) }}
     </div>
 </div>
