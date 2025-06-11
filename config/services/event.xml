@@ -70,6 +70,7 @@
             <argument type="service" id="synerise_integration.api.request_mapper.event.order" />
             <argument type="service" id="synerise_integration.channel_configuration_factory" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
+            <argument type="service" id="synerise_integration.identity_manager" />
         </service>
         <service id="synerise_integration.processor.resource.order" class="Synerise\SyliusIntegrationPlugin\Event\Processor\OrderProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.resource.order" />

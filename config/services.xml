@@ -30,13 +30,19 @@
         <service id="synerise_integration.identity_manager" class="Synerise\Sdk\Tracking\IdentityManager">
             <argument type="service" id="synerise_integration.cookie_profile_manager" />
             <argument type="service" id="synerise_integration.helper.uuid_generator" />
+            <argument type="service" id="synerise_integration.sdk.profile_merge_action" />
         </service>
         <service id="synerise_integration.helper.uuid_generator" class="Synerise\SyliusIntegrationPlugin\Helper\UuidGenerator"/>
-        <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer"/>
+        <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer">
+            <argument type="service" id="synerise_integration.context.channel_configuration" />
+        </service>
         <!-- SOURCE PROVIDER -->
         <service id="synerise_integration.mobile_detect" class="Detection\MobileDetect"/>
         <service id="synerise_integration.sdk.source_provider" class="Synerise\Sdk\Tracking\DefaultEventSourceProvider">
             <argument type="service" id="synerise_integration.mobile_detect" />
+        </service>
+        <service id="synerise_integration.sdk.profile_merge_action" class="Synerise\Sdk\Tracking\ProfileMergeDoRequest">
+            <argument type="service" id="synerise_integration.api_client_builder" />
         </service>
         <!-- KIOTA SERIALIZATION -->
         <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />

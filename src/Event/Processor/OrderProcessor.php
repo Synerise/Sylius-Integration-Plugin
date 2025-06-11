@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
 use Sylius\Component\Core\Model\OrderInterface;
+use Synerise\Sdk\Tracking\IdentityManager;
 use Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\OrderToTransactionMapper;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\Handler\EventHandlerResolver;
@@ -16,6 +17,7 @@ class OrderProcessor
         private OrderToTransactionMapper    $mapper,
         private ChannelConfigurationFactory $configurationFactory,
         private EventHandlerResolver        $eventHandlerResolver,
+        private ?IdentityManager            $identityManager = null
     )
     {
     }
@@ -31,6 +33,10 @@ class OrderProcessor
         }
 
         Assert::NotNull($configuration->getChannel());
+
+        if ($this->identityManager && $order->isCreatedByGuest()) {
+            $this->identityManager->identify($order->getCustomer()->getEmail());
+        }
 
         $this->eventHandlerResolver->get($type)->processEvent(
             "transaction.charge",
