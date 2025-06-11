@@ -63,11 +63,7 @@ x-mutagen:
           - "!tests/Application/package.json"
           - "!tests/Application/webpack.config.js"
           - "!tests/Application/yarn.lock"
-          - "!tests/Application/.babelrc"  # Dodane
-          - "!tests/Application/config/**"  # Dodane
-          - "!package.json"  # Dodane
-          - "!yarn.lock"  # Dodane
-          - "!node_modules/**"  # Dodane
+          - "!package.json"
     public:
         alpha: "./tests/Application/public"
         beta: "volume://public"
@@ -81,10 +77,6 @@ x-mutagen:
     public-media-cache:
       alpha: "./tests/Application/public/media"
       beta: "volume://public-media-cache"
-      configurationBeta:
-        permissions:
-          defaultOwner: "id:1000"
-          defaultGroup: "id:1000"
     symfony-logs:
       alpha: "./tests/Application/var/log"
       beta: "volume://symfony-logs"
@@ -112,7 +104,6 @@ services:
       - node-data:/srv/sylius:rw,cached
       - public-build:/srv/sylius/tests/Application/public/build:rw,delegated
       - vendor:/srv/sylius/vendor:ro,cached
-      - ./tests/Application/node_modules:/srv/sylius/tests/Application/node_modules:rw,cached  # Dodane
 
 volumes:
     php-data:
