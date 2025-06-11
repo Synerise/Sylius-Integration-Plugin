@@ -1,7 +1,6 @@
 imports:
     - { resource: "app/twig_hooks/**/*.yaml" }
     - { resource: "app/messenger.yaml" }
-    - { resource: "packages/*.yaml" }
 
 sylius_grid:    
     grids:
@@ -110,4 +109,12 @@ sylius_resource:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
                 interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
-                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType               
+monolog:
+    channels: ['synerise']
+    handlers:
+        synerise:
+            type: stream
+            path: "%kernel.logs_dir%/synerise.log"
+            level: debug
+            channels: ["synerise"]
