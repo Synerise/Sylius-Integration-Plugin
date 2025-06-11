@@ -1,0 +1,74 @@
+{% block stylesheets %}
+    <style>
+        .card-options-collapse svg {
+            transition: transform 0.3s ease;
+        }
+
+        .collapsed .card-options-collapse svg {
+            transform: rotate(180deg);
+        }
+    </style>
+{% endblock %}
+
+{% set resource = hookable_metadata.context.resource %}
+<div class="card">
+    <div class="card-header" role="button" data-bs-toggle="collapse" data-bs-target="#card-config" aria-expanded="true" aria-controls="card-config">
+        <div class="card-title">
+            {{ 'synerise_integration.ui.synchronization_configuration.show.sections.config.card_title' | trans }}
+        </div>
+        <div class="card-options">
+            <a href="#" class="card-options-collapse">
+                {{ ux_icon('tabler:chevron-up') }}
+            </a>
+        </div>
+    </div>
+    <div id="card-config" class="collapse show">
+        <div class="table-responsive">
+            <table class="table table-vcenter">
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        {{ 'synerise_integration.ui.synchronization_configuration.show.sections.config.table_header' | trans }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="text-nowrap fw-medium">
+                        {{ 'synerise_integration.ui.synchronization_configuration.form.product_attributes.label' | trans }}
+                    </td>
+                    <td class="border-start">
+                        <div class="d-flex flex-row flex-wrap gap-2">
+                            {% for attribute_code in resource.productAttributes %}
+                            <a href="{{ path('sylius_admin_product_attribute_update', {'id': attribute_code.id}) }}">
+                                <span class="badge bg-blue-lt">{{ attribute_code|trans }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap fw-medium">
+                        {{ 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.label' | trans }}
+                    </td>
+                    <td class="border-start">
+                        {{ ('synerise_integration.ui.' ~ resource.productAttributeValue.value) | trans }}
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ path('synerise_integration_admin_synchronization_configuration_update', {id: resource.id}) }}" class="btn btn-primary">
+                                {{ ux_icon('ic:round-edit') }}
+                                {{ 'synerise_integration.ui.change' | trans }}
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

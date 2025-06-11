@@ -8,24 +8,24 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 
-class ProductAttributeValueChoiceType extends AbstractType
+class SynchronizationTypeChoiceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
-            function ($productAttributeValue) {
-                if ($productAttributeValue === null) {
+            function ($synchronizationTypeValue) {
+                if ($synchronizationTypeValue === null) {
                     return '';
                 }
-                return $productAttributeValue->value;
+                return $synchronizationTypeValue->value;
             },
-
             function ($value) {
                 if (empty($value)) {
                     return null;
                 }
-                return ProductAttributeValue::from($value);
+                return SynchronizationDataType::from($value);
             }
         ));
     }
@@ -44,13 +44,13 @@ class ProductAttributeValueChoiceType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'synerise_integration_product_attribute_value_choice';
+        return 'synerise_integration_synchronization_type_choice';
     }
 
     private function getChoices(): array
     {
         $choices = [];
-        foreach (ProductAttributeValue::cases() as $case) {
+        foreach (SynchronizationDataType::cases() as $case) {
             $choices[$case->getLabel()] = $case->value;
         }
 

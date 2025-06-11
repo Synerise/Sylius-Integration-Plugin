@@ -3,6 +3,9 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Product\Model\ProductAttribute;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class SynchronizationConfiguration implements SynchronizationConfigurationInterface, \JsonSerializable
 {
@@ -12,11 +15,17 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
 
     private ?array $dataTypes = null;
 
-    private ?array $productAttributes = null;
+    /** @var Collection<int, ProductAttribute> */
+    private Collection $productAttributes;
 
     private ?int $catalogId = null;
 
     private ?ProductAttributeValue $productAttributeValue = null;
+
+    public function __construct()
+    {
+        $this->productAttributes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,14 +52,26 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
         $this->dataTypes = $dataTypes;
     }
 
-    public function getProductAttributes(): array
+    /**
+     * @return Collection<int, ProductAttribute>
+     */
+    public function getProductAttributes(): Collection
     {
-        return $this->productAttributes ?: [];
+        return $this->productAttributes;
     }
 
-    public function setProductAttributes(?array $productAttributes): void
+    public function addProductAttribute(ProductAttribute $productAttribute): void
     {
-        $this->productAttributes = $productAttributes;
+        if (!$this->productAttributes->contains($productAttribute)) {
+            $this->productAttributes->add($productAttribute);
+        }
+    }
+
+    public function removeProductAttribute(ProductAttribute $productAttribute): void
+    {
+        if ($this->productAttributes->contains($productAttribute)) {
+            $this->productAttributes->removeElement($productAttribute);
+        }
     }
 
     public function getCatalogId(): ?int

@@ -12,7 +12,9 @@
         <field name="total" column="total" type="integer" nullable="true"/>
         <field name="sent" column="sent" type="integer" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime_immutable" />
-        <field name="updatedAt" column="updated_at" type="datetime_immutable" nullable="true" />
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true" />
+        <field name="sinceWhen" column="since_when" type="datetime_immutable" />
+        <field name="untilWhen" column="until_when" type="datetime_immutable" />
 
         <many-to-one
             field="channel"

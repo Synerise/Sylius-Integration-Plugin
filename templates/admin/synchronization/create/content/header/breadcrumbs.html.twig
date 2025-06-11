@@ -1,0 +1,19 @@
+{% set synchronizationConfiguration = hookable_metadata.context.synchronizationConfiguration %}
+<ol class="breadcrumb" aria-label="breadcrumbs">
+    <li class="breadcrumb-item ">
+        <a href="{{ path('sylius_admin_dashboard') }}">{{ 'sylius.ui.dashboard'|trans }}</a>
+    </li>
+    <li class="breadcrumb-item ">
+        <a href="{{ path('synerise_integration_admin_synchronization_configuration_index') }}">
+            {{ 'synerise_integration.ui.synchronization_configuration.title' | trans }}
+        </a>
+    </li>
+    <li class="breadcrumb-item ">
+        <a href="{{ path('synerise_integration_admin_synchronization_configuration_show', { id: synchronizationConfiguration.id }) }}">
+            {{ synchronizationConfiguration.channel.name }}
+        </a>
+    </li>
+    <li class="breadcrumb-item ">
+        {{ 'synerise_integration.ui.synchronization.create.breadcrumbs_name' | trans }}
+    </li>
+</ol>

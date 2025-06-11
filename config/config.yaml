@@ -44,6 +44,8 @@ sylius_grid:
                         type: create
                         label: 'synerise_integration.ui.synchronization_configuration_create_new'
                 item:
+                    show:
+                        type: show
                     update:
                         type: update
                     delete:
@@ -83,7 +85,6 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete
-                    
 sylius_resource:
     resources:
         synerise_integration.channel_configuration:
@@ -99,10 +100,11 @@ sylius_resource:
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
                 repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository
         synerise_integration.synchronization:
-            driver: doctrine/orm
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Synchronization
                 repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
+                controller: Synerise\SyliusIntegrationPlugin\Controller\SynchronizationController
         synerise_integration.workspace:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace

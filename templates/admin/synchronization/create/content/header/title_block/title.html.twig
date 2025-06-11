@@ -1,0 +1,14 @@
+{% set resource = hookable_metadata.context.resource %}
+{% set configuration = hookable_metadata.configuration %}
+{% set synchronizationConfiguration = hookable_metadata.context.synchronizationConfiguration %}
+<div class="col-12 col-md">
+    <div class="d-md-flex gap-2 align-items-center">
+        <div class="d-flex gap-3 align-items-center">
+            <div class="d-flex flex-column gap-2">
+                <h1 class="page-title">
+                    {{ configuration.title | trans({ '%channel%': synchronizationConfiguration.channel.name }) }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
