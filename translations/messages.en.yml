@@ -29,8 +29,14 @@ synerise_integration:
                 workspace:
                     label: 'Workspace'
         synchronization_configuration:
-            title: 'Synchronization'
-            subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
+            index:
+                title: 'Synchronization'
+                subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
+                no_results:
+                    title: 'Sync configuration'
+                    subtitle: 'Get started by configuring the main synchronization settings, such as sales channels and data preferences.'
+                    action:
+                        label: 'Configure'
             form:
                 channel:
                     label: 'Channel'
@@ -100,7 +106,7 @@ synerise_integration:
                         title: 'Sync settings'
         workspace:
             index:
-                title: 'Synerise workspace connection'
+                title: 'Workspace connection'
                 subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
                 action:
                     create:

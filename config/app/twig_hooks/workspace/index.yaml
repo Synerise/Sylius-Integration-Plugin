@@ -1,12 +1,11 @@
 sylius_twig_hooks:
     hooks:
-        'sylius_admin.workspace.index.content.grid':
-            no_data_block:
-                template: '@SyliusAdmin/shared/crud/index/content/grid/no_results.html.twig'
         'sylius_admin.workspace.index.content.grid.no_results':
             image:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/image.html.twig'
                 priority: 300
+                configuration:
+                    icon: bi:arrow-repeat
             title:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/title.html.twig'
                 priority: 200
