@@ -1,11 +1,10 @@
 synerise_integration:
     ui:
+        check_docs: 'Check docs'
         change: 'Change'
         workspaces: 'Workspaces'
-        workspace: 'Workspace'
         workspace_create_new: 'Add'
         channel_configurations: 'Configurations'
-        channel_configuration: 'Configuration'
         channel_configuration_create_new: 'Add'
         tracking: 'Tracking'
         tracking_enabled: 'Tracking enabled'
@@ -25,6 +24,10 @@ synerise_integration:
         value: 'Value'
         id: 'Id'
         synchronization_configurations: 'Synchronization'
+        channel_configuration:
+            form:
+                workspace:
+                    label: 'Workspace'
         synchronization_configuration:
             title: 'Synchronization'
             subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
@@ -95,6 +98,27 @@ synerise_integration:
                 sections:
                     general:
                         title: 'Sync settings'
+        workspace:
+            index:
+                title: 'Synerise workspace connection'
+                subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
+                action:
+                    create:
+                        label: 'Connect workspace'
+                fields:
+                    name:
+                        label: 'Workspace name'
+                    environment:
+                        label: 'Environment'
+                    authentication_method:
+                        label: 'Authentication Method'
+                    permissions:
+                        label: 'Missing Permissions'
+                no_results:
+                    title: 'Enable data exchange'
+                    subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
+                    action:
+                        label: 'Connect workspace'
     form:
         workspace:
             name: 'Name'
@@ -105,10 +129,6 @@ synerise_integration:
     authentication_method:
         basic: 'Basic'
         bearer: 'Bearer'
-    grid:
-        workspace:
-            name: 'Selected Workspace'
-            permissions: 'Missing Permissions'
     synchronization:
         customer: 'Customer'
         product: 'Product'

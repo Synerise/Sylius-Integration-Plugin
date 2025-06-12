@@ -1,0 +1,16 @@
+{% set icon = hookable_metadata.configuration.icon ?? null %}
+{% set path = hookable_metadata.configuration.path %}
+{% set label = hookable_metadata.configuration.label %}
+
+<div class="empty-action">
+    <a href="{{ path(path) }}" class="btn btn-primary">
+{#        {% if icon is not null %}#}
+{#            {{ ux_icon(icon) }}#}
+{#        {% endif %}#}
+        {{ label|trans }}
+    </a>
+    <a href="" class="btn">
+        {{ ux_icon('bi:file-text') }}
+        {{ 'synerise_integration.ui.check_docs'|trans }}
+    </a>
+</div>

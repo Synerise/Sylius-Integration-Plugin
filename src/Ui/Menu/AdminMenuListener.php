@@ -23,7 +23,7 @@ final class AdminMenuListener
 
         $syneriseMenu
             ->addChild('workspaces', ['route' => 'synerise_integration_admin_workspace_index'])
-            ->setLabel('synerise_integration.ui.workspaces')
+            ->setLabel('synerise_integration.ui.workspace.index.title')
             ->setLabelAttribute('icon', 'file');
 
         $syneriseMenu
