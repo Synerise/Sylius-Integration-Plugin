@@ -1,0 +1,4 @@
+synerise_integration:
+    workspace:
+        guid:
+            required_for_basic: 'GUID is required when using Basic authentication'

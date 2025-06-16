@@ -1,0 +1,27 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.workspace.update.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/update/content/header/breadcrumbs.html.twig'
+                priority: 0
+        'sylius_admin.workspace.update.content':
+            form:
+                component: 'synerise_integration:workspace:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                priority: 0
+                configuration:
+                    method: 'PUT'
+        'sylius_admin.workspace.update.content.form':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/form/sections.html.twig'
+        'sylius_admin.workspace.update.content.form.sections':
+            general:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/form/sections/general.html.twig'
+                priority: 400
+
+#            product:
+#                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/form/sections/product.html.twig'
+#                priority: 300

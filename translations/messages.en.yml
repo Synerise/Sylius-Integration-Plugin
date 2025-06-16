@@ -2,7 +2,6 @@ synerise_integration:
     ui:
         check_docs: 'Check docs'
         change: 'Change'
-        workspace_create_new: 'Add'
         channel_configurations: 'Configurations'
         channel_configuration_create_new: 'Add'
         tracking: 'Tracking'
@@ -103,50 +102,49 @@ synerise_integration:
                 sections:
                     general:
                         title: 'Sync settings'
-        workspace:
-            form:
-                name:
-                    label: 'Workspace name'
-                api_key:
-                    label: 'Synerise workspace API key'
-                environment:
-                    label: 'Synerise API host'
-                authentication_method:
-                    label: 'Authentication method'
-                guid:
-                    label: 'Synerise API GUID'
-            index:
-                title: 'Workspace connection'
-                subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
-                action:
-                    create:
-                        label: 'Connect workspace'
-                fields:
-                    name:
-                        label: 'Workspace name'
-                    environment:
-                        label: 'Environment'
-                    authentication_method:
-                        label: 'Authentication Method'
-                    permissions:
-                        label: 'Missing Permissions'
-                no_results:
-                    title: 'Enable data exchange'
-                    subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
-                    action:
-                        label: 'Connect workspace'
-            show:
-                sections:
-                    main:
-                        card_title: 'Main settings'
+        workspace: 'Workspace connection'
         workspaces: 'Workspace connection'
     form:
         workspace:
-            name: 'Name'
-            environment: 'Environment'
-            api_key: 'API Key'
-            api_guid: 'API GUID'
-            authentication_method: 'Authentication Method'
+            name:
+                label: 'Workspace name'
+            api_key:
+                label: 'Synerise workspace API key'
+            environment:
+                label: 'Synerise API host'
+            authentication_method:
+                label: 'Authentication method'
+            guid:
+                label: 'Synerise API GUID'
+            sections:
+                main:
+                    card_title: 'Main settings'    
+    index:
+        workspace:
+            title: 'Workspace connection'
+            subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
+            action:
+                create:
+                    label: 'Connect workspace'
+            fields:
+                name:
+                    label: 'Workspace name'
+                environment:
+                    label: 'Environment'
+                authentication_method:
+                    label: 'Authentication Method'
+                permissions:
+                    label: 'Missing Permissions'
+            no_results:
+                title: 'Enable data exchange'
+                subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
+                action:
+                    label: 'Connect workspace'
+    show:
+        workspace:
+            sections:
+                main:
+                    card_title: 'Main settings'
     authentication_method:
         basic: 'Basic'
         bearer: 'Bearer'

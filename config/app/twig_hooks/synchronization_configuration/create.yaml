@@ -18,7 +18,7 @@ sylius_twig_hooks:
                     method: 'POST'
         'sylius_admin.synchronization_configuration.create.content.form':
             sections:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections.html.twig'
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/form/sections.html.twig'
         'sylius_admin.synchronization_configuration.create.content.form.sections':
             general:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/form/sections/general.html.twig'

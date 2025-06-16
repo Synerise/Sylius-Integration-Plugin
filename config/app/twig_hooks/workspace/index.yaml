@@ -10,27 +10,27 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/title.html.twig'
                 priority: 200
                 configuration:
-                    title: synerise_integration.ui.workspace.index.no_results.title
+                    title: synerise_integration.index.workspace.no_results.title
             subtitle:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/subtitle.html.twig'
                 priority: 100
                 configuration:
-                    subtitle: synerise_integration.ui.workspace.index.no_results.subtitle
+                    subtitle: synerise_integration.index.workspace.no_results.subtitle
             action:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/action.html.twig'
                 priority: 0
                 configuration:
                     path: synerise_integration_admin_workspace_create
-                    label: synerise_integration.ui.workspace.index.no_results.action.label
+                    label: synerise_integration.index.workspace.no_results.action.label
         'sylius_admin.workspace.index.content.header':
             breadcrumbs:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/header/breadcrumbs.html.twig'
                 priority: 0
                 configuration:
-                    title: synerise_integration.ui.workspace.index.title
+                    title: synerise_integration.index.workspace.title
         'sylius_admin.workspace.index.content.header.title_block':
             title:
                 template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.ui.workspace.index.title
-                    subheader: synerise_integration.ui.workspace.index.subheader
+                    title: synerise_integration.index.workspace.title
+                    subheader: synerise_integration.index.workspace.subheader

@@ -16,7 +16,7 @@ sylius_twig_hooks:
                     template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/header/title_block/actions.html.twig'
         'sylius_admin.synchronization_configuration.show.content':
             sections:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/show/content/sections.html.twig'
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/sections.html.twig'
                 priority: 0
         'sylius_admin.synchronization_configuration.show.content.sections':
             config:

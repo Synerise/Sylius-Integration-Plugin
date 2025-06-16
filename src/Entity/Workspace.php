@@ -3,6 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Environment;
@@ -16,7 +17,12 @@ class Workspace implements WorkspaceInterface, Config
     #[Assert\Uuid]
     private ?string $apiKey = null;
 
-    #[Assert\Uuid]
+    /**
+     * @Assert\Regex(
+     *     pattern="/^[{(]?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}[)}]?$/",
+     *     message="This value is not a valid GUID."
+     * )
+     */
     private ?string $apiGuid = null;
 
     private ?AuthenticationMethod $authenticationMethod = null;
@@ -50,7 +56,7 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiKey;
     }
 
-    public function setApiKey(string $apiKey): void
+    public function setApiKey(?string $apiKey): void
     {
         $this->apiKey = $apiKey;
     }
@@ -60,7 +66,7 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiGuid;
     }
 
-    public function setGuid(string $apiGuid): void
+    public function setGuid(?string $apiGuid): void
     {
         $this->apiGuid = $apiGuid;
     }

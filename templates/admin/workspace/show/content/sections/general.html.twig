@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">
         <div class="card-title">
-            {{ 'synerise_integration.ui.workspace.show.sections.main.card_title' | trans }}
+            {{ 'synerise_integration.show.workspace.sections.main.card_title' | trans }}
         </div>
     </div>
     <div id="card-config">
@@ -12,7 +12,7 @@
                 <tbody>
                     <tr>
                         <td class="text-nowrap fw-medium">
-                            {{ 'synerise_integration.ui.workspace.form.name.label'|trans }}
+                            {{ 'synerise_integration.form.workspace.name.label'|trans }}
                         </td>
                         <td class="border-start">
                             {{ resource.name }}
@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <td class="text-nowrap fw-medium">
-                            {{ 'synerise_integration.ui.workspace.form.api_key.label'|trans }}
+                            {{ 'synerise_integration.form.workspace.api_key.label'|trans }}
                         </td>
                         <td class="border-start">
                             {{ resource.apiKey }}
@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <td class="text-nowrap fw-medium">
-                            {{ 'synerise_integration.ui.workspace.form.environment.label'|trans }}
+                            {{ 'synerise_integration.form.workspace.environment.label'|trans }}
                         </td>
                         <td class="border-start">
                             {{ resource.environment.label }}
@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td class="text-nowrap fw-medium">
-                            {{ 'synerise_integration.ui.workspace.form.authentication_method.label'|trans }}
+                            {{ 'synerise_integration.form.workspace.authentication_method.label'|trans }}
                         </td>
                         <td class="border-start">
                             {{ resource.authenticationMethod.label }}
@@ -45,7 +45,7 @@
                     {% if resource.guid is not null %}
                         <tr>
                             <td class="text-nowrap fw-medium">
-                                {{ 'synerise_integration.ui.workspace.form.guid.label'|trans }}
+                                {{ 'synerise_integration.form.workspace.guid.label'|trans }}
                             </td>
                             <td class="border-start">
                                 {{ resource.guid }}
