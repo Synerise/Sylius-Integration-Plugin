@@ -5,7 +5,7 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/image.html.twig'
                 priority: 300
                 configuration:
-                    icon: bi:arrow-repeat
+                    icon: iconoir:cloud-sync
             title:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/title.html.twig'
                 priority: 200
