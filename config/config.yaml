@@ -79,7 +79,7 @@ sylius_grid:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.index.workspace.action.create.label'
+                        label: 'synerise_integration.create.workspace.title'
                 item:
                     show:
                         type: show

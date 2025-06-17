@@ -20,3 +20,5 @@ sylius_twig_hooks:
         'sylius_admin.workspace.show.content.sections':
             general:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/show/content/sections/general.html.twig'
+            advanced:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/show/content/sections/advanced.html.twig'

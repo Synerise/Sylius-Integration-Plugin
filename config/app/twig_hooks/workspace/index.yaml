@@ -21,7 +21,7 @@ sylius_twig_hooks:
                 priority: 0
                 configuration:
                     path: synerise_integration_admin_workspace_create
-                    label: synerise_integration.index.workspace.no_results.action.label
+                    label: synerise_integration.create.workspace.title
         'sylius_admin.workspace.index.content.header':
             breadcrumbs:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/header/breadcrumbs.html.twig'

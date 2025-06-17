@@ -3,7 +3,6 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Environment;
@@ -30,6 +29,14 @@ class Workspace implements WorkspaceInterface, Config
     private ?Environment $environment = null;
 
     private ?array $permissions = null;
+
+    private string $mode = 'live';
+
+    private ?bool $keepAliveEnabled = true;
+
+    private ?float $liveTimeout = 2.5;
+
+    private ?float $scheduledTimeout = 10;
 
     public function __toString(): string
     {
@@ -103,12 +110,17 @@ class Workspace implements WorkspaceInterface, Config
 
     public function getTimeout(): ?float
     {
-        return 2.5;
+        return $this->getMode() == 'scheduled' ? $this->getScheduledTimeout() : $this->getLiveTimeout();
     }
 
     public function isKeepAliveEnabled(): bool
     {
-        return false;
+        return $this->keepAliveEnabled;
+    }
+
+    public function setKeepAliveEnabled(?bool $keepAliveEnabled): void
+    {
+        $this->keepAliveEnabled = $keepAliveEnabled;
     }
 
     public function getPermissions(): ?array
@@ -119,5 +131,35 @@ class Workspace implements WorkspaceInterface, Config
     public function setPermissions(?array $permissions): void
     {
         $this->permissions = $permissions;
+    }
+
+    public function getMode(): string
+    {
+        return $this->mode;
+    }
+
+    public function setMode(string $mode): void
+    {
+        $this->mode = $mode;
+    }
+
+    public function getLiveTimeout(): float
+    {
+        return $this->liveTimeout;
+    }
+
+    public function setLiveTimeout(float $liveTimeout): void
+    {
+        $this->liveTimeout = $liveTimeout;
+    }
+
+    public function getScheduledTimeout(): float
+    {
+        return $this->scheduledTimeout;
+    }
+
+    public function setScheduledTimeout(float $scheduledTimeout): void
+    {
+        $this->scheduledTimeout = $scheduledTimeout;
     }
 }

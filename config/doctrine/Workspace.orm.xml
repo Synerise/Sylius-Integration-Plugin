@@ -19,5 +19,8 @@
             </options>
         </field>
         <field name="permissions" column="permissions" type="array" nullable="true" />
+        <field name="liveTimeout" column="liveTimeout" type="float" />
+        <field name="scheduledTimeout" column="scheduledTimeout" type="float" />
+        <field name="keepAliveEnabled" column="keepAliveEnabled" type="boolean" />
     </mapped-superclass>
 </doctrine-mapping>

@@ -21,6 +21,7 @@ synerise_integration:
         id_value: 'Id & Value'
         value: 'Value'
         id: 'Id'
+        seconds_short: 'sec'
         synchronization_configurations: 'Synchronization'
         channel_configuration:
             form:
@@ -116,16 +117,23 @@ synerise_integration:
                 label: 'Authentication method'
             guid:
                 label: 'Synerise API GUID'
+            keep_alive_enabled: 
+                label: 'Enable the keep-alive header'
+            live_timeout: 
+                label: 'Timeout of live requests'
+            scheduled_timeout: 
+                label: 'Timeout of scheduled requests'
             sections:
                 main:
-                    card_title: 'Main settings'    
+                    card_title: 'Main settings'
+                advanced:
+                    card_title: 'Advanced settings'
+                    popover:
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds.'
     index:
         workspace:
             title: 'Workspace connection'
             subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
-            action:
-                create:
-                    label: 'Connect workspace'
             fields:
                 name:
                     label: 'Workspace name'
@@ -138,13 +146,11 @@ synerise_integration:
             no_results:
                 title: 'Enable data exchange'
                 subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
-                action:
-                    label: 'Connect workspace'
-    show:
+    create:
         workspace:
-            sections:
-                main:
-                    card_title: 'Main settings'
+            title: 'Connect workspace'
+            subheader: Fill in the data in the form to connect your Synerise workspace with Sylius.
+
     authentication_method:
         basic: 'Basic'
         bearer: 'Bearer'
