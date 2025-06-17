@@ -1,11 +1,35 @@
-<div class="g-col-12 g-col-xl-12 card" style="grid-row: 1 / 4;">
-    <div class="card-header">
-        <div class="card-title">{{ 'synerise_integration.ui.tracking'|trans }}</div>
-    </div>
+<div class="tab-pane fade" id="v-steps-tracking" role="tabpanel" aria-labelledby="v-steps-tracking-tab"
+     tabindex="0">
+    <div class="g-col-12 g-col-xl-12 card">
+        <div class="card-header">
+            <div class="card-title">Page tracking</div>
+        </div>
 
-    <div class="card-body">
-        <div class="row">
-            {% hook 'tracking' %}
+        <div class="card-body">
+            <div class="w-100 d-flex flex-column">
+                {{ form_row(hookable_metadata.context.form.trackingEnabled, sylius_test_form_attribute('trackingEnabled')|merge({ label_attr: { class: 'checkbox-switch' } })) }}
+                {{ form_row(hookable_metadata.context.form.opengraphEnabled, sylius_test_form_attribute('opengraphEnabled')|merge({ label_attr: { class: 'checkbox-switch' } })) }}
+                {{ form_row(hookable_metadata.context.form.virtualPage, sylius_test_form_attribute('virtualPage')|merge({ label_attr: { class: 'checkbox-switch' } })) }}
+                {{ form_row(hookable_metadata.context.form.cookieDomainEnabled, sylius_test_form_attribute('cookieDomainEnabled')|merge({ label_attr: { class: 'checkbox-switch' } })) }}
+                {% if hookable_metadata.context.formValues.cookieDomainEnabled == '1' %}
+                    <div class="mb-3 field">
+                        {{ form_label(hookable_metadata.context.form.cookieDomain) }}
+                        <div class="input-group">
+                            <span class="input-group-text">https://</span>
+                            {{ form_widget(hookable_metadata.context.form.cookieDomain) }}
+                        </div>
+                    </div>
+                {% endif %}
+                {{ form_row(hookable_metadata.context.form.customPageVisit, sylius_test_form_attribute('customPageVisit')|merge({ label_attr: { class: 'checkbox-switch' } })) }}
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="btn">
+                    Back
+                </button>
+                <button class="btn btn-secondary">
+                    Next
+                </button>
+            </div>
         </div>
     </div>
 </div>

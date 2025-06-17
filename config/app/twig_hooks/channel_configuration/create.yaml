@@ -1,5 +1,5 @@
 sylius_twig_hooks:
-    hooks: 
+    hooks:
         'sylius_admin.channel_configuration.create.content':
             form:
                 component: 'synerise_integration:channel_configuration:form'
@@ -12,9 +12,7 @@ sylius_twig_hooks:
                     method: 'POST'
         'sylius_admin.channel_configuration.create.content.form':
             sections:
-                template: '@SyliusAdmin/shared/crud/common/content/form/sections.html.twig'
-                priority: 0
-        
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections.html.twig'
         'sylius_admin.channel_configuration.create.content.form.sections':
             general:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general.html.twig'
@@ -25,35 +23,3 @@ sylius_twig_hooks:
             events:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events.html.twig'
                 priority: 200
-        'sylius_admin.channel_configuration.create.content.form.sections.general':
-            default:
-                enabled: false
-            channel:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/channel.html.twig'
-                priority: 1200
-            workspace:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/workspace.html.twig'
-                priority: 1100
-            opengraph_enabled:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/general/opengraph_enabled.html.twig'
-                priority: 1000
-        'sylius_admin.channel_configuration.create.content.form.sections.tracking':
-            tracking_enabled:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/enabled.html.twig'
-                priority: 1300
-            cookie_domain:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/cookie_domain.html.twig'
-                priority: 1200
-            custom_page_visit:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/custom_page_visit.html.twig'
-                priority: 1100
-            virtual_page:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/tracking/virtual_page.html.twig'
-                priority: 1000
-        'sylius_admin.channel_configuration.create.content.form.sections.events':
-            events:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events/events.html.twig'
-                priority: 1100
-            queue_events:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/form/sections/events/queue_events.html.twig'
-                priority: 1000

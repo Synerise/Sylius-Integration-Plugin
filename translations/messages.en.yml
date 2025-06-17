@@ -113,4 +113,20 @@ synerise_integration:
         customer: 'Customer'
         product: 'Product'
         order: 'Order'
-
+    channel_configuration:
+        form:
+            tracking_enabled:
+                label: 'Automatically add tracking code to monitor customer activity'
+            opengraph_enabled:
+                label: 'Render OG tags from page visit events'
+            virtual_page:
+                label: 'Dynamic content for PWA, SPA sites'
+                help: 'Enabling this option lets you display Synerise dynamic content on single page or progressive web application.'
+            cookie_domain_enabled:
+                label: 'Override cookie domain'
+                help: 'Declare a specific domain for cookies if several subdomains share a single workspace.'
+            cookie_domain:
+                label: 'Declare a specific domain/root domain'
+            custom_page_visit:
+                label: 'Custom page visit implementation '
+                help: 'Recommended for PWA themes. Enabling this option requires code changes. For more information check the documentation.'
