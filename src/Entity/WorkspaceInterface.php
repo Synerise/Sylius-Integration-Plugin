@@ -3,8 +3,9 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
-use Synerise\SyliusIntegrationPlugin\Model\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
 interface WorkspaceInterface extends ResourceInterface
 {
@@ -38,7 +39,7 @@ interface WorkspaceInterface extends ResourceInterface
 
     public function isKeepAliveEnabled(): bool;
 
-    public function getPermissions(): ?array;
+    public function getPermissionsStatus(): ?PermissionsStatus;
 
-    public function setPermissions(?array $permissions): void;
+    public function setPermissionsStatus(?PermissionsStatus $permissionsStatus): void;
 }

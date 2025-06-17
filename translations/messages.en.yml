@@ -105,52 +105,6 @@ synerise_integration:
                         title: 'Sync settings'
         workspace: 'Workspace connection'
         workspaces: 'Workspace connection'
-    form:
-        workspace:
-            name:
-                label: 'Workspace name'
-            api_key:
-                label: 'Synerise workspace API key'
-            environment:
-                label: 'Synerise API host'
-            authentication_method:
-                label: 'Authentication method'
-            guid:
-                label: 'Synerise API GUID'
-            keep_alive_enabled: 
-                label: 'Enable the keep-alive header'
-            live_timeout: 
-                label: 'Timeout of live requests'
-            scheduled_timeout: 
-                label: 'Timeout of scheduled requests'
-            sections:
-                main:
-                    card_title: 'Main settings'
-                advanced:
-                    card_title: 'Advanced settings'
-                    popover:
-                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds.'
-    index:
-        workspace:
-            title: 'Workspace connection'
-            subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
-            fields:
-                name:
-                    label: 'Workspace name'
-                environment:
-                    label: 'Environment'
-                authentication_method:
-                    label: 'Authentication Method'
-                permissions:
-                    label: 'Missing Permissions'
-            no_results:
-                title: 'Enable data exchange'
-                subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
-    create:
-        workspace:
-            title: 'Connect workspace'
-            subheader: Fill in the data in the form to connect your Synerise workspace with Sylius.
-
     authentication_method:
         basic: 'Basic'
         bearer: 'Bearer'
@@ -175,3 +129,52 @@ synerise_integration:
             custom_page_visit:
                 label: 'Custom page visit implementation '
                 help: 'Recommended for PWA themes. Enabling this option requires code changes. For more information check the documentation.'
+    workspace:
+        form:
+            name:
+                label: 'Workspace name'
+            api_key:
+                label: 'Synerise Workspace API key'
+            environment:
+                label: 'Environment'
+            authentication_method:
+                label: 'Authentication method'
+            guid:
+                label: 'Synerise API GUID'
+            keep_alive_enabled:
+                label: 'Enable the keep-alive header'
+            live_timeout:
+                label: 'Timeout of live requests'
+            scheduled_timeout:
+                label: 'Timeout of scheduled requests'
+            sections:
+                main:
+                    card_title: 'Main settings'
+                advanced:
+                    card_title: 'Advanced settings'
+                    popover:
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds.'
+        create:
+            title: 'Connect workspace'
+            subheader: 'Fill in the data in the form to connect your Synerise workspace with Sylius.'
+        index:
+            title: 'Workspace connection'
+            subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
+            no_results:
+                title: 'Enable data exchange'
+                subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
+            permissions: 
+                label: 'Permissions'
+        permissions_status:
+            label: 'Permissions'
+            full_access: 'Full Access'
+            partial_access: 'Partial Access'
+            no_access: 'No Access'
+        mode:
+            live: 'Live'
+            scheduled: 'Scheduled'
+    flashes:
+        missing_permissions:
+            header: 'Missing Permissions'
+            subheader: 'Your Synerise workspace API key misses permissions listed below. After you add these permissions to the key, refresh this page.'
+            text: 'The list of missing permissions:'

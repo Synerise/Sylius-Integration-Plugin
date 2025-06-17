@@ -3,7 +3,6 @@
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
-use Sylius\Component\Grid\Filter\BooleanFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,8 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
-use Synerise\SyliusIntegrationPlugin\Model\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
 
 final class WorkspaceType extends AbstractResourceType
 {
@@ -22,16 +21,16 @@ final class WorkspaceType extends AbstractResourceType
         $builder
             ->add('environment', EnumType::class, [
                 'class' => Environment::class,
-                'label' => 'synerise_integration.form.workspace.environment.label',
+                'label' => 'synerise_integration.workspace.form.environment.label',
                 'expanded' => true
             ])
             ->add('authenticationMethod', EnumType::class, [
                 'class' => AuthenticationMethod::class,
-                'label' => 'synerise_integration.form.workspace.authentication_method.label',
+                'label' => 'synerise_integration.workspace.form.authentication_method.label',
                 'expanded' => true
             ])
             ->add('apiKey', TextType::class, [
-                'label' => 'synerise_integration.form.workspace.api_key.label',
+                'label' => 'synerise_integration.workspace.form.api_key.label',
                 'constraints' => [
                     new NotNull([
                         'message' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.errors.not_null'
@@ -39,20 +38,20 @@ final class WorkspaceType extends AbstractResourceType
                 ],
             ])
             ->add('guid', TextType::class, [
-                'label' => 'synerise_integration.form.workspace.guid.label',
+                'label' => 'synerise_integration.workspace.form.guid.label',
                 'required' => true
             ])
             ->add('keepAliveEnabled',ChoiceType::class, [
-                'label' => 'synerise_integration.form.workspace.keep_alive_enabled.label',
+                'label' => 'synerise_integration.workspace.form.keep_alive_enabled.label',
                 'expanded' => true,
                 'choices' => [
-                    'sylius.ui.yes_label' => BooleanFilter::TRUE,
-                    'sylius.ui.no_label' => BooleanFilter::FALSE,
+                    'sylius.ui.yes_label' => true,
+                    'sylius.ui.no_label' => false,
                 ],
             ])->add('liveTimeout',TextType::class, [
-                'label' => 'synerise_integration.form.workspace.live_timeout.label'
+                'label' => 'synerise_integration.workspace.form.live_timeout.label'
             ])->add('scheduledTimeout',TextType::class, [
-                'label' => 'synerise_integration.form.workspace.scheduled_timeout.label'
+                'label' => 'synerise_integration.workspace.form.scheduled_timeout.label'
             ]);
     }
 

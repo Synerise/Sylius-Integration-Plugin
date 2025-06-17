@@ -5,7 +5,7 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/create/content/header/breadcrumbs.html.twig'
                 priority: 0
                 configuration:
-                    title: synerise_integration.create.workspace.title
+                    title: synerise_integration.workspace.create.title
         'sylius_admin.workspace.create.content':
             form:
                 component: 'synerise_integration:workspace:form'
@@ -28,5 +28,5 @@ sylius_twig_hooks:
             title:
                 template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.create.workspace.title
-                    subheader: synerise_integration.create.workspace.subheader
+                    title: synerise_integration.workspace.create.title
+                    subheader: synerise_integration.workspace.create.subheader

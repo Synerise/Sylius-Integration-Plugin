@@ -4,8 +4,9 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Synerise\Sdk\Api\Config;
-use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
-use Synerise\SyliusIntegrationPlugin\Model\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
 class Workspace implements WorkspaceInterface, Config
 {
@@ -24,11 +25,11 @@ class Workspace implements WorkspaceInterface, Config
      */
     private ?string $apiGuid = null;
 
-    private ?AuthenticationMethod $authenticationMethod = null;
+    private AuthenticationMethod $authenticationMethod = AuthenticationMethod::Bearer;
 
-    private ?Environment $environment = null;
+    private Environment $environment = Environment::Azure;
 
-    private ?array $permissions = null;
+    private PermissionsStatus $permissionsStatus = PermissionsStatus::NoAccess;
 
     private string $mode = 'live';
 
@@ -78,7 +79,7 @@ class Workspace implements WorkspaceInterface, Config
         $this->apiGuid = $apiGuid;
     }
 
-    public function getAuthenticationMethod(): ?AuthenticationMethod
+    public function getAuthenticationMethod(): AuthenticationMethod
     {
         return $this->authenticationMethod;
     }
@@ -88,7 +89,7 @@ class Workspace implements WorkspaceInterface, Config
         $this->authenticationMethod = $authenticationMethod;
     }
 
-    public function getEnvironment(): ?Environment
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
@@ -118,19 +119,19 @@ class Workspace implements WorkspaceInterface, Config
         return $this->keepAliveEnabled;
     }
 
-    public function setKeepAliveEnabled(?bool $keepAliveEnabled): void
+    public function setKeepAliveEnabled(bool $keepAliveEnabled): void
     {
         $this->keepAliveEnabled = $keepAliveEnabled;
     }
 
-    public function getPermissions(): ?array
+    public function getPermissionsStatus(): ?PermissionsStatus
     {
-        return $this->permissions;
+        return $this->permissionsStatus;
     }
 
-    public function setPermissions(?array $permissions): void
+    public function setPermissionsStatus(?PermissionsStatus $permissionsStatus): void
     {
-        $this->permissions = $permissions;
+        $this->permissionsStatus = $permissionsStatus;
     }
 
     public function getMode(): string

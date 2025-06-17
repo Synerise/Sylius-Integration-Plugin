@@ -58,28 +58,28 @@ sylius_grid:
             fields:
                 name:
                     type: string
-                    label: synerise_integration.index.workspace.fields.name.label
+                    label: synerise_integration.workspace.form.name.label
                     sortable: true
                 environment:
                     type: twig
-                    label: synerise_integration.index.workspace.fields.environment.label
+                    label: synerise_integration.workspace.form.environment.label
                     options:
                         template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
                 authentication_method:
                     type: twig
-                    label: synerise_integration.index.workspace.fields.authentication_method.label
+                    label: synerise_integration.workspace.form.authentication_method.label
                     options:
                         template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
-                permissions:
+                permissionsStatus:
                     type: twig
-                    label: synerise_integration.index.workspace.fields.permissions.label
+                    label: synerise_integration.workspace.permissions_status.label
                     options:
-                        template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/array_raws.html.twig"
+                        template: "@SyneriseSyliusIntegrationPlugin/admin/workspace/grid/field/permissions_status.html.twig"
             actions:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.create.workspace.title'
+                        label: 'synerise_integration.workspace.create.title'
                 item:
                     show:
                         type: show

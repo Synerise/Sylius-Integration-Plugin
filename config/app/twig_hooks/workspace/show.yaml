@@ -14,6 +14,9 @@ sylius_twig_hooks:
                 template: '@SyliusAdmin/shared/crud/show/content/header/title_block/actions/edit.html.twig'
                 priority: 100
         'sylius_admin.workspace.show.content':
+            permissions:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/show/content/permissions.html.twig'
+                priority: 100        
             sections:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/sections.html.twig'
                 priority: 0
