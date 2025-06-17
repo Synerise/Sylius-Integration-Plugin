@@ -36,6 +36,17 @@
 
             <tag name="sylius.live_component.admin" key="synerise_integration:synchronization:form"/>
         </service>
+        <service
+            id="synerise_integration.twig.component.workspace.form"
+            class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="synerise_integration.repository.workspace"/>
+            <argument type="service" id="form.factory"/>
+            <argument>%synerise_integration.model.workspace.class%</argument>
+            <argument>Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType</argument>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:workspace:form"/>
+        </service>
         <service id="synerise_integration.form.type.synchronization_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType" >
             <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
 

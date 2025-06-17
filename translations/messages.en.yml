@@ -1,11 +1,8 @@
 synerise_integration:
     ui:
+        check_docs: 'Check docs'
         change: 'Change'
-        workspaces: 'Workspaces'
-        workspace: 'Workspace'
-        workspace_create_new: 'Add'
         channel_configurations: 'Configurations'
-        channel_configuration: 'Configuration'
         channel_configuration_create_new: 'Add'
         tracking: 'Tracking'
         tracking_enabled: 'Tracking enabled'
@@ -24,10 +21,21 @@ synerise_integration:
         id_value: 'Id & Value'
         value: 'Value'
         id: 'Id'
+        seconds_short: 'sec'
         synchronization_configurations: 'Synchronization'
+        channel_configuration:
+            form:
+                workspace:
+                    label: 'Workspace'
         synchronization_configuration:
-            title: 'Synchronization'
-            subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
+            index:
+                title: 'Synchronization'
+                subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
+                no_results:
+                    title: 'Sync configuration'
+                    subtitle: 'Get started by configuring the main synchronization settings, such as sales channels and data preferences.'
+                    action:
+                        label: 'Configure'
             form:
                 channel:
                     label: 'Channel'
@@ -95,20 +103,57 @@ synerise_integration:
                 sections:
                     general:
                         title: 'Sync settings'
+        workspace: 'Workspace connection'
+        workspaces: 'Workspace connection'
     form:
         workspace:
-            name: 'Name'
-            environment: 'Environment'
-            api_key: 'API Key'
-            api_guid: 'API GUID'
-            authentication_method: 'Authentication Method'
+            name:
+                label: 'Workspace name'
+            api_key:
+                label: 'Synerise workspace API key'
+            environment:
+                label: 'Synerise API host'
+            authentication_method:
+                label: 'Authentication method'
+            guid:
+                label: 'Synerise API GUID'
+            keep_alive_enabled: 
+                label: 'Enable the keep-alive header'
+            live_timeout: 
+                label: 'Timeout of live requests'
+            scheduled_timeout: 
+                label: 'Timeout of scheduled requests'
+            sections:
+                main:
+                    card_title: 'Main settings'
+                advanced:
+                    card_title: 'Advanced settings'
+                    popover:
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds.'
+    index:
+        workspace:
+            title: 'Workspace connection'
+            subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
+            fields:
+                name:
+                    label: 'Workspace name'
+                environment:
+                    label: 'Environment'
+                authentication_method:
+                    label: 'Authentication Method'
+                permissions:
+                    label: 'Missing Permissions'
+            no_results:
+                title: 'Enable data exchange'
+                subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
+    create:
+        workspace:
+            title: 'Connect workspace'
+            subheader: Fill in the data in the form to connect your Synerise workspace with Sylius.
+
     authentication_method:
         basic: 'Basic'
         bearer: 'Bearer'
-    grid:
-        workspace:
-            name: 'Selected Workspace'
-            permissions: 'Missing Permissions'
     synchronization:
         customer: 'Customer'
         product: 'Product'

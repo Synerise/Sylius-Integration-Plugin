@@ -43,13 +43,12 @@ synerise_integration_admin_workspace:
         grid: synerise_integration_admin_workspace
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
-        except: ['show']
         permission: true
         vars:
             all:
-                header: synerise_integration.ui.workspaces
-                subheader: synerise_integration.ui.manage_workspaces
-                breadcrumb: synerise_integration.ui.workspaces
+                header: synerise_integration.ui.workspace.grid.header
+                subheader: synerise_integration.ui.workspace.grid.subheader
+                breadcrumb: synerise_integration.ui.workspace.grid.header
             index:
                 icon: cogs
         path: /synerise/workspace

@@ -19,7 +19,7 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'label' => 'sylius.ui.channel'
             ])
             ->add('workspace', WorkspaceChoiceType::class, [
-                'label' => 'synerise_integration.ui.workspace'
+                'label' => 'synerise_integration.ui.channel_configuration.form.workspace.label'
             ])
             ->add('trackingEnabled', CheckboxType::class, [
                 'label' => 'synerise_integration.ui.',

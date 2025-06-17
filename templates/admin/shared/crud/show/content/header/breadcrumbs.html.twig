@@ -19,7 +19,11 @@
     : {}
 %}
 
-{% set resource_show_name = resource.channel.name|default(resource.id) %}
+{% if resource.name is defined %}
+    {% set resource_show_name = resource.name|default(resource.id) %}
+{% elseif resource.channel is defined %}
+    {% set resource_show_name = resource.channel.name|default(resource.id) %}
+{% endif %}
 
 {% if action is defined and action.name is defined %}
     {% set show_url = path(configuration.getRouteName('show'), { id: resource.id }) %}
@@ -29,7 +33,7 @@
 {% endif %}
 
 {{ breadcrumbs([
-    { name: 'sylius.ui.dashboard', url: path('sylius_admin_dashboard'), active: false },
+    { name: 'Synerise', 'active': false },
     { name: resource_index, url: index_url, active: false },
     resource_show,
     action

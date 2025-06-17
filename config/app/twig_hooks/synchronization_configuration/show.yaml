@@ -2,21 +2,21 @@ sylius_twig_hooks:
     hooks:
         'sylius_admin.synchronization_configuration.show.content.header':
             breadcrumbs:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/header/breadcrumbs.html.twig'
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/breadcrumbs.html.twig'
                 priority: 0
         'sylius_admin.synchronization_configuration.show.content.header.title_block':
             title:
-                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.ui.synchronization_configuration.title
-                    subheader: synerise_integration.ui.synchronization_configuration.subheader
+                    title: synerise_integration.ui.synchronization_configuration.index.title
+                    subheader: synerise_integration.ui.synchronization_configuration.index.subheader
             actions:
                 component: 'synerise_integration:synchronization_configuration_actions'
                 props:
                     template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/header/title_block/actions.html.twig'
         'sylius_admin.synchronization_configuration.show.content':
             sections:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections.html.twig'
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/sections.html.twig'
                 priority: 0
         'sylius_admin.synchronization_configuration.show.content.sections':
             config:

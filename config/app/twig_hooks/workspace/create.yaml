@@ -1,0 +1,32 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.workspace.create.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/create/content/header/breadcrumbs.html.twig'
+                priority: 0
+                configuration:
+                    title: synerise_integration.create.workspace.title
+        'sylius_admin.workspace.create.content':
+            form:
+                component: 'synerise_integration:workspace:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                priority: 0
+        'sylius_admin.workspace.create.content.form':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/form/sections.html.twig'
+        'sylius_admin.workspace.create.content.form.sections':
+            general:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/form/sections/general.html.twig'
+                priority: 400
+            advanced:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/form/sections/advanced.html.twig'
+                priority: 300
+        'sylius_admin.workspace.create.content.header.title_block':
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.create.workspace.title
+                    subheader: synerise_integration.create.workspace.subheader

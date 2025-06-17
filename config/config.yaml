@@ -16,7 +16,7 @@ sylius_grid:
                     sortable: true
                 workspace:
                     type: string
-                    label: synerise_integration.ui.workspace
+                    label: synerise_integration.ui.channel_configuration.form.workspace.label
                     sortable: true
             actions:
                 main:
@@ -58,29 +58,31 @@ sylius_grid:
             fields:
                 name:
                     type: string
-                    label: synerise_integration.grid.workspace.name
+                    label: synerise_integration.index.workspace.fields.name.label
                     sortable: true
                 environment:
                     type: twig
-                    label: synerise_integration.form.workspace.environment
+                    label: synerise_integration.index.workspace.fields.environment.label
                     options:
                         template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
                 authentication_method:
                     type: twig
-                    label: synerise_integration.form.workspace.authentication_method
+                    label: synerise_integration.index.workspace.fields.authentication_method.label
                     options:
                         template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
                 permissions:
                     type: twig
-                    label: synerise_integration.grid.workspace.permissions
+                    label: synerise_integration.index.workspace.fields.permissions.label
                     options:
                         template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/array_raws.html.twig"
             actions:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.ui.workspace_create_new'
+                        label: 'synerise_integration.create.workspace.title'
                 item:
+                    show:
+                        type: show
                     update:
                         type: update
                     delete:

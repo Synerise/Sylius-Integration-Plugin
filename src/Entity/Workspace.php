@@ -16,7 +16,12 @@ class Workspace implements WorkspaceInterface, Config
     #[Assert\Uuid]
     private ?string $apiKey = null;
 
-    #[Assert\Uuid]
+    /**
+     * @Assert\Regex(
+     *     pattern="/^[{(]?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}[)}]?$/",
+     *     message="This value is not a valid GUID."
+     * )
+     */
     private ?string $apiGuid = null;
 
     private ?AuthenticationMethod $authenticationMethod = null;
@@ -24,6 +29,14 @@ class Workspace implements WorkspaceInterface, Config
     private ?Environment $environment = null;
 
     private ?array $permissions = null;
+
+    private string $mode = 'live';
+
+    private ?bool $keepAliveEnabled = true;
+
+    private ?float $liveTimeout = 2.5;
+
+    private ?float $scheduledTimeout = 10;
 
     public function __toString(): string
     {
@@ -50,7 +63,7 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiKey;
     }
 
-    public function setApiKey(string $apiKey): void
+    public function setApiKey(?string $apiKey): void
     {
         $this->apiKey = $apiKey;
     }
@@ -60,7 +73,7 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiGuid;
     }
 
-    public function setGuid(string $apiGuid): void
+    public function setGuid(?string $apiGuid): void
     {
         $this->apiGuid = $apiGuid;
     }
@@ -97,12 +110,17 @@ class Workspace implements WorkspaceInterface, Config
 
     public function getTimeout(): ?float
     {
-        return 2.5;
+        return $this->getMode() == 'scheduled' ? $this->getScheduledTimeout() : $this->getLiveTimeout();
     }
 
     public function isKeepAliveEnabled(): bool
     {
-        return false;
+        return $this->keepAliveEnabled;
+    }
+
+    public function setKeepAliveEnabled(?bool $keepAliveEnabled): void
+    {
+        $this->keepAliveEnabled = $keepAliveEnabled;
     }
 
     public function getPermissions(): ?array
@@ -113,5 +131,35 @@ class Workspace implements WorkspaceInterface, Config
     public function setPermissions(?array $permissions): void
     {
         $this->permissions = $permissions;
+    }
+
+    public function getMode(): string
+    {
+        return $this->mode;
+    }
+
+    public function setMode(string $mode): void
+    {
+        $this->mode = $mode;
+    }
+
+    public function getLiveTimeout(): float
+    {
+        return $this->liveTimeout;
+    }
+
+    public function setLiveTimeout(float $liveTimeout): void
+    {
+        $this->liveTimeout = $liveTimeout;
+    }
+
+    public function getScheduledTimeout(): float
+    {
+        return $this->scheduledTimeout;
+    }
+
+    public function setScheduledTimeout(float $scheduledTimeout): void
+    {
+        $this->scheduledTimeout = $scheduledTimeout;
     }
 }

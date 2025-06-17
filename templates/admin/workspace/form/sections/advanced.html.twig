@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header" role="button" data-bs-toggle="collapse" data-bs-target="#card-advanced" aria-expanded="true" aria-controls="card-advanced">
+        <div class="card-title">
+            {{ 'synerise_integration.form.workspace.sections.advanced.card_title'|trans }}
+            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-html="true" title="{{ 'synerise_integration.form.workspace.sections.advanced.popover.content'|trans }}">
+                {{ ux_icon('bi:info-circle-fill', {class: 'w-3 h-3'}) }}
+            </span>
+        </div>
+        <div class="card-options">
+            <a href="#" class="card-options-collapse">
+                {{ ux_icon('tabler:chevron-up') }}
+            </a>
+        </div>
+    </div>
+    <div class="card-body collapse" id="card-advanced">
+        {{ form_row(hookable_metadata.context.form.keepAliveEnabled, sylius_test_form_attribute('keepAliveEnabled')) }}
+
+        <div class="mb-3 field">
+            {{ form_label(hookable_metadata.context.form.liveTimeout) }}
+            <div class="input-group">
+                {{ form_widget(hookable_metadata.context.form.liveTimeout) }}
+                <span class="input-group-text">{{ 'synerise_integration.ui.seconds_short'|trans }}</span>
+            </div>
+        </div>
+        <div class="mb-3 field">
+            {{ form_label(hookable_metadata.context.form.scheduledTimeout) }}
+            <div class="input-group">
+                {{ form_widget(hookable_metadata.context.form.scheduledTimeout) }}
+                <span class="input-group-text">{{ 'synerise_integration.ui.seconds_short'|trans }}</span>
+            </div>
+        </div>
+    </div>
+</div>
