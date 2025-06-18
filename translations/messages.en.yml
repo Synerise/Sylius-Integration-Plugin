@@ -175,6 +175,10 @@ synerise_integration:
                 subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
             permissions: 
                 label: 'Permissions'
+        actions:
+            delete: 
+                header: 'Delete workspace?'
+                body: Once you delete this workspace from the list, it can't be recovered. If it's linked to a sales channel, the connection will be lost.
         permissions_status:
             label: 'Permissions'
             full_access: 'Full Access'

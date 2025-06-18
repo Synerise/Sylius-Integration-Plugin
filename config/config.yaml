@@ -2,7 +2,10 @@ imports:
     - { resource: "app/twig_hooks/**/*.yaml" }
     - { resource: "app/messenger.yaml" }
 
-sylius_grid:    
+sylius_grid:
+    templates:
+        action:
+            delete_workspace: "@SyneriseSyliusIntegrationPlugin/admin/workspace/grid/action/delete.html.twig"
     grids:
         synerise_integration_admin_channel_configuration:
             driver:
@@ -86,7 +89,7 @@ sylius_grid:
                     update:
                         type: update
                     delete:
-                        type: delete
+                        type: delete_workspace
 sylius_resource:
     resources:
         synerise_integration.channel_configuration:
