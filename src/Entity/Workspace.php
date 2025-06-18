@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
 class Workspace implements WorkspaceInterface, Config
@@ -31,13 +32,13 @@ class Workspace implements WorkspaceInterface, Config
 
     private PermissionsStatus $permissionsStatus = PermissionsStatus::NoAccess;
 
-    private string $mode = 'live';
+    private Mode $mode = Mode::Live;
 
-    private ?bool $keepAliveEnabled = true;
+    private bool $keepAliveEnabled = true;
 
-    private ?float $liveTimeout = 2.5;
+    private float $liveTimeout = 2.5;
 
-    private ?float $scheduledTimeout = 10;
+    private float $scheduledTimeout = 10;
 
     public function __toString(): string
     {
@@ -111,7 +112,7 @@ class Workspace implements WorkspaceInterface, Config
 
     public function getTimeout(): ?float
     {
-        return $this->getMode() == 'scheduled' ? $this->getScheduledTimeout() : $this->getLiveTimeout();
+        return $this->getMode() == Mode::Scheduled ? $this->getScheduledTimeout() : $this->getLiveTimeout();
     }
 
     public function isKeepAliveEnabled(): bool
@@ -124,22 +125,22 @@ class Workspace implements WorkspaceInterface, Config
         $this->keepAliveEnabled = $keepAliveEnabled;
     }
 
-    public function getPermissionsStatus(): ?PermissionsStatus
+    public function getPermissionsStatus(): PermissionsStatus
     {
         return $this->permissionsStatus;
     }
 
-    public function setPermissionsStatus(?PermissionsStatus $permissionsStatus): void
+    public function setPermissionsStatus(PermissionsStatus $permissionsStatus): void
     {
         $this->permissionsStatus = $permissionsStatus;
     }
 
-    public function getMode(): string
+    public function getMode(): Mode
     {
         return $this->mode;
     }
 
-    public function setMode(string $mode): void
+    public function setMode(Mode $mode): void
     {
         $this->mode = $mode;
     }

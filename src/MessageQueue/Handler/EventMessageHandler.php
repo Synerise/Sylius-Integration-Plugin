@@ -9,6 +9,7 @@ use Synerise\Sdk\Serialization\StringJsonParseNodeFactory;
 use Synerise\SyliusIntegrationPlugin\Api\EventRequestHandlerFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
@@ -31,6 +32,8 @@ class EventMessageHandler
         /** @var Config $config */
         $config = $this->configurationFactory->get($message->getSalesChannelId())?->getWorkspace();
         Assert::notNull($config);
+
+        $config->setMode(Mode::Scheduled);
 
         $payload = $this->deserialize($message->getPayload(), $requestHandler->getType());
         Assert::notNull($payload);

@@ -8,6 +8,7 @@ use Synerise\Api\V4\Models\Profile;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AbstractRequestHandler;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchRequestHandlerInterface;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Webmozart\Assert\Assert;
 
 class ProfileRequestHandler extends AbstractRequestHandler implements BatchRequestHandlerInterface
@@ -39,6 +40,8 @@ class ProfileRequestHandler extends AbstractRequestHandler implements BatchReque
 
         $config = $this->getChannelConfiguration($channelId)?->getWorkspace();
         Assert::isInstanceOf($config, Config::class);
+
+        $config->setMode(Mode::Scheduled);
 
         return $this->getClientBuilder($config)->v4()->clients()->batch()->post($payload);
     }

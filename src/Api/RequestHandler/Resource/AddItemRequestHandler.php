@@ -8,6 +8,7 @@ use Synerise\Api\Catalogs\Models\AddItem;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AbstractRequestHandler;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchRequestHandlerInterface;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Webmozart\Assert\Assert;
 
 class AddItemRequestHandler extends AbstractRequestHandler implements BatchRequestHandlerInterface
@@ -43,6 +44,8 @@ class AddItemRequestHandler extends AbstractRequestHandler implements BatchReque
 
         $config = $this->getChannelConfiguration($channelId)?->getWorkspace();
         Assert::isInstanceOf($config, Config::class);
+
+        $config->setMode(Mode::Scheduled);
 
         $catalogId = $this->getSynchronizationConfiguration($channelId)?->getCatalogId();
         Assert::notNull($catalogId);

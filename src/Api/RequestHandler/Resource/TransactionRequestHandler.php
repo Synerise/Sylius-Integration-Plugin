@@ -8,6 +8,7 @@ use Synerise\Api\V4\Models\Transaction;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\AbstractRequestHandler;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchRequestHandlerInterface;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Webmozart\Assert\Assert;
 
 class TransactionRequestHandler extends AbstractRequestHandler implements BatchRequestHandlerInterface
@@ -39,6 +40,8 @@ class TransactionRequestHandler extends AbstractRequestHandler implements BatchR
 
         $config = $this->getChannelConfiguration($channelId)?->getWorkspace();
         Assert::isInstanceOf($config, Config::class);
+
+        $config->setMode(Mode::Scheduled);
 
         return $this->getClientBuilder($config)->v4()->transactions()->batch()->post($payload);
     }
