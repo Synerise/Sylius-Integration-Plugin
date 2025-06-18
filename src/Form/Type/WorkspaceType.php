@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -31,6 +32,12 @@ final class WorkspaceType extends AbstractResourceType
             ])
             ->add('apiKey', TextType::class, [
                 'label' => 'synerise_integration.workspace.form.api_key.label',
+                'help' => 'synerise_integration.workspace.form.api_key.help.text',
+                'help_translation_parameters' => [
+                    '%text%' => new TranslatableMessage('synerise_integration.workspace.form.api_key.help.docs.text'),
+                    '%url%' => new TranslatableMessage('synerise_integration.workspace.form.api_key.help.docs.url')
+                ],
+                'help_html' => true,
                 'constraints' => [
                     new NotNull([
                         'message' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.errors.not_null'
@@ -39,7 +46,13 @@ final class WorkspaceType extends AbstractResourceType
             ])
             ->add('guid', TextType::class, [
                 'label' => 'synerise_integration.workspace.form.guid.label',
-                'required' => true
+                'required' => true,
+                'help' => 'synerise_integration.workspace.form.guid.help.text',
+                'help_translation_parameters' => [
+                    '%text%' => new TranslatableMessage('synerise_integration.workspace.form.guid.help.docs.text'),
+                    '%url%' => new TranslatableMessage('synerise_integration.workspace.form.guid.help.docs.url')
+                ],
+                'help_html' => true
             ])
             ->add('keepAliveEnabled',ChoiceType::class, [
                 'label' => 'synerise_integration.workspace.form.keep_alive_enabled.label',

@@ -135,12 +135,22 @@ synerise_integration:
                 label: 'Workspace name'
             api_key:
                 label: 'Synerise Workspace API key'
+                help:
+                    text: 'Enter the API key from Synerise (Settings > API keys). This key tracks customer activity in your store and saves it to Synerise. Ensure all required permissions are selected as listed in <a href="%url%">%text%</a>.'
+                    docs:
+                        text: 'the documentation'
+                        url: '#'
             environment:
                 label: 'Environment'
             authentication_method:
                 label: 'Authentication method'
             guid:
                 label: 'Synerise API GUID'
+                help:
+                    text: 'Locate the GUID in Synerise (Settings > API keys > Basic access authentication). For more information, check <a href="%url%">%text%</a>.'
+                    docs:
+                        text: 'the documentation'
+                        url: '#'
             keep_alive_enabled:
                 label: 'Enable the keep-alive header'
             live_timeout:
