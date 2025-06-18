@@ -67,12 +67,12 @@ sylius_grid:
                     type: twig
                     label: synerise_integration.workspace.form.environment.label
                     options:
-                        template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
+                        template: "@SyneriseSyliusIntegrationPlugin/admin/shared/grid/field/enum.html.twig"
                 authentication_method:
                     type: twig
                     label: synerise_integration.workspace.form.authentication_method.label
                     options:
-                        template: "@SyneriseSyliusIntegrationPlugin/shared/grid/field/enum.html.twig"
+                        template: "@SyneriseSyliusIntegrationPlugin/admin/shared/grid/field/enum.html.twig"
                 permissionsStatus:
                     type: twig
                     label: synerise_integration.workspace.permissions_status.label

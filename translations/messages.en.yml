@@ -163,7 +163,7 @@ synerise_integration:
                 advanced:
                     card_title: 'Advanced settings'
                     popover:
-                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds.'
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds. <a href="#">Check the documentation.</a>'
         create:
             title: 'Connect workspace'
             subheader: 'Fill in the data in the form to connect your Synerise workspace with Sylius.'

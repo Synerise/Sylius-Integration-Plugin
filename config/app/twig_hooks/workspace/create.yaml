@@ -30,3 +30,7 @@ sylius_twig_hooks:
                 configuration:
                     title: synerise_integration.workspace.create.title
                     subheader: synerise_integration.workspace.create.subheader
+        'sylius_admin.workspace.create#javascripts':
+            custom_scripts:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/scripts/popover.html.twig'
+                priority: -100            

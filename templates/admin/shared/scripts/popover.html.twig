@@ -1,0 +1,6 @@
+<script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.map(popover => new bootstrap.Popover(popover));
+    });
+</script>
