@@ -1,5 +1,19 @@
 sylius_twig_hooks:
     hooks:
+        'sylius_admin.channel_configuration.create.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/create/content/header/breadcrumbs.html.twig'
+                priority: 0
+                configuration:
+                    title: synerise_integration.channel_configuration.create.breadcrumbs.title
+        'sylius_admin.channel_configuration.create.content.header.title_block':
+            actions:
+                enabled: false
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.channel_configuration.create.title
+                    subheader: synerise_integration.channel_configuration.create.subheader
         'sylius_admin.channel_configuration.create.content':
             form:
                 component: 'synerise_integration:channel_configuration:form'

@@ -8,8 +8,8 @@ sylius_twig_hooks:
             title:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.ui.synchronization_configuration.index.title
-                    subheader: synerise_integration.ui.synchronization_configuration.index.subheader
+                    title: synerise_integration.synchronization_configuration.show.title
+                    subheader: synerise_integration.synchronization_configuration.show.subheader
             actions:
                 component: 'synerise_integration:synchronization_configuration_actions'
                 props:

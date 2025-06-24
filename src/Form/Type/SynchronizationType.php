@@ -25,12 +25,11 @@ final class SynchronizationType extends AbstractResourceType
     {
         $builder
             ->add('type', SynchronizationTypeChoiceType::class, [
-                'label' => 'synerise_integration.ui.synchronization.form.type.label',
+                'label' => 'synerise_integration.synchronization.form.type.label',
                 'choice_translation_domain' => true,
-                'translation_domain' => 'messages',
                 'constraints' => [
                     new NotNull([
-                        'message' => $this->translator->trans('synerise_integration.ui.synchronization.form.type.errors.not_null')
+                        'message' => $this->translator->trans('synerise_integration.synchronization.type.not_null')
                     ])
                 ],
                 'expanded' => true,
@@ -38,17 +37,16 @@ final class SynchronizationType extends AbstractResourceType
                 'multiple' => false
             ])
             ->add('sinceWhen', DateType::class, [
-                'label' => 'synerise_integration.ui.synchronization.form.since_when.label',
+                'label' => 'synerise_integration.synchronization.form.since_when.label',
                 'widget' => 'single_text',
-                'translation_domain' => 'messages',
                 'choice_translation_domain' => true,
                 'constraints' => [
                     new NotNull([
-                        'message' => $this->translator->trans('synerise_integration.ui.synchronization.form.since_when.errors.not_null')
+                        'message' => $this->translator->trans('synerise_integration.synchronization.since_when.not_null')
                     ]),
                     new LessThanOrEqual([
                         'propertyPath' => 'parent.all[untilWhen].data',
-                        'message' => $this->translator->trans('synerise_integration.ui.synchronization.form.since_when.errors.less_than_or_equal')
+                        'message' => $this->translator->trans('synerise_integration.synchronization.since_when.less_than_or_equal')
                     ])
 
                 ],
@@ -57,15 +55,15 @@ final class SynchronizationType extends AbstractResourceType
                 ]
             ])
             ->add('untilWhen', DateType::class, [
-                'label' => 'synerise_integration.ui.synchronization.form.until_when.label',
+                'label' => 'synerise_integration.synchronization.form.until_when.label',
                 'widget' => 'single_text',
                 'constraints' => [
                     new NotNull([
-                        'message' => $this->translator->trans('synerise_integration.ui.synchronization.form.until_when.errors.not_null')
+                        'message' => $this->translator->trans('synerise_integration.synchronization.until_when.not_null')
                     ]),
                     new GreaterThanOrEqual([
                         'propertyPath' => 'parent.all[sinceWhen].data',
-                        'message' => $this->translator->trans('synerise_integration.ui.synchronization.form.until_when.errors.greater_than_or_equal')
+                        'message' => $this->translator->trans('synerise_integration.synchronization.until_when.greater_than_or_equal')
                     ])
                 ],
                 'attr' => [

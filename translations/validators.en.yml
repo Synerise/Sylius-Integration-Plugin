@@ -2,3 +2,16 @@ synerise_integration:
     workspace:
         guid:
             required_for_basic: 'GUID is required when using Basic authentication'
+    synchronization_configuration:
+        product_attributes_value:
+            not_null: 'Please select an attribute value.'
+    synchronization:
+        type:
+            not_null: 'Please select an data scope.'
+        since_when:
+            not_null: 'Since when date can not be null'
+            less_than_or_equal: 'The "Since when" field must be less than or equal to the "Until when" field'
+        untilWhen:
+            not_null: 'Until when date can not be null'
+            greater_than_or_equal: 'The "Until when" field must be greater than or equal to the "Since when" field'
+    

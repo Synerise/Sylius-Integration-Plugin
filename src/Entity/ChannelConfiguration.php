@@ -29,6 +29,8 @@ class ChannelConfiguration implements ChannelConfigurationInterface
 
     private ?array $queueEvents = null;
 
+    private bool $snrsParamsEnabled = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,5 +143,15 @@ class ChannelConfiguration implements ChannelConfigurationInterface
         }
 
         return in_array($action, $this->getQueueEvents()) ? 'message_queue' : 'live';
+    }
+
+    public function isSnrsParamsEnabled(): bool
+    {
+        return $this->snrsParamsEnabled;
+    }
+
+    public function setSnrsParamsEnabled(bool $snrsParamsEnabled): void
+    {
+        $this->snrsParamsEnabled = $snrsParamsEnabled;
     }
 }

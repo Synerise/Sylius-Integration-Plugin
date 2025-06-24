@@ -8,10 +8,7 @@
         <id name="id" column="id" type="integer">
             <generator/>
         </id>
-
-        <field name="dataTypes" column="data_types" type="json" nullable="true"/>
         <field name="catalogId" column="catalog_id" type="integer" nullable="true"/>
-
         <many-to-many field="productAttributes"
                       target-entity="Sylius\Component\Product\Model\ProductAttribute">
             <join-table name="synerise_synchronization_product_attributes">

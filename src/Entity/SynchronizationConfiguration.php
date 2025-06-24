@@ -13,8 +13,6 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
 
     private ?ChannelInterface $channel = null;
 
-    private ?array $dataTypes = null;
-
     /** @var Collection<int, ProductAttribute> */
     private Collection $productAttributes;
 
@@ -42,22 +40,20 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
         $this->channel = $channel;
     }
 
-    public function getDataTypes(): array
-    {
-        return $this->dataTypes ?: [];
-    }
-
-    public function setDataTypes(?array $dataTypes): void
-    {
-        $this->dataTypes = $dataTypes;
-    }
-
     /**
      * @return Collection<int, ProductAttribute>
      */
     public function getProductAttributes(): Collection
     {
         return $this->productAttributes;
+    }
+
+    /**
+     * @param Collection<int, ProductAttribute>|array<ProductAttribute> $productAttributes
+     */
+    public function setProductAttributes(array $productAttributes): void
+    {
+        $this->productAttributes = new ArrayCollection($productAttributes);
     }
 
     public function addProductAttribute(ProductAttribute $productAttribute): void
@@ -95,12 +91,14 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
         $this->productAttributeValue = $productAttributeValue;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
             'channel' => $this->channel?->getCode(),
-            'dataTypes' => $this->dataTypes,
+            'productAttributes' => $this->productAttributes->toArray(),
+            'productAttributeValue' => $this->productAttributeValue?->value,
+            'catalogId' => $this->catalogId,
         ];
 
     }

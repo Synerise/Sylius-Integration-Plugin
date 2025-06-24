@@ -14,6 +14,7 @@
         <field name="opengraphEnabled" column="opengraph_enabled" type="boolean" />
         <field name="events" column="events" type="json" nullable="true" />
         <field name="queueEvents" column="queue_events" type="json" nullable="true" />
+        <field name="snrsParamsEnabled" column="snrs_params" type="boolean" />
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id"  />

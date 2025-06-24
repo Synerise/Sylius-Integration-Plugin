@@ -43,7 +43,7 @@ class ProductAttributeChoiceType extends AbstractType
             },
             function ($attributeIds) {
                 if (empty($attributeIds)) {
-                    return null;
+                    return [];
                 }
 
                 $attributes = [];

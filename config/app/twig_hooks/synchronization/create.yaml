@@ -9,7 +9,7 @@ sylius_twig_hooks:
             title:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization/create/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.ui.synchronization.create.title
+                    title: synerise_integration.synchronization.create.title
         'sylius_admin.synchronization.create.content':
             form:
                 component: 'synerise_integration:synchronization:form'

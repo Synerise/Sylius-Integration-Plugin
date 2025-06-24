@@ -27,13 +27,12 @@ final readonly class ChannelConfigurationModificationListener
         $workspace = $channelConfiguration->getWorkspace();
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
         try {
-            $cookieDomain = $channelConfiguration->getCookieDomain();
             if (!$channelConfiguration->getCookieDomain()) {
                 $channelConfiguration->setCookieDomain($channelConfiguration->getChannel()?->getHostname());
             }
 
             $request = new TrackingCodeCreationByDomainRequest();
-            $request->setDomain($cookieDomain);
+            $request->setDomain($channelConfiguration->getCookieDomain());
 
             $response = $clientBuilder->workspace()->tracker()->getOrCreateByDomain()->post($request)->wait();
             if ($response) {

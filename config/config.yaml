@@ -31,6 +31,8 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete
+                    show:
+                        type: show
         synerise_integration_admin_synchronization_configuration:
             driver:
                 name: doctrine/orm

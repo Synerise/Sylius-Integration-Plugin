@@ -20,12 +20,28 @@
 </style>
 
 <div class="d-flex align-items-start">
-    <div class="nav flex-column me-3 nav-pills text-nowrap" id="v-steps-tab" role="tablist" aria-orientation="vertical">
-        <button class="show active" id="v-steps-general-tab" data-bs-toggle="pill" data-bs-target="#v-steps-general" type="button" role="tab" aria-controls="v-steps-general" aria-selected="true">Workspace mapping</button>
-        <button id="v-steps-tracking-tab" data-bs-toggle="pill" data-bs-target="#v-steps-tracking" type="button" role="tab" aria-controls="v-steps-tracking" aria-selected="false">Page tracking</button>
-        <button id="v-steps-events-tab" data-bs-toggle="pill" data-bs-target="#v-steps-events" type="button" role="tab" aria-controls="v-steps-events" aria-selected="false">Events tracking</button>
+    <div class="nav flex-column me-3 nav-pills text-nowrap" id="v-steps-tab">
+        <button data-card-target="v-steps-general" type="button" class="show active">Workspace mapping</button>
+        <button data-card-target="v-steps-tracking" type="button">Page tracking</button>
+        <button data-card-target="v-steps-events" type="button">Events tracking</button>
     </div>
     <div class="tab-content w-100">
         {% hook 'sections' %}
     </div>
 </div>
+
+<script>
+    const changeTabButtons = document.querySelectorAll('[data-card-target]');
+    const cards = document.querySelectorAll('[data-card]');
+
+    changeTabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            changeTabButtons.forEach(btn => btn.classList.remove('active'));
+            const targetButtons = document.querySelectorAll(`[data-card-target="${button.dataset.cardTarget}"]`);
+            targetButtons.forEach(btn => btn.classList.add('active'));
+
+            cards.forEach(card => card.classList.remove('show', 'active'));
+            document.querySelector(`[data-card="${button.dataset.cardTarget}"]`).classList.add('show', 'active');
+        })
+    })
+</script>

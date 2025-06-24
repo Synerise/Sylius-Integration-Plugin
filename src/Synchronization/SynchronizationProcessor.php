@@ -35,7 +35,7 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
             return;
         }
 
-        Assert::notNull($synchronization->getChannel());;
+        Assert::notNull($synchronization->getChannel());
 
         $entityIds = [];
         $totalCount = 0;

@@ -13,11 +13,11 @@ final class SynchronizationConfigurationType extends AbstractResourceType
     {
         $builder
             ->add('channel', ChannelChoiceType::class, [
-                'label' => 'synerise_integration.ui.synchronization_configuration.form.channel.label'
+                'label' => 'synerise_integration.synchronization_configuration.form.channel.label'
             ])
             ->add('productAttributes', ProductAttributeChoiceType::class, [
-                'label' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes.label',
-                'placeholder' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes.placeholder',
+                'label' => 'synerise_integration.synchronization_configuration.form.product_attributes.label',
+                'placeholder' => 'synerise_integration.synchronization_configuration.form.product_attributes.placeholder',
                 'choice_translation_domain' => true,
                 'multiple' => true,
                 'required' => false,
@@ -26,12 +26,12 @@ final class SynchronizationConfigurationType extends AbstractResourceType
                 ]
             ])
             ->add('productAttributeValue', ProductAttributeValueChoiceType::class, [
-                'label' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.label',
-                'help' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.help',
+                'label' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.label',
+                'help' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.help',
                 'choice_translation_domain' => true,
                 'constraints' => [
                     new NotNull([
-                        'message' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.errors.not_null'
+                        'message' => 'synerise_integration.synchronization_configuration.product_attributes_value.not_null'
                     ])
                 ],
                 'expanded' => true,

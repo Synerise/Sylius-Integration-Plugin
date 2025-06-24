@@ -4,8 +4,8 @@ sylius_twig_hooks:
             title:
                 template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.ui.synchronization_configuration.edit.title
-                    subheader: synerise_integration.ui.synchronization_configuration.edit.subheader
+                    title: synerise_integration.synchronization_configuration.edit.title
+                    subheader: synerise_integration.synchronization_configuration.edit.subheader
         'sylius_admin.synchronization_configuration.update.content':
             form:
                 component: 'synerise_integration:synchronization_configuration:form'

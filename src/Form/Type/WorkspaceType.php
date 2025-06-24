@@ -40,7 +40,7 @@ final class WorkspaceType extends AbstractResourceType
                 'help_html' => true,
                 'constraints' => [
                     new NotNull([
-                        'message' => 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.errors.not_null'
+                        'message' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.errors.not_null'
                     ])
                 ],
             ])

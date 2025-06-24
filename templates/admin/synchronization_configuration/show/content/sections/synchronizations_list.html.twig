@@ -27,7 +27,7 @@
 <div {{ attributes }} class="card">
     <div class="card-header">
         <div class="card-title">
-            {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.card_title' | trans({ '%channel_name%': this.channel }) }}
+            {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.card_title' | trans({ '%channel_name%': this.channel }) }}
         </div>
     </div>
     <div class="accordion" id="filters-accordion">
@@ -49,14 +49,14 @@
                         <div class="sylius-filters">
                             <div class="sylius-filters__item">
                                 <div class="mb-3 field">
-                                    <label class="form-label" for="criteria_enabled">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.status.label' | trans }}</label>
+                                    <label class="form-label" for="criteria_enabled">{{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.filters.status.label' | trans }}</label>
                                     <select
                                         class="form-select"
                                         data-live-target="select"
                                         data-action="live#update"
                                         data-model="filterStatus"
                                     >
-                                        <option value="">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.status.option_all' | trans }}</option>
+                                        <option value="">{{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.filters.status.option_all' | trans }}</option>
                                         {% for status in this.synchronizationStatusCases %}
                                             <option value="{{ status.value }}">{{ status.name }}</option>
                                         {% endfor %}
@@ -65,14 +65,14 @@
                             </div>
                             <div class="sylius-filters__item">
                                 <div class="mb-3 field">
-                                    <label class="form-label" for="criteria_channel">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.type.label' | trans }}</label>
+                                    <label class="form-label" for="criteria_channel">{{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.filters.type.label' | trans }}</label>
                                     <select
                                         class="form-select ms-2"
                                         data-live-target="select"
                                         data-action="live#update"
                                         data-model="filterType"
                                     >
-                                        <option value="">{{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.filters.type.option_all' | trans }}</option>
+                                        <option value="">{{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.filters.type.option_all' | trans }}</option>
                                         {% for type in this.synchronizationDataTypeCases %}
                                             <option value="{{ type.value }}">{{ type.name }}</option>
                                         {% endfor %}
@@ -97,19 +97,19 @@
             <thead>
             <tr>
                 <th>
-                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.data_type' | trans }}
+                    {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.table.header.data_type' | trans }}
                 </th>
                 <th>
-                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.sent' | trans }}
+                    {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.table.header.sent' | trans }}
                 </th>
                 <th>
-                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.total' | trans }}
+                    {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.table.header.total' | trans }}
                 </th>
                 <th>
-                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.date' | trans }}
+                    {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.table.header.date' | trans }}
                 </th>
                 <th>
-                    {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.header.status' | trans }}
+                    {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.table.header.status' | trans }}
                 </th>
             </tr>
             </thead>
@@ -128,7 +128,7 @@
     </div>
     <div class="card-footer d-flex justify-content-between align-items-center">
         <div>
-            {{ 'synerise_integration.ui.synchronization_configuration.show.sections.synchronizations.table.footer.showing' | trans({'%from%': ((this.page - 1) * this.limit) + 1, '%to%': min(this.page * this.limit, this.total), '%total%': this.total}) }}
+            {{ 'synerise_integration.synchronization_configuration.show.sections.synchronizations.table.footer.showing' | trans({'%from%': ((this.page - 1) * this.limit) + 1, '%to%': min(this.page * this.limit, this.total), '%total%': this.total}) }}
         </div>
         <nav>
             <ul class="pagination mb-0 align-items-center">

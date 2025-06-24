@@ -4,6 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Handler;
 
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository;
 use Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory;
@@ -24,6 +25,10 @@ class SyncMessageHandler
         /** @var Synchronization|null $synchronization */
         $synchronization = $this->synchronizationRepository->find($syncMessage->getSynchronizationId());
         if (!$type = $synchronization?->getType()) {
+            return;
+        }
+
+        if($synchronization->getStatus() === SynchronizationStatus::Cancelled) {
             return;
         }
 

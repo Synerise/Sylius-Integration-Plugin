@@ -33,10 +33,6 @@ final readonly class SynchronizationConfigurationModificationListener
         $channelConfiguration = $this->channelConfigurationFactory->get($channelId);
         Assert::notNull($channelConfiguration);
 
-        if (!$synchronizationConfiguration->getDataTypes()) {
-            return;
-        }
-
         $catalogName = sprintf(self::CATALOG_NAME_FORMAT, $channelId);
         $catalogId = null;
 

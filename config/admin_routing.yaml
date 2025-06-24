@@ -6,7 +6,6 @@ synerise_integration_admin_channel_configuration:
         grid: synerise_integration_admin_channel_configuration
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
-        except: ['show']
         permission: true
         vars:
             all:

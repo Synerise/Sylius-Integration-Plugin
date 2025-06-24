@@ -14,7 +14,7 @@
 <div class="card">
     <div class="card-header" role="button" data-bs-toggle="collapse" data-bs-target="#card-config" aria-expanded="true" aria-controls="card-config">
         <div class="card-title">
-            {{ 'synerise_integration.ui.synchronization_configuration.show.sections.config.card_title' | trans }}
+            {{ 'synerise_integration.synchronization_configuration.show.sections.config.card_title' | trans }}
         </div>
         <div class="card-options">
             <a href="#" class="card-options-collapse">
@@ -28,14 +28,14 @@
                 <thead>
                 <tr>
                     <th colspan="2">
-                        {{ 'synerise_integration.ui.synchronization_configuration.show.sections.config.table_header' | trans }}
+                        {{ 'synerise_integration.synchronization_configuration.show.sections.config.table_header' | trans }}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td class="text-nowrap fw-medium">
-                        {{ 'synerise_integration.ui.synchronization_configuration.form.product_attributes.label' | trans }}
+                        {{ 'synerise_integration.synchronization_configuration.form.product_attributes.label' | trans }}
                     </td>
                     <td class="border-start">
                         <div class="d-flex flex-row flex-wrap gap-2">
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td class="text-nowrap fw-medium">
-                        {{ 'synerise_integration.ui.synchronization_configuration.form.product_attributes_value.label' | trans }}
+                        {{ 'synerise_integration.synchronization_configuration.form.product_attributes_value.label' | trans }}
                     </td>
                     <td class="border-start">
                         {{ ('synerise_integration.ui.' ~ resource.productAttributeValue.value) | trans }}

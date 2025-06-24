@@ -1,6 +1,6 @@
 sylius_twig_hooks:
     hooks:
-        'sylius_admin.synchronization_configuration.index.content.grid.no_results':
+        'sylius_admin.channel_configuration.index.content.grid.no_results':
             image:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/image.html.twig'
                 priority: 300
@@ -10,28 +10,28 @@ sylius_twig_hooks:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/title.html.twig'
                 priority: 200
                 configuration:
-                    title: synerise_integration.synchronization_configuration.index.no_results.title
+                    title: synerise_integration.channel_configuration.index.no_results.title
             subtitle:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/subtitle.html.twig'
                 priority: 100
                 configuration:
-                    subtitle: synerise_integration.synchronization_configuration.index.no_results.subtitle
+                    subtitle: synerise_integration.channel_configuration.index.no_results.subtitle
             action:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/action.html.twig'
                 priority: 0
                 configuration:
-                    path: synerise_integration_admin_synchronization_configuration_create
-                    label: synerise_integration.synchronization_configuration.index.no_results.action.label
+                    path: synerise_integration_admin_channel_configuration_create
+                    label: synerise_integration.channel_configuration.index.no_results.action.label
                     icon: bi:gear-fill
-        'sylius_admin.synchronization_configuration.index.content.header':
+        'sylius_admin.channel_configuration.index.content.header':
             breadcrumbs:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/header/breadcrumbs.html.twig'
                 priority: 0
                 configuration:
-                    title: synerise_integration.synchronization_configuration.index.title
-        'sylius_admin.synchronization_configuration.index.content.header.title_block':
+                    title: synerise_integration.channel_configuration.index.title
+        'sylius_admin.channel_configuration.index.content.header.title_block':
             title:
                 template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
                 configuration:
-                    title: synerise_integration.synchronization_configuration.index.title
-                    subheader: synerise_integration.synchronization_configuration.index.subheader
+                    title: synerise_integration.channel_configuration.index.title
+                    subheader: synerise_integration.channel_configuration.index.subheader

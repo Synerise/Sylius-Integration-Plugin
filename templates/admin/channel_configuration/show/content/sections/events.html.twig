@@ -1,0 +1,73 @@
+{% block stylesheets %}
+    <style>
+        .card-options-collapse svg {
+            transition: transform 0.3s ease;
+        }
+
+        .collapsed .card-options-collapse svg {
+            transform: rotate(180deg);
+        }
+        .table td:first-child {
+            max-width: 260px;
+            width: 260px;
+        }
+    </style>
+{% endblock %}
+
+{% set resource = hookable_metadata.context.resource %}
+<div class="card">
+    <div class="card-header" role="button" data-bs-toggle="collapse" data-bs-target="#card-events" aria-expanded="true" aria-controls="card-events">
+        <div class="card-title">
+            Events
+        </div>
+        <div class="card-options">
+            <a href="#" class="card-options-collapse">
+                {{ ux_icon('tabler:chevron-up') }}
+            </a>
+        </div>
+    </div>
+    <div id="card-events" class="collapse show">
+        <div class="table-responsive">
+            <table class="table table-vcenter">
+                <tbody>
+                <tr>
+                    <td class="fw-medium">
+                        Tracking events
+                    </td>
+                    <td class="border-start">
+                        <div class="d-flex flex-row flex-wrap gap-2">
+                            {% for event in resource.events %}
+                                <span class="badge bg-blue-lt">{{ event }}</span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fw-medium">
+                        Add tracking parameters to cart and transaction events
+                    </td>
+                    <td class="border-start">
+                        {{ resource.snrsParamsEnabled ? 'Yes' : 'No' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fw-medium">
+                        Queue tracking events
+                    </td>
+                    <td class="border-start">
+                        {% if resource.queueEvents | length > 0 %}
+                            <div class="d-flex flex-row flex-wrap gap-2">
+                                {% for event in resource.queueEvents %}
+                                    <span class="badge bg-blue-lt">{{ event }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
