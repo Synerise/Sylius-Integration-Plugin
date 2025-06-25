@@ -21,6 +21,7 @@
             <argument type="collection">
                 <argument key="product.addToCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\AddedToCartRequestHandler</argument>
                 <argument key="product.removeFromCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\RemovedFromCartRequestHandler</argument>
+                <argument key="product.addReview">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\ProductAddReviewRequestHandler</argument>
                 <argument key="cart.status">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\CustomEventRequestHandler</argument>
                 <argument key="client.login">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\LoginRequestHandler</argument>
                 <argument key="client.logout">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\LogoutRequestHandler</argument>
@@ -55,6 +56,10 @@
         </service>
         <service id="synerise_integration.api.request_mapper.event.cart_status" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\OrderToCartStatusEventMapper">
             <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="synerise_integration.api.request_mapper.event.product_add_review" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\ReviewToProductAddReviewEvent">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="synerise_integration.helper.product_url_helper" />
         </service>
         <service id="synerise_integration.api.request_mapper.event.customer_logged_in" class="\Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\CustomerToLoggedInEvent">
             <argument type="service" id="event_dispatcher" />

@@ -41,6 +41,13 @@
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
+        <!-- REVIEW PROCESSORS -->
+        <service id="synerise_integration.processor.event.product_review_add" class="Synerise\SyliusIntegrationPlugin\Event\Processor\ReviewProcessor">
+            <argument type="service" id="synerise_integration.api.request_mapper.event.product_add_review" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.identity_manager" />
+            <argument type="service" id="synerise_integration.event.handler_resolver" />
+        </service>
         <!-- CUSTOMER PROCESSORS -->
         <service id="synerise_integration.processor.event.customer_register" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerRegisterProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.customer_registered" />
@@ -170,5 +177,14 @@
             <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="sylius.product.post_update" />
         </service>
+        <!-- REVIEW LISTENER -->
+        <service id="synerise_integration.listener.review_create" class="Synerise\SyliusIntegrationPlugin\Event\Listener\ReviewCreateListener">
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="synerise_integration.processor.event.product_review_add" />
+
+            <tag name="monolog.logger" channel="synerise"/>
+            <tag name="kernel.event_listener" event="sylius.product_review.pre_create" priority="-1000" />
+        </service>
+
     </services>
 </container>
