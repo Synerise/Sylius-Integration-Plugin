@@ -28,6 +28,7 @@ class ProductAttributeChoiceType extends AbstractType
 
                 if ($attributes instanceof Collection) {
                     return $attributes->map(function($attribute) {
+                        /** @var AttributeInterface $attribute */
                         return $attribute->getId();
                     })->toArray();
                 }

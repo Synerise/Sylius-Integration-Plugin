@@ -17,7 +17,7 @@ class SynchronizationConfigurationActions
     use DefaultActionTrait;
 
     /**
-     * @var array<SynchronizationConfiguration> $configurations ;
+     * @var array<int, SynchronizationConfiguration> $configurations ;
      */
     #[ExposeInTemplate('configurations')]
     public array $configurations = [];
@@ -31,6 +31,8 @@ class SynchronizationConfigurationActions
     #[PostMount]
     public function postMount(): void
     {
-        $this->configurations = $this->configurationRepository->findAll();
+        /** @var array<int, SynchronizationConfiguration> $configurations */
+        $configurations = $this->configurationRepository->findAll();
+        $this->configurations = $configurations;
     }
 }

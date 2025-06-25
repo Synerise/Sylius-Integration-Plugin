@@ -78,6 +78,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
             $additionalData['image'] = $image;
         }
 
+        /** @var string $attribute */
         foreach ($configuration->getProductAttributes() as $attribute) {
             if ($attributeValue = $product->getAttributeByCodeAndLocale($attribute)) {
                 $additionalData[$attribute] = $this->getProductAttributeValue(

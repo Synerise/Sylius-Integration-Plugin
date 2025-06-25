@@ -15,12 +15,18 @@ interface SynchronizationConfigurationInterface extends ResourceInterface
 
     public function setChannel(?ChannelInterface $channel): void;
 
+    /**
+     * @return Collection<int, ProductAttribute>
+     */
     public function getProductAttributes(): Collection;
 
     public function addProductAttribute(ProductAttribute $productAttribute): void;
 
     public function removeProductAttribute(ProductAttribute $productAttribute): void;
 
+    /**
+     * @param array<ProductAttribute> $productAttributes
+     */
     public function setProductAttributes(array $productAttributes): void;
 
     public function getCatalogId(): ?int;

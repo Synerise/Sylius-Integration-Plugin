@@ -3,8 +3,10 @@
 namespace Synerise\SyliusIntegrationPlugin\Helper;
 
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function PHPUnit\Framework\assertNotNull;
 
 class ProductUrlHelper
 {
@@ -14,10 +16,15 @@ class ProductUrlHelper
     ) {
     }
 
-    public function generate(ProductInterface $product, ?string $localeCode = null)
+    public function generate(ProductInterface $product, ?string $localeCode = null): string
     {
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
+
+        AssertNotNull($channel->getDefaultLocale(), 'Default locale is not set');
+
         if ($localeCode === null) {
-            $localeCode = $this->channelContext->getChannel()->getDefaultLocale()->getCode();
+            $localeCode = $channel->getDefaultLocale()->getCode();
         }
 
         return $this->urlGenerator->generate(

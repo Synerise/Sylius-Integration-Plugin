@@ -8,6 +8,7 @@ use Synerise\Sdk\Tracking\IdentityManager;
 use Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\ReviewToProductAddReviewEvent;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\Handler\EventHandlerResolver;
+use Webmozart\Assert\Assert;
 
 class ReviewProcessor
 {
@@ -25,6 +26,9 @@ class ReviewProcessor
         if (!$type = $configuration?->getEventHandlerType(AddedReviewBuilder::ACTION)) {
             return;
         }
+
+        Assert::notNull($configuration->getChannel());
+        Assert::notNull($review->getAuthor()?->getEmail());
 
         $this->identityManager->identify($review->getAuthor()->getEmail());
 

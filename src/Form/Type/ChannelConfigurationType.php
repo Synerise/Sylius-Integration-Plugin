@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
 final class ChannelConfigurationType extends AbstractResourceType
 {
@@ -77,6 +78,7 @@ final class ChannelConfigurationType extends AbstractResourceType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            /** @var array $data */
             $data = $event->getData();
 
             if (isset($data['cookieDomainEnabled']) && !$data['cookieDomainEnabled']) {
@@ -86,6 +88,7 @@ final class ChannelConfigurationType extends AbstractResourceType
         });
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var ChannelConfigurationInterface|null $data */
             $data = $event->getData();
             $form = $event->getForm();
 

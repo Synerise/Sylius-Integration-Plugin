@@ -29,9 +29,8 @@ class EventMessageHandler
     {
         $requestHandler = $this->requestHandlerFactory->get($message->getAction());
 
-        /** @var Config $config */
         $config = $this->configurationFactory->get($message->getSalesChannelId())?->getWorkspace();
-        Assert::notNull($config);
+        Assert::isInstanceOf($config, Config::class, 'Workspace is not configured for this channel');
 
         $config->setMode(Mode::Scheduled);
 

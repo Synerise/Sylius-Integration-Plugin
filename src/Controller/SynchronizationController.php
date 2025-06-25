@@ -2,15 +2,17 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Controller;
 
-use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Resource\ResourceActions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
+use Webmozart\Assert\Assert;
 
 class SynchronizationController extends ResourceController
 {
@@ -19,13 +21,16 @@ class SynchronizationController extends ResourceController
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
+        /** @var string $configurationId */
+        $configurationId = $configuration->getRequest()->get('configurationId');
+
         $this->isGrantedOr403($configuration, ResourceActions::CREATE);
 
         /**
          * @var Synchronization $newResource
          */
         $newResource = $this->newResourceFactory->create($configuration, $this->factory);
-        $synchronizationConfiguration = $this->findConfigurationOr404($configuration);
+        $synchronizationConfiguration = $this->findConfigurationOr404($configurationId);
 
         $form = $this->resourceFormFactory->create($configuration, $newResource);
         $form->handleRequest($request);
@@ -37,8 +42,7 @@ class SynchronizationController extends ResourceController
             $newResource = $form->getData();
             $newResource->setStatus(SynchronizationStatus::Created);
             $newResource->setChannel($synchronizationConfiguration->getChannel());
-            $newResource->setConfigurationSnapshot(json_encode($synchronizationConfiguration));
-            $newResource->setCreatedAt(new \DateTimeImmutable());
+            $newResource->setConfigurationSnapshot(json_encode($synchronizationConfiguration) ?: null);
             $newResource->setSent(0);
 
             $event = $this->eventDispatcher->dispatchPreEvent(ResourceActions::CREATE, $configuration, $newResource);
@@ -96,7 +100,10 @@ class SynchronizationController extends ResourceController
             return $initializeEventResponse;
         }
 
-        return $this->render($configuration->getTemplate(ResourceActions::CREATE . '.html'), [
+        /** @var string $template */
+        $template = $configuration->getTemplate(ResourceActions::CREATE . '.html');
+
+        return $this->render($template, [
             'configuration' => $configuration,
             'metadata' => $this->metadata,
             'resource' => $newResource,
@@ -106,16 +113,21 @@ class SynchronizationController extends ResourceController
         ], null, $responseCode ?? Response::HTTP_OK);
     }
 
-    private function findConfigurationOr404(RequestConfiguration $configuration)
+    private function findConfigurationOr404(string $configurationId): SynchronizationConfigurationInterface
     {
-        $synchronizationConfigurationRepository = $this->get('synerise_integration.repository.synchronization_configuration');
-        $synchronizationConfigurationId = $configuration->getRequest()->get('configurationId');
-        $synchronizationConfiguration = $synchronizationConfigurationRepository->find($synchronizationConfigurationId);
-
+        /** @var SynchronizationConfigurationInterface|null $synchronizationConfiguration */
+        $synchronizationConfiguration = $this->getSynchronizationConfigurationRepository()->find($configurationId);
         if ($synchronizationConfiguration == null) {
-            throw new NotFoundHttpException(sprintf('The configuration with id: "%s" has not been found', $synchronizationConfigurationId));
+            throw new NotFoundHttpException(sprintf('The configuration with id: "%s" has not been found', $configurationId));
         }
 
         return $synchronizationConfiguration;
+    }
+
+    private function getSynchronizationConfigurationRepository(): SynchronizationConfigurationRepository
+    {
+        $repository = $this->get('synerise_integration.repository.synchronization_configuration');
+        Assert::isInstanceOf($repository, SynchronizationConfigurationRepository::class);
+        return $repository;
     }
 }

@@ -100,9 +100,9 @@ class Workspace implements WorkspaceInterface, Config
         $this->environment = $environment;
     }
 
-    public function getApiHost(): ?string
+    public function getApiHost(): string
     {
-        return $this->getEnvironment()?->getApiHost();
+        return $this->getEnvironment()->getApiHost();
     }
 
     public function getUserAgent(): string
