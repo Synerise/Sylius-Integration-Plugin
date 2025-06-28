@@ -3,6 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -61,9 +62,14 @@ final class WorkspaceType extends AbstractResourceType
                     'sylius.ui.yes_label' => true,
                     'sylius.ui.no_label' => false,
                 ],
-            ])->add('liveTimeout',TextType::class, [
+            ])
+            ->add('requestLoggingEnabled', CheckboxType::class, [
+                'label' => 'synerise_integration.workspace.form.request_logging_enabled.label',
+            ])
+            ->add('liveTimeout',TextType::class, [
                 'label' => 'synerise_integration.workspace.form.live_timeout.label'
-            ])->add('scheduledTimeout',TextType::class, [
+            ])
+            ->add('scheduledTimeout',TextType::class, [
                 'label' => 'synerise_integration.workspace.form.scheduled_timeout.label'
             ]);
     }

@@ -232,6 +232,8 @@ synerise_integration:
                 label: 'Enable the keep-alive header'
             live_timeout:
                 label: 'Timeout of live requests'
+            request_logging_enabled:
+                label: 'Log requests and responses'
             scheduled_timeout:
                 label: 'Timeout of scheduled requests'
             sections:

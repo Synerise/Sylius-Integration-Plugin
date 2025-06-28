@@ -40,6 +40,8 @@ class Workspace implements WorkspaceInterface, Config
 
     private float $scheduledTimeout = 10;
 
+    private bool $requestLoggingEnabled = false;
+
     public function __toString(): string
     {
         return (string) $this->name;
@@ -163,5 +165,15 @@ class Workspace implements WorkspaceInterface, Config
     public function setScheduledTimeout(float $scheduledTimeout): void
     {
         $this->scheduledTimeout = $scheduledTimeout;
+    }
+
+    public function isRequestLoggingEnabled(): bool
+    {
+        return $this->requestLoggingEnabled;
+    }
+
+    public function setRequestLoggingEnabled(bool $requestLoggingEnabled): void
+    {
+        $this->requestLoggingEnabled = $requestLoggingEnabled;
     }
 }

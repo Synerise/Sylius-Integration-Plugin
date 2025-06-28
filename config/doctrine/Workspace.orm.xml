@@ -26,5 +26,10 @@
         <field name="liveTimeout" type="float" />
         <field name="scheduledTimeout" type="float" />
         <field name="keepAliveEnabled" type="boolean" />
+        <field name="requestLoggingEnabled" type="boolean">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
     </mapped-superclass>
 </doctrine-mapping>

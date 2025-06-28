@@ -35,6 +35,14 @@
                             {{ resource.scheduledTimeout }}
                         </td>
                     </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.request_logging_enabled.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ label.yesNo(resource.requestLoggingEnabled) }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

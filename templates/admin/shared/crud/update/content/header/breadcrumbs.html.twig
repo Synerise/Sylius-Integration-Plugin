@@ -13,11 +13,7 @@
 {% set field_name = hookable_metadata.configuration.rendered_field|default('') %}
 {% set rendered_field = rendered_field_prefix ~ (attribute(resource, field_name) is defined ? attribute(resource, field_name) : null) %}
 
-{% if resource.channel %}
-    {% set resource_edit_name = resource.channel.name %}
-{% else %}
-    {% set resource_edit_name = resource.name|default(resource.id) %}
-{% endif %}
+{% set resource_edit_name = attribute(resource, 'channel') is defined ? resource.channel.name : (resource.name|default(resource.id)) %}
 
 {% set show_route_name = configuration.vars.index.route.name|default(configuration.getRouteName('show')) %}
 

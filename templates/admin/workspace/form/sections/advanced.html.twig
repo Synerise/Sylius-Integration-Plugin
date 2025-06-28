@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="card-body " id="card-advanced">
-        {{ form_row(hookable_metadata.context.form.keepAliveEnabled, sylius_test_form_attribute('keepAliveEnabled')) }}
+        {{ form_row(hookable_metadata.context.form.keepAliveEnabled, sylius_test_form_attribute('keepAliveEnabled')|merge({ row_attr: { class: 'mb-1' } })) }}
 
         <div class="mb-3 field">
             {{ form_label(hookable_metadata.context.form.liveTimeout) }}
@@ -24,5 +24,7 @@
                 <span class="input-group-text">{{ 'synerise_integration.ui.seconds_short'|trans }}</span>
             </div>
         </div>
+
+        {{ form_row(hookable_metadata.context.form.requestLoggingEnabled, sylius_test_form_attribute('requestLoggingEnabled')|merge({ label_attr: { class: 'checkbox-switch form-label' } })) }}
     </div>
 </div>
