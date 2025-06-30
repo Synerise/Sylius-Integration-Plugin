@@ -78,6 +78,7 @@
         <service id="synerise_integration.api.request_mapper.resource.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\OrderToTransactionMapper" />
         <service id="synerise_integration.api.request_mapper.resource.product" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\ProductToAddItemMapper">
             <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.helper.product_url_helper" />
             <argument type="service" id="event_dispatcher" />
         </service>
     </services>

@@ -26,7 +26,7 @@
         <service id="synerise_integration.message_queue.event_message_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
             <argument type="service" id="synerise_integration.serialization.string_json_parse_node_factory" />
             <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
-            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="synerise_integration.channel_configuration_factory" />
 
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>

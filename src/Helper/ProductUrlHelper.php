@@ -6,7 +6,7 @@ use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use function PHPUnit\Framework\assertNotNull;
+use Webmozart\Assert\Assert;
 
 class ProductUrlHelper
 {
@@ -16,16 +16,16 @@ class ProductUrlHelper
     ) {
     }
 
-    public function generate(ProductInterface $product, ?string $localeCode = null): string
+    public function generate(ProductInterface $product, ?ChannelInterface $channel = null): string
     {
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-
-        AssertNotNull($channel->getDefaultLocale(), 'Default locale is not set');
-
-        if ($localeCode === null) {
-            $localeCode = $channel->getDefaultLocale()->getCode();
+        if ($channel === null) {
+            $channel = $this->channelContext->getChannel();
         }
+
+        Assert::NotNull($channel->getDefaultLocale(), 'Default locale is not set');
+
+        $localeCode = $channel->getDefaultLocale()->getCode();
+        $this->urlGenerator->getContext()->setHost($channel->getHostname());
 
         return $this->urlGenerator->generate(
             'sylius_shop_product_show',

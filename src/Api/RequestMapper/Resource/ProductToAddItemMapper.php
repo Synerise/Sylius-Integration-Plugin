@@ -9,6 +9,7 @@ use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
+use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Resource\Model\ResourceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Synerise\Api\Catalogs\Models\AddItem;
@@ -16,12 +17,14 @@ use Synerise\Api\Catalogs\Models\AddItemValue;
 use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\Model\ProductUpdateRequestEvent;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductUrlHelper;
 use Webmozart\Assert\Assert;
 
 class ProductToAddItemMapper implements RequestMapperInterface
 {
     public function __construct(
         private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
+        private ProductUrlHelper                    $productUrlHelper,
         private EventDispatcherInterface            $eventDispatcher
     ) {
     }
@@ -46,6 +49,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
         ChannelInterface $channel
     ): AddItem
     {
+        /** @var CoreChannelInterface $channel */
         $configuration = $this->synchronizationConfigurationFactory->get($channel->getId());
         Assert::notNull($configuration);
 
@@ -57,9 +61,35 @@ class ProductToAddItemMapper implements RequestMapperInterface
             'code' => $product->getCode(),
             'name' => $product->getName(),
             'enabled' => $product->isEnabled(),
+            'link' => $this->productUrlHelper->generate($product, $channel),
         ];
 
-        /** @var CoreChannelInterface $channel */
+        /** @var TaxonInterface $mainTaxon */
+        $mainTaxon = $product->getMainTaxon();
+        if ($mainTaxon) {
+            $additionalData['category'] = $this->getCategoryValue(
+                $mainTaxon,
+                $configuration->getProductAttributeValue()
+            );
+        }
+
+        $taxons = [];
+        foreach ($product->getProductTaxons() as $productTaxon) {
+            if ($productTaxon->getTaxon()) {
+                /** @var array<string> $taxons */
+                $taxons[] = $this->getCategoryValue(
+                    $productTaxon->getTaxon(),
+                    $configuration->getProductAttributeValue()
+                );
+            }
+        }
+
+        if (!empty($taxons)) {
+            $additionalData['categories'] = $taxons;
+        }
+
+        $mainTaxon->getId();
+
         $channelPricing = $variant->getChannelPricingForChannel($channel);
         if ($channelPricing) {
             $price = $channelPricing->getPrice() ? $this->formatPrice($channelPricing->getPrice()) : null;
@@ -81,7 +111,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
         /** @var string $attribute */
         foreach ($configuration->getProductAttributes() as $attribute) {
             if ($attributeValue = $product->getAttributeByCodeAndLocale($attribute)) {
-                $additionalData[$attribute] = $this->getProductAttributeValue(
+                $additionalData[$attribute] = $this->getAttributeValue(
                     $attributeValue,
                     $configuration->getProductAttributeValue()
                 );
@@ -92,7 +122,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
         foreach ($options as $option) {
             $values = [];
             foreach($option->getValues() as $value) {
-                $values[] = $this->getProductOptionValue(
+                $values[] = $this->getOptionValue(
                     $value,
                     $configuration->getProductAttributeValue()
                 );
@@ -124,7 +154,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
         return abs($amount / 100);
     }
 
-    private function getProductAttributeValue(
+    private function getAttributeValue(
         AttributeValueInterface $attributeValue,
         ?ProductAttributeValue $config): string|array
     {
@@ -138,7 +168,22 @@ class ProductToAddItemMapper implements RequestMapperInterface
         };
     }
 
-    private function getProductOptionValue(
+    private function getCategoryValue(
+        TaxonInterface $taxon,
+        ?ProductAttributeValue $config
+    ): string|array
+    {
+        return match($config) {
+            ProductAttributeValue::ID_VALUE => [
+                'id' => $taxon->getId(),
+                'value' => $taxon->getFullname(' > ')
+            ],
+            ProductAttributeValue::ID => $taxon->getId(),
+            default => $taxon->getFullname(' > ')
+        };
+    }
+
+    private function getOptionValue(
         ProductOptionValueInterface $attributeValue,
         ?ProductAttributeValue $config): string|array
     {
