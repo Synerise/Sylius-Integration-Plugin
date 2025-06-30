@@ -74,6 +74,12 @@ class Synchronization implements ResourceInterface
         $this->createdAt = $createdAt;
     }
 
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;

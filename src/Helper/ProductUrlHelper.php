@@ -19,12 +19,15 @@ class ProductUrlHelper
     public function generate(ProductInterface $product, ?ChannelInterface $channel = null): string
     {
         if ($channel === null) {
+            /** @var ChannelInterface $channel */
             $channel = $this->channelContext->getChannel();
         }
 
         Assert::NotNull($channel->getDefaultLocale(), 'Default locale is not set');
 
         $localeCode = $channel->getDefaultLocale()->getCode();
+
+        Assert::notNull($channel->getHostname());
         $this->urlGenerator->getContext()->setHost($channel->getHostname());
 
         return $this->urlGenerator->generate(

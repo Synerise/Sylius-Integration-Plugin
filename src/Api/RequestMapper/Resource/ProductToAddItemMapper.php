@@ -64,7 +64,6 @@ class ProductToAddItemMapper implements RequestMapperInterface
             'link' => $this->productUrlHelper->generate($product, $channel),
         ];
 
-        /** @var TaxonInterface $mainTaxon */
         $mainTaxon = $product->getMainTaxon();
         if ($mainTaxon) {
             $additionalData['category'] = $this->getCategoryValue(
@@ -87,8 +86,6 @@ class ProductToAddItemMapper implements RequestMapperInterface
         if (!empty($taxons)) {
             $additionalData['categories'] = $taxons;
         }
-
-        $mainTaxon->getId();
 
         $channelPricing = $variant->getChannelPricingForChannel($channel);
         if ($channelPricing) {
