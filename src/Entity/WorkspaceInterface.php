@@ -57,4 +57,8 @@ interface WorkspaceInterface extends ResourceInterface
     public function getScheduledTimeout(): float;
 
     public function setScheduledTimeout(float $scheduledTimeout): void;
+
+    public function isRequestLoggingEnabled(): bool;
+
+    public function setRequestLoggingEnabled(bool $requestLoggingEnabled): void;
 }
