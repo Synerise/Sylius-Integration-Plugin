@@ -1,0 +1,47 @@
+<style>
+    .nav#v-steps-tab{
+        background: #ffffff;
+        padding: 16px;
+        gap:8px;
+        border-radius: 4px;
+        border: 1px solid rgba(4, 32, 69, 0.1);
+    }
+    .nav#v-steps-tab button{
+        padding: 0.4375rem 1rem;
+        border-radius: 4px;
+        background: #ffffff;
+        border: none;
+        text-align: left;
+    }
+    .nav#v-steps-tab button.active{
+        background: var(--tblr-primary);
+        color: var(--tblr-light);
+    }
+</style>
+
+<div class="d-flex align-items-start">
+    <div class="nav flex-column me-3 nav-pills text-nowrap" id="v-steps-tab">
+        <button data-card-target="v-steps-general" type="button" class="show active">Workspace mapping</button>
+        <button data-card-target="v-steps-tracking" type="button">Page tracking</button>
+        <button data-card-target="v-steps-events" type="button">Events tracking</button>
+    </div>
+    <div class="tab-content w-100">
+        {% hook 'sections' %}
+    </div>
+</div>
+
+<script>
+    const changeTabButtons = document.querySelectorAll('[data-card-target]');
+    const cards = document.querySelectorAll('[data-card]');
+
+    changeTabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            changeTabButtons.forEach(btn => btn.classList.remove('active'));
+            const targetButtons = document.querySelectorAll(`[data-card-target="${button.dataset.cardTarget}"]`);
+            targetButtons.forEach(btn => btn.classList.add('active'));
+
+            cards.forEach(card => card.classList.remove('show', 'active'));
+            document.querySelector(`[data-card="${button.dataset.cardTarget}"]`).classList.add('show', 'active');
+        })
+    })
+</script>

@@ -4,6 +4,8 @@ DOCKER_COMPOSE ?= docker compose
 DOCKER_USER ?= "$(shell id -u):$(shell id -g)"
 ENV ?= "dev"
 
+MUTAGEN_COMPOSE ?= mutagen-compose
+
 init:
 	@make -s docker-compose-check
 	@if [ ! -e compose.override.yml ]; then \
@@ -65,3 +67,12 @@ phpunit:
 
 behat:
 	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/behat
+
+mutagen-up:
+	@$(MUTAGEN_COMPOSE) -f compose.yml -f compose.override.mutagen.yml -f docker-compose.mutagen.yml up -d
+
+mutagen-down:
+	@$(MUTAGEN_COMPOSE) down
+
+composer-update:
+	composer update --ignore-platform-reqs --no-interaction --no-scripts --no-plugins

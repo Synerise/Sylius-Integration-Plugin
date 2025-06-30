@@ -1,0 +1,121 @@
+x-mutagen:
+  sync:
+    defaults:
+      mode: "two-way-resolved"
+      ignore:
+        vcs: true
+        paths:
+          - ".git"
+          - ".github"
+          - ".vscode"
+          - ".idea"
+          - ".docker"
+      permissions:
+        defaultOwner: "id:1000"
+        defaultGroup: "id:1000"
+        defaultFileMode: "0644"
+        defaultDirectoryMode: "0755"
+      symlink:
+        mode: "posix-raw"
+      watch:
+        mode: "portable"
+    php-data:
+      alpha: "."
+      beta: "volume://php-data"
+      ignore:
+          paths:
+              - "*"  # Ignore everything by default
+              - "!bin/**"  # Then explicitly un-ignore the paths we want      
+              - "!config/**"
+              - "!src/**"
+              - "!templates/**"
+              - "!tests"
+              - "!tests/Application"
+              - "!tests/Application/bin/**"
+              - "!tests/Application/config/**"
+              - "!tests/Application/public/.htaccess"
+              - "!tests/Application/public/index.php"
+              - "!tests/Application/src/**"
+              - "!tests/Application/templates/**"
+              - "!tests/Application/translations/**"
+              - "!tests/Application/.env"
+              - "!tests/Application/.env.test"
+              - "!tests/Application/composer.json"
+              - "!tests/Application/Kernel.php"
+              - "!tests/bootstrap.php"
+              - "!translations/**"
+              - "!composer.json"
+              - "!composer.lock"
+    node-data:
+      alpha: "."
+      beta: "volume://node-data"
+      ignore:
+        paths:
+          - "*"  # Ignore everything by default
+          - "!assets/**"  # Then explicitly un-ignore the paths we want
+          - "!build/**"
+          - "!etc/**"
+          - "!public/**"
+          - "!tests"
+          - "!tests/Application"
+          - "!tests/Application/assets/**"
+          - "!tests/Application/node_modules/**"
+          - "!tests/Application/package.json"
+          - "!tests/Application/webpack.config.js"
+          - "!tests/Application/yarn.lock"
+          - "!package.json"
+    public:
+        alpha: "./tests/Application/public"
+        beta: "volume://public"
+        ignore:
+            paths:
+                - "build"
+                - "media/cache"
+    public-build:
+      alpha: "./tests/Application/public/build"
+      beta: "volume://public-build"
+    public-media-cache:
+      alpha: "./tests/Application/public/media"
+      beta: "volume://public-media-cache"
+    symfony-logs:
+      alpha: "./tests/Application/var/log"
+      beta: "volume://symfony-logs"
+    vendor:
+        alpha: "./vendor"
+        beta: "volume://vendor"        
+
+services:
+  php:
+    volumes:
+      - php-data:/srv/sylius:rw,cached
+      - symfony-cache:/srv/sylius/tests/Application/var:rw,delegated
+      - symfony-logs:/srv/sylius/tests/Application/var/log:rw,delegated
+      - public:/srv/sylius/tests/Application/public:rw,cached
+      - public-build:/srv/sylius/tests/Application/public/build:ro,cached
+      - public-media-cache:/srv/sylius/tests/Application/public/media/cache:rw,delegated
+      - vendor:/srv/sylius/vendor:rw,delegated
+  nginx:
+    volumes:
+      - public:/srv/sylius/tests/Application/public:rw,cached
+      - public-build:/srv/sylius/tests/Application/public/build:ro,cached
+      - public-media-cache:/srv/sylius/tests/Application/public/media/cache:ro,cached
+  nodejs:
+    volumes:
+      - node-data:/srv/sylius:rw,cached
+      - public-build:/srv/sylius/tests/Application/public/build:rw,delegated
+      - vendor:/srv/sylius/vendor:ro,cached
+
+volumes:
+    php-data:
+    node-data:
+    vendor:
+    public:
+    public-build:
+    public-media-cache:
+    symfony-logs:  # Regular persistent volume for logs
+    symfony-cache:  # Tmpfs volume for cache
+        driver: local
+        driver_opts:
+            type: tmpfs
+            device: tmpfs
+

@@ -38,11 +38,14 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
-    .enableSassLoader();
+    .addAliases({
+      '@symfony/stimulus-bridge/controllers.json': path.resolve(__dirname, 'assets/controllers.json')
+    })
+  .enableSassLoader();
 
 const appAdminConfig = Encore.getWebpackConfig();
 
-appAdminConfig.externals = Object.assign({}, appAdminConfig.externals, { window: 'window', document: 'document' });
+appAdminConfig.externals = Object.assign({}, appAdminConfig.externals, {window: 'window', document: 'document'});
 appAdminConfig.name = 'app.admin';
 
 module.exports = [shopConfig, adminConfig, appShopConfig, appAdminConfig];

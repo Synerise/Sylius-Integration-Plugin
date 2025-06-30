@@ -1,10 +1,8 @@
 synerise_integration:
     ui:
-        workspaces: 'Workspaces'
-        workspace: 'Workspace'
-        workspace_create_new: 'Add'
-        channel_configurations: 'Configurations'
-        channel_configuration: 'Configuration'
+        check_docs: 'Check docs'
+        change: 'Change'
+        channel_configurations: 'Channel configurations'
         channel_configuration_create_new: 'Add'
         tracking: 'Tracking'
         tracking_enabled: 'Tracking enabled'
@@ -14,30 +12,262 @@ synerise_integration:
         opengraph_enabled: 'Open Graph'
         events: 'Events'
         queue_events: 'Message Queue Events'
-        synchronization: 'Synchronization'
         synchronization_list: 'Synchronization list'
         synchronization_type: 'Synchronization type'
         synchronization_sent: 'Sent'
         synchronization_total: 'Total'
-        synchronizations: 'Synchronizations'
-        synchronization_create_new: 'Configure'
+        synchronization_configuration_create_new: 'Configure'
         synchronization_data_types: 'Data types'
+        id_value: 'Id & Value'
+        value: 'Value'
+        id: 'Id'
+        seconds_short: 'sec'
+        synchronization_configurations: 'Synchronization'
+        channel_configuration:
+            form:
+                workspace:
+                    label: 'Workspace'
+        workspace: 'Workspace connection'
+        workspaces: 'Workspace connection'
+        back: 'Back'
+        next: 'Next'
+        configure: 'Configure'
+        close: 'Close'
     form:
         workspace:
-            name: 'Name'
-            environment: 'Environment'
-            api_key: 'API Key'
-            api_guid: 'API GUID'
-            authentication_method: 'Authentication Method'
+            name:
+                label: 'Workspace name'
+            api_key:
+                label: 'Synerise workspace API key'
+            environment:
+                label: 'Synerise API host'
+            authentication_method:
+                label: 'Authentication method'
+            guid:
+                label: 'Synerise API GUID'
+            keep_alive_enabled:
+                label: 'Enable the keep-alive header'
+            live_timeout:
+                label: 'Timeout of live requests'
+            scheduled_timeout:
+                label: 'Timeout of scheduled requests'
+            sections:
+                main:
+                    card_title: 'Main settings'
+                advanced:
+                    card_title: 'Advanced settings'
+                    popover:
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds.'
+    index:
+        workspace:
+            title: 'Workspace connection'
+            subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
+            fields:
+                name:
+                    label: 'Workspace name'
+                environment:
+                    label: 'Environment'
+                authentication_method:
+                    label: 'Authentication Method'
+                permissions:
+                    label: 'Missing Permissions'
+            no_results:
+                title: 'Enable data exchange'
+                subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
+    create:
+        workspace:
+            title: 'Connect workspace'
+            subheader: 'Fill in the data in the form to connect your Synerise workspace with Sylius.'
+    channel_configuration:
+        form:
+            tracking_enabled:
+                label: 'Automatically add tracking code to monitor customer activity'
+            opengraph_enabled:
+                label: 'Render OG tags from page visit events'
+            virtual_page:
+                label: 'Dynamic content for PWA, SPA sites'
+                help: 'Enabling this option lets you display Synerise dynamic content on single page or progressive web application.'
+            cookie_domain_enabled:
+                label: 'Override cookie domain'
+                help: 'Declare a specific domain for cookies if several subdomains share a single workspace.'
+            cookie_domain:
+                label: 'Declare a specific domain/root domain'
+            custom_page_visit:
+                label: 'Custom page visit implementation '
+                help: 'Recommended for PWA themes. Enabling this option requires code changes. For more information check the documentation.'
+            events:
+                label: 'Tracking events'
+                help: "Select customer activities (events) to be tracked on your website and sent to Synerise. Events will be available in the customer's profiles."
+                placeholder: 'Select events'
+            queue_events:
+                label: 'Queue tracking events'
+                help: "Select the events that will be queued up and then sent through a consumer process."
+                placeholder: 'Select events'
+            snrs_params_enabled:
+                label: 'Add tracking parameters to cart and transaction events'
+                help: 'By enabling this option, parameters from the [_snrs_param cookie] will be added to cart and transaction events.'
+            sections:
+                general:
+                    title: 'Workspace mapping'
+                    popover:
+                        content: "Assign a workspace to your sales channel by selecting a workspace from the dropdown list."
+                tracking:
+                    title: 'Page tracking'
+                    popover:
+                        content: "This section lets you implement page tracking to collect and send data about customers activity on your website to Synerise. The tracking code is added automatically when you assign channel to a workspace."
+                events:
+                    title: 'Events'
+                    popover:
+                        content: "This section lets you turn on event tracking and choose which events to track. You can also decide whether to send events in real time or queue them."
+        create:
+            title: 'Assign channel to workspace'
+            subheader: 'Assign the connected workspace to your Sylius site to enable page and event tracking.'
+            breadcrumbs:
+                title: 'Assign channel to workspace'
+        index:
+            title: 'Channel assignment'
+            subheader: 'Assign the connected workspace to your Sylius site to enable page and event tracking.'
+            no_results:
+                title: 'Assigning channels'
+                subtitle: 'To enable data exchange between Synerise workspace and Sylius, assign a sales channel to the workspace.'
+                action:
+                    label: 'Assign channel'
+    synchronization_configuration:
+        index:
+            title: 'Synchronization'
+            subheader: 'Keep product, customer, and order data in sync between Synerise and Sylius.'
+            no_results:
+                title: 'Sync configuration'
+                subtitle: 'Get started by configuring the main synchronization settings, such as sales channels and data preferences.'
+                action:
+                    label: 'Configure'
+        form:
+            channel:
+                label: 'Channel'
+            product_attributes:
+                label: 'Product attributes'
+                placeholder: 'Select product attributes'
+            product_attributes_value:
+                label: 'Attribute value'
+                help: 'Select the variant of attribute values you want to send.'
+        edit:
+            title: 'Configuration'
+            subheader: 'Set up synchronization settings to control how data like products, customers, and orders are synced between Synerise and Sylius.'
+            sections:
+                general:
+                    title: 'Main settings'
+                product:
+                    title: 'Product settings'
+        show:
+            title: 'Configuration'
+            subheader: 'Set up synchronization settings to control how data like products, customers, and orders are synced between Synerise and Sylius.'
+            actions:
+                new_sync: 'New sync'
+            sections:
+                config:
+                    card_title: 'Configuration'
+                    table_header: 'PRODUCTS & CUSTOMERS SETTINGS'
+                synchronizations:
+                    card_title: '%channel_name% sync list'
+                    card_subtitle: '%total% Synchronizations'
+                    table:
+                        header:
+                            total: 'TOTAL'
+                            sent: 'SENT'
+                            data_type: 'DATA SCOPE'
+                            status: 'STATUS'
+                            date: 'DATE'
+                        footer:
+                            showing: 'Showing %from% to %to% of %total% entries'
+                    filters:
+                        type:
+                            label: 'Data scope'
+                            option_all: 'All types'
+                        status:
+                            label: 'Status'
+                            option_all: 'All statuses'
+    synchronization:
+        customer: 'Customer'
+        order: 'Order'
+        product: 'Product'
+        form:
+            type:
+                label: 'Data scope'
+            since_when:
+                label: 'Since when'
+            until_when:
+                label: 'Until when'
+        create:
+            title: 'New Sync %channel%'
+            breadcrumbs_name: 'New sync'
+            sections:
+                general:
+                    title: 'Sync settings'
     authentication_method:
         basic: 'Basic'
         bearer: 'Bearer'
-    grid:
-        workspace:
-            name: 'Selected Workspace'
-            permissions: 'Missing Permissions'
-    synchronization:
-        customer: 'Customer'
-        product: 'Product'
-        order: 'Order'
-
+    workspace:
+        form:
+            name:
+                label: 'Workspace name'
+            api_key:
+                label: 'Synerise Workspace API key'
+                help:
+                    text: 'Enter the API key from Synerise (Settings > API keys). This key tracks customer activity in your store and saves it to Synerise. Ensure all required permissions are selected as listed in <a href="%url%">%text%</a>.'
+                    docs:
+                        text: 'the documentation'
+                        url: '#'
+            environment:
+                label: 'Environment'
+            authentication_method:
+                label: 'Authentication method'
+            guid:
+                label: 'Synerise API GUID'
+                help:
+                    text: 'Locate the GUID in Synerise (Settings > API keys > Basic access authentication). For more information, check <a href="%url%">%text%</a>.'
+                    docs:
+                        text: 'the documentation'
+                        url: '#'
+            keep_alive_enabled:
+                label: 'Enable the keep-alive header'
+            live_timeout:
+                label: 'Timeout of live requests'
+            request_logging_enabled:
+                label: 'Log requests and responses'
+            scheduled_timeout:
+                label: 'Timeout of scheduled requests'
+            sections:
+                main:
+                    card_title: 'Main settings'
+                advanced:
+                    card_title: 'Advanced settings'
+                    popover:
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds. <a href="#">Check the documentation.</a>'
+        create:
+            title: 'Connect workspace'
+            subheader: 'Fill in the data in the form to connect your Synerise workspace with Sylius.'
+        index:
+            title: 'Workspace connection'
+            subheader: 'Connect your Synerise workspace with Sylius to enable data exchange.'
+            no_results:
+                title: 'Enable data exchange'
+                subtitle: 'Connect the Synerise workspace to your Sylius panel to enable data exchange. First, create an API key with specific permissions in Synerise platform.'
+            permissions: 
+                label: 'Permissions'
+        actions:
+            delete: 
+                header: 'Delete workspace?'
+                body: Once you delete this workspace from the list, it can't be recovered. If it's linked to a sales channel, the connection will be lost.
+        permissions_status:
+            label: 'Permissions'
+            full_access: 'Full Access'
+            partial_access: 'Partial Access'
+            no_access: 'No Access'
+        mode:
+            live: 'Live'
+            scheduled: 'Scheduled'
+    flashes:
+        missing_permissions:
+            header: 'Missing Permissions'
+            subheader: 'Your Synerise workspace API key misses permissions listed below. After you add these permissions to the key, refresh this page.'
+            text: 'The list of missing permissions:'

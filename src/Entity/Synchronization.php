@@ -2,7 +2,7 @@
 
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 class Synchronization implements ResourceInterface
@@ -12,9 +12,11 @@ class Synchronization implements ResourceInterface
     private ?string $configurationSnapshot = null;
     private ?SynchronizationDataType $type = null;
     private ?SynchronizationStatus $status = null;
-    private ?int $current = null;
+    private ?int $sent = null;
     private ?int $total = null;
-    private ?\DateTimeInterface $createdAt = null;
+    private ?\DateTimeImmutable $sinceWhen = null;
+    private ?\DateTimeImmutable $untilWhen = null;
+    private ?\DateTimeImmutable $createdAt = null;
     private ?\DateTimeInterface $updatedAt = null;
 
     public function getId(): ?int
@@ -67,29 +69,30 @@ class Synchronization implements ResourceInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    public function setCreatedAt(\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
+
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    public function getCurrent(): ?int
+    public function getSent(): ?int
     {
-        return $this->current;
+        return $this->sent;
     }
 
-    public function setCurrent(?int $current): void
+    public function setSent(?int $sent): void
     {
-        $this->current = $current;
+        $this->sent = $sent;
     }
 
     public function getTotal(): ?int
@@ -100,5 +103,25 @@ class Synchronization implements ResourceInterface
     public function setTotal(?int $total): void
     {
         $this->total = $total;
+    }
+
+    public function getSinceWhen(): ?\DateTimeImmutable
+    {
+        return $this->sinceWhen;
+    }
+
+    public function setSinceWhen(?\DateTimeImmutable $sinceWhen): void
+    {
+        $this->sinceWhen = $sinceWhen;
+    }
+
+    public function getUntilWhen(): ?\DateTimeImmutable
+    {
+        return $this->untilWhen;
+    }
+
+    public function setUntilWhen(?\DateTimeImmutable $untilWhen): void
+    {
+        $this->untilWhen = $untilWhen;
     }
 }

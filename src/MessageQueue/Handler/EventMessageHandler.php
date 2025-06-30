@@ -6,17 +6,18 @@ use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Serialization\StringJsonParseNodeFactory;
-use Synerise\SyliusIntegrationPlugin\Api\RequestHandlerFactory;
+use Synerise\SyliusIntegrationPlugin\Api\EventRequestHandlerFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
 class EventMessageHandler
 {
     public function __construct(
-        private StringJsonParseNodeFactory $parseNodeFactory,
-        private RequestHandlerFactory $requestHandlerFactory,
+        private StringJsonParseNodeFactory  $parseNodeFactory,
+        private EventRequestHandlerFactory  $requestHandlerFactory,
         private ChannelConfigurationFactory $configurationFactory
     ) {
     }
@@ -28,14 +29,18 @@ class EventMessageHandler
     {
         $requestHandler = $this->requestHandlerFactory->get($message->getAction());
 
-        /** @var Config $config */
         $config = $this->configurationFactory->get($message->getSalesChannelId())?->getWorkspace();
-        Assert::notNull($config);
+        Assert::isInstanceOf($config, Config::class, 'Workspace is not configured for this channel');
+
+        $config->setMode(Mode::Scheduled);
 
         $payload = $this->deserialize($message->getPayload(), $requestHandler->getType());
         Assert::notNull($payload);
 
-        $requestHandler->send($payload, $config);
+        $requestHandler->send(
+            $payload,
+            $message->getSalesChannelId()
+        )->wait();
     }
 
     public static function getHandledMessages(): iterable

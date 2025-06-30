@@ -1,0 +1,28 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.synchronization_configuration.show.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/breadcrumbs.html.twig'
+                priority: 0
+        'sylius_admin.synchronization_configuration.show.content.header.title_block':
+            title:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.synchronization_configuration.show.title
+                    subheader: synerise_integration.synchronization_configuration.show.subheader
+            actions:
+                component: 'synerise_integration:synchronization_configuration_actions'
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/header/title_block/actions.html.twig'
+        'sylius_admin.synchronization_configuration.show.content':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/sections.html.twig'
+                priority: 0
+        'sylius_admin.synchronization_configuration.show.content.sections':
+            config:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/config.html.twig'
+            synchronizations:
+                component: 'synerise_integration:synchronizations_list'
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/synchronizations_list.html.twig'
+                    channel: '@=_context.resource.getChannel()'

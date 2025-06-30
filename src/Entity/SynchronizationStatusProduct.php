@@ -3,37 +3,38 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 
-class SynchronizationStatusProduct implements SynchronizationStatusInterface
+class SynchronizationStatusProduct
 {
-    private ?int $id = null;
+    private ProductInterface $product;
 
-    private ?ChannelInterface $channel = null;
+    private ChannelInterface $channel;
 
-    private ?array $updatedAt = null;
+    private \DateTimeInterface $updatedAt;
 
-    public function getId(): ?int
+    public function getProduct(): ProductInterface
     {
-        return $this->id;
+        return $this->product;
+    }
+    public function setProduct(ProductInterface $product): void
+    {
+        $this->product = $product;
     }
 
-    public function getChannel(): ?ChannelInterface
+    public function getChannel(): ChannelInterface
     {
         return $this->channel;
     }
-
-    public function setChannel(?ChannelInterface $channel): void
+    public function setChannel(ChannelInterface $channel): void
     {
         $this->channel = $channel;
     }
-
-    public function getUpdatedAt(): ?array
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
-
-    public function setUpdatedAt(?array $updatedAt): void
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

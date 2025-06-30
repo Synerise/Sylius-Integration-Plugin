@@ -1,0 +1,32 @@
+{% set resource = hookable_metadata.context.resource %}
+
+<div class="col-12 col-md-auto ms-auto d-print-none">
+    <div class="btn-list">
+        <div class="dropdown">
+            <button class="btn {% if this.configurations|length > 1 %}dropdown-toggle{% endif %}" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                {{ resource.channel.name }}
+            </button>
+            {% if this.configurations|length > 1 %}
+                <ul class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                    {% for configuration in this.configurations %}
+                        {% if resource.id != configuration.id %}
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{{ path('synerise_integration_admin_synchronization_configuration_show', {id: configuration.id}) }}">
+                                    {{ configuration.channel.name }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <a href="{{ path('synerise_integration_admin_synchronization_create', {configurationId: resource.id}) }}"
+           class="btn btn-primary">
+            {{ ux_icon('gridicons:add') }}
+            {{ 'synerise_integration.synchronization_configuration.show.actions.new_sync' | trans }}
+        </a>
+    </div>
+</div>

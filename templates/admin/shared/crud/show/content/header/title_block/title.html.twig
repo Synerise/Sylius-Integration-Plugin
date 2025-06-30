@@ -1,0 +1,23 @@
+{% import '@SyliusAdmin/shared/helper/header.html.twig' as header %}
+
+{% if hookable_metadata.context.has("metadata") %}
+    {% set resource = hookable_metadata.context.resource %}
+    {% set metadata = hookable_metadata.context.metadata %}
+    {% if  hookable_metadata.configuration.title is defined %}
+        {% set header = hookable_metadata.configuration.title %}
+    {% elseif resource.name is defined %}
+        {% set header = resource.name|default(resource.id) %}
+    {% elseif resource.channel is defined %}
+        {% set header = resource.channel.name|default(resource.id) %}
+    {% endif %}
+{% endif %}
+
+{% set icon = hookable_metadata.configuration.icon|default(null) %}
+{% set subheader = hookable_metadata.configuration.subheader|default(null) %}
+{% set test_attribute = hookable_metadata.configuration.sylius_test_html_attribute is defined ? sylius_test_html_attribute(hookable_metadata.configuration.sylius_test_html_attribute) : null %}
+
+<div class="col-12 col-md" {{ test_attribute }}>
+    <div class="d-md-flex gap-2 align-items-center">
+        {{ header.h1(header|trans, icon, subheader|trans) }}
+    </div>
+</div>

@@ -1,0 +1,25 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.channel_configuration.show.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/breadcrumbs.html.twig'
+                priority: 0
+        'sylius_admin.channel_configuration.show.content.header.title_block':
+            title:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/title_block/title.html.twig'
+                configuration:
+                    title: synerise_integration.channel_configuration.index.title
+                    subheader: synerise_integration.channel_configuration.index.subheader
+            actions:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/show/content/header/title_block/actions.html.twig'
+        'sylius_admin.channel_configuration.show.content':
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/sections.html.twig'
+                priority: 0
+        'sylius_admin.channel_configuration.show.content.sections':
+            channel:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/show/content/sections/channel.html.twig'
+            tracking:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/show/content/sections/tracking.html.twig'
+            events:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/show/content/sections/events.html.twig'

@@ -1,6 +1,7 @@
 /vendor/
 /var/
 /node_modules/
+/modules/
 /composer.lock
 
 /etc/build/*

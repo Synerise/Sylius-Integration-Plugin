@@ -23,7 +23,7 @@ final class AdminMenuListener
 
         $syneriseMenu
             ->addChild('workspaces', ['route' => 'synerise_integration_admin_workspace_index'])
-            ->setLabel('synerise_integration.ui.workspaces')
+            ->setLabel('synerise_integration.workspace.index.title')
             ->setLabelAttribute('icon', 'file');
 
         $syneriseMenu
@@ -32,8 +32,8 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'file');
 
         $syneriseMenu
-            ->addChild('synchronization', ['route' => 'synerise_integration_admin_synchronization_index'])
-            ->setLabel('synerise_integration.ui.synchronization')
+            ->addChild('synchronization', ['route' => 'synerise_integration_admin_synchronization_configuration_index'])
+            ->setLabel('synerise_integration.synchronization_configuration.index.title')
             ->setLabelAttribute('icon', 'file');
 
         $position = array_search('marketing', array_keys($event->getMenu()->getChildren())) ?: 4;

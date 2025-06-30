@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            {{ 'synerise_integration.workspace.form.sections.main.card_title'|trans }}
+        </div>
+    </div>
+    <div class="card-body">
+        {{ form_row(hookable_metadata.context.form.apiKey, sylius_test_form_attribute('apiKey')) }}
+        {{ form_row(hookable_metadata.context.form.environment, sylius_test_form_attribute('environment')) }}
+        {{ form_row(hookable_metadata.context.form.authenticationMethod, sylius_test_form_attribute('authenticationMethod')) }}
+        {% if hookable_metadata.context.formValues.authenticationMethod == 'basic' %}
+            {{ form_row(hookable_metadata.context.form.guid, sylius_test_form_attribute('guid')) }}
+        {% endif %}
+    </div>
+</div>

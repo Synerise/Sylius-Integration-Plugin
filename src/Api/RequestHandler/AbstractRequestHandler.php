@@ -7,6 +7,10 @@ use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 
 abstract class AbstractRequestHandler implements RequestHandlerInterface
 {
@@ -17,18 +21,17 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
 
     public static string $createMethod = 'createFromDiscriminatorValue';
 
-    private ClientBuilderFactory $clientBuilderFactory;
-
     public function  __construct(
-        ClientBuilderFactory $clientBuilderFactory
+        private ClientBuilderFactory $clientBuilderFactory,
+        private ChannelConfigurationFactory $channelConfigurationFactory,
+        private SynchronizationConfigurationFactory $synchronizationConfigurationFactory
     ){
-        $this->clientBuilderFactory = $clientBuilderFactory;
     }
 
     /**
      * @inheritDoc
      */
-    abstract public function send(Parsable $payload, Config $config): Promise;
+    abstract public function send(Parsable $payload, string|int $channelId): Promise;
 
     /**
      * @inheritDoc
@@ -44,5 +47,15 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
     protected function getClientBuilder(Config $config): ClientBuilder
     {
         return $this->clientBuilderFactory->create($config);
+    }
+
+    protected function getChannelConfiguration(string|int|null $channelId): ?ChannelConfigurationInterface
+    {
+         return $this->channelConfigurationFactory->get($channelId);
+    }
+
+    protected function getSynchronizationConfiguration(string|int|null $channelId): ?SynchronizationConfigurationInterface
+    {
+        return $this->synchronizationConfigurationFactory->get($channelId);
     }
 }

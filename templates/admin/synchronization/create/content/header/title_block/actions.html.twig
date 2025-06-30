@@ -1,0 +1,15 @@
+{% set synchronizationConfiguration = hookable_metadata.context.synchronizationConfiguration %}
+<div class="col-12 col-md-auto ms-auto d-print-none">
+    <div class="btn-list">
+        <a
+            class="btn"
+            href="{{ path('synerise_integration_admin_synchronization_configuration_show', { id: synchronizationConfiguration.id }) }}"
+        >
+            {{ 'sylius.ui.cancel' | trans }}
+        </a>
+        <button type="submit" form="synerise_integration_synchronization" class="btn btn-primary ">
+            {{ ux_icon('gridicons:add') }}
+            {{ 'sylius.ui.create' | trans }}
+        </button>
+    </div>
+</div>

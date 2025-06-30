@@ -1,0 +1,13 @@
+{% set resource = hookable_metadata.context.resource %}
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            Tracking
+        </div>
+    </div>
+    <div class="card-body">
+        {{ resource.channel.name }}
+        {{ ux_icon('bi:arrow-right-short') }}
+        {{ resource.workspace.name }}
+    </div>
+</div>

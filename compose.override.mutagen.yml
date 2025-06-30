@@ -1,0 +1,89 @@
+services:
+    php:
+        image: ghcr.io/sylius/sylius-php:8.3-fixuid-xdebug-alpine
+        user: ${DOCKER_USER:-1000:1000}
+        depends_on:
+            mysql:
+                condition: service_healthy
+        environment:
+            APP_ENV: dev
+            APP_SECRET: EDITME
+            DATABASE_URL: "mysql://root@mysql/sylius_%kernel.environment%"
+            MAILER_DSN: smtp://mailhog:1025
+            MESSENGER_TRANSPORT_DSN: doctrine://default
+            SYLIUS_MESSENGER_TRANSPORT_MAIN_DSN: doctrine://default
+            SYLIUS_MESSENGER_TRANSPORT_MAIN_FAILED_DSN: doctrine://default?queue_name=main_failed
+            SYLIUS_MESSENGER_TRANSPORT_CATALOG_PROMOTION_REMOVAL_DSN: doctrine://default?queue_name=catalog_promotion_removal
+            SYLIUS_MESSENGER_TRANSPORT_CATALOG_PROMOTION_REMOVAL_FAILED_DSN: doctrine://default?queue_name=catalog_promotion_removal_failed
+            SYLIUS_MESSENGER_TRANSPORT_PAYMENT_REQUEST_DSN: sync://
+            SYLIUS_MESSENGER_TRANSPORT_PAYMENT_REQUEST_FAILED_DSN: sync://
+            PHP_DATE_TIMEZONE: ${PHP_DATE_TIMEZONE:-UTC}
+            XDEBUG_MODE: debug
+            XDEBUG_CONFIG: >-
+                client_host=host.docker.internal
+                client_port=9003
+                idekey=PHPSTORM
+                xdebug.start_with_request=yes
+            PHP_IDE_CONFIG: serverName=sylius
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - php-data:/srv/sylius:rw,cached
+            - symfony-cache:/srv/sylius/tests/Application/var:rw,delegated
+            - symfony-logs:/srv/sylius/tests/Application/var/log:rw,delegated
+            - public:/srv/sylius/tests/Application/public:rw,cached
+            - public-build:/srv/sylius/tests/Application/public/build:ro,cached
+            - public-media-cache:/srv/sylius/tests/Application/public/media/cache:rw,delegated
+            - vendor:/srv/sylius/vendor:rw,delegated
+
+    mysql:
+        volumes:
+            - mysql-data:/var/lib/mysql:rw
+        ports:
+            - "3306:3306"
+    nginx:
+        build:
+            dockerfile: nginx/Dockerfile
+        environment:
+            DC: SD
+            WORKING_DIR: /srv/sylius/tests/Application
+        volumes:
+            - public:/srv/sylius/tests/Application/public:rw,cached
+            - public-build:/srv/sylius/tests/Application/public/build:ro,cached
+            - public-media-cache:/srv/sylius/tests/Application/public/media/cache:ro,cached
+            - ./nginx/certs:/etc/nginx/certs:ro
+        ports:
+            - "80:80"
+            - "443:443"
+    nodejs:
+        image: node:${NODE_VERSION:-20}-alpine
+        user: ${DOCKER_USER:-1000:1000}
+        working_dir: /srv/sylius
+        entrypoint: [ "/bin/sh","-c" ]
+        command:
+            - |
+                cd tests/Application
+                yarn install
+                yarn build
+        volumes:
+            - node-data:/srv/sylius:rw,cached
+            - public-build:/srv/sylius/tests/Application/public/build:rw,delegated
+            - vendor:/srv/sylius/vendor:ro,cached
+
+    mailhog:
+        ports:
+            - "8025:8025"
+
+volumes:
+    php-data:
+    node-data:
+    vendor:
+    public:
+    public-build:
+    public-media-cache:
+    symfony-logs:
+    symfony-cache:
+    mysql-data:
+        external: true
+        name: sylius_mysql_data
+        

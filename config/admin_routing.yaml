@@ -6,7 +6,6 @@ synerise_integration_admin_channel_configuration:
         grid: synerise_integration_admin_channel_configuration
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
-        except: ['show']
         permission: true
         vars:
             all:
@@ -17,14 +16,14 @@ synerise_integration_admin_channel_configuration:
                 icon: cogs
         path: /synerise/configuration
     type: sylius.resource
-synerise_integration_admin_synchronization:
+synerise_integration_admin_synchronization_configuration:
     resource: |
-        alias: synerise_integration.synchronization
+        alias: synerise_integration.synchronization_configuration
         section: admin
         templates: "@SyliusAdmin\\shared\\crud"
-        grid: synerise_integration_admin_synchronization
+        grid: synerise_integration_admin_synchronization_configuration
         form:
-            type: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
+            type: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
         permission: true
         vars:
             all:
@@ -33,7 +32,7 @@ synerise_integration_admin_synchronization:
                 breadcrumb: synerise_integration.ui.synchronization
             index:
                 icon: cogs
-        path: /synerise/synchronization
+        path: /synerise/synchronization_configuration
     type: sylius.resource
 synerise_integration_admin_workspace:
     resource: |
@@ -43,14 +42,21 @@ synerise_integration_admin_workspace:
         grid: synerise_integration_admin_workspace
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
-        except: ['show']
         permission: true
         vars:
             all:
-                header: synerise_integration.ui.workspaces
-                subheader: synerise_integration.ui.manage_workspaces
-                breadcrumb: synerise_integration.ui.workspaces
+                header: synerise_integration.ui.workspace.grid.header
+                subheader: synerise_integration.ui.workspace.grid.subheader
+                breadcrumb: synerise_integration.ui.workspace.grid.header
             index:
                 icon: cogs
         path: /synerise/workspace
+    type: sylius.resource
+synerise_integration_admin_synchronization:
+    resource: |
+        alias: synerise_integration.synchronization
+        templates: "@SyliusAdmin\\shared\\crud"
+        path: /synerise/synchronization_configuration/{configurationId}/synchronization
+        only: ['show', 'create', 'delete']
+        section: admin
     type: sylius.resource

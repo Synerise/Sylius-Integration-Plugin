@@ -1,0 +1,17 @@
+{% set form = hookable_metadata.context.form %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            {{ 'synerise_integration.synchronization_configuration.edit.sections.product.title'|trans }}
+        </div>
+    </div>
+    <div class="card-body">
+        {{ form_row(form.productAttributes, sylius_test_form_attribute('productAttributes')|merge({
+            attr: {
+                placeholder: 'synerise_integration.synchronization_configuration.form.product_attributes.placeholder' | trans
+            }
+        })) }}
+        {{ form_row(form.productAttributeValue, sylius_test_form_attribute('productAttributeValue')) }}
+    </div>
+</div>

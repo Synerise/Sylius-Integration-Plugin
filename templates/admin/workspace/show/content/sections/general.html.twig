@@ -1,0 +1,59 @@
+
+{% set resource = hookable_metadata.context.resource %}
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            {{ 'synerise_integration.workspace.form.sections.main.card_title' | trans }}
+        </div>
+    </div>
+    <div id="card-config">
+        <div class="table-responsive">
+            <table class="table table-vcenter">
+                <tbody>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.name.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ resource.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.api_key.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ resource.apiKey }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.environment.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ resource.environment.label }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.authentication_method.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ resource.authenticationMethod.label }}
+                        </td>
+                    </tr>
+                    {% if resource.guid is not null %}
+                        <tr>
+                            <td class="text-nowrap fw-medium">
+                                {{ 'synerise_integration.workspace.form.guid.label'|trans }}
+                            </td>
+                            <td class="border-start">
+                                {{ resource.guid }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.workspace.show.content.header':
+            breadcrumbs:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/breadcrumbs.html.twig'
+                priority: 0
+        'sylius_admin.workspace.show.content.header.title_block':
+            title:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/title_block/title.html.twig'
+            actions:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/header/title_block/actions.html.twig'
+        'sylius_admin.workspace.show.content.header.title_block.actions':
+            edit:
+                template: '@SyliusAdmin/shared/crud/show/content/header/title_block/actions/edit.html.twig'
+                priority: 100
+        'sylius_admin.workspace.show.content':
+            permissions:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/show/content/permissions.html.twig'
+                priority: 100        
+            sections:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/show/content/sections.html.twig'
+                priority: 0
+        'sylius_admin.workspace.show.content.sections':
+            general:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/show/content/sections/general.html.twig'
+            advanced:
+                template: '@SyneriseSyliusIntegrationPlugin/admin/workspace/show/content/sections/advanced.html.twig'

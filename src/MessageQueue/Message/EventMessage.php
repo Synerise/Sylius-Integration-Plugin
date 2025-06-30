@@ -37,5 +37,4 @@ class EventMessage
     {
         return $this->salesChannelId;
     }
-
 }

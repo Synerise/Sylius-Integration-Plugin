@@ -1,0 +1,31 @@
+{% macro status_badge(status) %}
+    {% set statusConfig = {
+        'full_access': {
+            'class': 'bg-success',
+            'icon': 'bi:check-circle-fill'
+        },
+        'partial_access': {
+            'class': 'bg-warning',
+            'icon': 'eva:alert-circle-fill'
+        },
+        'no_access': {
+            'class': 'bg-danger',
+            'icon': 'bi:x-circle-fill'
+        }
+    } %}
+
+    {% set config = statusConfig[status.value]|default({
+        'class': 'bg-warning',
+    }) %}
+
+    <!--suppress ALL -->
+    <span class="badge text-uppercase text-white fw-bold {{ config.class }} d-inline-flex gap-1 rounded-5">
+        {{ ux_icon(config.icon) }}
+        {{ status.label|trans }}
+    </span>
+{% endmacro %}
+
+
+{% if data is not null %}
+    {{ _self.status_badge(data) }}
+{% endif %}

@@ -1,0 +1,50 @@
+
+{% set resource = hookable_metadata.context.resource %}
+{% import '@SyliusUi/macro/labels.html.twig' as label %}
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            {{ 'synerise_integration.workspace.form.sections.advanced.card_title' | trans }}
+        </div>
+    </div>
+    <div id="card-config">
+        <div class="table-responsive">
+            <table class="table table-vcenter">
+                <tbody>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.keep_alive_enabled.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ label.yesNo(resource.keepAliveEnabled) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.live_timeout.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ resource.liveTimeout }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.scheduled_timeout.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ resource.scheduledTimeout }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.workspace.form.request_logging_enabled.label'|trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ label.yesNo(resource.requestLoggingEnabled) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

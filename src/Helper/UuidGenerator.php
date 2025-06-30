@@ -9,6 +9,6 @@ class UuidGenerator implements UuidGeneratorInterface
 {
     public function uuid5(string $string): string
     {
-        return Uuid::v5(new Uuid($string), Uuid::NAMESPACE_DNS)->toRfc4122();
+        return Uuid::v5(new Uuid(Uuid::NAMESPACE_DNS), $string)->toRfc4122();
     }
 }

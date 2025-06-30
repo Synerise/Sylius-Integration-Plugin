@@ -3,8 +3,10 @@
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
-use Synerise\SyliusIntegrationPlugin\Model\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
 interface WorkspaceInterface extends ResourceInterface
 {
@@ -22,11 +24,11 @@ interface WorkspaceInterface extends ResourceInterface
 
     public function setGuid(string $apiGuid): void;
 
-    public function getAuthenticationMethod(): ?AuthenticationMethod;
+    public function getAuthenticationMethod(): AuthenticationMethod;
 
     public function setAuthenticationMethod(AuthenticationMethod $authenticationMethod): void;
 
-    public function getEnvironment(): ?Environment;
+    public function getEnvironment(): Environment;
 
     public function setEnvironment(Environment $environment): void;
 
@@ -38,7 +40,25 @@ interface WorkspaceInterface extends ResourceInterface
 
     public function isKeepAliveEnabled(): bool;
 
-    public function getPermissions(): ?array;
+    public function setKeepAliveEnabled(bool $keepAliveEnabled): void;
 
-    public function setPermissions(?array $permissions): void;
+    public function getPermissionsStatus(): PermissionsStatus;
+
+    public function setPermissionsStatus(PermissionsStatus $permissionsStatus): void;
+
+    public function getMode(): Mode;
+
+    public function setMode(Mode $mode): void;
+
+    public function getLiveTimeout(): float;
+
+    public function setLiveTimeout(float $liveTimeout): void;
+
+    public function getScheduledTimeout(): float;
+
+    public function setScheduledTimeout(float $scheduledTimeout): void;
+
+    public function isRequestLoggingEnabled(): bool;
+
+    public function setRequestLoggingEnabled(bool $requestLoggingEnabled): void;
 }

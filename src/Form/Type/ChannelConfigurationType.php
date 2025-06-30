@@ -7,6 +7,9 @@ use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
 final class ChannelConfigurationType extends AbstractResourceType
 {
@@ -17,39 +20,83 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'label' => 'sylius.ui.channel'
             ])
             ->add('workspace', WorkspaceChoiceType::class, [
-                'label' => 'synerise_integration.ui.workspace'
+                'label' => 'synerise_integration.ui.channel_configuration.form.workspace.label'
             ])
             ->add('trackingEnabled', CheckboxType::class, [
-                'label' => 'synerise_integration.ui.tracking_enabled',
-                'required' => false
-            ])
-            ->add('cookieDomain', TextType::class, [
-                'label' => 'synerise_integration.ui.cookie_domain',
-                'required' => false
-            ])
-            ->add('customPageVisit', CheckboxType::class, [
-                'label' => 'synerise_integration.ui.custom_page_visit',
-                'required' => false
-            ])
-            ->add('virtualPage', CheckboxType::class, [
-                'label' => 'synerise_integration.ui.virtual_page',
+                'label' => 'synerise_integration.channel_configuration.form.tracking_enabled.label',
                 'required' => false
             ])
             ->add('opengraphEnabled', CheckboxType::class, [
-                'label' => 'synerise_integration.ui.opengraph_enabled',
+                'label' => 'Render OG tags from page visit events',
+                'required' => false
+            ])
+            ->add('virtualPage', CheckboxType::class, [
+                'label' => 'synerise_integration.channel_configuration.form.virtual_page.label',
+                'help' => 'synerise_integration.channel_configuration.form.virtual_page.help',
+                'required' => false
+            ])
+            ->add('cookieDomainEnabled', CheckboxType::class, [
+                'label' => 'synerise_integration.channel_configuration.form.cookie_domain_enabled.label',
+                'help' => 'synerise_integration.channel_configuration.form.cookie_domain_enabled.help',
+                'required' => false,
+                'mapped' => false,
+            ])
+            ->add('cookieDomain', TextType::class, [
+                'label' => 'synerise_integration.channel_configuration.form.cookie_domain.label',
+                'attr'=> [
+                    'placeholder' => 'domain.com',
+                ],
+                'required' => false
+            ])
+            ->add('customPageVisit', CheckboxType::class, [
+                'label' => 'synerise_integration.channel_configuration.form.custom_page_visit.label',
+                'help' => 'synerise_integration.channel_configuration.form.custom_page_visit.help',
                 'required' => false
             ])
             ->add('events', EventChoiceType::class, [
-                'label' => 'synerise_integration.ui.events',
+                'label' => 'synerise_integration.channel_configuration.form.events.label',
+                'help' => 'synerise_integration.channel_configuration.form.events.help',
                 'multiple' => true,
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'data-controller' => 'multiselect'
+                ]
+            ])
+            ->add('snrsParamsEnabled', CheckboxType::class, [
+                'label' => 'synerise_integration.channel_configuration.form.snrs_params_enabled.label',
+                'help' => 'synerise_integration.channel_configuration.form.snrs_params_enabled.help',
             ])
             ->add('queueEvents', EventChoiceType::class, [
-                'label' => 'synerise_integration.ui.queue_events',
+                'label' => 'synerise_integration.channel_configuration.form.queue_events.label',
+                'help' => 'synerise_integration.channel_configuration.form.queue_events.help',
                 'multiple' => true,
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'data-controller' => 'multiselect'
+                ]
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            /** @var array $data */
+            $data = $event->getData();
+
+            if (isset($data['cookieDomainEnabled']) && !$data['cookieDomainEnabled']) {
+                $data['cookieDomain'] = null;
+                $event->setData($data);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var ChannelConfigurationInterface|null $data */
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            if ($data) {
+                $form->get('cookieDomainEnabled')->setData($data->getCookieDomain() !== null);
+            }
+        });
+
     }
 
     public function getBlockPrefix(): string

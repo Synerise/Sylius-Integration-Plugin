@@ -1,0 +1,41 @@
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service
+            id="synerise_integration.twig.component.open_graph"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\OpenGraphComponent"
+        >
+            <argument type="service" id="sylius.calculator.product_variant_price" />
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="sylius.context.currency" />
+            <argument type="service" id="sylius.converter.currency" />
+            <argument type="service" id="synerise_integration.context.channel_configuration" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:open_graph" />
+        </service>
+        <service
+            id="synerise_integration.twig.component.tracking_script"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\TrackingScriptComponent"
+        >
+            <argument type="service" id="synerise_integration.context.channel_configuration" />
+
+            <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
+        </service>
+        <service id="synerise_integration.twig.component.synchronizations_list"
+                 class="Synerise\SyliusIntegrationPlugin\Twig\Component\SynchronizationsList">
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
+            <argument type="service" id="sylius.repository.channel"/>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronizations_list"/>
+        </service>
+        <service id="synerise_integration.twig.component.synchronization_configuration_actions"
+                 class="Synerise\SyliusIntegrationPlugin\Twig\Component\SynchronizationConfigurationActions">
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration"/>
+
+            <tag name="sylius.live_component.admin" key="synerise_integration:synchronization_configuration_actions"/>
+        </service>
+    </services>
+</container>

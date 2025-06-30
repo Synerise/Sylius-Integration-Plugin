@@ -4,8 +4,10 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Synerise\Sdk\Api\Config;
-use Synerise\SyliusIntegrationPlugin\Model\AuthenticationMethod;
-use Synerise\SyliusIntegrationPlugin\Model\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
+use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
 class Workspace implements WorkspaceInterface, Config
 {
@@ -16,14 +18,29 @@ class Workspace implements WorkspaceInterface, Config
     #[Assert\Uuid]
     private ?string $apiKey = null;
 
-    #[Assert\Uuid]
+    /**
+     * @Assert\Regex(
+     *     pattern="/^[{(]?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}[)}]?$/",
+     *     message="This value is not a valid GUID."
+     * )
+     */
     private ?string $apiGuid = null;
 
-    private ?AuthenticationMethod $authenticationMethod = null;
+    private AuthenticationMethod $authenticationMethod = AuthenticationMethod::Bearer;
 
-    private ?Environment $environment = null;
+    private Environment $environment = Environment::Azure;
 
-    private ?array $permissions = null;
+    private PermissionsStatus $permissionsStatus = PermissionsStatus::NoAccess;
+
+    private Mode $mode = Mode::Live;
+
+    private bool $keepAliveEnabled = true;
+
+    private float $liveTimeout = 2.5;
+
+    private float $scheduledTimeout = 10;
+
+    private bool $requestLoggingEnabled = false;
 
     public function __toString(): string
     {
@@ -50,7 +67,7 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiKey;
     }
 
-    public function setApiKey(string $apiKey): void
+    public function setApiKey(?string $apiKey): void
     {
         $this->apiKey = $apiKey;
     }
@@ -60,12 +77,12 @@ class Workspace implements WorkspaceInterface, Config
         return $this->apiGuid;
     }
 
-    public function setGuid(string $apiGuid): void
+    public function setGuid(?string $apiGuid): void
     {
         $this->apiGuid = $apiGuid;
     }
 
-    public function getAuthenticationMethod(): ?AuthenticationMethod
+    public function getAuthenticationMethod(): AuthenticationMethod
     {
         return $this->authenticationMethod;
     }
@@ -75,7 +92,7 @@ class Workspace implements WorkspaceInterface, Config
         $this->authenticationMethod = $authenticationMethod;
     }
 
-    public function getEnvironment(): ?Environment
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
@@ -85,9 +102,9 @@ class Workspace implements WorkspaceInterface, Config
         $this->environment = $environment;
     }
 
-    public function getApiHost(): ?string
+    public function getApiHost(): string
     {
-        return $this->getEnvironment()?->getApiHost();
+        return $this->getEnvironment()->getApiHost();
     }
 
     public function getUserAgent(): string
@@ -97,21 +114,66 @@ class Workspace implements WorkspaceInterface, Config
 
     public function getTimeout(): ?float
     {
-        return 2.5;
+        return $this->getMode() == Mode::Scheduled ? $this->getScheduledTimeout() : $this->getLiveTimeout();
     }
 
     public function isKeepAliveEnabled(): bool
     {
-        return false;
+        return $this->keepAliveEnabled;
     }
 
-    public function getPermissions(): ?array
+    public function setKeepAliveEnabled(bool $keepAliveEnabled): void
     {
-        return $this->permissions;
+        $this->keepAliveEnabled = $keepAliveEnabled;
     }
 
-    public function setPermissions(?array $permissions): void
+    public function getPermissionsStatus(): PermissionsStatus
     {
-        $this->permissions = $permissions;
+        return $this->permissionsStatus;
+    }
+
+    public function setPermissionsStatus(PermissionsStatus $permissionsStatus): void
+    {
+        $this->permissionsStatus = $permissionsStatus;
+    }
+
+    public function getMode(): Mode
+    {
+        return $this->mode;
+    }
+
+    public function setMode(Mode $mode): void
+    {
+        $this->mode = $mode;
+    }
+
+    public function getLiveTimeout(): float
+    {
+        return $this->liveTimeout;
+    }
+
+    public function setLiveTimeout(float $liveTimeout): void
+    {
+        $this->liveTimeout = $liveTimeout;
+    }
+
+    public function getScheduledTimeout(): float
+    {
+        return $this->scheduledTimeout;
+    }
+
+    public function setScheduledTimeout(float $scheduledTimeout): void
+    {
+        $this->scheduledTimeout = $scheduledTimeout;
+    }
+
+    public function isRequestLoggingEnabled(): bool
+    {
+        return $this->requestLoggingEnabled;
+    }
+
+    public function setRequestLoggingEnabled(bool $requestLoggingEnabled): void
+    {
+        $this->requestLoggingEnabled = $requestLoggingEnabled;
     }
 }

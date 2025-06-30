@@ -1,0 +1,13 @@
+beforeCreate:
+  - docker-compose -f compose.yml -f compose.override.yml -f docker-compose.mutagen.yml up -d
+
+beforeTerminate:
+  - docker-compose down
+
+sync:
+  defaults:
+    mode: two-way-resolved
+    symlink:
+      mode: "posix-raw"
+    watch:
+      mode: "portable"

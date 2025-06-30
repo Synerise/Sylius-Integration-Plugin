@@ -1,0 +1,6 @@
+{% from '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' import breadcrumbs %}
+
+{{ breadcrumbs([
+    { name: 'Synerise', 'active': false },
+    { name: hookable_metadata.configuration.title, 'active': true },
+]) }}
