@@ -46,6 +46,10 @@ class SynchronizationsList
     #[ExposeInTemplate('channel')]
     public ChannelInterface $channel;
 
+    /**
+     * @param SynchronizationRepository $synchronizationRepository
+     * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
+     */
     public function __construct(
         private SynchronizationRepository  $synchronizationRepository,
         private ChannelRepositoryInterface $channelRepository
@@ -53,21 +57,24 @@ class SynchronizationsList
     {
     }
 
-    public function getSynchronizationDataTypeCases() {
+    public function getSynchronizationDataTypeCases(): array {
         return SynchronizationDataType::cases();
     }
 
-    public function getSynchronizationStatusCases() {
+    public function getSynchronizationStatusCases(): array {
         return SynchronizationStatus::cases();
     }
 
-    public function getSynchronizations(): array
+    public function getSynchronizations(): ?array
     {
-        return $this->createQueryBuilder()
+        /** @var array|null $synchronizations */
+        $synchronizations = $this->createQueryBuilder()
             ->setMaxResults($this->limit)
             ->setFirstResult(($this->page - 1) * $this->limit)
             ->getQuery()
             ->getResult();
+
+        return $synchronizations;
     }
 
     public function getTotal(): int
@@ -118,12 +125,14 @@ class SynchronizationsList
         return $filters;
     }
 
-    public function hydrateChannel($data): ?\Sylius\Component\Channel\Model\ChannelInterface
+    public function hydrateChannel(array $data): ?ChannelInterface
     {
-        return $this->channelRepository->find($data['id']);
+        /** @var ChannelInterface|null $channel */
+        $channel = $this->channelRepository->findOneByCode($data['id']);
+        return $channel;
     }
 
-    public function dehydrateChannel($data): array
+    public function dehydrateChannel(ChannelInterface $data): array
     {
         return [
             'id' => $data->getId(),

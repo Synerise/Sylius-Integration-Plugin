@@ -49,7 +49,7 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
     }
 
     /**
-     * @param Collection<int, ProductAttribute>|array<ProductAttribute> $productAttributes
+     * @param array<ProductAttribute> $productAttributes
      */
     public function setProductAttributes(array $productAttributes): void
     {
@@ -100,6 +100,5 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
             'productAttributeValue' => $this->productAttributeValue?->value,
             'catalogId' => $this->catalogId,
         ];
-
     }
 }

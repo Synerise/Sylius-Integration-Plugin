@@ -33,6 +33,7 @@ class OrderProcessor
         }
 
         Assert::NotNull($configuration->getChannel());
+        Assert::NotNull($order->getCustomer()?->getEmail());
 
         if ($this->identityManager && $order->isCreatedByGuest()) {
             $this->identityManager->identify($order->getCustomer()->getEmail());

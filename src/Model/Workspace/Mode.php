@@ -15,8 +15,8 @@ enum Mode: string implements TranslatableInterface
     case Scheduled = 'scheduled';
 
     public const LABEL = [
-        'Live' => 'synerise_integration.workspace.mode.live',
-        'Scheduled' => 'synerise_integration.workspace.mode.scheduled',
+        'live' => 'synerise_integration.workspace.mode.live',
+        'scheduled' => 'synerise_integration.workspace.mode.scheduled',
     ];
 
     public function trans(TranslatorInterface $translator, ?string $locale = null): string

@@ -74,12 +74,7 @@ class Synchronization implements ResourceInterface
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -104,22 +99,22 @@ class Synchronization implements ResourceInterface
         $this->total = $total;
     }
 
-    public function getSinceWhen(): ?\DateTimeInterface
+    public function getSinceWhen(): ?\DateTimeImmutable
     {
         return $this->sinceWhen;
     }
 
-    public function setSinceWhen(?\DateTimeInterface $sinceWhen): void
+    public function setSinceWhen(?\DateTimeImmutable $sinceWhen): void
     {
         $this->sinceWhen = $sinceWhen;
     }
 
-    public function getUntilWhen(): ?\DateTimeInterface
+    public function getUntilWhen(): ?\DateTimeImmutable
     {
         return $this->untilWhen;
     }
 
-    public function setUntilWhen(?\DateTimeInterface $untilWhen): void
+    public function setUntilWhen(?\DateTimeImmutable $untilWhen): void
     {
         $this->untilWhen = $untilWhen;
     }

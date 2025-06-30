@@ -36,6 +36,10 @@
         <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer">
             <argument type="service" id="synerise_integration.context.channel_configuration" />
         </service>
+        <service id="synerise_integration.helper.product_url_helper" class="Synerise\SyliusIntegrationPlugin\Helper\ProductUrlHelper">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="router" />
+        </service>
         <!-- SOURCE PROVIDER -->
         <service id="synerise_integration.mobile_detect" class="Detection\MobileDetect"/>
         <service id="synerise_integration.sdk.source_provider" class="Synerise\Sdk\Tracking\DefaultEventSourceProvider">

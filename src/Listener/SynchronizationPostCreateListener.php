@@ -8,6 +8,7 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
+use Webmozart\Assert\Assert;
 
 final readonly class SynchronizationPostCreateListener
 {
@@ -27,6 +28,9 @@ final readonly class SynchronizationPostCreateListener
         $synchronization = $event->getSubject();
 
         try{
+            Assert::notNull($synchronization->getId());
+            Assert::notNull($synchronization->getType());
+
             $this->messageBus->dispatch(new SyncStartMessage($synchronization->getId(), $synchronization->getType()->value));
         } catch (ExceptionInterface $e) {
             $this->syneriseLogger->error($e);
