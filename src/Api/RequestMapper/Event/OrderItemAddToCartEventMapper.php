@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
-use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Synerise\Api\V4\Models\CartEvent;
@@ -16,16 +16,19 @@ use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
 use Synerise\Sdk\Api\RequestBody\Events\AddedToCartBuilder;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 
 class OrderItemAddToCartEventMapper
 {
-    public function __construct(private EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        private EventDispatcherInterface $eventDispatcher,
+        private ProductDataFormatter $formatter,
+    ) {
     }
 
     public function prepare(OrderItemInterface $cartItem, Client $client): CartEvent
     {
-        /** @var \Sylius\Component\Core\Model\OrderInterface $cart */
+        /** @var OrderInterface $cart */
         $cart = $cartItem->getOrder();
 
         $currencyCode = $cart->getCurrencyCode();
@@ -39,31 +42,20 @@ class OrderItemAddToCartEventMapper
         $regularUnitPrice = null;
         if ($cartItem->getOriginalUnitPrice()) {
             $regularUnitPrice = new RegularUnitPrice();
-            $regularUnitPrice->setAmount($this->formatPrice($cartItem->getOriginalUnitPrice()));
+            $regularUnitPrice->setAmount($this->formatter->formatAmount($cartItem->getOriginalUnitPrice()));
             $regularUnitPrice->setCurrency($currencyCode);
         }
 
         $discountedUnitPrice = null;
         if ($cartItem->getUnitPrice() != $cartItem->getOriginalUnitPrice()) {
             $discountedUnitPrice = new DiscountedUnitPrice();
-            $discountedUnitPrice->setAmount($this->formatPrice($cartItem->getUnitPrice()));
+            $discountedUnitPrice->setAmount($this->formatter->formatAmount($cartItem->getUnitPrice()));
             $discountedUnitPrice->setCurrency($currencyCode);
         }
 
         $finalUnitPrice = new FinalUnitPrice();
-        $finalUnitPrice->setAmount($this->formatPrice($cartItem->getDiscountedUnitPrice()));
+        $finalUnitPrice->setAmount($this->formatter->formatAmount($cartItem->getDiscountedUnitPrice()));
         $finalUnitPrice->setCurrency($currencyCode);
-
-        /** @var TaxonInterface $mainTaxon */
-        $mainTaxon = $product->getMainTaxon();
-
-        $taxons = [];
-        foreach ($product->getProductTaxons() as $productTaxon) {
-            if ($productTaxon->getTaxon()) {
-                /** @var array<string> $taxons */
-                $taxons[] = $productTaxon->getTaxon()->getFullname(' > ');
-            }
-        }
 
         $cartEvent = AddedToCartBuilder::initialize($client)
             ->setQuantity($cartItem->getQuantity())
@@ -72,8 +64,8 @@ class OrderItemAddToCartEventMapper
             ->setDiscountedUnitPrice($discountedUnitPrice)
             ->setSku($product->getCode())
             ->setName($product->getName())
-            ->setCategory($mainTaxon->getFullname(' > '))
-            ->setCategories($taxons ?: null)
+            ->setCategory($this->formatter->formatTaxon($product->getMainTaxon()))
+            ->setCategories($this->formatter->formatTaxonsCollection($product->getTaxons()) ?: null)
             ->setParam('skuVariant', $variant->getCode())
             ->build();
 
@@ -86,10 +78,5 @@ class OrderItemAddToCartEventMapper
 
         // @phpstan-ignore return.type
         return $genericEvent->getSubject();
-    }
-
-    private function formatPrice(int $amount): float
-    {
-        return abs($amount / 100);
     }
 }

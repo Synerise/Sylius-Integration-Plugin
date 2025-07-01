@@ -23,7 +23,7 @@ class ChannelConfigurationFactory
         $this->repository = $repository;
     }
 
-    public function create(?string $channelId = null): ?ChannelConfigurationInterface
+    public function create(int|string|null $channelId = null): ?ChannelConfigurationInterface
     {
         if ($channelId === null) {
             $channelId = $this->channel->getChannel()->getId();

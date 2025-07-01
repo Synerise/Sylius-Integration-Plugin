@@ -11,11 +11,14 @@ use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\Product;
 use Synerise\Sdk\Api\RequestBody\Events\CartStatusBuilder;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 
 class OrderToCartStatusEventMapper
 {
-    public function __construct(private EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        private EventDispatcherInterface $eventDispatcher,
+        private ProductDataFormatter $formatter,
+    ) {
     }
 
     public function prepare(Client $client, ?OrderInterface $cart = null): CustomEvent
@@ -58,7 +61,7 @@ class OrderToCartStatusEventMapper
         }
 
         $customEvent = CartStatusBuilder::initialize($client)
-            ->setTotalAmount($this->formatPrice($cart->getItemsTotal()))
+            ->setTotalAmount($this->formatter->formatAmount($cart->getItemsTotal()))
             ->setTotalQuantity($cart->getTotalQuantity())
             ->setProducts($products)
             ->build();
@@ -72,10 +75,5 @@ class OrderToCartStatusEventMapper
 
         // @phpstan-ignore return.type
         return $genericEvent->getSubject();
-    }
-
-    private function formatPrice(int $amount): float
-    {
-        return abs($amount / 100);
     }
 }

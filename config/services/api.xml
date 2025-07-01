@@ -50,16 +50,19 @@
         <!-- EVENT REQUEST MAPPERS -->
         <service id="synerise_integration.api.request_mapper.event.cart_item_add" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\OrderItemAddToCartEventMapper">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
         </service>
         <service id="synerise_integration.api.request_mapper.event.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\OrderItemRemoveToCartEventMapper">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
         </service>
         <service id="synerise_integration.api.request_mapper.event.cart_status" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\OrderToCartStatusEventMapper">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
         </service>
         <service id="synerise_integration.api.request_mapper.event.product_add_review" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\ReviewToProductAddReviewEvent">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="synerise_integration.helper.product_url_helper" />
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
         </service>
         <service id="synerise_integration.api.request_mapper.event.customer_logged_in" class="\Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\CustomerToLoggedInEvent">
             <argument type="service" id="event_dispatcher" />
@@ -71,15 +74,19 @@
             <argument type="service" id="event_dispatcher" />
         </service>
         <service id="synerise_integration.api.request_mapper.event.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\OrderToTransactionMapper">
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
             <argument type="service" id="synerise_integration.sdk.source_provider" />
         </service>
         <!-- RESOURCE REQUEST MAPPERS -->
         <service id="synerise_integration.api.request_mapper.resource.customer" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\CustomerToProfileMapper" />
-        <service id="synerise_integration.api.request_mapper.resource.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\OrderToTransactionMapper" />
+        <service id="synerise_integration.api.request_mapper.resource.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\OrderToTransactionMapper" >
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
+            <argument type="service" id="synerise_integration.sdk.source_provider" />
+        </service>
         <service id="synerise_integration.api.request_mapper.resource.product" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\ProductToAddItemMapper">
-            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
-            <argument type="service" id="synerise_integration.helper.product_url_helper" />
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.helper.product_data_formatter" />
         </service>
     </services>
 </container>

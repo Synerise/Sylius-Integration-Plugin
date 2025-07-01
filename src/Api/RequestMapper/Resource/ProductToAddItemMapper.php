@@ -7,7 +7,6 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelInterface as CoreChannelInterface;
-use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
@@ -19,15 +18,15 @@ use Synerise\Api\Catalogs\Models\AddItemValue;
 use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Event\Model\ProductUpdateRequestEvent;
-use Synerise\SyliusIntegrationPlugin\Helper\ProductUrlHelper;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 use Webmozart\Assert\Assert;
 
 class ProductToAddItemMapper implements RequestMapperInterface
 {
     public function __construct(
-        private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
-        private ProductUrlHelper $productUrlHelper,
         private EventDispatcherInterface $eventDispatcher,
+        private SynchronizationConfigurationFactory $configurationFactory,
+        private ProductDataFormatter $formatter,
     ) {
     }
 
@@ -40,48 +39,35 @@ class ProductToAddItemMapper implements RequestMapperInterface
         ?ChannelInterface $channel = null,
     ): AddItem {
         Assert::implementsInterface($resource, ProductInterface::class);
-        Assert::notNull($channel);
+        Assert::implementsInterface($channel, CoreChannelInterface::class);
 
-        return $this->prepareProductUpdateRequest($resource, $channel);
-    }
-
-    private function prepareProductUpdateRequest(
-        ProductInterface $product,
-        ChannelInterface $channel,
-    ): AddItem {
-        /** @var CoreChannelInterface $channel */
-        $configuration = $this->synchronizationConfigurationFactory->get($channel->getId());
+        $configuration = $this->configurationFactory->get($channel->getId());
         Assert::notNull($configuration);
 
-        $variant = $product->getEnabledVariants()->first();
+        $variant = $resource->getEnabledVariants()->first();
         Assert::isInstanceOf($variant, ProductVariantInterface::class);
 
         $additionalData = [
-            'id' => $product->getId(),
-            'code' => $product->getCode(),
-            'name' => $product->getName(),
-            'enabled' => $product->isEnabled(),
-            'link' => $this->productUrlHelper->generate($product, $channel),
+            'id' => $resource->getId(),
+            'code' => $resource->getCode(),
+            'name' => $resource->getName(),
+            'enabled' => $resource->isEnabled(),
+            'link' => $this->formatter->generateUrl($resource, $channel),
         ];
 
-        $mainTaxon = $product->getMainTaxon();
-        if ($mainTaxon) {
+        if ($mainTaxon = $resource->getMainTaxon()) {
             $additionalData['category'] = $this->getCategoryValue(
                 $mainTaxon,
                 $configuration->getProductAttributeValue(),
             );
         }
 
-        $taxons = [];
-        foreach ($product->getProductTaxons() as $productTaxon) {
-            if ($productTaxon->getTaxon()) {
-                /** @var array<string> $taxons */
-                $taxons[] = $this->getCategoryValue(
-                    $productTaxon->getTaxon(),
-                    $configuration->getProductAttributeValue(),
-                );
-            }
-        }
+        $taxons = $resource->getProductTaxons()
+            ->map(fn ($resourceTaxon) => $this->getCategoryValue(
+                $resourceTaxon->getTaxon(),
+                $configuration->getProductAttributeValue(),
+            ))
+            ->toArray();
 
         if (!empty($taxons)) {
             $additionalData['categories'] = $taxons;
@@ -89,25 +75,24 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
         $channelPricing = $variant->getChannelPricingForChannel($channel);
         if ($channelPricing) {
-            $price = $channelPricing->getPrice() ? $this->formatPrice($channelPricing->getPrice()) : null;
+            $price = $channelPricing->getPrice() ? $this->formatter->formatAmount($channelPricing->getPrice()) : null;
             if ($price) {
                 $additionalData['price'] = $price;
             }
 
-            $originalPrice = $channelPricing->getOriginalPrice() ? $this->formatPrice($channelPricing->getOriginalPrice()) : null;
+            $originalPrice = $channelPricing->getOriginalPrice() ? $this->formatter->formatAmount($channelPricing->getOriginalPrice()) : null;
             if ($originalPrice) {
                 $additionalData['originalPrice'] = $originalPrice;
             }
         }
 
-        $image = $this->getMainImage($product)?->getPath();
-        if ($image) {
+        if ($image = $this->formatter->getMainImageUrl($resource)) {
             $additionalData['image'] = $image;
         }
 
         /** @var string $attribute */
         foreach ($configuration->getProductAttributes() as $attribute) {
-            if ($attributeValue = $product->getAttributeByCodeAndLocale($attribute)) {
+            if ($attributeValue = $resource->getAttributeByCodeAndLocale($attribute)) {
                 $additionalData[$attribute] = $this->getAttributeValue(
                     $attributeValue,
                     $configuration->getProductAttributeValue(),
@@ -115,7 +100,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
             }
         }
 
-        $options = $product->getOptions();
+        $options = $resource->getOptions();
         foreach ($options as $option) {
             $values = [];
             foreach ($option->getValues() as $value) {
@@ -132,30 +117,19 @@ class ProductToAddItemMapper implements RequestMapperInterface
         $value->setAdditionalData($additionalData);
 
         $request = new AddItem();
-        $request->setItemKey($product->getCode());
+        $request->setItemKey($resource->getCode());
         $request->setValue($value);
 
-        $event = new ProductUpdateRequestEvent($request, $product, $channel);
+        $event = new ProductUpdateRequestEvent($request, $resource, $channel);
         $this->eventDispatcher->dispatch($event, ProductUpdateRequestEvent::NAME);
 
         return $event->getAddItem();
     }
 
-    private function getMainImage(ProductInterface $product): ?ImageInterface
-    {
-        return $product->getImagesByType('main')->first() ?: null;
-    }
-
-    private function formatPrice(int $amount): float
-    {
-        return abs($amount / 100);
-    }
-
     private function getAttributeValue(
         AttributeValueInterface $attributeValue,
         ?ProductAttributeValue $config,
-    ): string|array
-    {
+    ): string|array {
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $attributeValue->getId(),
@@ -173,18 +147,17 @@ class ProductToAddItemMapper implements RequestMapperInterface
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $taxon->getId(),
-                'value' => $taxon->getFullname(' > '),
+                'value' => $this->formatter->formatTaxon($taxon),
             ],
             ProductAttributeValue::ID => $taxon->getId(),
-            default => $taxon->getFullname(' > ')
+            default => $this->formatter->formatTaxon($taxon)
         };
     }
 
     private function getOptionValue(
         ProductOptionValueInterface $attributeValue,
         ?ProductAttributeValue $config,
-    ): string|array
-    {
+    ): string|array {
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $attributeValue->getId(),

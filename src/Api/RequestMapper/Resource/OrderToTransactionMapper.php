@@ -19,11 +19,13 @@ use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
 use Synerise\Sdk\Tracking\EventSourceProvider;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 use Webmozart\Assert\Assert;
 
 class OrderToTransactionMapper implements RequestMapperInterface
 {
     public function __construct(
+        private ProductDataFormatter $formatter,
         private ?EventSourceProvider $sourceProvider = null,
     ) {
     }
@@ -56,17 +58,17 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $currency = $resource->getCurrencyCode();
 
         $value = new Value();
-        $value->setAmount(($total - $taxTotal) / 100);
+        $value->setAmount($this->formatter->formatAmount($total - $taxTotal));
         $value->setCurrency($currency);
         $transaction->setValue($value);
 
         $revenue = new Revenue();
-        $revenue->setAmount($total / 100);
+        $revenue->setAmount($this->formatter->formatAmount($total));
         $revenue->setCurrency($currency);
         $transaction->setRevenue($revenue);
 
         $discountAmount = new DiscountAmount();
-        $discountAmount->setAmount($promotionTotal / 100);
+        $discountAmount->setAmount($this->formatter->formatAmount($promotionTotal));
         $discountAmount->setCurrency($currency);
         $transaction->setDiscountAmount($discountAmount);
 
@@ -101,7 +103,6 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $resourceProduct = $resourceItem->getProduct();
         $currencyCode = $resource->getCurrencyCode();
         $quantity = $resourceItem->getQuantity();
-        $category = $resourceProduct?->getMainTaxon()?->getFullname(' > ');
 
         $product = new Product();
         $name = $resourceItem->getProductName() . ($resourceItem->getVariantName() ? ' - ' . $resourceItem->getVariantName() : '');
@@ -116,21 +117,21 @@ class OrderToTransactionMapper implements RequestMapperInterface
 
         $regularPrice = new RegularPrice();
         $regularPrice->setCurrency($currencyCode);
-        $regularPrice->setAmount($originalUnitPrice / 100);
+        $regularPrice->setAmount($originalUnitPrice ? $this->formatter->formatAmount($originalUnitPrice) : null);
         $product->setRegularPrice($regularPrice);
 
         $finalUnitPrice = new FinalUnitPrice();
         $finalUnitPrice->setCurrency($currencyCode);
-        $finalUnitPrice->setAmount(($discountedUnitPrice + $unitTax) / 100);
+        $finalUnitPrice->setAmount($this->formatter->formatAmount($discountedUnitPrice + $unitTax));
         $product->setFinalUnitPrice($finalUnitPrice);
 
         $discountPrice = new DiscountPrice();
         $discountPrice->setCurrency($currencyCode);
-        $discountPrice->setAmount(($unitPrice - $discountedUnitPrice) / 100);
+        $discountPrice->setAmount($this->formatter->formatAmount($unitPrice - $discountedUnitPrice));
         $product->setDiscountPrice($discountPrice);
 
         $product->setAdditionalData([
-            'category' => $category,
+            'category' => $this->formatter->formatTaxon($resourceProduct?->getMainTaxon()),
         ]);
 
         return $product;
