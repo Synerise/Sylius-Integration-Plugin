@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Handler;
 
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -15,9 +17,8 @@ class SyncMessageHandler
 {
     public function __construct(
         private SynchronizationRepository $synchronizationRepository,
-        private SynchronizationProcessorFactory $synchronizationProcessorFactory
-    )
-    {
+        private SynchronizationProcessorFactory $synchronizationProcessorFactory,
+    ) {
     }
 
     public function __invoke(SyncMessage $syncMessage): void
@@ -28,7 +29,7 @@ class SyncMessageHandler
             return;
         }
 
-        if($synchronization->getStatus() === SynchronizationStatus::Cancelled) {
+        if ($synchronization->getStatus() === SynchronizationStatus::Cancelled) {
             return;
         }
 
@@ -37,5 +38,4 @@ class SyncMessageHandler
 
         $processor->processSynchronization($syncMessage);
     }
-
 }

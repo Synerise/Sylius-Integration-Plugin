@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -29,7 +31,7 @@ class ChannelConfigurationFactory
 
         // @phpstan-ignore return.type
         return $this->repository->findOneBy(
-            ['channel' => $channelId]
+            ['channel' => $channelId],
         );
     }
 

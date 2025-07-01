@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event;
 
 use Http\Promise\Promise;
@@ -11,14 +13,14 @@ use Webmozart\Assert\Assert;
 
 class RegisterRequestHandler extends AbstractRequestHandler
 {
-    /**
-     * @var class-string<Parsable>
-     */
+    /** @var class-string<Parsable> */
     public static string $requestClass = RegisteredEvent::class;
 
     /**
      * @param RegisteredEvent $payload
+     *
      * @return Promise<void|null>
+     *
      * @throws \Exception
      */
     public function send(Parsable $payload, string|int $channelId): Promise

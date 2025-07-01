@@ -14,9 +14,8 @@ class BeforeRegisterRequestEvent extends Event
 
     public function __construct(
         private RegisteredEvent $registeredEvent,
-        private readonly CustomerInterface $customer
-    )
-    {
+        private readonly CustomerInterface $customer,
+    ) {
     }
 
     public function getRegisteredEvent(): RegisteredEvent
@@ -24,8 +23,8 @@ class BeforeRegisterRequestEvent extends Event
         return $this->registeredEvent;
     }
 
-    public function getCustomer(): CustomerInterface {
+    public function getCustomer(): CustomerInterface
+    {
         return $this->customer;
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -8,9 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 enum SynchronizationDataType: string implements TranslatableInterface
 {
     case Customer = 'customer';
-
     case Product = 'product';
-
     case Order = 'order';
 
     public const CUSTOMER_LABEL = 'synerise_integration.synchronization.customer';
@@ -27,9 +27,9 @@ enum SynchronizationDataType: string implements TranslatableInterface
     public function getLabel(): string
     {
         return match ($this) {
-            self::Customer  => self::CUSTOMER_LABEL,
+            self::Customer => self::CUSTOMER_LABEL,
             self::Product => self::PRODUCT_LABEL,
-            self::Order  => self::ORDER_LABEL,
+            self::Order => self::ORDER_LABEL,
         };
     }
 }

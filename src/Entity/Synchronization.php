@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
@@ -8,15 +10,25 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class Synchronization implements ResourceInterface
 {
     private ?int $id = null;
+
     private ?ChannelInterface $channel = null;
+
     private ?string $configurationSnapshot = null;
+
     private ?SynchronizationDataType $type = null;
+
     private ?SynchronizationStatus $status = null;
+
     private ?int $sent = null;
+
     private ?int $total = null;
+
     private ?\DateTimeImmutable $sinceWhen = null;
+
     private ?\DateTimeImmutable $untilWhen = null;
+
     private ?\DateTimeImmutable $createdAt = null;
+
     private ?\DateTimeInterface $updatedAt = null;
 
     public function getId(): ?int
@@ -73,7 +85,6 @@ class Synchronization implements ResourceInterface
     {
         $this->createdAt = $createdAt;
     }
-
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {

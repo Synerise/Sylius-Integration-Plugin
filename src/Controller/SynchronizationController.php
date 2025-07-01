@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Controller;
 
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
@@ -8,15 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
-use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
 use Webmozart\Assert\Assert;
 
 class SynchronizationController extends ResourceController
 {
-
     public function createAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
@@ -128,6 +129,7 @@ class SynchronizationController extends ResourceController
     {
         $repository = $this->get('synerise_integration.repository.synchronization_configuration');
         Assert::isInstanceOf($repository, SynchronizationConfigurationRepository::class);
+
         return $repository;
     }
 }

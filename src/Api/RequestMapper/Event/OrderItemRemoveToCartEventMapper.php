@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
 use Sylius\Component\Core\Model\OrderItemInterface;
@@ -79,7 +81,7 @@ class OrderItemRemoveToCartEventMapper
 
         $this->eventDispatcher->dispatch(
             $genericEvent,
-            sprintf('synerise.%s.prepare', RemovedFromCartBuilder::ACTION)
+            sprintf('synerise.%s.prepare', RemovedFromCartBuilder::ACTION),
         );
 
         // @phpstan-ignore return.type

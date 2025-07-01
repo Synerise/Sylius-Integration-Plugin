@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
@@ -17,23 +19,23 @@ final class ChannelConfigurationType extends AbstractResourceType
     {
         $builder
             ->add('channel', ChannelChoiceType::class, [
-                'label' => 'sylius.ui.channel'
+                'label' => 'sylius.ui.channel',
             ])
             ->add('workspace', WorkspaceChoiceType::class, [
-                'label' => 'synerise_integration.ui.channel_configuration.form.workspace.label'
+                'label' => 'synerise_integration.ui.channel_configuration.form.workspace.label',
             ])
             ->add('trackingEnabled', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.tracking_enabled.label',
-                'required' => false
+                'required' => false,
             ])
             ->add('opengraphEnabled', CheckboxType::class, [
                 'label' => 'Render OG tags from page visit events',
-                'required' => false
+                'required' => false,
             ])
             ->add('virtualPage', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.virtual_page.label',
                 'help' => 'synerise_integration.channel_configuration.form.virtual_page.help',
-                'required' => false
+                'required' => false,
             ])
             ->add('cookieDomainEnabled', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.cookie_domain_enabled.label',
@@ -43,15 +45,15 @@ final class ChannelConfigurationType extends AbstractResourceType
             ])
             ->add('cookieDomain', TextType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.cookie_domain.label',
-                'attr'=> [
+                'attr' => [
                     'placeholder' => 'domain.com',
                 ],
-                'required' => false
+                'required' => false,
             ])
             ->add('customPageVisit', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.custom_page_visit.label',
                 'help' => 'synerise_integration.channel_configuration.form.custom_page_visit.help',
-                'required' => false
+                'required' => false,
             ])
             ->add('events', EventChoiceType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.events.label',
@@ -59,8 +61,8 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-controller' => 'multiselect'
-                ]
+                    'data-controller' => 'multiselect',
+                ],
             ])
             ->add('snrsParamsEnabled', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.snrs_params_enabled.label',
@@ -72,8 +74,8 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-controller' => 'multiselect'
-                ]
+                    'data-controller' => 'multiselect',
+                ],
             ])
         ;
 
@@ -96,7 +98,6 @@ final class ChannelConfigurationType extends AbstractResourceType
                 $form->get('cookieDomainEnabled')->setData($data->getCookieDomain() !== null);
             }
         });
-
     }
 
     public function getBlockPrefix(): string

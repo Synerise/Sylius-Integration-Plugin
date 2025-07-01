@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -39,7 +41,7 @@ class OpenGraphComponent
         protected readonly ChannelContextInterface $channelContext,
         protected readonly CurrencyContextInterface $currencyContext,
         protected readonly CurrencyConverterInterface $currencyConverter,
-        protected readonly ChannelConfigurationInterface $channelConfiguration
+        protected readonly ChannelConfigurationInterface $channelConfiguration,
     ) {
     }
 
@@ -58,7 +60,7 @@ class OpenGraphComponent
 
             $price = $this->convertPrice(
                 $this->productVariantPricesCalculator
-                    ->calculate($variant, ['channel' => $this->channelContext->getChannel()])
+                    ->calculate($variant, ['channel' => $this->channelContext->getChannel()]),
             );
 
             $originalPrice = $this->convertPrice(
@@ -88,7 +90,6 @@ class OpenGraphComponent
             $currency,
             $this->currencyContext->getCurrencyCode(),
         );
-
     }
 
     private function formatPrice(int $amount): float

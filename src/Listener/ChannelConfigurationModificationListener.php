@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Listener;
 
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
@@ -26,6 +28,7 @@ final readonly class ChannelConfigurationModificationListener
         /** @var Workspace $workspace */
         $workspace = $channelConfiguration->getWorkspace();
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
+
         try {
             if (!$channelConfiguration->getCookieDomain()) {
                 $channelConfiguration->setCookieDomain($channelConfiguration->getChannel()?->getHostname());
@@ -44,5 +47,4 @@ final readonly class ChannelConfigurationModificationListener
             $event->stop('Tracking code request failed');
         }
     }
-
 }

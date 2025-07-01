@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource;
 
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
@@ -24,8 +26,8 @@ class ProductToAddItemMapper implements RequestMapperInterface
 {
     public function __construct(
         private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
-        private ProductUrlHelper                    $productUrlHelper,
-        private EventDispatcherInterface            $eventDispatcher
+        private ProductUrlHelper $productUrlHelper,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -35,9 +37,8 @@ class ProductToAddItemMapper implements RequestMapperInterface
     public function prepare(
         ResourceInterface $resource,
         string $type = 'synchronization',
-        ?ChannelInterface $channel = null
-    ): AddItem
-    {
+        ?ChannelInterface $channel = null,
+    ): AddItem {
         Assert::implementsInterface($resource, ProductInterface::class);
         Assert::notNull($channel);
 
@@ -46,9 +47,8 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
     private function prepareProductUpdateRequest(
         ProductInterface $product,
-        ChannelInterface $channel
-    ): AddItem
-    {
+        ChannelInterface $channel,
+    ): AddItem {
         /** @var CoreChannelInterface $channel */
         $configuration = $this->synchronizationConfigurationFactory->get($channel->getId());
         Assert::notNull($configuration);
@@ -68,7 +68,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
         if ($mainTaxon) {
             $additionalData['category'] = $this->getCategoryValue(
                 $mainTaxon,
-                $configuration->getProductAttributeValue()
+                $configuration->getProductAttributeValue(),
             );
         }
 
@@ -78,7 +78,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
                 /** @var array<string> $taxons */
                 $taxons[] = $this->getCategoryValue(
                     $productTaxon->getTaxon(),
-                    $configuration->getProductAttributeValue()
+                    $configuration->getProductAttributeValue(),
                 );
             }
         }
@@ -110,7 +110,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
             if ($attributeValue = $product->getAttributeByCodeAndLocale($attribute)) {
                 $additionalData[$attribute] = $this->getAttributeValue(
                     $attributeValue,
-                    $configuration->getProductAttributeValue()
+                    $configuration->getProductAttributeValue(),
                 );
             }
         }
@@ -118,10 +118,10 @@ class ProductToAddItemMapper implements RequestMapperInterface
         $options = $product->getOptions();
         foreach ($options as $option) {
             $values = [];
-            foreach($option->getValues() as $value) {
+            foreach ($option->getValues() as $value) {
                 $values[] = $this->getOptionValue(
                     $value,
-                    $configuration->getProductAttributeValue()
+                    $configuration->getProductAttributeValue(),
                 );
             }
 
@@ -153,12 +153,13 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
     private function getAttributeValue(
         AttributeValueInterface $attributeValue,
-        ?ProductAttributeValue $config): string|array
+        ?ProductAttributeValue $config,
+    ): string|array
     {
-        return match($config) {
+        return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $attributeValue->getId(),
-                'value' => $attributeValue->getValue()
+                'value' => $attributeValue->getValue(),
             ],
             ProductAttributeValue::ID => $attributeValue->getId(),
             default => $attributeValue->getValue()
@@ -167,13 +168,12 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
     private function getCategoryValue(
         TaxonInterface $taxon,
-        ?ProductAttributeValue $config
-    ): string|array
-    {
-        return match($config) {
+        ?ProductAttributeValue $config,
+    ): string|array {
+        return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $taxon->getId(),
-                'value' => $taxon->getFullname(' > ')
+                'value' => $taxon->getFullname(' > '),
             ],
             ProductAttributeValue::ID => $taxon->getId(),
             default => $taxon->getFullname(' > ')
@@ -182,12 +182,13 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
     private function getOptionValue(
         ProductOptionValueInterface $attributeValue,
-        ?ProductAttributeValue $config): string|array
+        ?ProductAttributeValue $config,
+    ): string|array
     {
-        return match($config) {
+        return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $attributeValue->getId(),
-                'value' => $attributeValue->getValue()
+                'value' => $attributeValue->getValue(),
             ],
             ProductAttributeValue::ID => $attributeValue->getId(),
             default => $attributeValue->getValue()

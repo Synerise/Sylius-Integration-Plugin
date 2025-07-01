@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,9 +12,8 @@ use Sylius\Resource\Model\ResourceInterface;
 class CustomerDataProvider implements DataProviderInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
-    )
-    {
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
     public function getIds(ChannelInterface $channel): iterable

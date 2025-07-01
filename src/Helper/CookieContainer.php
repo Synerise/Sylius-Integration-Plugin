@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Helper;
 
 use Symfony\Component\HttpFoundation\Cookie;
@@ -8,13 +10,12 @@ use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
 class CookieContainer implements CookieAdapter
 {
-    /**
-     * @var array<string,Cookie>
-     */
+    /** @var array<string,Cookie> */
     private array $cookies = [];
 
     public function __construct(private ?ChannelConfigurationInterface $channelConfiguration = null)
-    {}
+    {
+    }
 
     public function setValue(string $name, string $value): void
     {
@@ -23,16 +24,17 @@ class CookieContainer implements CookieAdapter
             $value,
             time() + 3600,
             '/',
-            '.'.$this->channelConfiguration?->getCookieDomain(),
+            '.' . $this->channelConfiguration?->getCookieDomain(),
             true,
-            false
+            false,
         );
     }
 
     /**
      * @return array<string,Cookie>
      */
-    public function getCookies(): array {
+    public function getCookies(): array
+    {
         return $this->cookies;
     }
 }

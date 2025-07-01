@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
 use Sylius\Component\Core\Model\OrderInterface;
@@ -20,9 +22,9 @@ class OrderToCartStatusEventMapper
     {
         if ($cart === null) {
             return $this->prepareEmptyCartStatus($client);
-        } else {
-            return $this->prepareCartStatus($cart, $client);
         }
+
+        return $this->prepareCartStatus($cart, $client);
     }
 
     private function prepareEmptyCartStatus(Client $client): CustomEvent
@@ -37,7 +39,7 @@ class OrderToCartStatusEventMapper
 
         $this->eventDispatcher->dispatch(
             $genericEvent,
-            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION)
+            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION),
         );
 
         // @phpstan-ignore return.type
@@ -65,7 +67,7 @@ class OrderToCartStatusEventMapper
 
         $this->eventDispatcher->dispatch(
             $genericEvent,
-            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION)
+            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION),
         );
 
         // @phpstan-ignore return.type
@@ -76,5 +78,4 @@ class OrderToCartStatusEventMapper
     {
         return abs($amount / 100);
     }
-
 }

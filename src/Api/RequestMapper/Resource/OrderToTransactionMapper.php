@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
@@ -22,9 +24,8 @@ use Webmozart\Assert\Assert;
 class OrderToTransactionMapper implements RequestMapperInterface
 {
     public function __construct(
-        private ?EventSourceProvider $sourceProvider = null
-    )
-    {
+        private ?EventSourceProvider $sourceProvider = null,
+    ) {
     }
 
     /**
@@ -33,9 +34,8 @@ class OrderToTransactionMapper implements RequestMapperInterface
     public function prepare(
         ResourceInterface $resource,
         string $type = 'synchronization',
-        ?ChannelInterface $channel = null
-    ): Transaction
-    {
+        ?ChannelInterface $channel = null,
+    ): Transaction {
         Assert::implementsInterface($resource, OrderInterface::class);
 
         $customer = $resource->getCustomer();
@@ -43,11 +43,11 @@ class OrderToTransactionMapper implements RequestMapperInterface
 
         $client = new Client();
         $client->setEmail($customer->getEmail());
-        $client->setCustomId((string)$customer->getId());
+        $client->setCustomId((string) $customer->getId());
 
         $transaction = new Transaction();
         $transaction->setClient($client);
-        $transaction->setOrderId((string)$resource->getId());
+        $transaction->setOrderId((string) $resource->getId());
         $transaction->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
 
         $total = $resource->getTotal();
@@ -72,9 +72,9 @@ class OrderToTransactionMapper implements RequestMapperInterface
 
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
-            "status" => $resource->getState(),
-            "discountCode" => $resource->getPromotionCoupon()?->getCode(),
-            "lastUpdateType" => $type
+            'status' => $resource->getState(),
+            'discountCode' => $resource->getPromotionCoupon()?->getCode(),
+            'lastUpdateType' => $type,
         ]);
         $transaction->setMetadata($metadata);
 
@@ -130,7 +130,7 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $product->setDiscountPrice($discountPrice);
 
         $product->setAdditionalData([
-            "category" => $category,
+            'category' => $category,
         ]);
 
         return $product;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -38,11 +40,11 @@ readonly class TrackingScriptComponent
         }
 
         if ($cookieDomain = $this->channelConfiguration->getCookieDomain()) {
-            $options['domain'] = '.'.$cookieDomain;
+            $options['domain'] = '.' . $cookieDomain;
         }
 
         if ($this->channelConfiguration->isCustomPageVisit()) {
-            $options['customPageVisit'] =  true;
+            $options['customPageVisit'] = true;
         }
 
         if ($this->channelConfiguration->isVirtualPage()) {
@@ -51,5 +53,4 @@ readonly class TrackingScriptComponent
 
         return $options;
     }
-
 }

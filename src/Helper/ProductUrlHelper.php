@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Helper;
 
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -12,7 +14,7 @@ class ProductUrlHelper
 {
     public function __construct(
         private ChannelContextInterface $channelContext,
-        private UrlGeneratorInterface $urlGenerator
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -33,10 +35,10 @@ class ProductUrlHelper
         return $this->urlGenerator->generate(
             'sylius_shop_product_show',
             [
-                'slug' =>  $product->getTranslation($localeCode)->getSlug(),
-                '_locale' => $localeCode
+                'slug' => $product->getTranslation($localeCode)->getSlug(),
+                '_locale' => $localeCode,
             ],
-            UrlGeneratorInterface::ABSOLUTE_URL
+            UrlGeneratorInterface::ABSOLUTE_URL,
         );
     }
 }

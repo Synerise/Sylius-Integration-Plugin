@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Listener;
 
 use Psr\Log\LoggerInterface;
@@ -12,7 +14,7 @@ final readonly class CartStatusListener
     public function __construct(
         private LoggerInterface $syneriseLogger,
         private CartStatusProcessor $processor,
-        private ?CartContextInterface $cartContext = null
+        private ?CartContextInterface $cartContext = null,
     ) {
     }
 
@@ -28,4 +30,3 @@ final readonly class CartStatusListener
         }
     }
 }
-

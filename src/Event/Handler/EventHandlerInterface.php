@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Handler;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;

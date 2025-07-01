@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;

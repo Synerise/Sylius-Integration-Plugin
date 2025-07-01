@@ -14,9 +14,8 @@ class BeforeLoginRequestEvent extends Event
 
     public function __construct(
         private LoggedInEvent $loggedInEvent,
-        private readonly CustomerInterface $customer
-    )
-    {
+        private readonly CustomerInterface $customer,
+    ) {
     }
 
     public function getLoggedInEvent(): LoggedInEvent
@@ -24,8 +23,8 @@ class BeforeLoginRequestEvent extends Event
         return $this->loggedInEvent;
     }
 
-    public function getCustomer(): CustomerInterface {
+    public function getCustomer(): CustomerInterface
+    {
         return $this->customer;
     }
-
 }
