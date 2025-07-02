@@ -3,14 +3,13 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <defaults public="true" />
-        <!-- Put your Behat services here -->
 
-        <service id="synerise_sylius_integration_plugin.context.ui.shop.welcome" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\WelcomeContext">
-            <argument type="service" id="synerise_sylius_integration_plugin.page.shop.static_welcome" />
-            <argument type="service" id="synerise_sylius_integration_plugin.page.shop.dynamic_welcome" />
+        <service id="synerise_sylius_integration.behat.context.ui.shop.opengraph" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\OpenGraphContext">
+            <argument type="service" id="synerise_sylius_integration_plugin.page.shop.product.show" />
+        </service>
+        <service id="synerise_sylius_integration.behat.context.ui.shop.channel_configuration" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\ChannelConfigurationContext">
         </service>
 
-        <service id="synerise_sylius_integration_plugin.page.shop.static_welcome" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Page\Shop\StaticWelcomePage" parent="sylius.behat.symfony_page" public="false" />
-        <service id="synerise_sylius_integration_plugin.page.shop.dynamic_welcome" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Page\Shop\DynamicWelcomePage" parent="sylius.behat.symfony_page" public="false" />
+        <service id="synerise_sylius_integration_plugin.page.shop.product.show" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Page\Shop\Product\ShowPage" parent="sylius.behat.page.shop.product.show" public="false" />
     </services>
 </container>
