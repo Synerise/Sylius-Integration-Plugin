@@ -39,11 +39,11 @@ services:
           # if you develop on Linux, you may use a bind-mounted host directory instead
           - ./public/media:/srv/sylius/public/media:rw
 #          - public-media:/srv/sylius/public/media:rw
-          - ./../php-sdk/:/srv/php-sdk
+#          - ./../php-sdk/:/srv/php-sdk
 
     mysql:
         volumes:
-            - ./mysql-data:/var/lib/mysql:rw
+            - mysql-data:/var/lib/mysql:rw
         ports:
             - "3306:3306"
     nginx:
@@ -76,3 +76,5 @@ services:
     mailhog:
         ports:
             - "8025:8025"
+volumes:
+    mysql-data:
