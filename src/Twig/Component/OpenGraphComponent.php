@@ -41,15 +41,15 @@ class OpenGraphComponent
         protected readonly ChannelContextInterface $channelContext,
         protected readonly CurrencyContextInterface $currencyContext,
         protected readonly CurrencyConverterInterface $currencyConverter,
-        protected readonly ChannelConfigurationInterface $channelConfiguration,
         protected readonly ProductDataFormatter $formatter,
+        protected readonly ?ChannelConfigurationInterface $channelConfiguration,
     ) {
     }
 
     #[ExposeInTemplate('is_enabled')]
     public function isEnabled(): bool
     {
-        return $this->channelConfiguration->isOpengraphEnabled();
+        return (bool) $this->channelConfiguration?->isOpengraphEnabled();
     }
 
     #[PostMount]

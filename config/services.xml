@@ -45,7 +45,7 @@
         <service id="synerise_integration.sdk.source_provider" class="Synerise\Sdk\Tracking\DefaultEventSourceProvider">
             <argument type="service" id="synerise_integration.mobile_detect" />
         </service>
-        <service id="synerise_integration.sdk.profile_merge_action" class="Synerise\Sdk\Tracking\ProfileMergeDoRequest">
+        <service id="synerise_integration.sdk.profile_merge_action" class="Synerise\Sdk\Tracking\ProfileMergeDoRequest" lazy="true">
             <argument type="service" id="synerise_integration.api_client_builder" />
         </service>
         <!-- KIOTA SERIALIZATION -->

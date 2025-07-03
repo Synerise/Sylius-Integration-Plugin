@@ -6,6 +6,7 @@ namespace Synerise\SyliusIntegrationPlugin\Listener;
 
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Synerise\Api\Catalogs\Models\AddBag;
+use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
@@ -37,6 +38,8 @@ final readonly class SynchronizationConfigurationModificationListener
 
         /** @var Workspace $workspace */
         $workspace = $channelConfiguration->getWorkspace();
+
+        /** @var ClientBuilder $clientBuilder */
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
 
         try {

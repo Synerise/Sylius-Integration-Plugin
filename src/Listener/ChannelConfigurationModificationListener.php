@@ -6,6 +6,7 @@ namespace Synerise\SyliusIntegrationPlugin\Listener;
 
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Synerise\Api\Workspace\Models\TrackingCodeCreationByDomainRequest;
+use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
@@ -27,6 +28,8 @@ final readonly class ChannelConfigurationModificationListener
 
         /** @var Workspace $workspace */
         $workspace = $channelConfiguration->getWorkspace();
+
+        /** @var ClientBuilder $clientBuilder */
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
 
         try {

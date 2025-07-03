@@ -18,8 +18,12 @@ class ClientBuilderFactory
     ) {
     }
 
-    public function create(Config $config, ?RequestAdapter $requestAdapter = null): ClientBuilder
+    public function create(?Config $config, ?RequestAdapter $requestAdapter = null): ?ClientBuilder
     {
+        if (!$config) {
+            return null;
+        }
+
         $authenticationProviderFactory = new AuthenticationProviderFactory($config);
         if (!$requestAdapter) {
             $requestAdapterFactory = new RequestAdapterFactory($config, $this->syneriseLogger);

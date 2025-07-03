@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\Bundle\CoreBundle\Provider\FlashBagProvider;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
@@ -94,6 +95,7 @@ class WorkspaceModificationListener
     {
         $missingPermissions = [];
 
+        /** @var ClientBuilder $clientBuilder */
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
         $response = $clientBuilder->uauth()->apiKey()->permissionCheck()
             ->post(array_keys(self::REQUIRED_PERMISSIONS))->wait();
