@@ -46,7 +46,10 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
 
     protected function getClientBuilder(Config $config): ClientBuilder
     {
-        return $this->clientBuilderFactory->create($config);
+        /** @var ClientBuilder $clientBuilder */
+        $clientBuilder = $this->clientBuilderFactory->create($config);
+
+        return $clientBuilder;
     }
 
     protected function getChannelConfiguration(string|int|null $channelId): ?ChannelConfigurationInterface
