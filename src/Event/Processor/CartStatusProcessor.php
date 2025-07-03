@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
 use Sylius\Component\Core\Model\OrderInterface;
@@ -32,7 +34,7 @@ class CartStatusProcessor
         $this->eventHandlerResolver->get($type)->processEvent(
             CartStatusBuilder::ACTION,
             $this->mapper->prepare($this->identityManager->getClient(), $cart),
-            $configuration->getChannel()?->getId()
+            $configuration->getChannel()?->getId(),
         );
     }
 }

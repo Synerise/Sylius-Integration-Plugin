@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Handler;
 
 class EventHandlerResolver
@@ -8,7 +10,7 @@ class EventHandlerResolver
      * @param iterable<string, EventHandlerInterface> $handlers
      */
     public function __construct(
-        private iterable $handlers
+        private iterable $handlers,
     ) {
     }
 

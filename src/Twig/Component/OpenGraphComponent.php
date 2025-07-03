@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Calculator\ProductVariantPricesCalculatorInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
@@ -14,6 +15,7 @@ use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 
 class OpenGraphComponent
 {
@@ -39,7 +41,8 @@ class OpenGraphComponent
         protected readonly ChannelContextInterface $channelContext,
         protected readonly CurrencyContextInterface $currencyContext,
         protected readonly CurrencyConverterInterface $currencyConverter,
-        protected readonly ChannelConfigurationInterface $channelConfiguration
+        protected readonly ChannelConfigurationInterface $channelConfiguration,
+        protected readonly ProductDataFormatter $formatter,
     ) {
     }
 
@@ -58,7 +61,7 @@ class OpenGraphComponent
 
             $price = $this->convertPrice(
                 $this->productVariantPricesCalculator
-                    ->calculate($variant, ['channel' => $this->channelContext->getChannel()])
+                    ->calculate($variant, ['channel' => $this->channelContext->getChannel()]),
             );
 
             $originalPrice = $this->convertPrice(
@@ -66,10 +69,10 @@ class OpenGraphComponent
                     ->calculateOriginal($variant, ['channel' => $this->channelContext->getChannel()]),
             );
 
-            $this->price = $this->formatPrice($price);
-            $this->originalPrice = $this->formatPrice($originalPrice);
+            $this->price = $this->formatter->formatAmount($price);
+            $this->originalPrice = $this->formatter->formatAmount($originalPrice);
             $this->hasDiscount = $originalPrice > $price;
-            $this->imagePath = $this->getMainImage()?->getPath();
+            $this->imagePath = $this->formatter->getMainImageUrl($this->product);
         }
     }
 
@@ -88,16 +91,5 @@ class OpenGraphComponent
             $currency,
             $this->currencyContext->getCurrencyCode(),
         );
-
-    }
-
-    private function formatPrice(int $amount): float
-    {
-        return abs($amount / 100);
-    }
-
-    private function getMainImage(): ?ImageInterface
-    {
-        return $this->product?->getImagesByType('main')->first() ?: null;
     }
 }

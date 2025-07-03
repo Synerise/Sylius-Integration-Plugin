@@ -1,7 +1,8 @@
 <?php
 
-namespace Synerise\SyliusIntegrationPlugin\Model\Workspace;
+declare(strict_types=1);
 
+namespace Synerise\SyliusIntegrationPlugin\Model\Workspace;
 
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -15,9 +16,7 @@ enum Environment: string implements EnvironmentInterface, TranslatableInterface
     use EnumTrait;
 
     case Azure = self::AZURE_VALUE;
-
     case AzureUs = self::AZURE_US_VALUE;
-
     case GCP = self::GCP_VALUE;
 
     public function trans(TranslatorInterface $translator, ?string $locale = null): string

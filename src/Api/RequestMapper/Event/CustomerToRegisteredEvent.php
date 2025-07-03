@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -18,7 +20,7 @@ class CustomerToRegisteredEvent
     public function prepare(CustomerInterface $customer, Client $client): RegisteredEvent
     {
         $client->setEmail($customer->getEmail());
-        $client->setCustomId((string)$customer->getId());
+        $client->setCustomId((string) $customer->getId());
 
         $registeredEvent = RegisteredBuilder::initialize($client)->build();
 

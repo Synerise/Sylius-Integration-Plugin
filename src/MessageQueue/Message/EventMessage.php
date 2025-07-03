@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Message;
 
 use Synerise\Sdk\Api\RequestBody\Events\AbstractCartBuilder;

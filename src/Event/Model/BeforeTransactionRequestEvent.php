@@ -14,9 +14,8 @@ class BeforeTransactionRequestEvent extends Event
 
     public function __construct(
         private Transaction $transaction,
-        private OrderInterface $order
-    )
-    {
+        private OrderInterface $order,
+    ) {
     }
 
     public function getTransaction(): Transaction
@@ -24,8 +23,8 @@ class BeforeTransactionRequestEvent extends Event
         return $this->transaction;
     }
 
-    public function getOrder(): OrderInterface {
+    public function getOrder(): OrderInterface
+    {
         return $this->order;
     }
-
 }

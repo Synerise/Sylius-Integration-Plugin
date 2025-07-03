@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Model\Workspace;
 
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -11,9 +13,7 @@ enum PermissionsStatus: string implements TranslatableInterface
     use EnumTrait;
 
     case FullAccess = 'full_access';
-
     case PartialAccess = 'partial_access';
-
     case NoAccess = 'no_access';
 
     public const LABEL = [
@@ -29,6 +29,6 @@ enum PermissionsStatus: string implements TranslatableInterface
 
     public function label(): string
     {
-        return 'synerise_integration.workspace.permissions_status.'.$this->value;
+        return 'synerise_integration.workspace.permissions_status.' . $this->value;
     }
 }

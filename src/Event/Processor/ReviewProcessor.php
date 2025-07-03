@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
 use Sylius\Component\Review\Model\ReviewInterface;
@@ -14,9 +16,9 @@ class ReviewProcessor
 {
     public function __construct(
         private ReviewToProductAddReviewEvent $mapper,
-        private ChannelConfigurationFactory   $configurationFactory,
-        private IdentityManager               $identityManager,
-        private EventHandlerResolver          $eventHandlerResolver
+        private ChannelConfigurationFactory $configurationFactory,
+        private IdentityManager $identityManager,
+        private EventHandlerResolver $eventHandlerResolver,
     ) {
     }
 
@@ -35,7 +37,7 @@ class ReviewProcessor
         $this->eventHandlerResolver->get($type)->processEvent(
             AddedReviewBuilder::ACTION,
             $this->mapper->prepare($review, $this->identityManager->getClient()),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(),
         );
     }
 }

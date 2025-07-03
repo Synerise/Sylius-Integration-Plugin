@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
 use Sylius\Bundle\OrderBundle\Controller\AddToCartCommandInterface;
@@ -15,9 +17,9 @@ class CartItemAddProcessor
 {
     public function __construct(
         private OrderItemAddToCartEventMapper $mapper,
-        private ChannelConfigurationFactory   $configurationFactory,
-        private IdentityManager               $identityManager,
-        private EventHandlerResolver          $eventHandlerResolver
+        private ChannelConfigurationFactory $configurationFactory,
+        private IdentityManager $identityManager,
+        private EventHandlerResolver $eventHandlerResolver,
     ) {
     }
 
@@ -37,7 +39,7 @@ class CartItemAddProcessor
         $this->eventHandlerResolver->get($type)->processEvent(
             AddedToCartBuilder::ACTION,
             $this->mapper->prepare($cartItem, $this->identityManager->getClient()),
-            $cart->getChannel()?->getId()
+            $cart->getChannel()?->getId(),
         );
     }
 }

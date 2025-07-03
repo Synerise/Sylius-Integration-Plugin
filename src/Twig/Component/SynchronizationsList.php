@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
+use Doctrine\ORM\QueryBuilder;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
@@ -12,10 +15,9 @@ use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository;
-use Doctrine\ORM\QueryBuilder;
 
 #[AsLiveComponent(
-    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/synchronizations_list.html.twig'
+    template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/synchronizations_list.html.twig',
 )]
 class SynchronizationsList
 {
@@ -47,21 +49,21 @@ class SynchronizationsList
     public ChannelInterface $channel;
 
     /**
-     * @param SynchronizationRepository $synchronizationRepository
      * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
      */
     public function __construct(
-        private SynchronizationRepository  $synchronizationRepository,
-        private ChannelRepositoryInterface $channelRepository
-    )
-    {
+        private SynchronizationRepository $synchronizationRepository,
+        private ChannelRepositoryInterface $channelRepository,
+    ) {
     }
 
-    public function getSynchronizationDataTypeCases(): array {
+    public function getSynchronizationDataTypeCases(): array
+    {
         return SynchronizationDataType::cases();
     }
 
-    public function getSynchronizationStatusCases(): array {
+    public function getSynchronizationStatusCases(): array
+    {
         return SynchronizationStatus::cases();
     }
 
@@ -81,13 +83,13 @@ class SynchronizationsList
     {
         return $this->synchronizationRepository->countByChannelWithFilters(
             $this->channel,
-            $this->getFilters()
+            $this->getFilters(),
         );
     }
 
     public function getPages(): int
     {
-        return (int)ceil($this->getTotal() / $this->limit);
+        return (int) ceil($this->getTotal() / $this->limit);
     }
 
     private function createQueryBuilder(): QueryBuilder
@@ -122,6 +124,7 @@ class SynchronizationsList
         if ($this->filterType) {
             $filters['type'] = SynchronizationDataType::from($this->filterType);
         }
+
         return $filters;
     }
 
@@ -129,6 +132,7 @@ class SynchronizationsList
     {
         /** @var ChannelInterface|null $channel */
         $channel = $this->channelRepository->findOneByCode($data['id']);
+
         return $channel;
     }
 

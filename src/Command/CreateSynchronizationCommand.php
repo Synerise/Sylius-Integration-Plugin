@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,27 +21,29 @@ use Webmozart\Assert\Assert;
 
 class CreateSynchronizationCommand extends Command
 {
-    /** @var string $defaultName */
+    /** @var string */
     protected static $defaultName = 'synerise:create-synchronization';
 
     /** @var array<string> */
     private const ALLOWED_RESOURCES = ['product', 'order', 'customer'];
 
-    /** @var ChannelRepositoryInterface<ChannelInterface> $channelRepository */
+    /** @var ChannelRepositoryInterface<ChannelInterface> */
     private ChannelRepositoryInterface $channelRepository;
+
     private MessageBusInterface $messageBus;
+
     private EntityManagerInterface $entityManager;
+
     private SynchronizationConfigurationRepository $synchronizationConfigurationRepository;
 
     /** @param ChannelRepositoryInterface<ChannelInterface> $channelRepository */
     public function __construct(
         EntityManagerInterface $entityManager,
         ChannelRepositoryInterface $channelRepository,
-        MessageBusInterface         $messageBus,
-        SynchronizationConfigurationRepository $synchronizationConfigurationRepository
-    )
-    {
-        parent::__construct(CreateSynchronizationCommand::$defaultName);
+        MessageBusInterface $messageBus,
+        SynchronizationConfigurationRepository $synchronizationConfigurationRepository,
+    ) {
+        parent::__construct(self::$defaultName);
         $this->messageBus = $messageBus;
         $this->channelRepository = $channelRepository;
         $this->entityManager = $entityManager;
@@ -55,7 +59,7 @@ class CreateSynchronizationCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 'Resource type name Product, Customer, Order',
                 null,
-                self::ALLOWED_RESOURCES
+                self::ALLOWED_RESOURCES,
             )
             ->addOption('sales-channel', null, InputOption::VALUE_REQUIRED, 'Sales Channel');
     }
@@ -70,24 +74,27 @@ class CreateSynchronizationCommand extends Command
         Assert::oneOf($typeArg, self::ALLOWED_RESOURCES, sprintf(
             'Invalid resource type "%s". Must be one of: %s',
             $typeArg,
-            implode(', ', self::ALLOWED_RESOURCES)
+            implode(', ', self::ALLOWED_RESOURCES),
         ));
 
         $salesChannel = $this->channelRepository->findOneByCode($salesChannelArg);
-        if(!$salesChannel) {
-            $output->writeln('<error>Sales Channel with code: '.$salesChannelArg.' not found</error>');
+        if (!$salesChannel) {
+            $output->writeln('<error>Sales Channel with code: ' . $salesChannelArg . ' not found</error>');
+
             return Command::FAILURE;
         }
 
         $configuration = $this->synchronizationConfigurationRepository->findOneByChannel($salesChannel);
-        if(!$configuration) {
-            $output->writeln('<error>Synchronization configuration for the Sales Channel '.$salesChannel->getCode().' not found</error>');
+        if (!$configuration) {
+            $output->writeln('<error>Synchronization configuration for the Sales Channel ' . $salesChannel->getCode() . ' not found</error>');
+
             return Command::FAILURE;
         }
 
         $configurationSnapshot = json_encode($configuration);
-        if(!$configurationSnapshot) {
+        if (!$configurationSnapshot) {
             $output->writeln('<error>Failed to prepare configuration snapshot.</error>');
+
             return Command::FAILURE;
         }
 
@@ -104,13 +111,15 @@ class CreateSynchronizationCommand extends Command
 
         if (null === $synchronization->getId()) {
             $output->writeln('<error>Failed to persist synchronization.</error>');
+
             return Command::FAILURE;
         }
 
         $syncStartMessage = new SyncStartMessage($synchronization->getId(), $typeArg);
         $this->messageBus->dispatch($syncStartMessage);
 
-        $output->writeln('<info>Created new synchronization ID: '.$synchronization->getId().'</info>');
+        $output->writeln('<info>Created new synchronization ID: ' . $synchronization->getId() . '</info>');
+
         return Command::SUCCESS;
     }
 }

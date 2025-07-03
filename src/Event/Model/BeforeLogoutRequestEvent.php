@@ -13,10 +13,9 @@ class BeforeLogoutRequestEvent extends Event
     public const NAME = 'synerise.customer.logout.before_send';
 
     public function __construct(
-        private LoggedOutEvent   $loggedOutEvent,
-        private readonly CustomerInterface $customer
-    )
-    {
+        private LoggedOutEvent $loggedOutEvent,
+        private readonly CustomerInterface $customer,
+    ) {
     }
 
     public function getLoggedOutEvent(): LoggedOutEvent
@@ -28,5 +27,4 @@ class BeforeLogoutRequestEvent extends Event
     {
         return $this->customer;
     }
-
 }

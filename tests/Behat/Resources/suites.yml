@@ -2,9 +2,4 @@
 
 default:
     suites:
-        greeting_customer:
-            contexts:
-                - synerise_sylius_integration_plugin.context.ui.shop.welcome
 
-            filters:
-                tags: "@greeting_customer"

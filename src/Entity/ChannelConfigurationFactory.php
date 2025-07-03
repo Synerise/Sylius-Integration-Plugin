@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -21,7 +23,7 @@ class ChannelConfigurationFactory
         $this->repository = $repository;
     }
 
-    public function create(?string $channelId = null): ?ChannelConfigurationInterface
+    public function create(int|string|null $channelId = null): ?ChannelConfigurationInterface
     {
         if ($channelId === null) {
             $channelId = $this->channel->getChannel()->getId();
@@ -29,7 +31,7 @@ class ChannelConfigurationFactory
 
         // @phpstan-ignore return.type
         return $this->repository->findOneBy(
-            ['channel' => $channelId]
+            ['channel' => $channelId],
         );
     }
 

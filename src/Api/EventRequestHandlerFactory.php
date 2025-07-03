@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api;
 
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RequestHandlerInterface;
@@ -9,17 +11,15 @@ use Webmozart\Assert\Assert;
 
 class EventRequestHandlerFactory
 {
-    /**
-     * @var RequestHandlerInterface[]
-     */
+    /** @var RequestHandlerInterface[] */
     private array $handlers = [];
 
-    public function  __construct(
+    public function __construct(
         private ClientBuilderFactory $clientBuilderFactory,
         private ChannelConfigurationFactory $channelConfigurationFactory,
         private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
-        private array $handlersPool
-    ){
+        private array $handlersPool,
+    ) {
     }
 
     public function create(string $action): RequestHandlerInterface
@@ -31,7 +31,7 @@ class EventRequestHandlerFactory
         $this->handlers[$action] = new $this->handlersPool[$action](
             $this->clientBuilderFactory,
             $this->channelConfigurationFactory,
-            $this->synchronizationConfigurationFactory
+            $this->synchronizationConfigurationFactory,
         );
 
         return $this->handlers[$action];
