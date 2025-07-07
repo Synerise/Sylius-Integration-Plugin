@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
@@ -16,16 +18,13 @@ class SynchronizationConfigurationActions
     use HookableComponentTrait;
     use DefaultActionTrait;
 
-    /**
-     * @var array<int, SynchronizationConfiguration> $configurations ;
-     */
+    /** @var array<int, SynchronizationConfiguration> $configurations ; */
     #[ExposeInTemplate('configurations')]
     public array $configurations = [];
 
     public function __construct(
-        private SynchronizationConfigurationRepository $configurationRepository
-    )
-    {
+        private SynchronizationConfigurationRepository $configurationRepository,
+    ) {
     }
 
     #[PostMount]

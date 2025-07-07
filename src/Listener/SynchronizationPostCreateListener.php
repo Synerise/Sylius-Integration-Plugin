@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Listener;
 
 use Psr\Log\LoggerInterface;
@@ -12,12 +14,10 @@ use Webmozart\Assert\Assert;
 
 final readonly class SynchronizationPostCreateListener
 {
-
     public function __construct(
         private MessageBusInterface $messageBus,
         private LoggerInterface $syneriseLogger,
-    )
-    {
+    ) {
     }
 
     public function __invoke(ResourceControllerEvent $event): void
@@ -27,7 +27,7 @@ final readonly class SynchronizationPostCreateListener
          */
         $synchronization = $event->getSubject();
 
-        try{
+        try {
             Assert::notNull($synchronization->getId());
             Assert::notNull($synchronization->getType());
 
@@ -36,5 +36,4 @@ final readonly class SynchronizationPostCreateListener
             $this->syneriseLogger->error($e);
         }
     }
-
 }

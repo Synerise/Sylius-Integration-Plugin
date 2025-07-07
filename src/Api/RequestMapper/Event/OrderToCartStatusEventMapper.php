@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
 use Sylius\Component\Core\Model\OrderInterface;
@@ -9,20 +11,23 @@ use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\Product;
 use Synerise\Sdk\Api\RequestBody\Events\CartStatusBuilder;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 
 class OrderToCartStatusEventMapper
 {
-    public function __construct(private EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        private EventDispatcherInterface $eventDispatcher,
+        private ProductDataFormatter $formatter,
+    ) {
     }
 
     public function prepare(Client $client, ?OrderInterface $cart = null): CustomEvent
     {
         if ($cart === null) {
             return $this->prepareEmptyCartStatus($client);
-        } else {
-            return $this->prepareCartStatus($cart, $client);
         }
+
+        return $this->prepareCartStatus($cart, $client);
     }
 
     private function prepareEmptyCartStatus(Client $client): CustomEvent
@@ -37,7 +42,7 @@ class OrderToCartStatusEventMapper
 
         $this->eventDispatcher->dispatch(
             $genericEvent,
-            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION)
+            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION),
         );
 
         // @phpstan-ignore return.type
@@ -56,7 +61,7 @@ class OrderToCartStatusEventMapper
         }
 
         $customEvent = CartStatusBuilder::initialize($client)
-            ->setTotalAmount($this->formatPrice($cart->getItemsTotal()))
+            ->setTotalAmount($this->formatter->formatAmount($cart->getItemsTotal()))
             ->setTotalQuantity($cart->getTotalQuantity())
             ->setProducts($products)
             ->build();
@@ -65,16 +70,10 @@ class OrderToCartStatusEventMapper
 
         $this->eventDispatcher->dispatch(
             $genericEvent,
-            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION)
+            sprintf('synerise.%s.prepare', CartStatusBuilder::ACTION),
         );
 
         // @phpstan-ignore return.type
         return $genericEvent->getSubject();
     }
-
-    private function formatPrice(int $amount): float
-    {
-        return abs($amount / 100);
-    }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Listener;
 
 use Psr\Log\LoggerInterface;
@@ -12,9 +14,8 @@ final readonly class ProductUpdatedListener
 {
     public function __construct(
         private LoggerInterface $syneriseLogger,
-        private ProductProcessorInterface $productProcessor
-    )
-    {
+        private ProductProcessorInterface $productProcessor,
+    ) {
     }
 
     public function __invoke(GenericEvent $event): void
@@ -29,5 +30,4 @@ final readonly class ProductUpdatedListener
             $this->syneriseLogger->error($e);
         }
     }
-
 }

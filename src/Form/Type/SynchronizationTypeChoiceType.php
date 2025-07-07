@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -7,7 +9,6 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 
 class SynchronizationTypeChoiceType extends AbstractType
@@ -19,14 +20,16 @@ class SynchronizationTypeChoiceType extends AbstractType
                 if ($synchronizationTypeValue === null) {
                     return '';
                 }
+
                 return $synchronizationTypeValue->value;
             },
             function ($value) {
                 if (empty($value)) {
                     return null;
                 }
+
                 return SynchronizationDataType::from($value);
-            }
+            },
         ));
     }
 

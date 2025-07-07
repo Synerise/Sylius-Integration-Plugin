@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -18,7 +20,7 @@ class CustomerToLoggedInEvent
     public function prepare(CustomerInterface $customer, Client $client): LoggedInEvent
     {
         $client->setEmail($customer->getEmail());
-        $client->setCustomId((string)$customer->getId());
+        $client->setCustomId((string) $customer->getId());
 
         $loggedInEvent = LoggedInBuilder::initialize($client)->build();
 

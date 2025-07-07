@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Doctrine\Common\Collections\Collection;
@@ -27,20 +29,19 @@ class ProductAttributeChoiceType extends AbstractType
                 }
 
                 if ($attributes instanceof Collection) {
-                    return $attributes->map(function($attribute) {
+                    return $attributes->map(function ($attribute) {
                         /** @var AttributeInterface $attribute */
                         return $attribute->getId();
                     })->toArray();
                 }
 
                 if (is_array($attributes)) {
-                    return array_map(function($attribute) {
+                    return array_map(function ($attribute) {
                         return $attribute->getId();
                     }, $attributes);
                 }
 
                 return [];
-
             },
             function ($attributeIds) {
                 if (empty($attributeIds)) {
@@ -56,10 +57,9 @@ class ProductAttributeChoiceType extends AbstractType
                 }
 
                 return $attributes;
-            }
+            },
         ));
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -18,7 +20,7 @@ class CustomerToLoggedOutEvent
     public function prepare(CustomerInterface $customer, Client $client): LoggedOutEvent
     {
         $client->setEmail($customer->getEmail());
-        $client->setCustomId((string)$customer->getId());
+        $client->setCustomId((string) $customer->getId());
 
         $loggedOutEvent = LoggedOutBuilder::initialize($client)->build();
 

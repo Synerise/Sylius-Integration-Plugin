@@ -48,7 +48,7 @@ class CustomerRegisterProcessor implements CustomerProcessorInterface
         $this->eventHandlerResolver->get($type)->processEvent(
             RegisteredBuilder::ACTION,
             $this->mapper->prepare($customer, $client),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(),
         );
     }
 }

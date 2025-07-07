@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -9,7 +11,7 @@ class SynchronizationRepository extends EntityRepository
 {
     public function countByChannelWithFilters(
         ChannelInterface $channel,
-        array $criteria = []
+        array $criteria = [],
     ): int {
         $qb = $this->createQueryBuilder('s')
             ->select('COUNT(s.id)')
@@ -28,5 +30,4 @@ class SynchronizationRepository extends EntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
-
 }

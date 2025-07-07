@@ -36,7 +36,7 @@
         <service id="synerise_integration.helper.cookie_container" class="Synerise\SyliusIntegrationPlugin\Helper\CookieContainer">
             <argument type="service" id="synerise_integration.context.channel_configuration" />
         </service>
-        <service id="synerise_integration.helper.product_url_helper" class="Synerise\SyliusIntegrationPlugin\Helper\ProductUrlHelper">
+        <service id="synerise_integration.helper.product_data_formatter" class="Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter">
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="router" />
         </service>
@@ -45,7 +45,7 @@
         <service id="synerise_integration.sdk.source_provider" class="Synerise\Sdk\Tracking\DefaultEventSourceProvider">
             <argument type="service" id="synerise_integration.mobile_detect" />
         </service>
-        <service id="synerise_integration.sdk.profile_merge_action" class="Synerise\Sdk\Tracking\ProfileMergeDoRequest">
+        <service id="synerise_integration.sdk.profile_merge_action" class="Synerise\Sdk\Tracking\ProfileMergeDoRequest" lazy="true">
             <argument type="service" id="synerise_integration.api_client_builder" />
         </service>
         <!-- KIOTA SERIALIZATION -->

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,9 +13,8 @@ use Sylius\Resource\Model\ResourceInterface;
 class OrderDataProvider implements DataProviderInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
-    )
-    {
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
     public function getIds(ChannelInterface $channel): iterable
@@ -26,7 +27,7 @@ class OrderDataProvider implements DataProviderInterface
             ->andWhere('o.checkoutState = :checkoutState')
             ->setParameters([
                 'channel' => $channel,
-                'checkoutState' => OrderCheckoutStates::STATE_COMPLETED
+                'checkoutState' => OrderCheckoutStates::STATE_COMPLETED,
             ]);
 
         return $queryBuilder->getQuery()->toIterable();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Listener;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -7,28 +9,29 @@ use Psr\Log\LoggerInterface;
 use Sylius\Bundle\CoreBundle\Provider\FlashBagProvider;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
 class WorkspaceModificationListener
 {
-    const REQUIRED_PERMISSIONS = [
-        "API_CLIENT_CREATE"                     => 'CLIENT',
-        "API_BATCH_CLIENT_CREATE"               => "CLIENT",
-        "API_BATCH_TRANSACTION_CREATE"          => "TRANSACTION",
-        "API_TRANSACTION_CREATE"                => "TRANSACTION",
-        "API_CUSTOM_EVENTS_CREATE"              => "EVENTS",
-        "API_ADDED_TO_CART_EVENTS_CREATE"       => "EVENTS",
-        "API_REMOVED_FROM_CART_EVENTS_CREATE"   => "EVENTS",
-        "API_ADDED_TO_FAVORITES_EVENTS_CREATE"  => "EVENTS",
-        "API_LOGGED_IN_EVENTS_CREATE"           => "EVENTS",
-        "API_LOGGED_OUT_EVENTS_CREATE"          => "EVENTS",
-        "API_REGISTERED_EVENTS_CREATE"          => "EVENTS",
-        "CATALOGS_CATALOG_CREATE"               => "CATALOG",
-        "CATALOGS_CATALOG_READ"                 => "CATALOG",
-        "CATALOGS_ITEM_BATCH_CATALOG_CREATE"    => "CATALOG",
-        "TRACKER_CREATE"                        => "TRACKER"
+    public const REQUIRED_PERMISSIONS = [
+        'API_CLIENT_CREATE' => 'CLIENT',
+        'API_BATCH_CLIENT_CREATE' => 'CLIENT',
+        'API_BATCH_TRANSACTION_CREATE' => 'TRANSACTION',
+        'API_TRANSACTION_CREATE' => 'TRANSACTION',
+        'API_CUSTOM_EVENTS_CREATE' => 'EVENTS',
+        'API_ADDED_TO_CART_EVENTS_CREATE' => 'EVENTS',
+        'API_REMOVED_FROM_CART_EVENTS_CREATE' => 'EVENTS',
+        'API_ADDED_TO_FAVORITES_EVENTS_CREATE' => 'EVENTS',
+        'API_LOGGED_IN_EVENTS_CREATE' => 'EVENTS',
+        'API_LOGGED_OUT_EVENTS_CREATE' => 'EVENTS',
+        'API_REGISTERED_EVENTS_CREATE' => 'EVENTS',
+        'CATALOGS_CATALOG_CREATE' => 'CATALOG',
+        'CATALOGS_CATALOG_READ' => 'CATALOG',
+        'CATALOGS_ITEM_BATCH_CATALOG_CREATE' => 'CATALOG',
+        'TRACKER_CREATE' => 'TRACKER',
     ];
 
     public function __construct(
@@ -80,17 +83,19 @@ class WorkspaceModificationListener
     {
         if (empty($missingPermissions)) {
             return PermissionsStatus::FullAccess;
-        } elseif (count($missingPermissions) === count(self::REQUIRED_PERMISSIONS)) {
-            return PermissionsStatus::NoAccess;
-        } else {
-            return PermissionsStatus::PartialAccess;
         }
+        if (count($missingPermissions) === count(self::REQUIRED_PERMISSIONS)) {
+            return PermissionsStatus::NoAccess;
+        }
+
+        return PermissionsStatus::PartialAccess;
     }
 
     private function getMissingPermissions(Workspace $workspace): array
     {
         $missingPermissions = [];
 
+        /** @var ClientBuilder $clientBuilder */
         $clientBuilder = $this->clientBuilderFactory->create($workspace);
         $response = $clientBuilder->uauth()->apiKey()->permissionCheck()
             ->post(array_keys(self::REQUIRED_PERMISSIONS))->wait();
@@ -98,8 +103,8 @@ class WorkspaceModificationListener
         if ($response && $response->getBusinessProfileName()) {
             $workspace->setName($response->getBusinessProfileName());
             $permissions = $response->getPermissions() ?: [];
-            foreach($permissions as $permission => $isSet) {
-                if(!$isSet) {
+            foreach ($permissions as $permission => $isSet) {
+                if (!$isSet) {
                     $missingPermissions[self::REQUIRED_PERMISSIONS[$permission]][] = $permission;
                 }
             }

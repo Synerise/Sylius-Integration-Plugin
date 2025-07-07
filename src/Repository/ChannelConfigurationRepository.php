@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -13,6 +15,6 @@ class ChannelConfigurationRepository extends EntityRepository
     public function findOneByChannel(ChannelInterface $channel): ?ChannelConfiguration
     {
         // @phpstan-ignore return.type
-        return $this->findOneBy(["channel" => $channel], self::ORDER_BY);
+        return $this->findOneBy(['channel' => $channel], self::ORDER_BY);
     }
 }

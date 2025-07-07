@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Handler;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
@@ -16,9 +18,9 @@ use Webmozart\Assert\Assert;
 class EventMessageHandler
 {
     public function __construct(
-        private StringJsonParseNodeFactory  $parseNodeFactory,
-        private EventRequestHandlerFactory  $requestHandlerFactory,
-        private ChannelConfigurationFactory $configurationFactory
+        private StringJsonParseNodeFactory $parseNodeFactory,
+        private EventRequestHandlerFactory $requestHandlerFactory,
+        private ChannelConfigurationFactory $configurationFactory,
     ) {
     }
 
@@ -39,7 +41,7 @@ class EventMessageHandler
 
         $requestHandler->send(
             $payload,
-            $message->getSalesChannelId()
+            $message->getSalesChannelId(),
         )->wait();
     }
 
@@ -50,10 +52,13 @@ class EventMessageHandler
 
     /**
      * Gets the model object value of the node.
+     *
      * @template T of Parsable
-     * @param string $serializedPayload
+     *
      * @param array{class-string<T>,string} $type The type for the Parsable object.
+     *
      * @return Parsable|null the model object value of the node.
+     *
      * @throws \Exception
      */
     public function deserialize(string $serializedPayload, array $type): ?Parsable

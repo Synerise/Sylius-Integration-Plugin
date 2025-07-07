@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
@@ -24,25 +26,25 @@ final class WorkspaceType extends AbstractResourceType
             ->add('environment', EnumType::class, [
                 'class' => Environment::class,
                 'label' => 'synerise_integration.workspace.form.environment.label',
-                'expanded' => true
+                'expanded' => true,
             ])
             ->add('authenticationMethod', EnumType::class, [
                 'class' => AuthenticationMethod::class,
                 'label' => 'synerise_integration.workspace.form.authentication_method.label',
-                'expanded' => true
+                'expanded' => true,
             ])
             ->add('apiKey', TextType::class, [
                 'label' => 'synerise_integration.workspace.form.api_key.label',
                 'help' => 'synerise_integration.workspace.form.api_key.help.text',
                 'help_translation_parameters' => [
                     '%text%' => new TranslatableMessage('synerise_integration.workspace.form.api_key.help.docs.text'),
-                    '%url%' => new TranslatableMessage('synerise_integration.workspace.form.api_key.help.docs.url')
+                    '%url%' => new TranslatableMessage('synerise_integration.workspace.form.api_key.help.docs.url'),
                 ],
                 'help_html' => true,
                 'constraints' => [
                     new NotNull([
-                        'message' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.errors.not_null'
-                    ])
+                        'message' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.errors.not_null',
+                    ]),
                 ],
             ])
             ->add('guid', TextType::class, [
@@ -51,11 +53,11 @@ final class WorkspaceType extends AbstractResourceType
                 'help' => 'synerise_integration.workspace.form.guid.help.text',
                 'help_translation_parameters' => [
                     '%text%' => new TranslatableMessage('synerise_integration.workspace.form.guid.help.docs.text'),
-                    '%url%' => new TranslatableMessage('synerise_integration.workspace.form.guid.help.docs.url')
+                    '%url%' => new TranslatableMessage('synerise_integration.workspace.form.guid.help.docs.url'),
                 ],
-                'help_html' => true
+                'help_html' => true,
             ])
-            ->add('keepAliveEnabled',ChoiceType::class, [
+            ->add('keepAliveEnabled', ChoiceType::class, [
                 'label' => 'synerise_integration.workspace.form.keep_alive_enabled.label',
                 'expanded' => true,
                 'choices' => [
@@ -66,11 +68,11 @@ final class WorkspaceType extends AbstractResourceType
             ->add('requestLoggingEnabled', CheckboxType::class, [
                 'label' => 'synerise_integration.workspace.form.request_logging_enabled.label',
             ])
-            ->add('liveTimeout',TextType::class, [
-                'label' => 'synerise_integration.workspace.form.live_timeout.label'
+            ->add('liveTimeout', TextType::class, [
+                'label' => 'synerise_integration.workspace.form.live_timeout.label',
             ])
-            ->add('scheduledTimeout',TextType::class, [
-                'label' => 'synerise_integration.workspace.form.scheduled_timeout.label'
+            ->add('scheduledTimeout', TextType::class, [
+                'label' => 'synerise_integration.workspace.form.scheduled_timeout.label',
             ]);
     }
 
@@ -86,8 +88,8 @@ final class WorkspaceType extends AbstractResourceType
         $resolver->setDefaults([
             'constraints' => [
                 new Callback(function ($object, ExecutionContextInterface $context) {
-                    if ($object->getAuthenticationMethod() === AuthenticationMethod::Basic
-                        && empty($object->getGuid())) {
+                    if ($object->getAuthenticationMethod() === AuthenticationMethod::Basic &&
+                        empty($object->getGuid())) {
                         $context->buildViolation('synerise_integration.workspace.guid.required_for_basic')
                             ->atPath('guid')
                             ->addViolation();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 
 use Http\Promise\Promise;
@@ -14,18 +16,16 @@ use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterfac
 
 abstract class AbstractRequestHandler implements RequestHandlerInterface
 {
-    /**
-     * @var class-string<Parsable>
-     */
+    /** @var class-string<Parsable> */
     public static string $requestClass;
 
     public static string $createMethod = 'createFromDiscriminatorValue';
 
-    public function  __construct(
+    public function __construct(
         private ClientBuilderFactory $clientBuilderFactory,
         private ChannelConfigurationFactory $channelConfigurationFactory,
-        private SynchronizationConfigurationFactory $synchronizationConfigurationFactory
-    ){
+        private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
+    ) {
     }
 
     /**
@@ -40,18 +40,21 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
     {
         return [
             static::$requestClass,
-            static::$createMethod
+            static::$createMethod,
         ];
     }
 
     protected function getClientBuilder(Config $config): ClientBuilder
     {
-        return $this->clientBuilderFactory->create($config);
+        /** @var ClientBuilder $clientBuilder */
+        $clientBuilder = $this->clientBuilderFactory->create($config);
+
+        return $clientBuilder;
     }
 
     protected function getChannelConfiguration(string|int|null $channelId): ?ChannelConfigurationInterface
     {
-         return $this->channelConfigurationFactory->get($channelId);
+        return $this->channelConfigurationFactory->get($channelId);
     }
 
     protected function getSynchronizationConfiguration(string|int|null $channelId): ?SynchronizationConfigurationInterface

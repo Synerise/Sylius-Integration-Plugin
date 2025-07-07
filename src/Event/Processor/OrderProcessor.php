@@ -14,12 +14,11 @@ use Webmozart\Assert\Assert;
 class OrderProcessor
 {
     public function __construct(
-        private OrderToTransactionMapper    $mapper,
+        private OrderToTransactionMapper $mapper,
         private ChannelConfigurationFactory $configurationFactory,
-        private EventHandlerResolver        $eventHandlerResolver,
-        private ?IdentityManager            $identityManager = null
-    )
-    {
+        private EventHandlerResolver $eventHandlerResolver,
+        private ?IdentityManager $identityManager = null,
+    ) {
     }
 
     /**
@@ -28,7 +27,7 @@ class OrderProcessor
     public function process(OrderInterface $order): void
     {
         $configuration = $this->configurationFactory->get();
-        if (!$type = $configuration?->getEventHandlerType("transaction.charge")) {
+        if (!$type = $configuration?->getEventHandlerType('transaction.charge')) {
             return;
         }
 
@@ -40,9 +39,9 @@ class OrderProcessor
         }
 
         $this->eventHandlerResolver->get($type)->processEvent(
-            "transaction.charge",
+            'transaction.charge',
             $this->mapper->prepare($order, 'live'),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(),
         );
     }
 }

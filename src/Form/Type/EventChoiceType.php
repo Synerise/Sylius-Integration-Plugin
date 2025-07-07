@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -12,7 +14,7 @@ class EventChoiceType extends AbstractType
     private EventRequestHandlerFactory $requestHandlerFactory;
 
     public function __construct(
-        EventRequestHandlerFactory $requestHandlerFactory
+        EventRequestHandlerFactory $requestHandlerFactory,
     ) {
         $this->requestHandlerFactory = $requestHandlerFactory;
     }

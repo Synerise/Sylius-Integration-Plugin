@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
@@ -11,6 +13,6 @@ interface RequestMapperInterface
     public function prepare(
         ResourceInterface $resource,
         string $type = 'live',
-        ?ChannelInterface $channel = null
+        ?ChannelInterface $channel = null,
     ): Parsable;
 }

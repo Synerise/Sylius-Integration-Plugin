@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Model\Workspace;
 
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -11,7 +13,6 @@ enum Mode: string implements TranslatableInterface
     use EnumTrait;
 
     case Live = 'live';
-
     case Scheduled = 'scheduled';
 
     public const LABEL = [

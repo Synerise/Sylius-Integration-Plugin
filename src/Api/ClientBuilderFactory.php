@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api;
 
 use Microsoft\Kiota\Abstractions\RequestAdapter;
@@ -12,18 +14,21 @@ use Synerise\Sdk\Guzzle\RequestAdapterFactory;
 class ClientBuilderFactory
 {
     public function __construct(
-        private LoggerInterface $syneriseLogger
-    )
-    {
+        private LoggerInterface $syneriseLogger,
+    ) {
     }
 
-    public function create(Config $config, ?RequestAdapter $requestAdapter = null): ClientBuilder
+    public function create(?Config $config, ?RequestAdapter $requestAdapter = null): ?ClientBuilder
     {
+        if (!$config) {
+            return null;
+        }
+
         $authenticationProviderFactory = new AuthenticationProviderFactory($config);
         if (!$requestAdapter) {
             $requestAdapterFactory = new RequestAdapterFactory($config, $this->syneriseLogger);
             $requestAdapter = $requestAdapterFactory->create(
-                $authenticationProviderFactory->create()
+                $authenticationProviderFactory->create(),
             );
         }
 

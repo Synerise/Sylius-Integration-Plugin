@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
@@ -13,7 +15,7 @@ final class SynchronizationConfigurationType extends AbstractResourceType
     {
         $builder
             ->add('channel', ChannelChoiceType::class, [
-                'label' => 'synerise_integration.synchronization_configuration.form.channel.label'
+                'label' => 'synerise_integration.synchronization_configuration.form.channel.label',
             ])
             ->add('productAttributes', ProductAttributeChoiceType::class, [
                 'label' => 'synerise_integration.synchronization_configuration.form.product_attributes.label',
@@ -22,8 +24,8 @@ final class SynchronizationConfigurationType extends AbstractResourceType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-controller' => 'multiselect'
-                ]
+                    'data-controller' => 'multiselect',
+                ],
             ])
             ->add('productAttributeValue', ProductAttributeValueChoiceType::class, [
                 'label' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.label',
@@ -31,12 +33,12 @@ final class SynchronizationConfigurationType extends AbstractResourceType
                 'choice_translation_domain' => true,
                 'constraints' => [
                     new NotNull([
-                        'message' => 'synerise_integration.synchronization_configuration.product_attributes_value.not_null'
-                    ])
+                        'message' => 'synerise_integration.synchronization_configuration.product_attributes_value.not_null',
+                    ]),
                 ],
                 'expanded' => true,
                 'required' => true,
-                'multiple' => false
+                'multiple' => false,
             ]);
     }
 

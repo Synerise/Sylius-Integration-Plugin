@@ -14,9 +14,8 @@ class BeforeProfileRequestEvent extends Event
 
     public function __construct(
         private Profile $profile,
-        private CustomerInterface $customer
-    )
-    {
+        private CustomerInterface $customer,
+    ) {
     }
 
     public function getProfile(): Profile
@@ -24,8 +23,8 @@ class BeforeProfileRequestEvent extends Event
         return $this->profile;
     }
 
-    public function getCustomer(): CustomerInterface {
+    public function getCustomer(): CustomerInterface
+    {
         return $this->customer;
     }
-
 }
