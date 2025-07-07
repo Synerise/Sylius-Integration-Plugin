@@ -29,6 +29,7 @@ x-mutagen:
               - "!config/**"
               - "!src/**"
               - "!templates/**"
+              - "!modules/**"
               - "!tests"
               - "!tests/Application"
               - "!tests/Application/bin/**"
