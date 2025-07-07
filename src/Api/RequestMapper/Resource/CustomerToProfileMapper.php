@@ -11,7 +11,10 @@ use Sylius\Resource\Model\ResourceInterface;
 use Synerise\Api\V4\Models\Agreements;
 use Synerise\Api\V4\Models\Profile;
 use Synerise\Api\V4\Models\ProfileSex;
-use Synerise\Sdk\Api\RequestBody\Models\ProfileBuilder;;
+use Synerise\Sdk\Api\RequestBody\Models\ProfileBuilder;
+
+;
+
 use Webmozart\Assert\Assert;
 
 class CustomerToProfileMapper implements RequestMapperInterface
@@ -33,11 +36,6 @@ class CustomerToProfileMapper implements RequestMapperInterface
     {
         Assert::implementsInterface($resource, CustomerInterface::class);
 
-        string $type = 'synchronization',
-        ?ChannelInterface $channel = null,
-    ): Profile {
-        Assert::implementsInterface($resource, CustomerInterface::class);
-
         $resourceDefaultAddress = $resource->getDefaultAddress();
 
         $profileBuilder = ProfileBuilder::initialize()
@@ -52,8 +50,7 @@ class CustomerToProfileMapper implements RequestMapperInterface
             ->setZipCode($resourceDefaultAddress?->getPostcode())
             ->setCity($resourceDefaultAddress?->getCity())
             ->setAddress($resourceDefaultAddress?->getStreet())
-            ->addAttribute('createdAt', $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM))
-        ;
+            ->addAttribute('createdAt', $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM));
 
         if ($resource->getGroup() != null) {
             $profileBuilder->addAttribute('group', $resource->getGroup()->getCode());
