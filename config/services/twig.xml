@@ -25,6 +25,20 @@
 
             <tag name="sylius.twig_component" key="synerise_integration:tracking_script" />
         </service>
+        <service
+            id="synerise_integration.twig.component.recommendations"
+            class="Synerise\SyliusIntegrationPlugin\Twig\Component\RecommendationsComponent"
+        >
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="sylius.repository.product" />
+            <argument type="service" id="sylius.context.locale" />
+            <argument type="service" id="synerise_integration.cookie_profile_manager" />
+            <argument type="service" id="synerise_integration.context.channel_configuration" />
+            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+
+            <tag name="monolog.logger" channel="synerise"/>
+            <tag name="sylius.twig_component" key="synerise_integration:recommendations" />
+        </service>
         <service id="synerise_integration.twig.component.synchronizations_list"
                  class="Synerise\SyliusIntegrationPlugin\Twig\Component\SynchronizationsList">
             <argument type="service" id="synerise_integration.repository.synchronization"/>
