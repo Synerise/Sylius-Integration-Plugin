@@ -93,5 +93,14 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "security-checker security:check": "script"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "modules/synerise/php-sdk",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }

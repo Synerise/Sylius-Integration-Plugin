@@ -22,7 +22,6 @@ services:
             XDEBUG_CONFIG: >-
                 client_host=host.docker.internal
                 client_port=9003
-                idekey=PHPSTORM
                 xdebug.start_with_request=yes
             PHP_IDE_CONFIG: serverName=sylius
         extra_hosts:
@@ -59,7 +58,7 @@ services:
         image: node:${NODE_VERSION:-20}-alpine
         user: ${DOCKER_USER:-1000:1000}
         working_dir: /srv/sylius
-        entrypoint: [ "/bin/sh","-c" ]
+        entrypoint: ["/bin/sh", "-c"]
         command:
             - |
                 cd tests/Application
@@ -86,4 +85,3 @@ volumes:
     mysql-data:
         external: true
         name: sylius_mysql_data
-        
