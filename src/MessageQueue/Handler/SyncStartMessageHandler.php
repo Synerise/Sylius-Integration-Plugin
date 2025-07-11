@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\MessageQueue\Handler;
 
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -11,8 +13,7 @@ class SyncStartMessageHandler
 {
     public function __construct(
         private SynchronizationProcessorFactory $synchronizationProcessorFactory,
-    )
-    {
+    ) {
     }
 
     public function __invoke(SyncStartMessage $message): void

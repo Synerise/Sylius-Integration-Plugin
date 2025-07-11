@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Model\Workspace;
 
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -12,7 +14,6 @@ enum AuthenticationMethod: string implements AuthenticationMethodInterface, Tran
     use EnumTrait;
 
     case Bearer = self::BEARER_VALUE;
-
     case Basic = self::BASIC_VALUE;
 
     public function trans(TranslatorInterface $translator, ?string $locale = null): string

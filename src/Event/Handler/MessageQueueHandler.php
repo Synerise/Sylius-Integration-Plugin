@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Handler;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
@@ -12,7 +14,7 @@ class MessageQueueHandler implements EventHandlerInterface
 {
     public function __construct(
         private MessageBusInterface $messageBus,
-        private SerializationWriterFactory $writerFactory
+        private SerializationWriterFactory $writerFactory,
     ) {
     }
 
@@ -34,5 +36,4 @@ class MessageQueueHandler implements EventHandlerInterface
 
         return $string;
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
@@ -14,13 +16,10 @@ use Webmozart\Assert\Assert;
 
 class CustomerToProfileMapper implements RequestMapperInterface
 {
-    /**
-     * @var array
-     */
     protected static array $genderMap = [
         BaseCustomerInterface::MALE_GENDER => ProfileSex::M_A_L_E,
         BaseCustomerInterface::FEMALE_GENDER => ProfileSex::F_E_M_A_L_E,
-        BaseCustomerInterface::UNKNOWN_GENDER => ProfileSex::N_O_T__S_P_E_C_I_F_I_E_D
+        BaseCustomerInterface::UNKNOWN_GENDER => ProfileSex::N_O_T__S_P_E_C_I_F_I_E_D,
     ];
 
     /**
@@ -29,9 +28,8 @@ class CustomerToProfileMapper implements RequestMapperInterface
     public function prepare(
         ResourceInterface $resource,
         string $type = 'synchronization',
-        ?ChannelInterface $channel = null
-    ): Profile
-    {
+        ?ChannelInterface $channel = null,
+    ): Profile {
         Assert::implementsInterface($resource, CustomerInterface::class);
 
         $profile = new Profile();
@@ -40,7 +38,7 @@ class CustomerToProfileMapper implements RequestMapperInterface
         $profile->setPhone($resource->getPhoneNumber());
         $profile->setFirstName($resource->getFirstName());
         $profile->setLastName($resource->getLastName());
-        $profile->setBirthDate($resource->getBirthday()?->format("Y-m-d"));
+        $profile->setBirthDate($resource->getBirthday()?->format('Y-m-d'));
         $profile->setSex($this->getClientGender($resource));
 
         $resourceDefaultAddress = $resource->getDefaultAddress();
@@ -51,7 +49,7 @@ class CustomerToProfileMapper implements RequestMapperInterface
         $profile->setAddress($resourceDefaultAddress?->getStreet());
 
         $additionalData = [
-            "createdAt" => $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM),
+            'createdAt' => $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM),
         ];
 
         if ($resource->getGroup() != null) {
@@ -72,7 +70,7 @@ class CustomerToProfileMapper implements RequestMapperInterface
     private function getClientGender(CustomerInterface $resource): ProfileSex
     {
         $gender = self::$genderMap[$resource->getGender()] ?? ProfileSex::N_O_T__S_P_E_C_I_F_I_E_D;
+
         return new ProfileSex($gender);
     }
 }
-

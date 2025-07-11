@@ -46,6 +46,14 @@ x-mutagen:
               - "!translations/**"
               - "!composer.json"
               - "!composer.lock"
+              # tests
+              - "!ecs.php"
+              - "!behat.yml.dist"
+              - "!phpunit.xml.dist"
+              - "!features/**"
+              - "!tests/Behat/**"
+              - "!tests/Integration/**"
+              - "!tests/Unit/**"
     node-data:
       alpha: "."
       beta: "volume://node-data"
@@ -78,8 +86,9 @@ x-mutagen:
       alpha: "./tests/Application/public/media"
       beta: "volume://public-media-cache"
     symfony-logs:
-      alpha: "./tests/Application/var/log"
-      beta: "volume://symfony-logs"
+      mode: "one-way-replica"
+      beta: "./var/log"
+      alpha: "volume://symfony-logs"
     vendor:
         alpha: "./vendor"
         beta: "volume://vendor"        

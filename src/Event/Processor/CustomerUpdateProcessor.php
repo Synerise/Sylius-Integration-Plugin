@@ -22,16 +22,16 @@ class CustomerUpdateProcessor implements CustomerProcessorInterface
     public function process(CustomerInterface $customer): void
     {
         $configuration = $this->configurationFactory->get();
-        if (!$type = $configuration?->getEventHandlerType("profile.update")) {
+        if (!$type = $configuration?->getEventHandlerType('profile.update')) {
             return;
         }
 
         Assert::NotNull($configuration->getChannel());
 
         $this->eventHandlerResolver->get($type)->processEvent(
-            "profile.update",
+            'profile.update',
             $this->mapper->prepare($customer, 'live'),
-            $configuration->getChannel()->getId()
+            $configuration->getChannel()->getId(),
         );
     }
 }

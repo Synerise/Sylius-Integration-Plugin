@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Ui\Menu;
 
 use Knp\Menu\Util\MenuManipulator;

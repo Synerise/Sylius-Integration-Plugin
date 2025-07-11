@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Symfony\Contracts\Translation\TranslatableInterface;
@@ -13,8 +15,11 @@ enum SynchronizationStatus: string implements TranslatableInterface
     case Cancelled = 'cancelled';
 
     public const CREATED_LABEL = 'synerise_integration.synchronization.status.created';
+
     public const PROCESSING_LABEL = 'synerise_integration.synchronization.status.processing';
+
     public const ENDED_LABEL = 'synerise_integration.synchronization.status.ended';
+
     public const CANCELLED_LABEL = 'synerise_integration.synchronization.status.cancelled';
 
     public function trans(TranslatorInterface $translator, ?string $locale = null): string
@@ -25,7 +30,7 @@ enum SynchronizationStatus: string implements TranslatableInterface
     public function getLabel(): string
     {
         return match ($this) {
-            self::Created  => self::CREATED_LABEL,
+            self::Created => self::CREATED_LABEL,
             self::Processing => self::PROCESSING_LABEL,
             self::Ended => self::ENDED_LABEL,
             self::Cancelled => self::CANCELLED_LABEL,

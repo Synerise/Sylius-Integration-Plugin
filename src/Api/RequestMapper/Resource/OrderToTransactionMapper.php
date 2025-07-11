@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
@@ -17,14 +19,15 @@ use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
 use Synerise\Sdk\Tracking\EventSourceProvider;
+use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 use Webmozart\Assert\Assert;
 
 class OrderToTransactionMapper implements RequestMapperInterface
 {
     public function __construct(
-        private ?EventSourceProvider $sourceProvider = null
-    )
-    {
+        private ProductDataFormatter $formatter,
+        private ?EventSourceProvider $sourceProvider = null,
+    ) {
     }
 
     /**
@@ -33,9 +36,8 @@ class OrderToTransactionMapper implements RequestMapperInterface
     public function prepare(
         ResourceInterface $resource,
         string $type = 'synchronization',
-        ?ChannelInterface $channel = null
-    ): Transaction
-    {
+        ?ChannelInterface $channel = null,
+    ): Transaction {
         Assert::implementsInterface($resource, OrderInterface::class);
 
         $customer = $resource->getCustomer();
@@ -43,11 +45,11 @@ class OrderToTransactionMapper implements RequestMapperInterface
 
         $client = new Client();
         $client->setEmail($customer->getEmail());
-        $client->setCustomId((string)$customer->getId());
+        $client->setCustomId((string) $customer->getId());
 
         $transaction = new Transaction();
         $transaction->setClient($client);
-        $transaction->setOrderId((string)$resource->getId());
+        $transaction->setOrderId((string) $resource->getId());
         $transaction->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
 
         $total = $resource->getTotal();
@@ -56,25 +58,25 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $currency = $resource->getCurrencyCode();
 
         $value = new Value();
-        $value->setAmount(($total - $taxTotal) / 100);
+        $value->setAmount($this->formatter->formatAmount($total - $taxTotal));
         $value->setCurrency($currency);
         $transaction->setValue($value);
 
         $revenue = new Revenue();
-        $revenue->setAmount($total / 100);
+        $revenue->setAmount($this->formatter->formatAmount($total));
         $revenue->setCurrency($currency);
         $transaction->setRevenue($revenue);
 
         $discountAmount = new DiscountAmount();
-        $discountAmount->setAmount($promotionTotal / 100);
+        $discountAmount->setAmount($this->formatter->formatAmount($promotionTotal));
         $discountAmount->setCurrency($currency);
         $transaction->setDiscountAmount($discountAmount);
 
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
-            "status" => $resource->getState(),
-            "discountCode" => $resource->getPromotionCoupon()?->getCode(),
-            "lastUpdateType" => $type
+            'status' => $resource->getState(),
+            'discountCode' => $resource->getPromotionCoupon()?->getCode(),
+            'lastUpdateType' => $type,
         ]);
         $transaction->setMetadata($metadata);
 
@@ -101,7 +103,6 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $resourceProduct = $resourceItem->getProduct();
         $currencyCode = $resource->getCurrencyCode();
         $quantity = $resourceItem->getQuantity();
-        $category = $resourceProduct?->getMainTaxon()?->getFullname(' > ');
 
         $product = new Product();
         $name = $resourceItem->getProductName() . ($resourceItem->getVariantName() ? ' - ' . $resourceItem->getVariantName() : '');
@@ -116,21 +117,21 @@ class OrderToTransactionMapper implements RequestMapperInterface
 
         $regularPrice = new RegularPrice();
         $regularPrice->setCurrency($currencyCode);
-        $regularPrice->setAmount($originalUnitPrice / 100);
+        $regularPrice->setAmount($originalUnitPrice ? $this->formatter->formatAmount($originalUnitPrice) : null);
         $product->setRegularPrice($regularPrice);
 
         $finalUnitPrice = new FinalUnitPrice();
         $finalUnitPrice->setCurrency($currencyCode);
-        $finalUnitPrice->setAmount(($discountedUnitPrice + $unitTax) / 100);
+        $finalUnitPrice->setAmount($this->formatter->formatAmount($discountedUnitPrice + $unitTax));
         $product->setFinalUnitPrice($finalUnitPrice);
 
         $discountPrice = new DiscountPrice();
         $discountPrice->setCurrency($currencyCode);
-        $discountPrice->setAmount(($unitPrice - $discountedUnitPrice) / 100);
+        $discountPrice->setAmount($this->formatter->formatAmount($unitPrice - $discountedUnitPrice));
         $product->setDiscountPrice($discountPrice);
 
         $product->setAdditionalData([
-            "category" => $category,
+            'category' => $this->formatter->formatTaxon($resourceProduct?->getMainTaxon()),
         ]);
 
         return $product;

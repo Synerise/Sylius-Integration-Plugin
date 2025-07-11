@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -24,14 +26,14 @@ class ProductUpdateProcessor implements ProductProcessorInterface
             Assert::isInstanceOf($channel, ChannelInterface::class);
 
             $configuration = $this->channelConfigurationFactory->get();
-            if (!$type = $configuration?->getEventHandlerType("product.update")) {
+            if (!$type = $configuration?->getEventHandlerType('product.update')) {
                 return;
             }
 
             $this->eventHandlerResolver->get($type)->processEvent(
-                "product.update",
+                'product.update',
                 $this->mapper->prepare($product, 'live', $channel),
-                $channel->getId()
+                $channel->getId(),
             );
         }
     }

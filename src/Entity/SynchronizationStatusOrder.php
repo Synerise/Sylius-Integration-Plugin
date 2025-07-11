@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -17,6 +19,7 @@ class SynchronizationStatusOrder
     {
         return $this->order;
     }
+
     public function setOrder(OrderInterface $order): void
     {
         $this->order = $order;
@@ -41,5 +44,4 @@ class SynchronizationStatusOrder
     {
         $this->updatedAt = $updatedAt;
     }
-
 }

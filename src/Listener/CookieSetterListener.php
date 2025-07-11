@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Listener;
 
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

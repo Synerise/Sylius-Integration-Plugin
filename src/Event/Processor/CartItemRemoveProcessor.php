@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Event\Processor;
 
 use Sylius\Component\Core\Model\OrderInterface;
@@ -37,7 +39,7 @@ class CartItemRemoveProcessor
         $this->eventHandlerResolver->get($type)->processEvent(
             RemovedFromCartBuilder::ACTION,
             $this->mapper->prepare($cartItem, $this->identityManager->getClient()),
-            $cart->getChannel()?->getId()
+            $cart->getChannel()?->getId(),
         );
     }
 }

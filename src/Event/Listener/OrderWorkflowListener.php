@@ -14,9 +14,8 @@ class OrderWorkflowListener
 {
     public function __construct(
         private LoggerInterface $syneriseLogger,
-        private OrderProcessor $orderProcessor
-    )
-    {
+        private OrderProcessor $orderProcessor,
+    ) {
     }
 
     public function __invoke(CompletedEvent $event): void

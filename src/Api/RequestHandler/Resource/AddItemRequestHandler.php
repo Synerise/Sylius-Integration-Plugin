@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource;
 
 use Http\Promise\Promise;
@@ -13,11 +15,12 @@ use Webmozart\Assert\Assert;
 
 class AddItemRequestHandler extends AbstractRequestHandler implements BatchRequestHandlerInterface
 {
-    /** @var class-string<AddItem> $requestClass */
+    /** @var class-string<AddItem> */
     public static string $requestClass = AddItem::class;
 
     /**
      * @param AddItem $payload
+     *
      * @throws \Exception
      */
     public function send(Parsable $payload, string|int $channelId): Promise
@@ -36,6 +39,7 @@ class AddItemRequestHandler extends AbstractRequestHandler implements BatchReque
 
     /**
      * @param AddItem[] $payload
+     *
      * @throws \Exception
      */
     public function sendBatch(array $payload, int|string $channelId): Promise

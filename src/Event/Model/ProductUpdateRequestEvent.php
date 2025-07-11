@@ -16,7 +16,7 @@ class ProductUpdateRequestEvent extends Event
     public function __construct(
         private AddItem $addItemEvent,
         private readonly ProductInterface $product,
-        private readonly ChannelInterface $channel
+        private readonly ChannelInterface $channel,
     ) {
     }
 

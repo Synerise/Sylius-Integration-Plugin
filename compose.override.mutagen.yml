@@ -6,7 +6,7 @@ services:
             mysql:
                 condition: service_healthy
         environment:
-            APP_ENV: dev
+            APP_ENV: ${ENV:-prod}
             APP_SECRET: EDITME
             DATABASE_URL: "mysql://root@mysql/sylius_%kernel.environment%"
             MAILER_DSN: smtp://mailhog:1025

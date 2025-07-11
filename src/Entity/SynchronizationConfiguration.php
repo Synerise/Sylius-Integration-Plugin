@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Product\Model\ProductAttribute;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Product\Model\ProductAttribute;
 
 class SynchronizationConfiguration implements SynchronizationConfigurationInterface, \JsonSerializable
 {
@@ -79,7 +81,6 @@ class SynchronizationConfiguration implements SynchronizationConfigurationInterf
     {
         $this->catalogId = $catalogId;
     }
-
 
     public function getProductAttributeValue(): ?ProductAttributeValue
     {

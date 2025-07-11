@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -18,15 +20,16 @@ class ProductAttributeValueChoiceType extends AbstractType
                 if ($productAttributeValue === null) {
                     return '';
                 }
+
                 return $productAttributeValue->value;
             },
-
             function ($value) {
                 if (empty($value)) {
                     return null;
                 }
+
                 return ProductAttributeValue::from($value);
-            }
+            },
         ));
     }
 

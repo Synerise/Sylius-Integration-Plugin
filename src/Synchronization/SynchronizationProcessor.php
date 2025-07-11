@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\SyliusIntegrationPlugin\Synchronization;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,13 +18,12 @@ use Webmozart\Assert\Assert;
 class SynchronizationProcessor implements SynchronizationProcessorInterface
 {
     public function __construct(
-        private DataProviderInterface        $dataProvider,
-        private RequestMapperInterface       $requestMapper,
+        private DataProviderInterface $dataProvider,
+        private RequestMapperInterface $requestMapper,
         private BatchRequestHandlerInterface $requestHandler,
-        private EntityManagerInterface       $entityManager,
-        private MessageBusInterface          $messageBus,
-    )
-    {
+        private EntityManagerInterface $entityManager,
+        private MessageBusInterface $messageBus,
+    ) {
     }
 
     /**
@@ -85,7 +86,7 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
                 $batch[] = $this->requestMapper->prepare(
                     $entity,
                     'synchronization',
-                    $channel
+                    $channel,
                 );
             }
         }
