@@ -41,7 +41,7 @@
                         <div class="d-flex flex-row flex-wrap gap-2">
                             {% for attribute in resource.productAttributes %}
                             <a href="{{ path('sylius_admin_product_attribute_update', {'id': attribute.id}) }}">
-                                <span class="badge bg-blue-lt">{{ attribute.code }}</span>
+                                <span class="badge bg-blue-lt">{{ attribute }}</span>
                             </a>
                             {% endfor %}
                         </div>
