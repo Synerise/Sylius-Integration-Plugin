@@ -18,6 +18,7 @@ use Synerise\Api\V4\Models\Revenue;
 use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
+use Synerise\SDK\Api\RequestBody\Models\TransactionBuilder;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 use Webmozart\Assert\Assert;
@@ -47,11 +48,6 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $client->setEmail($customer->getEmail());
         $client->setCustomId((string) $customer->getId());
 
-        $transaction = new Transaction();
-        $transaction->setClient($client);
-        $transaction->setOrderId((string) $resource->getId());
-        $transaction->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
-
         $total = $resource->getTotal();
         $taxTotal = $resource->getTaxTotal();
         $promotionTotal = abs($resource->getOrderPromotionTotal());
@@ -60,17 +56,14 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $value = new Value();
         $value->setAmount($this->formatter->formatAmount($total - $taxTotal));
         $value->setCurrency($currency);
-        $transaction->setValue($value);
 
         $revenue = new Revenue();
         $revenue->setAmount($this->formatter->formatAmount($total));
         $revenue->setCurrency($currency);
-        $transaction->setRevenue($revenue);
 
         $discountAmount = new DiscountAmount();
         $discountAmount->setAmount($this->formatter->formatAmount($promotionTotal));
         $discountAmount->setCurrency($currency);
-        $transaction->setDiscountAmount($discountAmount);
 
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
@@ -78,21 +71,27 @@ class OrderToTransactionMapper implements RequestMapperInterface
             'discountCode' => $resource->getPromotionCoupon()?->getCode(),
             'lastUpdateType' => $type,
         ]);
-        $transaction->setMetadata($metadata);
 
-        /** @var array<Product> $products */
-        $products = [];
+        $transactionBuilder = TransactionBuilder::initialize()
+            ->setClient($client)
+            ->setOrderId((string) $resource->getId())
+            ->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM))
+            ->setValue($value)
+            ->setRevenue($revenue)
+            ->setDiscountAmount($discountAmount)
+            ->setMetadata($metadata)
+            ->setEventSalt($resource->getNumber());
+
         foreach ($resource->getItems() as $resourceItem) {
             /** @var OrderItemInterface $resourceItem */
-            $products[] = $this->prepareTransactionProductData($resourceItem);
+            $transactionBuilder->addProduct($this->prepareTransactionProductData($resourceItem));
         }
-        if ($this->sourceProvider) {
-            $transaction->setSource($this->sourceProvider->getEventSource());
-        }
-        $transaction->setProducts($products);
-        $transaction->setEventSalt($resource->getNumber());
 
-        return $transaction;
+        if ($this->sourceProvider) {
+            $transactionBuilder->setSource($this->sourceProvider->getEventSource());
+        }
+
+        return $transactionBuilder->build();
     }
 
     private function prepareTransactionProductData(OrderItemInterface $resourceItem): Product
