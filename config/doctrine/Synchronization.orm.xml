@@ -24,7 +24,7 @@
 
         <many-to-one
             field="channel"
-            target-entity="Sylius\Component\Core\Model\Channel"
+            target-entity="Sylius\Component\Core\Model\ChannelInterface"
         >
             <join-column name="channel_id" nullable="false" />
         </many-to-one>
