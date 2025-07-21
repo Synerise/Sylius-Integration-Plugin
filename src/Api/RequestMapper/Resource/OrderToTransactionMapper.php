@@ -18,6 +18,7 @@ use Synerise\Api\V4\Models\Revenue;
 use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
+use Synerise\Sdk\Api\RequestBody\Models\ProductBuilder;
 use Synerise\SDK\Api\RequestBody\Models\TransactionBuilder;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
@@ -102,12 +103,7 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $resourceProduct = $resourceItem->getProduct();
         $currencyCode = $resource->getCurrencyCode();
         $quantity = $resourceItem->getQuantity();
-
-        $product = new Product();
         $name = $resourceItem->getProductName() . ($resourceItem->getVariantName() ? ' - ' . $resourceItem->getVariantName() : '');
-        $product->setName($name);
-        $product->setQuantity($quantity);
-        $product->setSku($resourceProduct?->getCode());
 
         $unitPrice = $resourceItem->getUnitPrice();
         $originalUnitPrice = $resourceItem->getOriginalUnitPrice();
@@ -117,22 +113,26 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $regularPrice = new RegularPrice();
         $regularPrice->setCurrency($currencyCode);
         $regularPrice->setAmount($originalUnitPrice ? $this->formatter->formatAmount($originalUnitPrice) : null);
-        $product->setRegularPrice($regularPrice);
 
         $finalUnitPrice = new FinalUnitPrice();
         $finalUnitPrice->setCurrency($currencyCode);
         $finalUnitPrice->setAmount($this->formatter->formatAmount($discountedUnitPrice + $unitTax));
-        $product->setFinalUnitPrice($finalUnitPrice);
 
         $discountPrice = new DiscountPrice();
         $discountPrice->setCurrency($currencyCode);
         $discountPrice->setAmount($this->formatter->formatAmount($unitPrice - $discountedUnitPrice));
-        $product->setDiscountPrice($discountPrice);
 
-        $product->setAdditionalData([
+        $productBuilder = ProductBuilder::initialize()
+            ->setName($name)
+            ->setQuantity($quantity)
+            ->setSku($resourceProduct?->getCode())
+            ->setRegularPrice($regularPrice)
+            ->setFinalUnitPrice($finalUnitPrice)
+            ->setDiscountPrice($discountPrice)
+            ->setAdditionalData([
             'category' => $this->formatter->formatTaxon($resourceProduct?->getMainTaxon()),
         ]);
 
-        return $product;
+        return $productBuilder->build();
     }
 }
