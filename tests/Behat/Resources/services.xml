@@ -8,6 +8,9 @@
             <argument type="service" id="synerise_sylius_integration_plugin.page.shop.product.show" />
         </service>
         <service id="synerise_sylius_integration.behat.context.ui.shop.channel_configuration" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\ChannelConfigurationContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="synerise_integration.factory.channel_configuration" />
         </service>
 
         <service id="synerise_sylius_integration_plugin.page.shop.product.show" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Page\Shop\Product\ShowPage" parent="sylius.behat.page.shop.product.show" public="false" />

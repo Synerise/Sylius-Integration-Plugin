@@ -20,57 +20,59 @@ class ShowPage extends BaseShowPage
         parent::__construct($session, $minkParameters, $router, $summaryPage);
     }
 
-    protected function getDefinedElements(): array
-    {
-        return array_merge(parent::getDefinedElements(), [
-            'og-title' => 'synerise-og-title',
-            'og-image' => 'synerise-og-image',
-            'og-price' => 'synerise-og-price',
-            'og-sale_price' => 'synerise-og-sale-price',
-            'og-original_price' => 'synerise-og-original-price',
-            'og-category' => 'synerise-og-category',
-            'og-retailer_part_no' => 'synerise-og-retailer-part-no',
-            'og-url' => 'synerise-og-url',
-        ]);
-    }
-
     public function hasOgTitle(): bool
     {
-        return $this->hasElement('og-title');
+        return $this->getOgTag('title')?->getAttribute('content') !== null;
     }
 
     public function hasOgImage(): bool
     {
-        return $this->hasElement('og-image');
+        return $this->getOgTag('image')?->getAttribute('content') !== null;
     }
 
     public function hasOgPrice(): bool
     {
-        return $this->hasElement('og-price');
+        return $this->getProductTag('price:amount')?->getAttribute('content') !== null;
     }
 
     public function hasOgSalePrice(): bool
     {
-        return $this->hasElement('og-sale_price');
+        return $this->getProductTag('sale_price:amount')?->getAttribute('content') !== null;
     }
 
     public function hasOgOriginalPrice(): bool
     {
-        return $this->hasElement('og-original_price');
+        return $this->getProductTag('original_price:amount')?->getAttribute('content') !== null;
     }
 
     public function hasOgCategory(): bool
     {
-        return $this->hasElement('og-category');
+        return $this->getOgTag('category')?->getAttribute('content') !== null;
     }
 
     public function hasOgRetailerPartNo(): bool
     {
-        return $this->hasElement('og-retailer_part_no');
+        return $this->getOgTag('retailer_part_no')?->getAttribute('content') !== null;
     }
 
     public function hasOgUrl(): bool
     {
-        return $this->hasElement('og-url');
+        return $this->getOgTag('url')?->getAttribute('content') !== null;
+    }
+
+    public function getOgTag(string $property): ?\Behat\Mink\Element\NodeElement
+    {
+        return $this->getSession()->getPage()->find(
+            'xpath',
+            '//head/meta[@property="og:'.$property.'"]'
+        );
+    }
+
+    public function getProductTag(string $property): ?\Behat\Mink\Element\NodeElement
+    {
+        return $this->getSession()->getPage()->find(
+            'xpath',
+            '//head/meta[@property="product:'.$property.'"]'
+        );
     }
 }
