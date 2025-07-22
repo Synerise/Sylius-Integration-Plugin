@@ -19,7 +19,7 @@ use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
 use Synerise\Sdk\Api\RequestBody\Models\ProductBuilder;
-use Synerise\SDK\Api\RequestBody\Models\TransactionBuilder;
+use Synerise\Sdk\Api\RequestBody\Models\TransactionBuilder;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 use Webmozart\Assert\Assert;
