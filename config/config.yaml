@@ -25,7 +25,7 @@ sylius_grid:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.ui.channel_configuration_create_new'
+                        label: "synerise_integration.ui.channel_configuration_create_new"
                 item:
                     update:
                         type: update
@@ -47,7 +47,7 @@ sylius_grid:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.ui.synchronization_configuration_create_new'
+                        label: "synerise_integration.ui.synchronization_configuration_create_new"
                 item:
                     show:
                         type: show
@@ -84,7 +84,7 @@ sylius_grid:
                 main:
                     create:
                         type: create
-                        label: 'synerise_integration.workspace.create.title'
+                        label: "synerise_integration.workspace.create.title"
                 item:
                     show:
                         type: show
@@ -111,14 +111,13 @@ sylius_resource:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Synchronization
                 repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository
                 form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType
-                controller: Synerise\SyliusIntegrationPlugin\Controller\SynchronizationController
         synerise_integration.workspace:
             classes:
                 model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
                 interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
-                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType               
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
 monolog:
-    channels: ['synerise']
+    channels: ["synerise"]
     handlers:
         synerise:
             type: stream

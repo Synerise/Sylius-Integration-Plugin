@@ -27,9 +27,24 @@
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_create" method="getTrackingCodeRequest" />
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_update" method="getTrackingCodeRequest" />
         </service>
+        <service id="synerise_integration.listener.synchronization_initialize_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationInitializeCreateListener">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+
+            <tag name="kernel.event_listener" event="synerise_integration.synchronization.initialize_create" />
+        </service>
+        <service id="synerise_integration.listener.synchronization_pre_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationPreCreateListener">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+
+            <tag name="kernel.event_listener" event="synerise_integration.synchronization.pre_create" />
+        </service>
         <service id="synerise_integration.listener.synchronization_post_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationPostCreateListener">
             <argument type="service" id="synerise.synchronization_bus" />
             <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="sylius.routing.redirect_handler" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
 
             <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="synerise_integration.synchronization.post_create" />

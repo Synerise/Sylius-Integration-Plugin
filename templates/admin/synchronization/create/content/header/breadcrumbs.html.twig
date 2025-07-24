@@ -1,4 +1,4 @@
-{% set synchronizationConfiguration = hookable_metadata.context.synchronizationConfiguration %}
+{% set synchronizationConfiguration = app.request.attributes.get('synchronizationConfiguration') %}
 <ol class="breadcrumb" aria-label="breadcrumbs">
     <li class="breadcrumb-item ">
         <a href="{{ path('sylius_admin_dashboard') }}">{{ 'sylius.ui.dashboard'|trans }}</a>
