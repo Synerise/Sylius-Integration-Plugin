@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,11 +17,21 @@ use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
 final class ChannelConfigurationType extends AbstractResourceType
 {
+    public function __construct(
+        private ChannelRepositoryInterface $channelRepository,
+        private EntityRepository $channelConfigurationRepository,
+        string $dataClass,
+        array $validationGroups = []
+    ) {
+        parent::__construct($dataClass, $validationGroups);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('channel', ChannelChoiceType::class, [
                 'label' => 'sylius.ui.channel',
+                'choices' => $this->getAvailableChannels($options["data"]->getChannel()?->getId()),
             ])
             ->add('workspace', WorkspaceChoiceType::class, [
                 'label' => 'synerise_integration.ui.channel_configuration.form.workspace.label',
@@ -98,6 +110,24 @@ final class ChannelConfigurationType extends AbstractResourceType
                 $form->get('cookieDomainEnabled')->setData($data->getCookieDomain() !== null);
             }
         });
+    }
+
+    private function getAvailableChannels(?int $currentChannelId): array
+    {
+        $channels = $this->channelRepository->findAll();
+        $channelIds = array_map(fn ($ch) => $ch->getId(), $channels);
+
+        $configuredChannels = $this->channelConfigurationRepository->findAll();
+        $configuredChannelIds = array_map(fn ($ch) => $ch->getChannel()->getId(), $configuredChannels);
+
+        $availableIds = array_diff($channelIds, $configuredChannelIds);
+        if (null !== $currentChannelId) {
+            $availableIds[] = $currentChannelId;
+        }
+
+        $availableChannels = $this->channelRepository->findBy(['id' => $availableIds]);
+
+        return $availableChannels;
     }
 
     public function getBlockPrefix(): string

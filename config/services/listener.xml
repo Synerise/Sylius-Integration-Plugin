@@ -48,14 +48,14 @@
             <tag name="kernel.event_listener" event="synerise_integration.synchronization.post_create" />
         </service>
         <service id="synerise_integration.listener.synchronization_configuration_initialize_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationInitializeCreateListener">
-            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
             <argument type="service" id="router" />
 
             <tag name="kernel.event_listener" event="synerise_integration.synchronization_configuration.initialize_create" />
         </service>
         <service id="synerise_integration.listener.synchronization_configuration_grid" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationGridListener">
-            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
 
             <tag name="kernel.event_listener" event="sylius.grid.synerise_integration_admin_synchronization_configuration" method="displayConfigureBtn" />
