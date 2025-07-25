@@ -21,6 +21,19 @@
             <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_create" method="preSave" />
             <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_update" method="preSave" />
         </service>
+        <service id="synerise_integration.listener.channel_configuration_initialize_create" class="Synerise\SyliusIntegrationPlugin\Listener\ChannelConfigurationInitializeCreateListener">
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="router" />
+
+            <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.initialize_create" />
+        </service>
+        <service id="synerise_integration.listener.channel_configuration_grid" class="Synerise\SyliusIntegrationPlugin\Listener\ChannelConfigurationGridListener">
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+
+            <tag name="kernel.event_listener" event="sylius.grid.synerise_integration_admin_channel_configuration" method="displayAddBtn" />
+        </service>
         <service id="synerise_integration.listener.channel_configuration_modification" class="Synerise\SyliusIntegrationPlugin\Listener\ChannelConfigurationModificationListener">
             <argument type="service" id="synerise_integration.api_client_builder_factory" />
 
@@ -33,6 +46,19 @@
 
             <tag name="monolog.logger" channel="synerise"/>
             <tag name="kernel.event_listener" event="synerise_integration.synchronization.post_create" />
+        </service>
+        <service id="synerise_integration.listener.synchronization_configuration_initialize_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationInitializeCreateListener">
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+            <argument type="service" id="router" />
+
+            <tag name="kernel.event_listener" event="synerise_integration.synchronization_configuration.initialize_create" />
+        </service>
+        <service id="synerise_integration.listener.synchronization_configuration_grid" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationGridListener">
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+
+            <tag name="kernel.event_listener" event="sylius.grid.synerise_integration_admin_synchronization_configuration" method="displayConfigureBtn" />
         </service>
         <service id="synerise_integration.listener.synchronization_configuration_modification" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationModificationListener">
             <argument type="service" id="synerise_integration.api_client_builder_factory" />
