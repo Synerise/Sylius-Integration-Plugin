@@ -1,17 +1,20 @@
 {% if is_enabled and product %}
-<meta property="og:type" content="product">
-<meta property="product:retailer_part_no" content="{{ product.code }}">
-{% if(image_path) %}
-<meta property="og:image" content="{{ absolute_url(asset('media/image/' ~ image_path)) }}">
-{% endif %}
-<meta property="og:title" content="{{ product.name }}">
-<meta property="og:url" content="{{ absolute_url('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) }}">
-{% for taxon in product.taxons %}
-<meta property="product:category" content="{{ taxon.getFullName(' > ')|raw }}">
-{% endfor %}
-<meta property="product:price:amount" content="{{ price }}">
-{% if(has_discount) %}
-<meta property="product:sale_price:amount" content="{{ price }}" />
-<meta property="product:original_price:amount" content="{{ original_price }}">
-{% endif %}
+    {% set image = absolute_url(asset('media/image/' ~ image_path)) %}
+    {% set url = absolute_url('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) %}
+    <meta property="og:type" content="product">
+    <meta property="product:retailer_part_no" content="{{ product.code }}" {{ sylius_test_html_attribute('synerise-og-retailer-part-no', product.code) }} >
+    {% if(image_path) %}
+    <meta property="og:image" content="{{ image }}" {{ sylius_test_html_attribute('synerise-og-image', image) }}>
+    {% endif %}
+    <meta property="og:title" content="{{ product.name }}" {{ sylius_test_html_attribute('synerise-og-title', product.name) }}>
+    <meta property="og:url" content="{{ url }}" {{ sylius_test_html_attribute('synerise-og-url', url) }}>
+    {% for taxon in product.taxons %}
+        {% set category = taxon.getFullName(' > ')|raw %}
+        <meta property="product:category" content="{{ category }}" {{ sylius_test_html_attribute('synerise-og-category', category) }}>
+    {% endfor %}
+    <meta property="product:price:amount" content="{{ price }}" {{ sylius_test_html_attribute('synerise-og-price', price) }}>
+    {% if(has_discount) %}
+        <meta property="product:sale_price:amount" content="{{ price }}" {{ sylius_test_html_attribute('synerise-og-sale-price', price) }} />
+        <meta property="product:original_price:amount" content="{{ original_price }}" {{ sylius_test_html_attribute('synerise-og-original-price', original_price) }}>
+    {% endif %}
 {% endif %}
