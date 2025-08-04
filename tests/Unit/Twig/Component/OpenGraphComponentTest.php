@@ -39,8 +39,8 @@ class OpenGraphComponentTest extends TestCase
             $this->channelContext,
             $this->currencyContext,
             $this->currencyConverter,
-            $this->channelConfiguration,
-            $this->formatter
+            $this->formatter,
+            $this->channelConfiguration
         );
     }
 
