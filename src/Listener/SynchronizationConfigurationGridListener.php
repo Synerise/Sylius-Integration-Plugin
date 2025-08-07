@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Listener;
 
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Grid\Event\GridDefinitionConverterEvent;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryInterface;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 
 class SynchronizationConfigurationGridListener
 {
+    /**
+     * @param ChannelConfigurationRepositoryInterface<ChannelConfiguration> $channelConfigurationRepository
+     * @param SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> $synchronizationConfigurationRepository
+     */
     public function __construct(
-        private EntityRepository $channelConfigurationRepository,
-        private EntityRepository $synchronizationConfigurationRepository
+        private ChannelConfigurationRepositoryInterface $channelConfigurationRepository,
+        private SynchronizationConfigurationRepositoryInterface $synchronizationConfigurationRepository,
     ) {
     }
 
@@ -19,7 +26,7 @@ class SynchronizationConfigurationGridListener
     {
         $grid = $event->getGrid();
         $configureBtn = $grid->getActionGroup('main')->getAction('create');
-        $canConfigure = $this->channelConfigurationRepository->count([]) > $this->synchronizationConfigurationRepository->count([]);
+        $canConfigure = $this->channelConfigurationRepository->countAll() > $this->synchronizationConfigurationRepository->countAll();
         $configureBtn->setEnabled($canConfigure);
     }
 }

@@ -5,21 +5,26 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryInterface;
 
 final class ChannelConfigurationType extends AbstractResourceType
 {
+    /**
+     * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
+     * @param ChannelConfigurationRepositoryInterface<ChannelConfigurationInterface> $channelConfigurationRepository
+     */
     public function __construct(
         private ChannelRepositoryInterface $channelRepository,
-        private EntityRepository $channelConfigurationRepository,
+        private ChannelConfigurationRepositoryInterface $channelConfigurationRepository,
         string $dataClass,
         array $validationGroups = []
     ) {
@@ -28,10 +33,13 @@ final class ChannelConfigurationType extends AbstractResourceType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var ChannelConfigurationInterface $data */
+        $data = $options['data'];
+
         $builder
             ->add('channel', ChannelChoiceType::class, [
                 'label' => 'sylius.ui.channel',
-                'choices' => $this->getAvailableChannels($options["data"]->getChannel()?->getId()),
+                'choices' => $this->getAvailableChannels($data->getId()),
             ])
             ->add('workspace', WorkspaceChoiceType::class, [
                 'label' => 'synerise_integration.ui.channel_configuration.form.workspace.label',
@@ -112,26 +120,35 @@ final class ChannelConfigurationType extends AbstractResourceType
         });
     }
 
-    private function getAvailableChannels(?int $currentChannelId): array
-    {
-        $channels = $this->channelRepository->findAll();
-        $channelIds = array_map(fn ($ch) => $ch->getId(), $channels);
-
-        $configuredChannels = $this->channelConfigurationRepository->findAll();
-        $configuredChannelIds = array_map(fn ($ch) => $ch->getChannel()->getId(), $configuredChannels);
-
-        $availableIds = array_diff($channelIds, $configuredChannelIds);
-        if (null !== $currentChannelId) {
-            $availableIds[] = $currentChannelId;
-        }
-
-        $availableChannels = $this->channelRepository->findBy(['id' => $availableIds]);
-
-        return $availableChannels;
-    }
-
     public function getBlockPrefix(): string
     {
         return 'synerise_integration_channel_configuration';
+    }
+
+    private function getAvailableChannels(?int $currentId = null): array
+    {
+        return $this->getChannelsExcludingIds($this->getChannelIdsFromChannelConfigurations($currentId));
+    }
+
+    private function getChannelsExcludingIds(array $ids): array
+    {
+        if (!empty($ids)) {
+            // @phpstan-ignore-next-line
+            return $this->channelRepository->createQueryBuilder('c')
+                ->andWhere('c.id NOT IN (:ids)')
+                ->setParameter('ids', $ids)
+                ->getQuery()
+                ->getResult();
+        } else {
+            return $this->channelRepository->findAll();
+        }
+    }
+
+    private function getChannelIdsFromChannelConfigurations(?int $currentId = null): array
+    {
+        return array_map(
+            fn ($configuration) => $configuration->getChannel()?->getId(),
+            $this->channelConfigurationRepository->findAllExceptId($currentId)
+        );
     }
 }

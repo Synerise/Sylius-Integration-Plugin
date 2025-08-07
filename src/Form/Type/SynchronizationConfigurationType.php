@@ -5,18 +5,27 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryInterface;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 
 final class SynchronizationConfigurationType extends AbstractResourceType
 {
+    /**
+     * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
+     * @param ChannelConfigurationRepositoryInterface<ChannelConfigurationInterface> $channelConfigurationRepository
+     * @param SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> $synchronizationConfigurationRepository
+     */
     public function __construct(
         private ChannelRepositoryInterface $channelRepository,
-        private EntityRepository $channelConfigurationRepository,
-        private EntityRepository $synchronizationConfigurationRepository,
+        private ChannelConfigurationRepositoryInterface $channelConfigurationRepository,
+        private SynchronizationConfigurationRepositoryInterface $synchronizationConfigurationRepository,
         string $dataClass,
         array $validationGroups = []
     ) {
@@ -25,10 +34,13 @@ final class SynchronizationConfigurationType extends AbstractResourceType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var SynchronizationConfigurationInterface $data */
+        $data = $options['data'];
+
         $builder
             ->add('channel', ChannelChoiceType::class, [
                 'label' => 'synerise_integration.synchronization_configuration.form.channel.label',
-                'choices' => $this->getAvailableChannels($options["data"]->getChannel()?->getId()),
+                'choices' => $this->getAvailableChannels($data->getId()),
             ])
             ->add('productAttributes', ProductAttributeChoiceType::class, [
                 'label' => 'synerise_integration.synchronization_configuration.form.product_attributes.label',
@@ -55,26 +67,40 @@ final class SynchronizationConfigurationType extends AbstractResourceType
             ]);
     }
 
-    private function getAvailableChannels(?int $currentChannelId): array
-    {
-        $configuredChannels = $this->channelConfigurationRepository->findAll();
-        $configuredChannelIds = array_map(fn ($ch) => $ch->getChannel()->getId(), $configuredChannels);
-
-        $configuredSynchronizations = $this->synchronizationConfigurationRepository->findAll();
-        $configuredSynchChannelIds = array_map(fn ($ch) => $ch->getChannel()->getId(), $configuredSynchronizations);
-
-        $availableIds = array_diff($configuredChannelIds, $configuredSynchChannelIds);
-        if (null !== $currentChannelId) {
-            $availableIds[] = $currentChannelId;
-        }
-
-        $availableChannels = $this->channelRepository->findBy(['id' => $availableIds]);
-
-        return $availableChannels;
-    }
-
     public function getBlockPrefix(): string
     {
         return 'synerise_integration_synchronization_configuration';
+    }
+
+    private function getAvailableChannels(?int $currentId = null): array
+    {
+        $a = $this->getChannelIdsFromChannelConfigurations();
+            $b = $this->getChannelIdsFromSynchronizationConfigurations($currentId);
+
+        return $this->getChannelsByIds(array_diff(
+            $this->getChannelIdsFromChannelConfigurations(),
+            $this->getChannelIdsFromSynchronizationConfigurations($currentId)
+        ));
+    }
+
+    private function getChannelsByIds(array $ids): array
+    {
+        return $this->channelRepository->findBy(['id' => $ids]);
+    }
+
+    private function getChannelIdsFromChannelConfigurations(): array
+    {
+        return array_map(
+        fn ($configuration) => $configuration->getChannel()?->getId(),
+            $this->channelConfigurationRepository->findAllExceptId()
+        );
+    }
+
+    private function getChannelIdsFromSynchronizationConfigurations(?int $currentId = null): array
+    {
+        return array_map(
+            fn ($configuration) => $configuration->getChannel()->getId(),
+            $this->synchronizationConfigurationRepository->findAllExceptId($currentId)
+        );
     }
 }
