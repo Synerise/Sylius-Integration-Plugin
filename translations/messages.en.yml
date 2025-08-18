@@ -141,6 +141,11 @@ synerise_integration:
                 subtitle: 'Get started by configuring the main synchronization settings, such as sales channels and data preferences.'
                 action:
                     label: 'Configure'
+                no_config:
+                    title: 'Synchronization is unavailable'
+                    subtitle: 'Channel configuration has not been created or completed yet. Please configure the channels to enable synchronization.'
+                    action:
+                        label: 'Channels configuration'
         form:
             channel:
                 label: 'Channel'
