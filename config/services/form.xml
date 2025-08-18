@@ -63,7 +63,7 @@
             <tag name="form.type" />
         </service>
         <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
-            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler.factory" />
 
             <tag name="form.type" />
         </service>

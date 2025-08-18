@@ -13,7 +13,7 @@
         <service id="synerise_integration.listener.workspace_modification" class="Synerise\SyliusIntegrationPlugin\Listener\WorkspaceModificationListener">
             <argument type="service" id="request_stack" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
             <argument type="service" id="logger" on-invalid="null" />
 
             <tag name="monolog.logger" channel="synerise"/>
@@ -22,7 +22,7 @@
             <tag name="kernel.event_listener" event="synerise_integration.workspace.pre_update" method="preSave" />
         </service>
         <service id="synerise_integration.listener.channel_configuration_modification" class="Synerise\SyliusIntegrationPlugin\Listener\ChannelConfigurationModificationListener">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
 
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_create" method="getTrackingCodeRequest" />
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_update" method="getTrackingCodeRequest" />
@@ -35,8 +35,8 @@
             <tag name="kernel.event_listener" event="synerise_integration.synchronization.post_create" />
         </service>
         <service id="synerise_integration.listener.synchronization_configuration_modification" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationModificationListener">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
 
             <tag name="kernel.event_listener" event="synerise_integration.synchronization_configuration.pre_create" method="getCatalogIdRequest" />
             <tag name="kernel.event_listener" event="synerise_integration.synchronization_configuration.pre_update" method="getCatalogIdRequest" />

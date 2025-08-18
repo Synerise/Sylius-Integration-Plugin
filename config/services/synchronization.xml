@@ -14,7 +14,7 @@
             <tag name="console.command" />
         </service>
         <!-- PROCESSORS FACTORY -->
-        <service id="synerise_integration.synchronization.processor_factory" class="Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory">
+        <service id="synerise_integration.synchronization.processor.factory" class="Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory">
             <argument type="collection">
                 <argument key="customer" type="service" id="synerise_integration.synchronization.processor.customer"/>
                 <argument key="order" type="service" id="synerise_integration.synchronization.processor.order"/>
