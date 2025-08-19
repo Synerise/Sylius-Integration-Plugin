@@ -40,6 +40,12 @@
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_create" method="getTrackingCodeRequest" />
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_update" method="getTrackingCodeRequest" />
         </service>
+        <service id="synerise_integration.listener.channel_configuration_delete" class="Synerise\SyliusIntegrationPlugin\Listener\ChannelConfigurationDeleteListener">
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+
+            <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_delete" />
+        </service>
         <service id="synerise_integration.listener.synchronization_post_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationPostCreateListener">
             <argument type="service" id="synerise.synchronization_bus" />
             <argument type="service" id="logger" on-invalid="null" />

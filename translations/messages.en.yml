@@ -132,6 +132,10 @@ synerise_integration:
                 subtitle: 'To enable data exchange between Synerise workspace and Sylius, assign a sales channel to the workspace.'
                 action:
                     label: 'Assign channel'
+        actions:
+            delete:
+                header: 'Delete channel configuration?'
+                body: This channel might be linked to an active synchronization configuration. Deleting the channel configuration will also remove synchronization configuration.
     synchronization_configuration:
         index:
             title: 'Synchronization'

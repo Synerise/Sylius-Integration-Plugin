@@ -5,6 +5,7 @@ imports:
 sylius_grid:
     templates:
         action:
+            delete_channel_configuration: "@SyneriseSyliusIntegrationPlugin/admin/channel_configuration/grid/action/delete.html.twig"
             delete_workspace: "@SyneriseSyliusIntegrationPlugin/admin/workspace/grid/action/delete.html.twig"
     grids:
         synerise_integration_admin_channel_configuration:
@@ -30,7 +31,7 @@ sylius_grid:
                     update:
                         type: update
                     delete:
-                        type: delete
+                        type: delete_channel_configuration
                     show:
                         type: show
         synerise_integration_admin_synchronization_configuration:

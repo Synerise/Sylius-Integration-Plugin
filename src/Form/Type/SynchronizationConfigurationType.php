@@ -74,9 +74,6 @@ final class SynchronizationConfigurationType extends AbstractResourceType
 
     private function getAvailableChannels(?int $currentId = null): array
     {
-        $a = $this->getChannelIdsFromChannelConfigurations();
-            $b = $this->getChannelIdsFromSynchronizationConfigurations($currentId);
-
         return $this->getChannelsByIds(array_diff(
             $this->getChannelIdsFromChannelConfigurations(),
             $this->getChannelIdsFromSynchronizationConfigurations($currentId)

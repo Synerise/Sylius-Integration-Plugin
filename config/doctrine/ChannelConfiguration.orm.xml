@@ -17,10 +17,10 @@
         <field name="snrsParamsEnabled" column="snrs_params" type="boolean" />
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
-            <join-column name="channel_id"  />
+            <join-column name="channel_id" on-delete="CASCADE" />
         </one-to-one>
         <many-to-one field="workspace" target-entity="Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface">
-            <join-column name="workspace_id"  />
+            <join-column name="workspace_id" on-delete="CASCADE" />
         </many-to-one>
     </mapped-superclass>
 </doctrine-mapping>
