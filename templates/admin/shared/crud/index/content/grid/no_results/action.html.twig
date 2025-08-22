@@ -1,6 +1,14 @@
-{% set icon = hookable_metadata.configuration.icon ?? null %}
-{% set path = hookable_metadata.configuration.path %}
-{% set label = hookable_metadata.configuration.label %}
+{% if count is defined and count == 0 %}
+    {% set icon = hookable_metadata.configuration.no_config.icon ?? null %}
+    {% set path = hookable_metadata.configuration.no_config.path %}
+    {% set label = hookable_metadata.configuration.no_config.label %}
+{% else %}
+    {% set icon = hookable_metadata.configuration.icon ?? null %}
+    {% set path = hookable_metadata.configuration.path %}
+    {% set label = hookable_metadata.configuration.label %}
+{% endif %}
+
+
 
 <div class="empty-action">
     <a href="{{ path(path) }}" class="btn btn-primary">

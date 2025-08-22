@@ -9,8 +9,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
-use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration;
-use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 
 #[AsTwigComponent]
 class SynchronizationConfigurationActions
@@ -18,19 +18,22 @@ class SynchronizationConfigurationActions
     use HookableComponentTrait;
     use DefaultActionTrait;
 
-    /** @var array<int, SynchronizationConfiguration> $configurations ; */
+    /** @var array<int, SynchronizationConfigurationInterface> $configurations ; */
     #[ExposeInTemplate('configurations')]
     public array $configurations = [];
 
+    /**
+     * @param SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> $configurationRepository
+     */
     public function __construct(
-        private SynchronizationConfigurationRepository $configurationRepository,
+        private SynchronizationConfigurationRepositoryInterface $configurationRepository,
     ) {
     }
 
     #[PostMount]
     public function postMount(): void
     {
-        /** @var array<int, SynchronizationConfiguration> $configurations */
+        /** @var array<int, SynchronizationConfigurationInterface> $configurations */
         $configurations = $this->configurationRepository->findAll();
         $this->configurations = $configurations;
     }
