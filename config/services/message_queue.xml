@@ -13,20 +13,20 @@
         </service>
         <!-- MESSENGER - MESSAGE HANDLERS -->
         <service id="synerise_integration.message_queue.start_synchronization_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\SyncStartMessageHandler">
-            <argument type="service" id="synerise_integration.synchronization.processor_factory" />
+            <argument type="service" id="synerise_integration.synchronization.processor.factory" />
 
             <tag name="messenger.message_handler" bus="synerise.synchronization_bus" />
         </service>
         <service id="synerise_integration.message_queue.synchronization_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\SyncMessageHandler">
             <argument type="service" id="synerise_integration.repository.synchronization" />
-            <argument type="service" id="synerise_integration.synchronization.processor_factory" />
+            <argument type="service" id="synerise_integration.synchronization.processor.factory" />
 
             <tag name="messenger.message_handler" bus="synerise.synchronization_bus" />
         </service>
         <service id="synerise_integration.message_queue.event_message_handler" class="Synerise\SyliusIntegrationPlugin\MessageQueue\Handler\EventMessageHandler">
-            <argument type="service" id="synerise_integration.serialization.string_json_parse_node_factory" />
-            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.serialization.string_json_parse_node.factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler.factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
 
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>

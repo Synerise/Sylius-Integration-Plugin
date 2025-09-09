@@ -8,7 +8,7 @@ use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\Config;
-use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;

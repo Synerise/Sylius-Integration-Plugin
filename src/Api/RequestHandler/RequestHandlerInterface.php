@@ -6,7 +6,7 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
 
