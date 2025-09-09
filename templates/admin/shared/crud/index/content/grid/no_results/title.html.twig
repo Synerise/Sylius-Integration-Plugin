@@ -1,1 +1,6 @@
-<div class="empty-title">{{ hookable_metadata.configuration.title|trans }}</div>
+{% if count is defined and count == 0 %}
+    {% set title = hookable_metadata.configuration.no_config.title %}
+{% else %}
+    {% set title = hookable_metadata.configuration.title %}
+{% endif %}
+<div class="empty-title">{{ title|trans }}</div>

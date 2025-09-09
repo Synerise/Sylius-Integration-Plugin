@@ -24,9 +24,9 @@
 
         <many-to-one
             field="channel"
-            target-entity="Sylius\Component\Core\Model\Channel"
+            target-entity="Sylius\Component\Core\Model\ChannelInterface"
         >
-            <join-column name="channel_id" nullable="false" />
+            <join-column name="channel_id" nullable="false" on-delete="CASCADE" />
         </many-to-one>
 
     </mapped-superclass>

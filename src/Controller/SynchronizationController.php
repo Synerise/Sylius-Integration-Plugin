@@ -13,8 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
-use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
-use Webmozart\Assert\Assert;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 
 class SynchronizationController extends ResourceController
 {
@@ -125,10 +124,13 @@ class SynchronizationController extends ResourceController
         return $synchronizationConfiguration;
     }
 
-    private function getSynchronizationConfigurationRepository(): SynchronizationConfigurationRepository
+    /**
+     * @return SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface>
+     */
+    private function getSynchronizationConfigurationRepository(): SynchronizationConfigurationRepositoryInterface
     {
+        /** @var SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> $repository */
         $repository = $this->get('synerise_integration.repository.synchronization_configuration');
-        Assert::isInstanceOf($repository, SynchronizationConfigurationRepository::class);
 
         return $repository;
     }

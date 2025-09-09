@@ -1,1 +1,6 @@
-<div class="empty-subtitle">{{ hookable_metadata.configuration.subtitle|trans }}</div>
+{% if count is defined and count == 0 %}
+    {% set subtitle = hookable_metadata.configuration.no_config.subtitle %}
+{% else %}
+    {% set subtitle = hookable_metadata.configuration.subtitle %}
+{% endif %}
+<div class="empty-subtitle">{{ subtitle|trans }}</div>

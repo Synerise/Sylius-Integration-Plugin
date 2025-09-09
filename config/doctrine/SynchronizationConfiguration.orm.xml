@@ -10,7 +10,7 @@
         </id>
         <field name="catalogId" column="catalog_id" type="integer" nullable="true"/>
         <many-to-many field="productAttributes"
-                      target-entity="Sylius\Component\Product\Model\ProductAttribute">
+                      target-entity="Sylius\Component\Product\Model\ProductAttributeInterface">
             <join-table name="synerise_synchronization_product_attributes">
                 <join-columns>
                     <join-column name="synchronization_config_id"/>
@@ -27,7 +27,7 @@
         </field>
 
         <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
-            <join-column name="channel_id"/>
+            <join-column name="channel_id" on-delete="CASCADE" />
         </one-to-one>
     </mapped-superclass>
 </doctrine-mapping>

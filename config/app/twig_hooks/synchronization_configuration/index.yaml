@@ -7,22 +7,35 @@ sylius_twig_hooks:
                 configuration:
                     icon: bi:arrow-repeat
             title:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/title.html.twig'
+                component: 'synerise_integration:channels_configured_check'
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/title.html.twig'
                 priority: 200
                 configuration:
                     title: synerise_integration.synchronization_configuration.index.no_results.title
+                    no_config:
+                        title: synerise_integration.synchronization_configuration.index.no_results.no_config.title
             subtitle:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/subtitle.html.twig'
+                component: 'synerise_integration:channels_configured_check'
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/subtitle.html.twig'
                 priority: 100
                 configuration:
                     subtitle: synerise_integration.synchronization_configuration.index.no_results.subtitle
+                    no_config:
+                        subtitle: synerise_integration.synchronization_configuration.index.no_results.no_config.subtitle
             action:
-                template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/action.html.twig'
+                component: 'synerise_integration:channels_configured_check'
+                props:
+                    template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/grid/no_results/action.html.twig'
                 priority: 0
                 configuration:
                     path: synerise_integration_admin_synchronization_configuration_create
                     label: synerise_integration.synchronization_configuration.index.no_results.action.label
                     icon: bi:gear-fill
+                    no_config:
+                        path: synerise_integration_admin_channel_configuration_index
+                        label: synerise_integration.synchronization_configuration.index.no_results.no_config.action.label
         'sylius_admin.synchronization_configuration.index.content.header':
             breadcrumbs:
                 template: '@SyneriseSyliusIntegrationPlugin/admin/shared/crud/index/content/header/breadcrumbs.html.twig'

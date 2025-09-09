@@ -13,10 +13,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 use Webmozart\Assert\Assert;
 
 class CreateSynchronizationCommand extends Command
@@ -34,14 +36,18 @@ class CreateSynchronizationCommand extends Command
 
     private EntityManagerInterface $entityManager;
 
-    private SynchronizationConfigurationRepository $synchronizationConfigurationRepository;
+    /** @var SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> */
+    private SynchronizationConfigurationRepositoryInterface $synchronizationConfigurationRepository;
 
-    /** @param ChannelRepositoryInterface<ChannelInterface> $channelRepository */
+    /**
+     * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
+     * @param SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> $synchronizationConfigurationRepository
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         ChannelRepositoryInterface $channelRepository,
         MessageBusInterface $messageBus,
-        SynchronizationConfigurationRepository $synchronizationConfigurationRepository,
+        SynchronizationConfigurationRepositoryInterface $synchronizationConfigurationRepository,
     ) {
         parent::__construct(self::$defaultName);
         $this->messageBus = $messageBus;
@@ -84,7 +90,7 @@ class CreateSynchronizationCommand extends Command
             return Command::FAILURE;
         }
 
-        $configuration = $this->synchronizationConfigurationRepository->findOneByChannel($salesChannel);
+        $configuration = $this->synchronizationConfigurationRepository->findOneBy(['channel' => $salesChannel]);
         if (!$configuration) {
             $output->writeln('<error>Synchronization configuration for the Sales Channel ' . $salesChannel->getCode() . ' not found</error>');
 
