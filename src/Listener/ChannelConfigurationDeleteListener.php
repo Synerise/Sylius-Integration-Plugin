@@ -27,8 +27,8 @@ class ChannelConfigurationDeleteListener
         $channelConfiguration = $event->getSubject();
         $channelId = $channelConfiguration->getChannel()?->getId();
 
-        $configurationForDeletion = $channelId ?: $this->synchronizationConfigurationRepository
-            ->findOneBy(['channel' => $channelId]);
+        $configurationForDeletion = $channelId ? $this->synchronizationConfigurationRepository
+            ->findOneBy(['channel' => $channelId]) : null;
 
         if ($configurationForDeletion) {
             $this->entityManager->remove($configurationForDeletion);
