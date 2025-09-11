@@ -16,17 +16,20 @@ use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
-use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 use Webmozart\Assert\Assert;
 
 final readonly class SynchronizationEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @param SynchronizationConfigurationRepositoryInterface<SynchronizationConfigurationInterface> $repository
+     */
     public function __construct(
         private MessageBusInterface $messageBus,
         private LoggerInterface $syneriseLogger,
         private RequestStack $requestStack,
         private RedirectHandler $redirectHandler,
-        private SynchronizationConfigurationRepository $repository,
+        private SynchronizationConfigurationRepositoryInterface $repository,
     ) {
     }
 
