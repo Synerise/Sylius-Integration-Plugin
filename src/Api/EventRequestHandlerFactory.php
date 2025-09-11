@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Api;
 
+use Synerise\Sdk\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RequestHandlerInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;

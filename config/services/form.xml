@@ -13,6 +13,8 @@
             <tag name="sylius.live_component.admin" key="synerise_integration:channel_configuration:form" />
         </service>
         <service id="synerise_integration.form.type.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType">
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument>%synerise_integration.model.channel_configuration.class%</argument>
 
             <tag name="form.type" />
@@ -48,6 +50,9 @@
             <tag name="sylius.live_component.admin" key="synerise_integration:workspace:form"/>
         </service>
         <service id="synerise_integration.form.type.synchronization_configuration" class="Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType" >
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
             <argument>%synerise_integration.model.synchronization_configuration.class%</argument>
 
             <tag name="form.type" />
@@ -63,7 +68,7 @@
             <tag name="form.type" />
         </service>
         <service id="synerise_integration.form.type.event_choice" class="Synerise\SyliusIntegrationPlugin\Form\Type\EventChoiceType">
-            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler.factory" />
 
             <tag name="form.type" />
         </service>
