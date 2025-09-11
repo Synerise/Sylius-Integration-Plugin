@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
@@ -45,10 +46,7 @@ final readonly class SynchronizationEventSubscriber implements EventSubscriberIn
             throw new \RuntimeException('No request available in request stack');
         }
 
-        $synchronizationConfiguration = $this->getSynchronizationConfiguration();
-        if ($synchronizationConfiguration == null) {
-            throw new NotFoundHttpException(sprintf('The configuration with id: "%s" has not been found', $synchronizationConfiguration));
-        }
+        $synchronizationConfiguration = $this->getSynchronizationConfigurationOr404();
 
         $request->attributes->set('synchronizationConfiguration', $synchronizationConfiguration);
     }
@@ -59,7 +57,7 @@ final readonly class SynchronizationEventSubscriber implements EventSubscriberIn
          * @var Synchronization $synchronization
          */
         $synchronization = $event->getSubject();
-        $synchronizationConfiguration = $this->getSynchronizationConfiguration();
+        $synchronizationConfiguration = $this->getSynchronizationConfigurationOr404();
 
         $synchronization->setStatus(SynchronizationStatus::Created);
         $synchronization->setChannel($synchronizationConfiguration->getChannel());
@@ -74,7 +72,7 @@ final readonly class SynchronizationEventSubscriber implements EventSubscriberIn
          */
         $synchronization = $event->getSubject();
         $configuration = $this->getConfiguration();
-        $synchronizationConfiguration = $this->getSynchronizationConfiguration();
+        $synchronizationConfiguration = $this->getSynchronizationConfigurationOr404();
 
         try {
             Assert::notNull($synchronization->getId());
@@ -94,27 +92,31 @@ final readonly class SynchronizationEventSubscriber implements EventSubscriberIn
         }
     }
 
-    private function getSynchronizationConfiguration(): ?object
+    private function getSynchronizationConfigurationOr404(): SynchronizationConfigurationInterface
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request) {
-            return null;
-        }
 
-        $configurationId = $request->get('configurationId');
+        $configurationId = $request?->get('configurationId');
+
+        /** @var SynchronizationConfigurationInterface|null $synchronizationConfiguration */
         $synchronizationConfiguration = $this->repository->find($configurationId);
+
+        if ($synchronizationConfiguration == null) {
+            throw new NotFoundHttpException(sprintf('The synchronization configuration with id: "%s" has not been found', is_scalar($configurationId) ? (string) $configurationId : 'invalid'));
+        }
 
         return $synchronizationConfiguration;
     }
 
-    private function getConfiguration()
+    private function getConfiguration(): mixed
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request) {
-            return null;
+        $configuration = $request?->attributes->get('_sylius');
+
+        if ($configuration == null) {
+            throw new NotFoundHttpException('The configuration has not been found');
         }
 
-        $configuration = $request->attributes->get('_sylius');
         return $configuration;
     }
 }
