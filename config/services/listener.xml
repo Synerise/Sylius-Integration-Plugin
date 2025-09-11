@@ -46,12 +46,15 @@
 
             <tag name="kernel.event_listener" event="synerise_integration.channel_configuration.pre_delete" />
         </service>
-        <service id="synerise_integration.listener.synchronization_post_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationPostCreateListener">
+        <service id="synerise_integration.listener.synchronization_event_subscriber" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationEventSubscriber">
             <argument type="service" id="synerise.synchronization_bus" />
             <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="sylius.routing.redirect_handler" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
 
             <tag name="monolog.logger" channel="synerise"/>
-            <tag name="kernel.event_listener" event="synerise_integration.synchronization.post_create" />
+            <tag name="kernel.event_subscriber" />
         </service>
         <service id="synerise_integration.listener.synchronization_configuration_initialize_create" class="Synerise\SyliusIntegrationPlugin\Listener\SynchronizationConfigurationInitializeCreateListener">
             <argument type="service" id="synerise_integration.repository.channel_configuration" />

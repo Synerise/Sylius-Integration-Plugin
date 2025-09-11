@@ -1,6 +1,6 @@
 {% set resource = hookable_metadata.context.resource %}
 {% set configuration = hookable_metadata.configuration %}
-{% set synchronizationConfiguration = hookable_metadata.context.synchronizationConfiguration %}
+{% set synchronizationConfiguration = app.request.attributes.get('synchronizationConfiguration') %}
 <div class="col-12 col-md">
     <div class="d-md-flex gap-2 align-items-center">
         <div class="d-flex gap-3 align-items-center">
