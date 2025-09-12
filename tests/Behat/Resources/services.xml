@@ -12,6 +12,7 @@
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.factory.channel_configuration" />
         </service>
+        <service id="synerise_sylius_integration.behat.context.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Admin\ChannelConfigurationContext"/>
 
         <service id="synerise_sylius_integration_plugin.page.shop.product.show" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Page\Shop\Product\ShowPage" parent="sylius.behat.page.shop.product.show" public="false" />
     </services>
