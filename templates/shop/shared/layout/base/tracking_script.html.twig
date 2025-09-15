@@ -1,4 +1,4 @@
-{% if is_enabled == true and options is not empty and host is not empty %}
+{% if is_available == true and options is not empty and host is not empty %}
 <script>
     function onSyneriseLoad() {
         SR.init({{ options|json_encode()|raw }});
