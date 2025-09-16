@@ -1,7 +1,10 @@
 synerise_integration:
     workspace:
+        api_key:
+            required: 'Api Key is required'
         guid:
-            required_for_basic: 'GUID is required when using Basic authentication'
+            required_for_basic: 'Valid GUID is required when using Basic authentication'
+            invalid: 'This value is not a valid GUID.'
     synchronization_configuration:
         product_attributes_value:
             not_null: 'Please select an attribute value.'

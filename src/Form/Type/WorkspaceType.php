@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
@@ -43,7 +44,7 @@ final class WorkspaceType extends AbstractResourceType
                 'help_html' => true,
                 'constraints' => [
                     new NotNull([
-                        'message' => 'synerise_integration.synchronization_configuration.form.product_attributes_value.errors.not_null',
+                        'message' => 'synerise_integration.workspace.api_key.required',
                     ]),
                 ],
             ])
@@ -56,6 +57,12 @@ final class WorkspaceType extends AbstractResourceType
                     '%url%' => new TranslatableMessage('synerise_integration.workspace.form.guid.help.docs.url'),
                 ],
                 'help_html' => true,
+                'constraints' => [
+                    new Regex(
+                        "/^[{(]?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}[)}]?$/",
+                        "synerise_integration.workspace.guid.invalid"
+                    )
+                ]
             ])
             ->add('keepAliveEnabled', ChoiceType::class, [
                 'label' => 'synerise_integration.workspace.form.keep_alive_enabled.label',
