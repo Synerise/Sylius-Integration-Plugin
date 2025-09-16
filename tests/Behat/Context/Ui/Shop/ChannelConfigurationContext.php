@@ -3,20 +3,60 @@
 namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
 use Behat\Step\Given;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory;
 
 class ChannelConfigurationContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
+        private DefaultAzureChannelConfigurationFactory $defaultchannelConfigurationFactory,
         private RepositoryInterface $repository,
         private FactoryInterface $factory,
     ) {
+    }
+
+    /**
+     * @Given I have a configured channel with workspace
+     */
+    public function iHaveAChannelWithConfiguration(): void
+    {
+        $channel = $this->sharedStorage->get('channel');
+        $defaultData = $this->defaultchannelConfigurationFactory->create($channel);
+
+        $this->sharedStorage->set('channelConfiguration', $defaultData['channelConfiguration']);
+    }
+
+    /**
+     * @Given the channel has tracking enabled without tracking code
+     * @Given the channel has tracking enabled with tracking code :trackingCode
+     */
+    public function trackingIsEnabledForTheChannel(?string $trackingCode = null): void
+    {
+        /** @var ChannelConfigurationInterface $channelConfiguration */
+        $channelConfiguration = $this->sharedStorage->get('channelConfiguration');
+        $channelConfiguration->setTrackingCode($trackingCode);
+        $channelConfiguration->setTrackingEnabled(true);
+        $this->saveChannelConfiguration($channelConfiguration);
+    }
+
+    /**
+     * @Given the channel has tracking disabled
+     * @Given the channel has tracking disabled with tracking code :trackingCode
+     */
+    public function trackingIsDisabledForTheChannel(?string $trackingCode = null): void
+    {
+        /** @var ChannelConfigurationInterface $channelConfiguration */
+        $channelConfiguration = $this->sharedStorage->get('channelConfiguration');
+        $channelConfiguration->setTrackingCode($trackingCode);
+        $channelConfiguration->setTrackingEnabled(false);
+        $this->saveChannelConfiguration($channelConfiguration);
     }
 
     #[Given('the channel has OpenGraph integration enabled')]
@@ -35,6 +75,34 @@ class ChannelConfigurationContext implements Context
         $this->saveChannelConfiguration($channelConfiguration);
     }
 
+    #[Given('the channel is configured with settings:')]
+    public function theChannelIsConfiguredWithSettings(TableNode $table): void
+    {
+        /** @var ChannelConfigurationInterface $channelConfiguration */
+        $channelConfiguration = $this->sharedStorage->get('channelConfiguration');
+
+        foreach ($table->getHash() as $row) {
+            switch($row['key']):
+                case 'trackingCode':
+                    $channelConfiguration->setTrackingCode($row['value']);
+                    break;
+                case 'customPageVisit':
+                    $channelConfiguration->setCustomPageVisit((bool) $row['value']);
+                    break;
+                case 'cookieDomain':
+                    $channelConfiguration->setCookieDomain($row['value']);
+                    break;
+                case 'virtualPage':
+                    $channelConfiguration->setVirtualPage((bool) $row['value']);
+                    break;
+                default:
+                    throw new \Exception("Undefined key {$row['key']}");
+            endswitch;
+        }
+
+        $this->saveChannelConfiguration($channelConfiguration);
+    }
+
     private function createChannelConfiguration(?ChannelInterface $channel = null): ChannelConfigurationInterface
     {
         if (null === $channel && $this->sharedStorage->has('channel')) {
@@ -47,7 +115,7 @@ class ChannelConfigurationContext implements Context
         return $channelConfiguration;
     }
 
-    private function saveChannelConfiguration(ChannelConfigurationInterface $channelConfiguration)
+    private function saveChannelConfiguration(ChannelConfigurationInterface $channelConfiguration): void
     {
         $this->repository->add($channelConfiguration);
         $this->sharedStorage->set('channelConfiguration', $channelConfiguration);
