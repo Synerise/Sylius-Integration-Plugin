@@ -27,3 +27,6 @@ default:
                 - synerise_sylius_integration.behat.context.ui.shop.opengraph
                 - synerise_sylius_integration.behat.context.ui.shop.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.shop.tracking_script
+                - synerise_sylius_integration.behat.context.ui.admin.workspace
+                - sylius.behat.context.setup.admin_security
