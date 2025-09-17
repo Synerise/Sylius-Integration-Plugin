@@ -5,25 +5,26 @@ Feature: Channel Configuration Save
     I want to configure selected channel with workspace
 
     Background:
-        Given the store is available in "English (United States)"
+        Given the store operates on a single channel in "United States"
         And I am logged in as an administrator
 
-    @ui
-    Scenario: Save channel configuration
-        When I want to create channel configuration
-        And I select channel
-        And I select workspace
+    Scenario: Successfully save channel configuration
+        Given I am on the channel configuration creation page
+        When I select "channel" from "synerise_integration_channel_configuration_channel"
+        And I select "workspace" from "synerise_integration_channel_configuration_workspace"
         And I click "Next" button
-        And I set "Automatically add tracking code to monitor customer activity" to enabled
-        And I click "Events tracking" button from side nav
-        And I select "product.addToCart" and "product.removeFromCart" in a Tracking events
-        And I set "Add tracking parameters to cart and transaction events" to enabled
+        And I set "synerise_integration_channel_configuration_trackingEnabled" to enabled
+        And I set "synerise_integration_channel_configuration_cookieDomainEnabled" to enabled
+        And I fill "example.com" in "synerise_integration_channel_configuration_cookieDomain"
+        And I click "Events tracking" button
+        And I select "product.addToCart" and "product.removeFromCart" in a "synerise_integration_channel_configuration_events-ts-control"
+        And I set "synerise_integration_channel_configuration_snrsParamsEnabled" to enabled
         And I click "Configure" button
         Then I should be notified that it has been successfully configured
-        And I should see channel and workspace names in the first tab
-        And I should see "Yes" in a "Automatically add tracking code to monitor customer" row at second tab
-        And I should see "No" in a "Render OG tags from page visit events" row at second tab
-        And I should see "No" in a "Dynamic content for PWA, SPA" row at second tab
-        And I should see domain name in a "Override cookie domain" row at second tab
-        And I should see selected tracking events "product.addToCart" and "product.removeFromCart" in a "Tracking events" row at third tab
-        And I should see "Yes" in a "Add tracking parameters to cart and transaction events" row at third tab
+        And I should see "channel" channel and "workspace" workspace names in the "1" tab
+        And I should see "Yes" in a "1" row at "2" tab
+        And I should see "No" in a "2" row at "2" tab
+        And I should see "No" in a "3" row at "2" tab
+        And I should see "example.com" in a "4" row at "2" tab
+        And I should see selected tracking events "product.addToCart" and "product.removeFromCart" in a "1" row at "3" tab
+        And I should see "Yes" in a "2" row at "3" tab

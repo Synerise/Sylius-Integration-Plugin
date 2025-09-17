@@ -26,4 +26,4 @@ default:
                 - sylius.behat.context.setup.product_attribute
                 - synerise_sylius_integration.behat.context.ui.shop.opengraph
                 - synerise_sylius_integration.behat.context.ui.shop.channel_configuration
-                - synerise_sylius_integration.behat.context.admin.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
