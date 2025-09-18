@@ -7,7 +7,11 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="parameter_bag" />
         </service>
-        <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext"/>
+        <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext">
+            <argument type="service" id="synerise_integration.factory.workspace" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="synerise_integration.repository.workspace" />
+        </service>
         <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
             <argument type="service" id="synerise_integration.factory.channel_configuration" />
             <argument type="service" id="synerise_integration.factory.workspace" />

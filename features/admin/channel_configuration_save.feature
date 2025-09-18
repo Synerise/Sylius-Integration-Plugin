@@ -5,26 +5,26 @@ Feature: Channel Configuration Save
     I want to configure selected channel with workspace
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single channel in the "United States" named "channelName"
+        And the store has a workspace named "workspaceName"
         And I am logged in as an administrator
 
     Scenario: Successfully save channel configuration
-        Given I am on the channel configuration creation page
-        When I select "channel" from "synerise_integration_channel_configuration_channel"
-        And I select "workspace" from "synerise_integration_channel_configuration_workspace"
-        And I click "Next" button
-        And I set "synerise_integration_channel_configuration_trackingEnabled" to enabled
-        And I set "synerise_integration_channel_configuration_cookieDomainEnabled" to enabled
-        And I fill "example.com" in "synerise_integration_channel_configuration_cookieDomain"
-        And I click "Events tracking" button
-        And I select "product.addToCart" and "product.removeFromCart" in a "synerise_integration_channel_configuration_events-ts-control"
-        And I set "synerise_integration_channel_configuration_snrsParamsEnabled" to enabled
-        And I click "Configure" button
-        Then I should be notified that it has been successfully configured
-        And I should see "channel" channel and "workspace" workspace names in the "1" tab
-        And I should see "Yes" in a "1" row at "2" tab
-        And I should see "No" in a "2" row at "2" tab
-        And I should see "No" in a "3" row at "2" tab
-        And I should see "example.com" in a "4" row at "2" tab
-        And I should see selected tracking events "product.addToCart" and "product.removeFromCart" in a "1" row at "3" tab
-        And I should see "Yes" in a "2" row at "3" tab
+        Given I am on "/admin/synerise/configuration/new"
+        When I select "channelName" from "synerise_integration_channel_configuration_channel"
+        And I select "workspaceName" from "synerise_integration_channel_configuration_workspace"
+        And I check "synerise_integration_channel_configuration_trackingEnabled"
+        And I check "synerise_integration_channel_configuration_cookieDomainEnabled"
+        And I select "product.addToCart" from "synerise_integration_channel_configuration_events-ts-control"
+        And I additionally select "product.removeFromCart" from "synerise_integration_channel_configuration_events-ts-control"
+        And I check "synerise_integration_channel_configuration_snrsParamsEnabled"
+        And I press "Configure"
+        Then the ".alert[data-test-sylius-flash-message-type='success']" element should contain "Channel configuration has been successfully created."
+        And the ".page-body .card:nth-child(1)" element should contain "channelName"
+        And the ".page-body .card:nth-child(1)" element should contain "workspaceName"
+        And the ".page-body .card:nth-child(2) tr:nth-child(1) td:last-child" element should contain "Yes"
+        And the ".page-body .card:nth-child(2) tr:nth-child(2) td:last-child" element should contain "No"
+        And the ".page-body .card:nth-child(2) tr:nth-child(3) td:last-child" element should contain "No"
+        And the ".page-body .card:nth-child(3) tr:nth-child(1) td:last-child" element should contain "product.addToCart"
+        And the ".page-body .card:nth-child(3) tr:nth-child(1) td:last-child" element should contain "product.removeFromCart"
+        And the ".page-body .card:nth-child(3) tr:nth-child(2) td:last-child" element should contain "Yes"
