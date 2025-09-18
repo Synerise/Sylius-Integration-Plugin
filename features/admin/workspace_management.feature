@@ -1,4 +1,4 @@
-@workspace
+@synerise_workspace
 Feature: Workspace management
   In order to manage Synerise integration settings
   As an administrator
