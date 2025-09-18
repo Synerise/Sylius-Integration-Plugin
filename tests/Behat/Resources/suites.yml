@@ -1,25 +1,21 @@
 default:
     suites:
-        synerise:
+        synerise_workspace:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm      
-                    
 
-                - sylius.behat.context.transform.channel
-                - sylius.behat.context.transform.currency
-                - sylius.behat.context.transform.customer
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.ui.admin.workspace
+            filters:
+                tags: "@synerise_workspace"
+        synerise_open_graph:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm      
+
                 - sylius.behat.context.transform.lexical
-                - sylius.behat.context.transform.locale
                 - sylius.behat.context.transform.product
-                - sylius.behat.context.transform.product_association_type
-                - sylius.behat.context.transform.product_option
-                - sylius.behat.context.transform.product_option_value
-                - sylius.behat.context.transform.product_variant
                 - sylius.behat.context.transform.shared_storage
-                - sylius.behat.context.transform.shipping_category
-                - sylius.behat.context.transform.tax_category
-                - sylius.behat.context.transform.taxon
-                - Sylius\Behat\Context\Transform\CatalogPromotionContext
 
                 - sylius.behat.context.ui.shop.product
                 - sylius.behat.context.setup.channel
@@ -27,6 +23,14 @@ default:
                 - sylius.behat.context.setup.product_attribute
                 - synerise_sylius_integration.behat.context.ui.shop.opengraph
                 - synerise_sylius_integration.behat.context.ui.shop.channel_configuration
+            filters:
+                tags: "@synerise_open_graph"
+        synerise_tracking_script:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm      
+
+                - sylius.behat.context.setup.channel
                 - synerise_sylius_integration.behat.context.ui.shop.tracking_script
-                - synerise_sylius_integration.behat.context.ui.admin.workspace
-                - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.ui.shop.channel_configuration
+            filters:
+                tags: "@synerise_tracking_script"
