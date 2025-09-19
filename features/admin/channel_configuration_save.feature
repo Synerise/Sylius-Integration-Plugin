@@ -17,7 +17,8 @@ Feature: Channel Configuration Save
         And I select "workspaceName" from "synerise_integration_channel_configuration_workspace"
         And I press "Next"
         And I check "synerise_integration_channel_configuration_cookieDomainEnabled"
-        And I wait "300" ms
+        And I check "synerise_integration_channel_configuration_trackingEnabled"
+        And I wait for "#synerise_integration_channel_configuration_cookieDomain" element
         And I fill in "example.com" for "synerise_integration_channel_configuration_cookieDomain"
         And I press "Events tracking"
         And I click "#synerise_integration_channel_configuration_events-ts-control" element
@@ -27,12 +28,28 @@ Feature: Channel Configuration Save
         And I check "synerise_integration_channel_configuration_snrsParamsEnabled"
         And I press "Configure"
         Then the ".alert[data-test-sylius-flash-message-type='success']" element should contain "Channel configuration has been successfully created."
+        And the channelConfiguration should exist in repository
         And the ".page-body .card" element should contain "channelName"
         And the ".page-body .card" element should contain "workspaceName"
-        And the ".page-body #card-tracking tr:nth-child(1) td:last-child" element should contain "No"
+        And the ".page-body #card-tracking tr:nth-child(1) td:last-child" element should contain "Yes"
         And the ".page-body #card-tracking tr:nth-child(2) td:last-child" element should contain "No"
         And the ".page-body #card-tracking tr:nth-child(3) td:last-child" element should contain "No"
         And the ".page-body #card-events tr:nth-child(1) td:last-child" element should contain "product.addToCart"
         And the ".page-body #card-events tr:nth-child(1) td:last-child" element should contain "product.removeFromCart"
         And the ".page-body #card-events tr:nth-child(2) td:last-child" element should contain "Yes"
         And the ".page-body #card-events tr:nth-child(3) td:last-child" element should contain "No"
+
+    @javascript
+    Scenario: Error on save channel configuration with invalid custom cookie domain
+        Given I am on "/admin/synerise/configuration/new"
+        When I select "channelName" from "synerise_integration_channel_configuration_channel"
+        And I select "workspaceName" from "synerise_integration_channel_configuration_workspace"
+        And I press "Next"
+        And I check "synerise_integration_channel_configuration_trackingEnabled"
+        And I check "synerise_integration_channel_configuration_cookieDomainEnabled"
+        And I wait for "#synerise_integration_channel_configuration_cookieDomain" element
+        And I fill in "invalid-example.com" for "synerise_integration_channel_configuration_cookieDomain"
+        And I press "Events tracking"
+        And I press "Configure"
+        Then the ".alert[data-test-form-error-alert]" element should contain "This form contains errors."
+        And I should see a "#synerise_integration_channel_configuration_cookieDomain.is-invalid" element
