@@ -1,6 +1,6 @@
-@viewing_products @opengraph @channel_configuration
+@synerise_open_graph
 Feature: OpenGraph meta tags on product page
-    In order to share products on social media
+    In order to enrich products data collected by tracker
     As a visitor
     I want to see correct OpenGraph meta tags on product pages
 

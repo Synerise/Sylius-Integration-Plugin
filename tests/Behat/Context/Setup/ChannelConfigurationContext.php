@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop;
+namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;

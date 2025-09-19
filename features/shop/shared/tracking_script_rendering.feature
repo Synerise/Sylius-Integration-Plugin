@@ -1,3 +1,4 @@
+@synerise_tracking_script
 Feature: Tracking Script Rendering
   In order to ensure proper analytics tracking
   As a website visitor

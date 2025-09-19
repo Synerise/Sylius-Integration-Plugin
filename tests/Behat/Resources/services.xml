@@ -19,7 +19,7 @@
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.repository.workspace" />
         </service>
-        <service id="synerise_sylius_integration.behat.context.ui.shop.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\ChannelConfigurationContext">
+        <service id="synerise_sylius_integration.behat.context.setup.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\ChannelConfigurationContext">
             <argument type="service" id="sylius.behat.shared_storage" />
             <argument type="service" id="sylius.behat.factory.default_azure_channel_configuration" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
