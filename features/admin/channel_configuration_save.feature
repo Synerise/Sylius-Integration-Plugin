@@ -1,4 +1,4 @@
-@managing_channel_configurations
+@synerise_channel_configuration
 Feature: Channel Configuration Save
     In order to configure channel with a chosen workspace
     As an Administrator
