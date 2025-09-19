@@ -8,8 +8,9 @@
             <argument type="service" id="parameter_bag" />
         </service>
         <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.repository.channel" />
             <argument type="service" id="synerise_integration.factory.workspace" />
-            <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.repository.workspace" />
         </service>
         <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
