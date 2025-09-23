@@ -16,7 +16,7 @@ final class WorkspaceContext extends MinkContext implements Context
      */
     public function iAmOnTheWorkspaceCreationPage(): void
     {
-        $this->visit('/admin/synerise/workspace/new');
+        $this->visitPath('/admin/synerise/workspace/new');
     }
 
     /**
@@ -24,7 +24,7 @@ final class WorkspaceContext extends MinkContext implements Context
      */
     public function iAmOnTheEditPageForWorkspace(WorkspaceInterface $workspace): void
     {
-        $this->visit(sprintf('/admin/synerise/workspace/%d/edit', $workspace->getId()));
+        $this->visitPath(sprintf('/admin/synerise/workspace/%d/edit', $workspace->getId()));
     }
 
     /**
