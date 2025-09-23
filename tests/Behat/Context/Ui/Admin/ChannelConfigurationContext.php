@@ -19,28 +19,16 @@ use Webmozart\Assert\Assert;
 final class ChannelConfigurationContext extends MinkContext
 {
     /**
-     * @param RepositoryInterface<ChannelInterface> $channelRepository
      * @param FactoryInterface<WorkspaceInterface> $workspaceFactory
      * @param RepositoryInterface<WorkspaceInterface> $workspaceRepository
      */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private SharedStorageInterface $sharedStorage,
-        private RepositoryInterface $channelRepository,
         private FactoryInterface $workspaceFactory,
         private RepositoryInterface $workspaceRepository,
         private ContainerBagInterface $params
     ) {
-    }
-
-    #[Given('this channel has hostname :hostname')]
-    public function ThisChannelHasHostname(string $hostname): void
-    {
-        /** @var ChannelInterface $channel */
-        $channel = $this->sharedStorage->get('channel');
-        $channel->setHostname($hostname);
-
-        $this->channelRepository->add($channel);
     }
 
     #[Given('the store has a workspace named :workspaceName')]

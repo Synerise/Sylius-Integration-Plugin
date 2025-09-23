@@ -10,7 +10,6 @@
         <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="sylius.behat.shared_storage" />
-            <argument type="service" id="sylius.repository.channel" />
             <argument type="service" id="synerise_integration.factory.workspace" />
             <argument type="service" id="synerise_integration.repository.workspace" />
             <argument type="service" id="parameter_bag" />

@@ -5,8 +5,7 @@ Feature: Channel Configuration Save
     I want to configure selected channel with workspace
 
     Background:
-        Given the store operates on a single channel in the "United States" named "channelName"
-        And this channel has hostname "example.com"
+        Given the store operates on a channel named "channelName" with hostname "example.com"
         And the store has a workspace named "workspaceName"
         And I am logged in as an administrator
 
@@ -27,7 +26,7 @@ Feature: Channel Configuration Save
         And I click "#synerise_integration_channel_configuration_events-ts-control" element
         And I check "synerise_integration_channel_configuration_snrsParamsEnabled"
         And I press "Configure"
-        Then the ".alert[data-test-sylius-flash-message-type='success']" element should contain "Channel configuration has been successfully created."
+        Then the ".alert-success" element should contain "Channel configuration has been successfully created."
         And the channelConfiguration should exist in repository
         And the ".page-body .card" element should contain "channelName"
         And the ".page-body .card" element should contain "workspaceName"
@@ -51,5 +50,5 @@ Feature: Channel Configuration Save
         And I fill in "invalid-example.com" for "synerise_integration_channel_configuration_cookieDomain"
         And I press "Events tracking"
         And I press "Configure"
-        Then the ".alert[data-test-form-error-alert]" element should contain "This form contains errors."
+        Then the ".alert-danger" element should contain "This form contains errors."
         And I should see a "#synerise_integration_channel_configuration_cookieDomain.is-invalid" element
