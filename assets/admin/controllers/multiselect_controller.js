@@ -10,18 +10,10 @@ export default class extends Controller {
   };
 
   connect() {
-    const fixedOptions = {};
     const selectInput = this.element;
 
-    Array.from(selectInput.options).forEach((option) => {
-      fixedOptions[option.value] = {
-        value: option.value,
-        text: option.text,
-      };
-    });
-
     const defaultOptions = {
-      options: fixedOptions,
+      options: selectInput.options,
       plugins: {
         remove_button: {
           className:
@@ -42,7 +34,7 @@ export default class extends Controller {
       },
       onChange: (selected) => {
         const values = new Set();
-        Array.from(selectInput.options).forEach((option, i, arr) => {
+        Array.from(selectInput.options).forEach((option) => {
           if (values.has(option.value)) return option.remove();
 
           values.add(option.value);
