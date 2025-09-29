@@ -1,6 +1,5 @@
 {
     "name": "synerise/sylius-integration-plugin",
-    "version": "1.0.0",
     "type": "sylius-plugin",
     "description": "Plugin allowing straightforward integration of Synerise platform in Sylius application.",
     "keywords": [
