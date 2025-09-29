@@ -39,9 +39,9 @@ Feature: Workspace management
     And I should remain on the workspace creation page
 
   Scenario: Successfully updating an existing workspace
-    Given there is a workspace with test API key
-    When I am on the edit page for test API key
-    And I change "synerise_integration_workspace[liveTimeout]" to "3.0"
+    Given there is a workspace with test api key
+    When I am on the edit page of this workspace
+    And I change "synerise_integration_workspace[liveTimeout]" to "3"
     And I press "Update"
     Then I should see "Workspace has been successfully updated"
-    And the workspace should have live timeout "3.0"
+    And saved workspace should have live timeout 3

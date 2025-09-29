@@ -12,7 +12,7 @@
         "php": "^8.2",
         "anik/loguzz": "^2.2 || ^4.0",
         "mobiledetect/mobiledetectlib": "^4.8",
-        "sylius/sylius": "~2.0.0",
+        "sylius/sylius": "^2.0",
         "synerise/php-sdk": "^0.6.1"
     },
     "require-dev": {

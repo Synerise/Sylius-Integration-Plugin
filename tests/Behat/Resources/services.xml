@@ -3,10 +3,36 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <defaults public="true" />
-        <service id="synerise_sylius_integration.behat.context.ui.admin.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\WorkspaceContext">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument type="service" id="parameter_bag" />
+
+        <!-- Factories -->
+        <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
+            <argument type="service" id="synerise_integration.factory.channel_configuration" />
+            <argument type="service" id="synerise_integration.factory.workspace" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="synerise_integration.repository.workspace" />
         </service>
+
+        <!-- Setup -->
+        <service id="synerise_sylius_integration.behat.context.setup.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\ChannelConfigurationContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.behat.factory.default_azure_channel_configuration" />
+            <argument type="service" id="synerise_integration.repository.channel_configuration" />
+            <argument type="service" id="synerise_integration.factory.channel_configuration" />
+        </service>
+        <service id="synerise_sylius_integration.behat.context.setup.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\WorkspaceContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+
+        <!-- Transform -->
+        <service id="synerise_sylius_integration.behat.context.transform.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Transform\WorkspaceContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="parameter_bag" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+
+        <!-- UI Admin -->
+        <service id="synerise_sylius_integration.behat.context.ui.admin.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\WorkspaceContext" />
         <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="sylius.behat.shared_storage" />
@@ -14,22 +40,14 @@
             <argument type="service" id="synerise_integration.repository.workspace" />
             <argument type="service" id="parameter_bag" />
         </service>
-        <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
-            <argument type="service" id="synerise_integration.factory.channel_configuration" />
-            <argument type="service" id="synerise_integration.factory.workspace" />
-            <argument type="service" id="synerise_integration.repository.channel_configuration" />
-            <argument type="service" id="synerise_integration.repository.workspace" />
-        </service>
-        <service id="synerise_sylius_integration.behat.context.setup.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\ChannelConfigurationContext">
-            <argument type="service" id="sylius.behat.shared_storage" />
-            <argument type="service" id="sylius.behat.factory.default_azure_channel_configuration" />
-            <argument type="service" id="synerise_integration.repository.channel_configuration" />
-            <argument type="service" id="synerise_integration.factory.channel_configuration" />
-        </service>
+
+        <!-- UI Shop -->
         <service id="synerise_sylius_integration.behat.context.ui.shop.opengraph" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\OpenGraphContext">
             <argument type="service" id="synerise_sylius_integration.page.shop.product.show" />
         </service>
         <service id="synerise_sylius_integration.behat.context.ui.shop.tracking_script" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\TrackingScriptContext"/>
+
+        <!-- Pages -->
         <service id="synerise_sylius_integration.page.shop.product.show" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Page\Shop\Product\ShowPage" parent="sylius.behat.page.shop.product.show" public="false" />
     </services>
 </container>
