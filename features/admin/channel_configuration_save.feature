@@ -28,7 +28,7 @@ Feature: Channel Configuration Save
         And I press "Configure"
         And I wait for ".alert" element
         Then the ".alert-success" element should contain "Channel configuration has been successfully created."
-        And the channelConfiguration should exist in repository
+        And the saved channel configuration should exist in repository
         And the ".page-body .card" element should contain "channelName"
         And the ".page-body .card" element should contain "workspaceName"
         And the ".page-body #card-tracking tr:nth-child(1) td:last-child" element should contain "Yes"

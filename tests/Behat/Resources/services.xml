@@ -18,6 +18,9 @@
             <argument type="service" id="sylius.behat.factory.default_azure_channel_configuration" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.factory.channel_configuration" />
+            <argument type="service" id="synerise_integration.factory.workspace" />
+            <argument type="service" id="synerise_integration.repository.workspace" />
+            <argument type="service" id="parameter_bag" />
         </service>
         <service id="synerise_sylius_integration.behat.context.setup.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\WorkspaceContext">
             <argument type="service" id="sylius.behat.shared_storage" />
@@ -30,16 +33,14 @@
             <argument type="service" id="parameter_bag" />
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
+        <service id="synerise_sylius_integration.behat.context.transform.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Transform\ChannelConfigurationContext">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="sylius.behat.shared_storage" />
+        </service>
 
         <!-- UI Admin -->
         <service id="synerise_sylius_integration.behat.context.ui.admin.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\WorkspaceContext" />
-        <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument type="service" id="sylius.behat.shared_storage" />
-            <argument type="service" id="synerise_integration.factory.workspace" />
-            <argument type="service" id="synerise_integration.repository.workspace" />
-            <argument type="service" id="parameter_bag" />
-        </service>
+        <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext" />
 
         <!-- UI Shop -->
         <service id="synerise_sylius_integration.behat.context.ui.shop.opengraph" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\OpenGraphContext">

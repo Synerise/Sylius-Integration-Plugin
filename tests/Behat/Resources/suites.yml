@@ -41,8 +41,11 @@ default:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
             filters:
                 tags: "@synerise_channel_configuration"
