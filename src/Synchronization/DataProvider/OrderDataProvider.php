@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Parameter;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\Order;
 use Sylius\Component\Core\OrderCheckoutStates;
@@ -25,10 +27,10 @@ class OrderDataProvider implements DataProviderInterface
             ->from(Order::class, 'o')
             ->where('o.channel = :channel')
             ->andWhere('o.checkoutState = :checkoutState')
-            ->setParameters([
-                'channel' => $channel,
-                'checkoutState' => OrderCheckoutStates::STATE_COMPLETED,
-            ]);
+            ->setParameters(new ArrayCollection([
+                new Parameter('channel', $channel),
+                new Parameter('checkoutState', OrderCheckoutStates::STATE_COMPLETED)
+            ]));
 
         return $queryBuilder->getQuery()->toIterable();
     }
