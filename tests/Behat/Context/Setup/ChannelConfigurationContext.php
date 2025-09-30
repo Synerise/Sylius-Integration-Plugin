@@ -9,6 +9,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory;
 
@@ -19,6 +20,9 @@ class ChannelConfigurationContext implements Context
         private DefaultAzureChannelConfigurationFactory $defaultchannelConfigurationFactory,
         private RepositoryInterface $repository,
         private FactoryInterface $factory,
+        private FactoryInterface $workspaceFactory,
+        private RepositoryInterface $workspaceRepository,
+        private ContainerBagInterface $params,
     ) {
     }
 
@@ -82,7 +86,7 @@ class ChannelConfigurationContext implements Context
         $channelConfiguration = $this->sharedStorage->get('channelConfiguration');
 
         foreach ($table->getHash() as $row) {
-            switch($row['key']):
+            switch ($row['key']):
                 case 'trackingCode':
                     $channelConfiguration->setTrackingCode($row['value']);
                     break;
@@ -101,6 +105,16 @@ class ChannelConfigurationContext implements Context
         }
 
         $this->saveChannelConfiguration($channelConfiguration);
+    }
+
+    #[Given('the store has a workspace named :workspaceName')]
+    public function theStoreHasAWorkspaceNamed(string $workspaceName): void
+    {
+        $apiKey = $this->params->get('synerise.test.api_key');
+        $workspace = $this->workspaceFactory->createNew();
+        $workspace->setName($workspaceName);
+        $workspace->setApiKey($apiKey);
+        $this->workspaceRepository->add($workspace);
     }
 
     private function createChannelConfiguration(?ChannelInterface $channel = null): ChannelConfigurationInterface

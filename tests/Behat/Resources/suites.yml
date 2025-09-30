@@ -2,7 +2,7 @@ default:
     suites:
         synerise_workspace:
             contexts:
-                - sylius.behat.context.hook.doctrine_orm      
+                - sylius.behat.context.hook.doctrine_orm
 
                 - synerise_sylius_integration.behat.context.transform.workspace
 
@@ -14,7 +14,7 @@ default:
                 tags: "@synerise_workspace"
         synerise_open_graph:
             contexts:
-                - sylius.behat.context.hook.doctrine_orm      
+                - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.transform.lexical
                 - sylius.behat.context.transform.product
@@ -30,10 +30,22 @@ default:
                 tags: "@synerise_open_graph"
         synerise_tracking_script:
             contexts:
-                - sylius.behat.context.hook.doctrine_orm      
+                - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.channel
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.shop.tracking_script
             filters:
                 tags: "@synerise_tracking_script"
+        synerise_channel_configuration:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+            filters:
+                tags: "@synerise_channel_configuration"
