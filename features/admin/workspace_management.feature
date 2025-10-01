@@ -8,8 +8,10 @@ Feature: Workspace management
     Given the store operates on a single channel in "United States"
     And I am logged in as an administrator
 
+  @mock-api
   Scenario: Successfully saving a new workspace
-    Given I am on the workspace creation page
+    Given check-permission will be mocked with a success response
+    And I am on the workspace creation page
     When I fill in test api key
     And I select "basic" from "synerise_integration_workspace[authenticationMethod]"
     And I select "1" from "synerise_integration_workspace[keepAliveEnabled]"
@@ -38,8 +40,10 @@ Feature: Workspace management
     Then I should see "This value is not a valid GUID"
     And I should remain on the workspace creation page
 
+  @mock-api
   Scenario: Successfully updating an existing workspace
-    Given there is a workspace with test api key
+    Given check-permission will be mocked with a success response
+    And there is a workspace with test api key
     When I am on the edit page of this workspace
     And I change "synerise_integration_workspace[liveTimeout]" to "3"
     And I press "Update"

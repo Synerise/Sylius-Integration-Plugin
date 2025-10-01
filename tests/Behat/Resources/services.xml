@@ -4,6 +4,20 @@
     <services>
         <defaults public="true" />
 
+        <!-- Mock API responses -->
+        <service id="synerise_integration.api.client_builder.factory" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ClientBuilderFactory">
+            <argument type="service" id="synerise_integration.behat.mock_handler_queue.factory" />
+            <argument type="service" id="synerise_integration.api.authentication_provider.factory" />
+            <argument type="service" id="synerise_integration.api.request_adapter.factory" />
+        </service>
+        <service id="synerise_integration.behat.mock_handler_queue.factory" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\MockHandlerQueueFactory">
+            <argument type="service" id="request_stack" />
+            <argument type="collection">
+                <argument key="api_key_check_permission_success" type="service" id="synerise_integration.behat.mock.response.check_permission.success"/>
+            </argument>
+        </service>
+        <service id="synerise_integration.behat.mock.response.check_permission.success" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\CheckPermissionSuccess" />
+
         <!-- Factories -->
         <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
             <argument type="service" id="synerise_integration.factory.channel_configuration" />

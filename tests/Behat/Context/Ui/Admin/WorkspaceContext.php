@@ -7,6 +7,7 @@ namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin;
 use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\MinkContext;
 use Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface;
+use Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\MockHandlerQueueFactory;
 use Webmozart\Assert\Assert;
 
 final class WorkspaceContext extends MinkContext implements Context
@@ -65,5 +66,16 @@ final class WorkspaceContext extends MinkContext implements Context
     public function iFillInTestApiGuid(string $apiGuid): void
     {
         $this->fillField('synerise_integration_workspace_guid', $apiGuid);
+    }
+
+    /**
+     * @Given check-permission will be mocked with a success response
+     */
+    public function checkPermissionWillBeMockedWithSuccess(): void
+    {
+        $this->getSession()->setCookie(
+            MockHandlerQueueFactory::MOCK_HANDLER_QUEUE_COOKIE,
+            json_encode(['api_key_check_permission_success'])
+        );
     }
 }
