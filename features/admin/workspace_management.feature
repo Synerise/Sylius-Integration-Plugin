@@ -47,5 +47,6 @@ Feature: Workspace management
     When I am on the edit page of this workspace
     And I change "synerise_integration_workspace[liveTimeout]" to "3"
     And I press "Update"
-    Then I should see "Workspace has been successfully updated"
+    Then I should be on show page for this workspace
+    And I should see "Workspace has been successfully updated"
     And saved workspace should have live timeout 3

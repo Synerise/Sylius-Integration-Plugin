@@ -45,6 +45,14 @@ final class WorkspaceContext extends MinkContext implements Context
     }
 
     /**
+     * @Then /^I should be on show page for (this workspace)$/
+     */
+    public function iShouldBeOnTheWorkspaceEditPage(WorkspaceInterface $workspace): void
+    {
+        Assert::contains($this->getSession()->getCurrentUrl(), sprintf('/admin/synerise/workspace/%d', $workspace->getId()));
+    }
+
+    /**
      * @Then /^(saved workspace) should have live timeout (\d+)$/
      */
     public function savedWorkspaceShouldHaveLiveTimeout(WorkspaceInterface $workspace, string $timeout): void
