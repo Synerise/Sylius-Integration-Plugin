@@ -21,6 +21,12 @@ services:
             SYLIUS_MESSENGER_TRANSPORT_PAYMENT_REQUEST_DSN: sync://
             SYLIUS_MESSENGER_TRANSPORT_PAYMENT_REQUEST_FAILED_DSN: sync://
             PHP_DATE_TIMEZONE: ${PHP_DATE_TIMEZONE:-UTC}
+            BEHAT_BASE_URL: https://nginx
+            PANTHER_NO_SANDBOX: 1
+            PANTHER_CHROME_BINARY: /usr/bin/chromium-browser
+            PANTHER_CHROME_DRIVER_BINARY: /usr/bin/chromedriver
+            PANTHER_EXTERNAL_BASE_URI: https://nginx
+            PANTHER_CHROME_ARGUMENTS: "--window-size=1200,1000 --headless --no-sandbox --ignore-certificate-errors --disable-web-security --disable-dev-shm-usage --disable-gpu --disable-infobars --disable-features=TranslateUI --disable-translate --disable-popup-blocking --disable-blink-features=AutomationControlled --disable-component-extensions-with-background-pages --disable-background-networking --disable-dev-tools --disable-extensions --disable-password-manager-leak-detection"
             XDEBUG_MODE: debug
             XDEBUG_CONFIG: >-
                 client_host=host.docker.internal
@@ -41,7 +47,6 @@ services:
           - ./public/media:/srv/sylius/public/media:rw
 #          - public-media:/srv/sylius/public/media:rw
 #          - ./../php-sdk/:/srv/php-sdk
-
     mysql:
         volumes:
             - mysql-data:/var/lib/mysql:rw
