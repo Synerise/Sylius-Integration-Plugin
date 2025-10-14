@@ -7,6 +7,7 @@
         <!-- Mock API responses -->
         <service id="synerise_integration.api.client_builder.factory" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ClientBuilderFactory">
             <argument type="service" id="synerise_integration.behat.mock_handler_queue.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.log.factory" />
             <argument type="service" id="synerise_integration.api.authentication_provider.factory" />
             <argument type="service" id="synerise_integration.api.request_adapter.factory" />
         </service>
@@ -18,12 +19,26 @@
         </service>
         <service id="synerise_integration.behat.mock.response.check_permission.success" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\CheckPermissionSuccess" />
 
+        <!-- Logs Parser -->
+        <service id="synerise_sylius_integration.behat.log_parser" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\LogParser">
+            <argument type="service" id="kernel" />
+        </service>
         <!-- Factories -->
         <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
             <argument type="service" id="synerise_integration.factory.channel_configuration" />
             <argument type="service" id="synerise_integration.factory.workspace" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.repository.workspace" />
+        </service>
+
+        <!-- Hook -->
+        <service id="synerise_sylius_integration.behat.context.hook.log" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Hook\LogContext">
+            <argument type="service" id="synerise_sylius_integration.behat.log_parser" />
+        </service>
+
+        <!-- Domain -->
+        <service id="synerise_sylius_integration.behat.context.domain.log" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Domain\LogContext">
+            <argument type="service" id="synerise_sylius_integration.behat.log_parser" />
         </service>
 
         <!-- Setup -->

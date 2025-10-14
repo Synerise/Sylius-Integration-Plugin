@@ -21,6 +21,8 @@ Feature: Workspace management
     And I fill in test api guid
     And I press "Create"
     Then I should see "Workspace has been successfully created"
+    And logs should show 2 requests to "/uauth/api-key/permission-check"
+    And logs should show 2 requests in total
 
   Scenario: Saving workspace with invalid API Key format
     Given I am on the workspace creation page
@@ -50,3 +52,5 @@ Feature: Workspace management
     Then I should be on show page for this workspace
     And I should see "Workspace has been successfully updated"
     And saved workspace should have live timeout 3
+    And logs should show 2 requests to "/uauth/api-key/permission-check"
+    And logs should show 2 requests in total

@@ -3,12 +3,16 @@ default:
         synerise_workspace:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
 
                 - synerise_sylius_integration.behat.context.transform.workspace
 
                 - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.channel
                 - synerise_sylius_integration.behat.context.setup.workspace
+                    
+                - synerise_sylius_integration.behat.context.domain.log
+
                 - synerise_sylius_integration.behat.context.ui.admin.workspace
             filters:
                 tags: "@synerise_workspace"
