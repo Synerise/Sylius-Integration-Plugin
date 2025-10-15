@@ -9,6 +9,7 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelInterface as CoreChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Product\Model\ProductAttribute;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Resource\Model\ResourceInterface;
@@ -90,10 +91,10 @@ class ProductToAddItemMapper implements RequestMapperInterface
             $additionalData['image'] = $image;
         }
 
-        /** @var string $attribute */
+        /** @var ProductAttribute $attribute */
         foreach ($configuration->getProductAttributes() as $attribute) {
-            if ($attributeValue = $resource->getAttributeByCodeAndLocale($attribute)) {
-                $additionalData[$attribute] = $this->getAttributeValue(
+            if ($attributeValue = $resource->getAttributeByCodeAndLocale($attribute->getCode())) {
+                $additionalData[$attribute->getCode()] = $this->getAttributeValue(
                     $attributeValue,
                     $configuration->getProductAttributeValue(),
                 );
