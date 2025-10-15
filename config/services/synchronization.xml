@@ -26,6 +26,7 @@
             <argument type="service" id="synerise_integration.synchronization.data_provider.customer" />
             <argument type="service" id="synerise_integration.api.request_mapper.resource.customer" />
             <argument type="service" id="synerise_integration.api.request_handler.batch.customer" />
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="synerise.synchronization_bus"/>
         </service>
@@ -33,6 +34,7 @@
             <argument type="service" id="synerise_integration.synchronization.data_provider.order" />
             <argument type="service" id="synerise_integration.api.request_mapper.resource.order" />
             <argument type="service" id="synerise_integration.api.request_handler.batch.order" />
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="synerise.synchronization_bus"/>
         </service>
@@ -40,6 +42,7 @@
             <argument type="service" id="synerise_integration.synchronization.data_provider.product" />
             <argument type="service" id="synerise_integration.api.request_mapper.resource.product" />
             <argument type="service" id="synerise_integration.api.request_handler.batch.product" />
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="synerise.synchronization_bus"/>
         </service>

@@ -17,7 +17,6 @@ use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterfac
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
-use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
 use Webmozart\Assert\Assert;
 

@@ -5,7 +5,6 @@ framework:
             synerise.synchronization_bus:
                 middleware:
                     - doctrine_transaction
-                    - doctrine_close_connection
         routing:
             'Synerise\SyliusIntegrationPlugin\MessageQueue\Message\EventMessage': main
             'Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage': main
