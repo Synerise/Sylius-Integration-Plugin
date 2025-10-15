@@ -62,6 +62,7 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
 
         $synchronization->setTotal($totalCount);
         $this->entityManager->persist($synchronization);
+        $this->entityManager->flush();
     }
 
     /**
@@ -95,5 +96,6 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
 
         $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
         $this->entityManager->persist($synchronization);
+        $this->entityManager->flush();
     }
 }

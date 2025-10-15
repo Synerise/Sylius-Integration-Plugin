@@ -22,7 +22,7 @@ class ProductDataProvider implements DataProviderInterface
         $queryBuilder->select('o.id')
             ->andWhere(':channel MEMBER OF o.channels')
             ->setParameter('channel', $channel);
-        
+
         return $queryBuilder->getQuery()->toIterable();
     }
 
