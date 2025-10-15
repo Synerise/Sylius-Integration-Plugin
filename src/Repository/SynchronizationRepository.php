@@ -7,7 +7,7 @@ namespace Synerise\SyliusIntegrationPlugin\Repository;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 
-class SynchronizationRepository extends EntityRepository
+class SynchronizationRepository extends EntityRepository implements SynchronizationRepositoryInterface
 {
     public function countByChannelWithFilters(
         ChannelInterface $channel,
