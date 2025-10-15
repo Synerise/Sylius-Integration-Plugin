@@ -51,7 +51,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
         <service id="synerise_integration.synchronization.data_provider.product" class="Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider\ProductDataProvider">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="sylius.repository.product" />
         </service>
     </services>
 </container>
