@@ -6,14 +6,14 @@ namespace Synerise\SyliusIntegrationPlugin\Api\RequestHandler;
 
 use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
-use Synerise\Sdk\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
 
 interface RequestHandlerInterface
 {
     public function __construct(
-        ClientBuilderFactory $clientBuilderFactory,
+        ClientBuilderFactoryInterface $clientBuilderFactory,
         ChannelConfigurationFactory $channelConfigurationFactory,
         SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
     );

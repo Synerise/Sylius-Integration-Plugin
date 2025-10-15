@@ -7,13 +7,13 @@ namespace Synerise\SyliusIntegrationPlugin\Listener;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Synerise\Api\Workspace\Models\TrackingCodeCreationByDomainRequest;
 use Synerise\Sdk\Api\ClientBuilder;
-use Synerise\Sdk\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
 
 final readonly class ChannelConfigurationModificationListener
 {
-    public function __construct(private ClientBuilderFactory $clientBuilderFactory)
+    public function __construct(private ClientBuilderFactoryInterface $clientBuilderFactory)
     {
     }
 

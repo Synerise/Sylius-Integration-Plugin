@@ -1,4 +1,4 @@
-@synerise_open_graph
+@open_graph @default
 Feature: OpenGraph meta tags on product page
     In order to enrich products data collected by tracker
     As a visitor

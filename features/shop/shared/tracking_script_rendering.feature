@@ -1,4 +1,4 @@
-@synerise_tracking_script
+@tracking_script @default
 Feature: Tracking Script Rendering
   In order to ensure proper analytics tracking
   As a website visitor

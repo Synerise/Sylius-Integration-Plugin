@@ -1,4 +1,4 @@
-@synerise_workspace
+@workspace
 Feature: Workspace management
   In order to manage Synerise integration settings
   As an administrator
@@ -8,7 +8,7 @@ Feature: Workspace management
     Given the store operates on a single channel in "United States"
     And I am logged in as an administrator
 
-  @mock-api
+  @default
   Scenario: Successfully saving a new workspace
     Given check-permission will be mocked with a success response
     And I am on the workspace creation page
@@ -24,6 +24,7 @@ Feature: Workspace management
     And logs should show 2 requests to "/uauth/api-key/permission-check"
     And logs should show 2 requests in total
 
+  @default
   Scenario: Saving workspace with invalid API Key format
     Given I am on the workspace creation page
     When I fill in the following:
@@ -31,7 +32,9 @@ Feature: Workspace management
     And I press "Create"
     Then I should see "This value is not a valid UUID"
     And I should remain on the workspace creation page
+    And logs should show 0 requests in total
 
+  @default
   Scenario: Saving workspace with invalid API GUID format
     Given I am on the workspace creation page
     When I select "basic" from "synerise_integration_workspace[authenticationMethod]"
@@ -41,11 +44,24 @@ Feature: Workspace management
     And I press "Create"
     Then I should see "This value is not a valid GUID"
     And I should remain on the workspace creation page
+    And logs should show 0 requests in total
 
-  @mock-api
+  @default
   Scenario: Successfully updating an existing workspace
     Given check-permission will be mocked with a success response
     And there is a workspace with test api key
+    When I am on the edit page of this workspace
+    And I change "synerise_integration_workspace[liveTimeout]" to "3"
+    And I press "Update"
+    Then I should be on show page for this workspace
+    And I should see "Workspace has been successfully updated"
+    And saved workspace should have live timeout 3
+    And logs should show 2 requests to "/uauth/api-key/permission-check"
+    And logs should show 2 requests in total
+
+  @e2e
+  Scenario: Successfully updating an existing workspace
+    Given there is a workspace with test api key and request logging enabled
     When I am on the edit page of this workspace
     And I change "synerise_integration_workspace[liveTimeout]" to "3"
     And I press "Update"

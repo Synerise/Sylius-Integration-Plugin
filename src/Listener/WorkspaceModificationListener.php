@@ -10,7 +10,7 @@ use Sylius\Bundle\CoreBundle\Provider\FlashBagProvider;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Synerise\Sdk\Api\ClientBuilder;
-use Synerise\Sdk\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
@@ -37,7 +37,7 @@ class WorkspaceModificationListener
     public function __construct(
         private RequestStack $requestStack,
         private EntityManagerInterface $entityManager,
-        private ClientBuilderFactory $clientBuilderFactory,
+        private ClientBuilderFactoryInterface $clientBuilderFactory,
         private LoggerInterface $syneriseLogger,
     ) {
     }

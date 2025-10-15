@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Services;
+namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock;
 
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\ResponseFactoryInterface;
 use Webmozart\Assert\Assert;
 
-class MockHandlerQueueFactory
+class HandlerQueueFactory
 {
     public const MOCK_HANDLER_QUEUE_COOKIE = 'mock_handler_queue';
 
@@ -15,6 +15,11 @@ class MockHandlerQueueFactory
         private RequestStack $requestStack,
         private array $responseFactories = []
     ) {
+    }
+
+    public function isE2E()
+    {
+        return $this->requestStack->getCurrentRequest()->cookies->get('e2e');
     }
 
     /**

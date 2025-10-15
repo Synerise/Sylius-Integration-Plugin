@@ -1,6 +1,6 @@
 default:
     suites:
-        synerise_workspace:
+        workspace:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - synerise_sylius_integration.behat.context.hook.log
@@ -15,8 +15,8 @@ default:
 
                 - synerise_sylius_integration.behat.context.ui.admin.workspace
             filters:
-                tags: "@synerise_workspace"
-        synerise_open_graph:
+                tags: "@workspace&&@default"
+        open_graph:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
@@ -31,8 +31,8 @@ default:
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.shop.opengraph
             filters:
-                tags: "@synerise_open_graph"
-        synerise_tracking_script:
+                tags: "@open_graph&&@default"
+        tracking_script:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
@@ -40,8 +40,8 @@ default:
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.shop.tracking_script
             filters:
-                tags: "@synerise_tracking_script"
-        synerise_channel_configuration:
+                tags: "@tracking_script&&@default"
+        channel_configuration:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
@@ -52,4 +52,44 @@ default:
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
             filters:
-                tags: "@synerise_channel_configuration"
+                tags: "@channel_configuration&&@default"        
+e2e:
+    suites:
+        channel_configuration:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                    
+                - synerise_sylius_integration.behat.context.domain.e2e
+                    
+                - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+            filters:
+                tags: "@channel_configuration&&@e2e"
+        workspace:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.e2e
+                - synerise_sylius_integration.behat.context.hook.log
+
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.setup.workspace
+
+                - synerise_sylius_integration.behat.context.domain.log
+
+                - synerise_sylius_integration.behat.context.ui.admin.workspace
+            filters:
+                tags: "@workspace&&@e2e"
+        open_graph:
+            filters:
+                tags: "@open_graph&&@e2e"
+        tracking_script:
+            filters:
+                tags: "@tracking_script&&@e2e"
