@@ -13,8 +13,10 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationStatus;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepositoryInterface;
 
 #[AsLiveComponent(
     template: '@SyneriseSyliusIntegrationPlugin/admin/synchronization_configuration/show/content/sections/synchronizations_list.html.twig',
@@ -49,10 +51,11 @@ class SynchronizationsList
     public ChannelInterface $channel;
 
     /**
+     * @param SynchronizationRepositoryInterface<SynchronizationInterface> $synchronizationRepository
      * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
      */
     public function __construct(
-        private SynchronizationRepository $synchronizationRepository,
+        private SynchronizationRepositoryInterface $synchronizationRepository,
         private ChannelRepositoryInterface $channelRepository,
     ) {
     }
@@ -94,6 +97,7 @@ class SynchronizationsList
 
     private function createQueryBuilder(): QueryBuilder
     {
+        // @phpstan-ignore-next-line
         $qb = $this->synchronizationRepository->createQueryBuilder('s')
             ->andWhere('s.channel = :channel')
             ->setParameter('channel', $this->channel);

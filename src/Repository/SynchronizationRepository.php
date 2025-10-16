@@ -6,7 +6,13 @@ namespace Synerise\SyliusIntegrationPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface;
 
+/**
+ * @template T of SynchronizationInterface
+ *
+ * @implements SynchronizationRepositoryInterface<T>
+ */
 class SynchronizationRepository extends EntityRepository implements SynchronizationRepositoryInterface
 {
     public function countByChannelWithFilters(
