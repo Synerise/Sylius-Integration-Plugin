@@ -13,23 +13,38 @@
 
             <tag name="monolog.logger" channel="synerise"/>
         </service>
-        <service id="synerise_integration.api.middleware.retry.factory" class="Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory">
+        <service id="synerise_integration.api.anonymous.middleware.retry.factory" class="Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.anonymous.authentication_provider.factory" />
             <argument type="service" id="logger" on-invalid="null" />
 
             <tag name="monolog.logger" channel="synerise"/>
         </service>
+        <service id="synerise_integration.api.default.middleware.retry.factory" class="Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.default.authentication_provider.factory" />
+            <argument type="service" id="logger" on-invalid="null" />
+
+            <tag name="monolog.logger" channel="synerise"/>
+        </service>
+        <service id="synerise_integration.api.middleware.authentication.factory" class="Synerise\Sdk\Guzzle\AuthenticationMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.anonymous.middleware.retry.factory" />
+        </service>
+        <service id="synerise_integration.api.middleware.default.factory" class="Synerise\Sdk\Guzzle\DefaultMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.default.middleware.retry.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.log.factory" />
+        </service>
         <service id="synerise_integration.api.request_adapter.factory" class="Synerise\Sdk\Guzzle\RequestAdapterFactory">
             <argument type="service" id="synerise_integration.guzzle.client.factory" />
-            <argument type="service" id="synerise_integration.api.middleware.log.factory" />
-            <argument type="service" id="synerise_integration.api.middleware.retry.factory" />
         </service>
-        <service id="synerise_integration.api.authentication_provider.factory" class="Synerise\Sdk\Api\Authentication\AuthenticationProviderFactory">
+        <service id="synerise_integration.api.anonymous.authentication_provider.factory" class="Synerise\Sdk\Api\Authentication\AnonymousAuthenticationProviderFactory"/>
+        <service id="synerise_integration.api.default.authentication_provider.factory" class="Synerise\Sdk\Api\Authentication\DefaultAuthenticationProviderFactory">
             <argument type="service" id="synerise_integration.api.request_adapter.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.authentication.factory" />
             <argument type="service" id="synerise_integration.api.cache_adapter" />
         </service>
         <service id="synerise_integration.api.client_builder.factory" class="Synerise\Sdk\Api\ClientBuilderFactory">
-            <argument type="service" id="synerise_integration.api.authentication_provider.factory" />
+            <argument type="service" id="synerise_integration.api.default.authentication_provider.factory" />
             <argument type="service" id="synerise_integration.api.request_adapter.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.default.factory" />
         </service>
         <service id="synerise_integration.api.client_builder" class="Synerise\Sdk\Api\ClientBuilder">
             <factory service="synerise_integration.api.client_builder.factory" method="create"/>
