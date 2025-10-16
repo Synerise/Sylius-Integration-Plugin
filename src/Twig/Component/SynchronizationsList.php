@@ -135,7 +135,7 @@ class SynchronizationsList
     public function hydrateChannel(array $data): ?ChannelInterface
     {
         /** @var ChannelInterface|null $channel */
-        $channel = $this->channelRepository->findOneByCode($data['id']);
+        $channel = $this->channelRepository->find($data['id']);
 
         return $channel;
     }
