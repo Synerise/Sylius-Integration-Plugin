@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Translation\TranslatableMessage;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryInterface;
 
@@ -73,6 +74,11 @@ final class ChannelConfigurationType extends AbstractResourceType
             ->add('customPageVisit', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.custom_page_visit.label',
                 'help' => 'synerise_integration.channel_configuration.form.custom_page_visit.help',
+                'help_translation_parameters' => [
+                    '%text%' => new TranslatableMessage('synerise_integration.channel_configuration.form.custom_page_visit.docs.text'),
+                    '%url%' => new TranslatableMessage('synerise_integration.channel_configuration.form.custom_page_visit.docs.url'),
+                ],
+                'help_html' => true,
                 'required' => false,
             ])
             ->add('events', EventChoiceType::class, [

@@ -70,7 +70,7 @@ final readonly class SynchronizationConfigurationModificationListener
 
             $synchronizationConfiguration->setCatalogId($catalogId);
         } catch (\Exception $e) {
-            $event->stop('Catalog request request failed');
+            $event->stop('Catalog get request failed');
         }
     }
 }
