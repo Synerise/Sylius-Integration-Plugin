@@ -68,7 +68,6 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
 
         $synchronization->setTotal($totalCount);
         $this->entityManager->persist($synchronization);
-        $this->entityManager->flush();
     }
 
     /**
@@ -78,7 +77,7 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
     {
         /** @var SynchronizationInterface|null $synchronization */
         $synchronization = $this->synchronizationRepository->find($message->getSynchronizationId());
-        if (null === $synchronization) {
+        if (null === $synchronization?->getId()) {
             return;
         }
 
@@ -99,8 +98,6 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
 
         $this->requestHandler->sendBatch($batch, $channel->getId());
 
-        $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
-        $this->entityManager->persist($synchronization);
-        $this->entityManager->flush();
+        $this->synchronizationRepository->incrementSent($synchronization->getId(), count($message->getEntityIds()));
     }
 }

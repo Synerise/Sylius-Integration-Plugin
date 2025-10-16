@@ -14,4 +14,6 @@ use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface;
 interface SynchronizationRepositoryInterface extends RepositoryInterface
 {
     public function countByChannelWithFilters(ChannelInterface $channel, array $criteria = []): int;
+
+    public function incrementSent(int $id, int $by): void;
 }

@@ -36,4 +36,21 @@ class SynchronizationRepository extends EntityRepository implements Synchronizat
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function incrementSent(int $id, int $by): void
+    {
+        if ($by <= 0) {
+            throw new \InvalidArgumentException('Increment value must be positive.');
+        }
+
+        $this->createQueryBuilder('s')
+            ->update()
+            ->set('s.sent', 's.sent + :by')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->setParameter('by', $by)
+            ->getQuery()
+            ->execute();
+    }
+
 }
