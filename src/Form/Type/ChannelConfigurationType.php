@@ -102,10 +102,21 @@ final class ChannelConfigurationType extends AbstractResourceType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             /** @var array $data */
             $data = $event->getData();
+            $form = $event->getForm();
 
             if (isset($data['cookieDomainEnabled']) && !$data['cookieDomainEnabled']) {
                 $data['cookieDomain'] = null;
                 $event->setData($data);
+            }
+
+            foreach ($form as $key => $entity) {
+                $setter = 'set' . ucfirst($key);
+                $formData = $form->getData();
+                if ($entity->getConfig()->getType()->getInnerType() instanceof CheckboxType &&
+                    method_exists($formData, $setter) &&
+                    !isset($data[$key])) {
+                    $formData->$setter(false);
+                }
             }
         });
 
