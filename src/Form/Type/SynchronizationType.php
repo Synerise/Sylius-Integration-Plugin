@@ -53,6 +53,7 @@ final class SynchronizationType extends AbstractResourceType
                 'attr' => [
                     'max' => (new \DateTime())->format('Y-m-d'),
                 ],
+                'data' => (new \DateTimeImmutable())->modify('-1 month'),
             ])
             ->add('untilWhen', DateType::class, [
                 'label' => 'synerise_integration.synchronization.form.until_when.label',
@@ -69,6 +70,7 @@ final class SynchronizationType extends AbstractResourceType
                 'attr' => [
                     'max' => (new \DateTime())->format('Y-m-d'),
                 ],
+                'data' => new \DateTimeImmutable('now'),
             ])
         ;
     }
