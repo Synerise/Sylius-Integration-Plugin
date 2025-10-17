@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
+use DateTime;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Translation\TranslatableMessage;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryInterface;
 
@@ -35,6 +38,7 @@ final class ChannelConfigurationType extends AbstractResourceType
     {
         /** @var ChannelConfigurationInterface $data */
         $data = $options['data'];
+        $hostname = $data->getChannel()?->getHostname();
 
         $builder
             ->add('channel', ChannelChoiceType::class, [
@@ -62,6 +66,7 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'help' => 'synerise_integration.channel_configuration.form.cookie_domain_enabled.help',
                 'required' => false,
                 'mapped' => false,
+                'data' => $data->getCookieDomain() !== $hostname,
             ])
             ->add('cookieDomain', TextType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.cookie_domain.label',
@@ -73,6 +78,11 @@ final class ChannelConfigurationType extends AbstractResourceType
             ->add('customPageVisit', CheckboxType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.custom_page_visit.label',
                 'help' => 'synerise_integration.channel_configuration.form.custom_page_visit.help',
+                'help_translation_parameters' => [
+                    '%text%' => new TranslatableMessage('synerise_integration.channel_configuration.form.custom_page_visit.docs.text'),
+                    '%url%' => new TranslatableMessage('synerise_integration.channel_configuration.form.custom_page_visit.docs.url'),
+                ],
+                'help_html' => true,
                 'required' => false,
             ])
             ->add('events', EventChoiceType::class, [
@@ -80,6 +90,7 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'help' => 'synerise_integration.channel_configuration.form.events.help',
                 'multiple' => true,
                 'required' => false,
+                'by_reference' => true,
                 'attr' => [
                     'data-controller' => 'multiselect',
                 ],
@@ -96,17 +107,46 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'attr' => [
                     'data-controller' => 'multiselect',
                 ],
-            ])
-        ;
+            ]);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             /** @var array $data */
             $data = $event->getData();
+            $form = $event->getForm();
+
+            $emptyValues = [
+                CheckboxType::class => false,
+                TextType::class => null,
+                EventChoiceType::class => [],
+            ];
 
             if (isset($data['cookieDomainEnabled']) && !$data['cookieDomainEnabled']) {
                 $data['cookieDomain'] = null;
-                $event->setData($data);
             }
+
+            if (isset($data['events'])) {
+                $data['events'] = array_unique($data['events']);
+            }
+
+            if (isset($data['queueEvents'])) {
+                $data['queueEvents'] = array_unique($data['queueEvents']);
+            }
+
+            foreach ($form as $key => $field) {
+                $setter = 'set' . ucfirst($key);
+
+                /** @var ChannelConfigurationInterface $formData */
+                $formData = $form->getData();
+                $type = get_class($field->getConfig()->getType()->getInnerType());
+
+                if (array_key_exists($type, $emptyValues) &&
+                    method_exists($formData, $setter) &&
+                    !isset($data[$key])) {
+                    $formData->$setter($emptyValues[$type]);
+                }
+            }
+
+            $event->setData($data);
         });
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -114,8 +154,13 @@ final class ChannelConfigurationType extends AbstractResourceType
             $data = $event->getData();
             $form = $event->getForm();
 
+            /** @var array $choices */
+            $choices = $form->get('events')->getConfig()->getOption('choices');
+
             if ($data) {
-                $form->get('cookieDomainEnabled')->setData($data->getCookieDomain() !== null);
+                $eventsOptions = array_keys($choices);
+                $data->setEvents($data->getId() && $data->getEvents() != null ? $data->getEvents() : $eventsOptions);
+                $data->setQueueEvents($data->getId() && $data->getQueueEvents() != null ? $data->getQueueEvents() : $eventsOptions);
             }
         });
     }

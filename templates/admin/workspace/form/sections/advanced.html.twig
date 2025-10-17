@@ -2,7 +2,12 @@
     <div class="card-header">
         <div class="card-title">
             {{ 'synerise_integration.workspace.form.sections.advanced.card_title'|trans }}
-            <span class="d-inline-block" data-bs-toggle="popover" data-bs-html="true" data-bs-title="{{ 'synerise_integration.workspace.form.sections.advanced.card_title'|trans }}" data-bs-content="{{ 'synerise_integration.workspace.form.sections.advanced.popover.content'|trans }}">
+            <span class="d-inline-block" data-bs-toggle="popover" data-bs-html="true"
+                  data-bs-title="{{ 'synerise_integration.workspace.form.sections.advanced.card_title'|trans }}"
+                  data-bs-content="{{ 'synerise_integration.workspace.form.sections.advanced.popover.content'|trans({
+                    '%url%': 'synerise_integration.workspace.form.sections.advanced.popover.docs.url'|trans,
+                    '%text%': 'synerise_integration.workspace.form.sections.advanced.popover.docs.text'|trans
+                })|raw }}">
                 {{ ux_icon('bi:info-circle-fill', {class: 'w-3 h-3'}) }}
             </span>
         </div>

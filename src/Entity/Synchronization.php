@@ -7,7 +7,7 @@ namespace Synerise\SyliusIntegrationPlugin\Entity;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-class Synchronization implements ResourceInterface
+class Synchronization implements ResourceInterface, SynchronizationInterface
 {
     private ?int $id = null;
 

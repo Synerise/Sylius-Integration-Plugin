@@ -4,34 +4,34 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Model\ChannelInterface;
-use Sylius\Component\Core\Model\Product;
+use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Resource\Model\ResourceInterface;
 
 class ProductDataProvider implements DataProviderInterface
 {
+    /**
+     * @param ProductRepositoryInterface<ProductInterface> $productRepository
+     */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private ProductRepositoryInterface $productRepository,
     ) {
     }
 
     public function getIds(ChannelInterface $channel): iterable
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
+        // @phpstan-ignore-next-line
+        $queryBuilder = $this->productRepository->createQueryBuilder('o');
         $queryBuilder->select('o.id')
-            ->from(Product::class, 'o')
             ->andWhere(':channel MEMBER OF o.channels')
             ->setParameter('channel', $channel);
 
         return $queryBuilder->getQuery()->toIterable();
     }
 
-    /**
-     * @return Product|null
-     */
     public function getEntity(int $id): ?ResourceInterface
     {
-        return $this->entityManager->getRepository(Product::class)->find($id);
+        return $this->productRepository->find($id);
     }
 }

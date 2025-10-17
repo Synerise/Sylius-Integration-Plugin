@@ -26,35 +26,51 @@
         <div class="table-responsive">
             <table class="table table-vcenter">
                 <thead>
-                <tr>
-                    <th colspan="2">
-                        {{ 'synerise_integration.synchronization_configuration.show.sections.config.table_header' | trans }}
-                    </th>
-                </tr>
+                    <tr>
+                        <th colspan="2">
+                            {{ 'synerise_integration.synchronization_configuration.show.sections.config.table_header' | trans }}
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="text-nowrap fw-medium">
-                        {{ 'synerise_integration.synchronization_configuration.form.product_attributes.label' | trans }}
-                    </td>
-                    <td class="border-start">
-                        <div class="d-flex flex-row flex-wrap gap-2">
-                            {% for attribute in resource.productAttributes %}
-                            <a href="{{ path('sylius_admin_product_attribute_update', {'id': attribute.id}) }}">
-                                <span class="badge bg-blue-lt">{{ attribute }}</span>
-                            </a>
-                            {% endfor %}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-nowrap fw-medium">
-                        {{ 'synerise_integration.synchronization_configuration.form.product_attributes_value.label' | trans }}
-                    </td>
-                    <td class="border-start">
-                        {{ ('synerise_integration.ui.' ~ resource.productAttributeValue.value) | trans }}
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.synchronization_configuration.form.catalog_id.label' | trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ (resource.catalogId) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.synchronization_configuration.form.catalog_name.label' | trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ ('channel-' ~ resource.channel.id) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.synchronization_configuration.form.product_attributes.label' | trans }}
+                        </td>
+                        <td class="border-start">
+                            <div class="d-flex flex-row flex-wrap gap-2">
+                                {% for attribute in resource.productAttributes %}
+                                <a href="{{ path('sylius_admin_product_attribute_update', {'id': attribute.id}) }}">
+                                    <span class="badge bg-blue-lt">{{ attribute }}</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-nowrap fw-medium">
+                            {{ 'synerise_integration.synchronization_configuration.form.product_attributes_value.label' | trans }}
+                        </td>
+                        <td class="border-start">
+                            {{ ('synerise_integration.ui.' ~ resource.productAttributeValue.value) | trans }}
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                 <tr>
