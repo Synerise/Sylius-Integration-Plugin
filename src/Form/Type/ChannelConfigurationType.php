@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Form\Type;
 
+use DateTime;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -88,6 +90,7 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'help' => 'synerise_integration.channel_configuration.form.events.help',
                 'multiple' => true,
                 'required' => false,
+                'by_reference' => true,
                 'attr' => [
                     'data-controller' => 'multiselect',
                 ],
@@ -104,8 +107,7 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'attr' => [
                     'data-controller' => 'multiselect',
                 ],
-            ])
-        ;
+            ]);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             /** @var array $data */
@@ -120,7 +122,14 @@ final class ChannelConfigurationType extends AbstractResourceType
 
             if (isset($data['cookieDomainEnabled']) && !$data['cookieDomainEnabled']) {
                 $data['cookieDomain'] = null;
-                $event->setData($data);
+            }
+
+            if (isset($data['events'])) {
+                $data['events'] = array_unique($data['events']);
+            }
+
+            if (isset($data['queueEvents'])) {
+                $data['queueEvents'] = array_unique($data['queueEvents']);
             }
 
             foreach ($form as $key => $field) {
@@ -134,6 +143,8 @@ final class ChannelConfigurationType extends AbstractResourceType
                     $formData->$setter($emptyValues[$type]);
                 }
             }
+
+            $event->setData($data);
         });
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -142,7 +153,9 @@ final class ChannelConfigurationType extends AbstractResourceType
             $form = $event->getForm();
 
             if ($data) {
-                $form->get('cookieDomainEnabled')->setData($data->getCookieDomain() !== null);
+                $eventsOptions = array_keys($form->get('events')->getConfig()->getOption('choices'));
+                $event->getData()->setEvents($data->getId() ? $data->getEvents() : $eventsOptions);
+                $event->getData()->setQueueEvents($data->getId() ? $data->getQueueEvents() : $eventsOptions);
             }
         });
     }
