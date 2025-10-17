@@ -130,7 +130,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
     private function getAttributeValue(
         AttributeValueInterface $attributeValue,
         ?ProductAttributeValue $config,
-    ): string|array {
+    ): string|float|int|bool|array {
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $attributeValue->getId(),
@@ -144,7 +144,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
     private function getCategoryValue(
         TaxonInterface $taxon,
         ?ProductAttributeValue $config,
-    ): string|array {
+    ): string|int|array {
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $taxon->getId(),
@@ -158,7 +158,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
     private function getOptionValue(
         ProductOptionValueInterface $attributeValue,
         ?ProductAttributeValue $config,
-    ): string|array {
+    ): string|int|array {
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $attributeValue->getId(),
