@@ -36,6 +36,7 @@ final class ChannelConfigurationType extends AbstractResourceType
     {
         /** @var ChannelConfigurationInterface $data */
         $data = $options['data'];
+        $hostname = $data->getChannel()?->getHostname();
 
         $builder
             ->add('channel', ChannelChoiceType::class, [
@@ -63,6 +64,7 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'help' => 'synerise_integration.channel_configuration.form.cookie_domain_enabled.help',
                 'required' => false,
                 'mapped' => false,
+                'data' => $data->getCookieDomain() !== $hostname,
             ])
             ->add('cookieDomain', TextType::class, [
                 'label' => 'synerise_integration.channel_configuration.form.cookie_domain.label',
@@ -110,18 +112,26 @@ final class ChannelConfigurationType extends AbstractResourceType
             $data = $event->getData();
             $form = $event->getForm();
 
+            $emptyValues = [
+                CheckboxType::class => false,
+                TextType::class => null,
+                EventChoiceType::class => [],
+            ];
+
             if (isset($data['cookieDomainEnabled']) && !$data['cookieDomainEnabled']) {
                 $data['cookieDomain'] = null;
                 $event->setData($data);
             }
 
-            foreach ($form as $key => $entity) {
+            foreach ($form as $key => $field) {
                 $setter = 'set' . ucfirst($key);
                 $formData = $form->getData();
-                if ($entity->getConfig()->getType()->getInnerType() instanceof CheckboxType &&
+                $type = get_class($field->getConfig()->getType()->getInnerType());
+
+                if (array_key_exists($type, $emptyValues) &&
                     method_exists($formData, $setter) &&
                     !isset($data[$key])) {
-                    $formData->$setter(false);
+                    $formData->$setter($emptyValues[$type]);
                 }
             }
         });

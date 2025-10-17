@@ -24,6 +24,7 @@ class EventChoiceType extends AbstractType
         $resolver->setDefaults([
             'choices' => $this->getChoices(),
             'choice_translation_domain' => false,
+            'data' => array_keys($this->getChoices()),
         ]);
     }
 
