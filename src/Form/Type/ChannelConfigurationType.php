@@ -134,6 +134,8 @@ final class ChannelConfigurationType extends AbstractResourceType
 
             foreach ($form as $key => $field) {
                 $setter = 'set' . ucfirst($key);
+
+                /** @var ChannelConfigurationInterface $formData */
                 $formData = $form->getData();
                 $type = get_class($field->getConfig()->getType()->getInnerType());
 
@@ -154,8 +156,8 @@ final class ChannelConfigurationType extends AbstractResourceType
 
             if ($data) {
                 $eventsOptions = array_keys($form->get('events')->getConfig()->getOption('choices'));
-                $event->getData()->setEvents($data->getId() ? $data->getEvents() : $eventsOptions);
-                $event->getData()->setQueueEvents($data->getId() ? $data->getQueueEvents() : $eventsOptions);
+                $data->setEvents($data->getId() ? $data->getEvents() : $eventsOptions);
+                $data->setQueueEvents($data->getId() ? $data->getQueueEvents() : $eventsOptions);
             }
         });
     }
