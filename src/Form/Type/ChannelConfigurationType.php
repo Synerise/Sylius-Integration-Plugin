@@ -90,7 +90,6 @@ final class ChannelConfigurationType extends AbstractResourceType
                 'help' => 'synerise_integration.channel_configuration.form.events.help',
                 'multiple' => true,
                 'required' => false,
-                'by_reference' => true,
                 'attr' => [
                     'data-controller' => 'multiselect',
                 ],
