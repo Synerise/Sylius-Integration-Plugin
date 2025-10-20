@@ -50,8 +50,8 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
         $additionalData = [
             'id' => $resource->getId(),
-            'code' => $resource->getCode(),
-            'name' => $resource->getName(),
+            'itemId' => $resource->getCode(),
+            'title' => $resource->getName(),
             'enabled' => $resource->isEnabled(),
             'link' => $this->formatter->generateUrl($resource, $channel),
         ];
@@ -78,17 +78,17 @@ class ProductToAddItemMapper implements RequestMapperInterface
         if ($channelPricing) {
             $price = $channelPricing->getPrice() ? $this->formatter->formatAmount($channelPricing->getPrice()) : null;
             if ($price) {
-                $additionalData['price'] = $price;
+                $additionalData['salePrice'] = ['value' => $price];
             }
 
             $originalPrice = $channelPricing->getOriginalPrice() ? $this->formatter->formatAmount($channelPricing->getOriginalPrice()) : null;
             if ($originalPrice) {
-                $additionalData['originalPrice'] = $originalPrice;
+                $additionalData['price'] = ['value' => $originalPrice];
             }
         }
 
         if ($image = $this->formatter->getMainImageUrl($resource)) {
-            $additionalData['image'] = $image;
+            $additionalData['imageLink'] = $image;
         }
 
         /** @var ProductAttribute $attribute */

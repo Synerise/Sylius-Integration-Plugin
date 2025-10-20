@@ -11,6 +11,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryInterface;
 use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepositoryInterface;
@@ -64,6 +65,7 @@ final class SynchronizationConfigurationType extends AbstractResourceType
                 'expanded' => true,
                 'required' => true,
                 'multiple' => false,
+                'data' => ProductAttributeValue::VALUE,
             ]);
     }
 
@@ -88,7 +90,7 @@ final class SynchronizationConfigurationType extends AbstractResourceType
     private function getChannelIdsFromChannelConfigurations(): array
     {
         return array_map(
-        fn ($configuration) => $configuration->getChannel()?->getId(),
+            fn ($configuration) => $configuration->getChannel()?->getId(),
             $this->channelConfigurationRepository->findAllExceptId()
         );
     }
