@@ -18,7 +18,7 @@ Before integration, please make sure your application meets with the following r
 
 ## Installation
 
-Plugin is available as a composer package. Its registration is handled with Symfony Flex recipe.
+Plugin is available as a composer package. Its registration is handled with Symfony Flex recipe. To benefit from autoconfiguration, please make sure that flex is available in your setup.
 
 ### 1. Allow Symfony contrib recipes
 
@@ -72,8 +72,35 @@ yarn encore production # for production
 bin/console cache:clear
 ```
 
+## Installation without flex
+
+Although autoconfiguration with flex is the recommended option, the plugin can also be registered manually. 
+
+### 1. Register bundle
+
+Edit your bundles config file `config/bundles.php` and add plugin to the array:
+```
+<?php
+
+return [
+    ...
+    Synerise\SyliusIntegrationPlugin\SyneriseSyliusIntegrationPlugin::class => ['all' => true],
+];
+```
+
+### 2. Copy config files
+
+Head over to [recipes repository](https://github.com/Synerise/symfony-recipes/tree/flex/main/synerise/sylius-integration-plugin/). Select the appropriate version. Copy contents of config directory you application config.
+
+### 3. Add admin entrypoint 
+
+Edit `assets/admin/entrypoint.js` script by adding the following lines:
+```
+    import '../../vendor/synerise/sylius-integration-plugin/assets/admin/entrypoint
+```
+
 ## Documentation
-To learn how to properly configure the plugin, please head to our [documentation](https://hub.synerise.com/docs/settings/tool) page.
+To learn how to properly configure the plugin, please head to our [documentation](https://hub.synerise.com/docs/settings/tool/sylius-integration/) page.
 
 ## Support
 In case of a bug, feature request or any trouble with the integration, visit our [support](http://synerise.com/support/) page and fill in the proper form. 
