@@ -93,8 +93,11 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
         /** @var ProductAttribute $attribute */
         foreach ($configuration->getProductAttributes() as $attribute) {
-            if ($attributeValue = $resource->getAttributeByCodeAndLocale($attribute->getCode())) {
-                $additionalData[$attribute->getCode()] = $this->getAttributeValue(
+            $code = $attribute->getCode();
+            $attributeValue = $code !== null ? $resource->getAttributeByCodeAndLocale($code) : null;
+
+            if ($attributeValue !== null) {
+                $additionalData[$code] = $this->getAttributeValue(
                     $attributeValue,
                     $configuration->getProductAttributeValue(),
                 );
@@ -142,9 +145,13 @@ class ProductToAddItemMapper implements RequestMapperInterface
     }
 
     private function getCategoryValue(
-        TaxonInterface $taxon,
+        ?TaxonInterface $taxon,
         ?ProductAttributeValue $config,
-    ): string|int|array {
+    ): string|int|array|null {
+        if (null === $taxon) {
+            return null;
+        }
+
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $taxon->getId(),
