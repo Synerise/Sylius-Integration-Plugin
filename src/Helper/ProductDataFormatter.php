@@ -31,7 +31,6 @@ class ProductDataFormatter
             $channel = $this->channelContext->getChannel();
         }
 
-        Assert::NotNull($channel->getDefaultLocale(), 'Default locale is not set');
         Assert::notNull($channel->getHostname());
         $this->urlGenerator->getContext()->setHost($channel->getHostname());
 
@@ -41,6 +40,8 @@ class ProductDataFormatter
     public function generateProductUrl(ProductInterface $product, ?ChannelInterface $channel = null): string
     {
         $channel = $this->prepareUrlContext($channel);
+
+        Assert::NotNull($channel->getDefaultLocale(), 'Default locale is not set');
         $localeCode = $channel->getDefaultLocale()->getCode();
 
         $parameters = [
