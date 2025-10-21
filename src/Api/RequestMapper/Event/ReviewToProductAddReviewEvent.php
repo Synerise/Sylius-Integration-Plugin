@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event;
 
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Review\Model\ReviewInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -24,8 +25,9 @@ class ReviewToProductAddReviewEvent
 
     public function prepare(ReviewInterface $review, Client $client): CustomEvent
     {
+        /** @var ProductInterface $product */
         $product = $review->getReviewSubject();
-        Assert::isInstanceOf($product, \Sylius\Component\Core\Model\ProductInterface::class);
+        Assert::isInstanceOf($product, ProductInterface::class);
 
         $productAddReviewEvent = AddedReviewBuilder::initialize($client)
             ->setTime($review->getCreatedAt() ?: new \DateTime())
@@ -35,7 +37,7 @@ class ReviewToProductAddReviewEvent
             ->setSku($product->getCode())
             ->setCategory($this->formatter->formatTaxon($product->getMainTaxon()))
             ->setCategories($this->formatter->formatTaxonsCollection($product->getTaxons()) ?: null)
-            ->setUrl($this->formatter->generateUrl($product))
+            ->setUrl($this->formatter->generateProductUrl($product))
             ->setParam('status', $review->getStatus())
             ->build();
 

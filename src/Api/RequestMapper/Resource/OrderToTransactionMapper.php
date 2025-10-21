@@ -97,8 +97,9 @@ class OrderToTransactionMapper implements RequestMapperInterface
 
     private function prepareTransactionProductData(OrderItemInterface $resourceItem): Product
     {
+        /** @var OrderInterface $resource */
         $resource = $resourceItem->getOrder();
-        Assert::implementsInterface($resource, \Sylius\Component\Order\Model\OrderInterface::class);
+        Assert::implementsInterface($resource, OrderInterface::class);
 
         $resourceProduct = $resourceItem->getProduct();
         $currencyCode = $resource->getCurrencyCode();
