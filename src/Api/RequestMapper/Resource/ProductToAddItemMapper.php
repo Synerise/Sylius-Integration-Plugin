@@ -53,7 +53,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
             'itemId' => $resource->getCode(),
             'title' => $resource->getName(),
             'enabled' => $resource->isEnabled(),
-            'link' => $this->formatter->generateUrl($resource, $channel),
+            'link' => $this->formatter->generateProductUrl($resource, $channel),
         ];
 
         if ($mainTaxon = $resource->getMainTaxon()) {
@@ -87,7 +87,7 @@ class ProductToAddItemMapper implements RequestMapperInterface
             }
         }
 
-        if ($image = $this->formatter->getMainImageUrl($resource)) {
+        if ($image = $this->formatter->getMainImageUrl($resource, $channel)) {
             $additionalData['imageLink'] = $image;
         }
 

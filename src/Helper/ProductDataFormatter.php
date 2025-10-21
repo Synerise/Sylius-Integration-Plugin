@@ -24,7 +24,7 @@ class ProductDataFormatter
     ) {
     }
 
-    public function generateUrl(ProductInterface $product, ?ChannelInterface $channel = null): string
+    private function prepareUrlContext(?ChannelInterface $channel = null): ChannelInterface
     {
         if ($channel === null) {
             /** @var ChannelInterface $channel */
@@ -32,25 +32,40 @@ class ProductDataFormatter
         }
 
         Assert::NotNull($channel->getDefaultLocale(), 'Default locale is not set');
-
-        $localeCode = $channel->getDefaultLocale()->getCode();
-
         Assert::notNull($channel->getHostname());
         $this->urlGenerator->getContext()->setHost($channel->getHostname());
 
-        return $this->urlGenerator->generate(
-            'sylius_shop_product_show',
-            [
+        return $channel;
+    }
+
+    public function generateProductUrl(ProductInterface $product, ?ChannelInterface $channel = null): string
+    {
+        $channel = $this->prepareUrlContext($channel);
+        $localeCode = $channel->getDefaultLocale()->getCode();
+
+        $parameters = [
                 'slug' => $product->getTranslation($localeCode)->getSlug(),
                 '_locale' => $localeCode,
-            ],
+        ];
+
+        return $this->urlGenerator->generate(
+            'sylius_shop_product_show',
+            $parameters,
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
     }
 
-    public function getMainImageUrl(ProductInterface $product): ?string
+    public function getMainImageUrl(ProductInterface $product, ?ChannelInterface $channel = null): ?string
     {
-        return $this->getMainImage($product)?->getPath();
+        $channel = $this->prepareUrlContext($channel);
+
+        $imagePath = $this->getMainImage($product)?->getPath();
+
+        return $this->urlGenerator->generate(
+            'sylius_shop_default_locale',
+            [],
+            UrlGeneratorInterface::ABSOLUTE_URL,
+        ) . 'media/image/' . $imagePath;
     }
 
     public function formatAmount(float|int $amount): float
