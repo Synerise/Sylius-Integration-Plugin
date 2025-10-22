@@ -158,8 +158,8 @@ final class ChannelConfigurationType extends AbstractResourceType
 
             if ($data) {
                 $eventsOptions = array_keys($choices);
-                $data->setEvents($data->getId() && $data->getEvents() != null ? $data->getEvents() : $eventsOptions);
-                $data->setQueueEvents($data->getId() && $data->getQueueEvents() != null ? $data->getQueueEvents() : $eventsOptions);
+                $data->setEvents($data->getId() ? $data->getEvents() : $eventsOptions);
+                $data->setQueueEvents($data->getId() ? $data->getQueueEvents() : $eventsOptions);
             }
         });
     }
