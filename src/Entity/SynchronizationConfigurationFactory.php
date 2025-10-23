@@ -23,7 +23,7 @@ class SynchronizationConfigurationFactory
         $this->repository = $repository;
     }
 
-    public function create(?string $channelId = null): ?SynchronizationConfigurationInterface
+    public function create(string|int|null $channelId = null): ?SynchronizationConfigurationInterface
     {
         if ($channelId === null) {
             $channelId = $this->channel->getChannel()->getId();

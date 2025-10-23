@@ -4,31 +4,32 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Model\ChannelInterface;
-use Sylius\Component\Core\Model\Customer;
+use Sylius\Component\Core\Model\CustomerInterface;
+use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Resource\Model\ResourceInterface;
 
 class CustomerDataProvider implements DataProviderInterface
 {
+    /**
+     * @param CustomerRepositoryInterface<CustomerInterface> $customerRepository
+     */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private CustomerRepositoryInterface $customerRepository,
     ) {
     }
 
     public function getIds(ChannelInterface $channel): iterable
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('c.id')->from(Customer::class, 'c');
+        // @phpstan-ignore-next-line
+        $queryBuilder = $this->customerRepository->createQueryBuilder('c');
+        $queryBuilder->select('c.id');
 
         return $queryBuilder->getQuery()->toIterable();
     }
 
-    /**
-     * @return Customer|null
-     */
     public function getEntity(int $id): ?ResourceInterface
     {
-        return $this->entityManager->getRepository(Customer::class)->find($id);
+        return $this->customerRepository->find($id);
     }
 }

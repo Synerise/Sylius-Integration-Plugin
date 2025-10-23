@@ -12,6 +12,15 @@ export default class extends Controller {
   connect() {
     const selectInput = this.element;
 
+    const prepareChoices = (selected) => {
+      const values = new Set();
+      Array.from(selectInput.options).forEach((option) => {
+        if (values.has(option.value)) return option.remove();
+        values.add(option.value);
+        if (selected.includes(option.value)) option.selected = "selected";
+      });
+    };
+
     const defaultOptions = {
       options: selectInput.options,
       plugins: {
@@ -32,15 +41,8 @@ export default class extends Controller {
           </div>`;
         },
       },
-      onChange: (selected) => {
-        const values = new Set();
-        Array.from(selectInput.options).forEach((option) => {
-          if (values.has(option.value)) return option.remove();
-
-          values.add(option.value);
-          if (selected.includes(option.value)) option.selected = true;
-        });
-      },
+      onLoad: prepareChoices,
+      onChange: prepareChoices,
       controlInput: '<input class="form-control">',
     };
 

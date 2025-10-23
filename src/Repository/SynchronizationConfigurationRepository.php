@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Channel\Model\ChannelInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 
 /**

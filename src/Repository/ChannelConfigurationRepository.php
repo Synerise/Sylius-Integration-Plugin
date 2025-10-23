@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Repository;
 
-use Doctrine\ORM\EntityRepository as BaseEntityRepository;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 

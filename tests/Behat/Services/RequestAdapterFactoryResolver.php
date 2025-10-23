@@ -28,7 +28,7 @@ final class RequestAdapterFactoryResolver implements RequestAdapterFactoryInterf
     ): RequestAdapter
     {
         $factory = $this->getFactory();
-        return $factory->create($config, $authenticationProvider);
+        return $factory->create($config, $authenticationProvider, $middlewares, $parseNodeFactory, $serializationWriterFactory);
     }
 
     private function getFactory(): RequestAdapterFactoryInterface
