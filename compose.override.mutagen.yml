@@ -1,7 +1,5 @@
 services:
     php:
-        build:
-            dockerfile: Dockerfile
         user: ${DOCKER_USER:-1000:1000}
         depends_on:
             mysql:
@@ -49,8 +47,6 @@ services:
         ports:
             - "3306:3306"
     nginx:
-        build:
-            dockerfile: nginx/Dockerfile
         environment:
             DC: SD
             WORKING_DIR: /srv/sylius/tests/Application

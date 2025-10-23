@@ -75,4 +75,4 @@ mutagen-down:
 	@$(MUTAGEN_COMPOSE) down
 
 composer-update:
-	composer update --ignore-platform-reqs --no-interaction --no-scripts --no-plugins
+	composer update --ignore-platform-reqs --no-interaction --no-scripts --no-plugins --with-all-dependencies

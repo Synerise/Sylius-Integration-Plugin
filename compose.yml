@@ -1,6 +1,7 @@
 services:
     php:
-        image: ghcr.io/sylius/sylius-php:8.3-alpine
+        build:
+            dockerfile: Dockerfile
     mysql:
         image: mysql:8.4
         platform: linux/amd64
@@ -14,7 +15,8 @@ services:
         cap_add:
             - SYS_NICE # prevent "mbind: Operation not permitted" errors
     nginx:
-        image: ghcr.io/sylius/sylius-nginx:latest
+        build:
+            dockerfile: nginx/Dockerfile
         depends_on:
             -   php
     mailhog:
