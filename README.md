@@ -90,7 +90,7 @@ return [
 
 ### 2. Copy config files
 
-Head over to [recipes repository](https://github.com/Synerise/symfony-recipes/tree/flex/main/synerise/sylius-integration-plugin/). Select the appropriate version. Copy contents of config directory you application config.
+Head over to [recipes repository](https://github.com/Synerise/symfony-recipes/tree/flex/main/synerise/sylius-integration-plugin/). Select the appropriate version. Copy the contents of the config directory to your application config.
 
 ### 3. Add admin entrypoint 
 
