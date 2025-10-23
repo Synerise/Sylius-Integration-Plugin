@@ -35,11 +35,15 @@
                         Tracking events
                     </td>
                     <td class="border-start">
-                        <div class="d-flex flex-row flex-wrap gap-2">
-                            {% for event in resource.events %}
-                                <span class="badge bg-blue-lt">{{ event }}</span>
-                            {% endfor %}
-                        </div>
+                        {% if resource.events | length > 0 %}
+                            <div class="d-flex flex-row flex-wrap gap-2">
+                                {% for event in resource.events %}
+                                    <span class="badge bg-blue-lt">{{ event }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            No
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>

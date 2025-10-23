@@ -50,10 +50,10 @@ class ProductToAddItemMapper implements RequestMapperInterface
 
         $additionalData = [
             'id' => $resource->getId(),
-            'code' => $resource->getCode(),
-            'name' => $resource->getName(),
+            'itemId' => $resource->getCode(),
+            'title' => $resource->getName(),
             'enabled' => $resource->isEnabled(),
-            'link' => $this->formatter->generateUrl($resource, $channel),
+            'link' => $this->formatter->generateProductUrl($resource, $channel),
         ];
 
         if ($mainTaxon = $resource->getMainTaxon()) {
@@ -78,23 +78,26 @@ class ProductToAddItemMapper implements RequestMapperInterface
         if ($channelPricing) {
             $price = $channelPricing->getPrice() ? $this->formatter->formatAmount($channelPricing->getPrice()) : null;
             if ($price) {
-                $additionalData['price'] = $price;
+                $additionalData['salePrice'] = ['value' => $price];
             }
 
             $originalPrice = $channelPricing->getOriginalPrice() ? $this->formatter->formatAmount($channelPricing->getOriginalPrice()) : null;
             if ($originalPrice) {
-                $additionalData['originalPrice'] = $originalPrice;
+                $additionalData['price'] = ['value' => $originalPrice];
             }
         }
 
-        if ($image = $this->formatter->getMainImageUrl($resource)) {
-            $additionalData['image'] = $image;
+        if ($image = $this->formatter->getMainImageUrl($resource, $channel)) {
+            $additionalData['imageLink'] = $image;
         }
 
         /** @var ProductAttribute $attribute */
         foreach ($configuration->getProductAttributes() as $attribute) {
-            if ($attributeValue = $resource->getAttributeByCodeAndLocale($attribute->getCode())) {
-                $additionalData[$attribute->getCode()] = $this->getAttributeValue(
+            $code = $attribute->getCode();
+            $attributeValue = $code !== null ? $resource->getAttributeByCodeAndLocale($code) : null;
+
+            if ($attributeValue !== null) {
+                $additionalData[$code] = $this->getAttributeValue(
                     $attributeValue,
                     $configuration->getProductAttributeValue(),
                 );
@@ -142,9 +145,13 @@ class ProductToAddItemMapper implements RequestMapperInterface
     }
 
     private function getCategoryValue(
-        TaxonInterface $taxon,
+        ?TaxonInterface $taxon,
         ?ProductAttributeValue $config,
-    ): string|int|array {
+    ): string|int|array|null {
+        if (null === $taxon) {
+            return null;
+        }
+
         return match ($config) {
             ProductAttributeValue::ID_VALUE => [
                 'id' => $taxon->getId(),
