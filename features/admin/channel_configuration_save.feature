@@ -11,7 +11,8 @@ Feature: Channel Configuration Save
 
   @javascript @e2e
   Scenario: Successfully save channel configuration
-    Given I am on "/admin/synerise/configuration/new"
+    Given the actual api requests will be sent
+    And I am on "/admin/synerise/configuration/new"
     When I select "channelName" from "synerise_integration_channel_configuration_channel"
     And I select "workspaceName" from "synerise_integration_channel_configuration_workspace"
     And I press "Next"
@@ -59,7 +60,8 @@ Feature: Channel Configuration Save
 
   @javascript @e2e
   Scenario: Filled inputs on edit view after successfull save
-    Given I am on "/admin/synerise/configuration/new"
+    Given the actual api requests will be sent
+    And I am on "/admin/synerise/configuration/new"
     When I select "channelName" from "synerise_integration_channel_configuration_channel"
     And I select "workspaceName" from "synerise_integration_channel_configuration_workspace"
     And I press "Next"
