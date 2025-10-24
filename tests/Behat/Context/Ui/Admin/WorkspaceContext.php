@@ -7,6 +7,7 @@ namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin;
 use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\MinkContext;
 use Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface;
+use Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\HandlerQueueFactory;
 use Webmozart\Assert\Assert;
 
 final class WorkspaceContext extends MinkContext implements Context
@@ -44,6 +45,14 @@ final class WorkspaceContext extends MinkContext implements Context
     }
 
     /**
+     * @Then /^I should be on show page for (this workspace)$/
+     */
+    public function iShouldBeOnTheWorkspaceEditPage(WorkspaceInterface $workspace): void
+    {
+        Assert::contains($this->getSession()->getCurrentUrl(), sprintf('/admin/synerise/workspace/%d', $workspace->getId()));
+    }
+
+    /**
      * @Then /^(saved workspace) should have live timeout (\d+)$/
      */
     public function savedWorkspaceShouldHaveLiveTimeout(WorkspaceInterface $workspace, string $timeout): void
@@ -65,5 +74,16 @@ final class WorkspaceContext extends MinkContext implements Context
     public function iFillInTestApiGuid(string $apiGuid): void
     {
         $this->fillField('synerise_integration_workspace_guid', $apiGuid);
+    }
+
+    /**
+     * @Given check-permission will be mocked with a success response
+     */
+    public function checkPermissionWillBeMockedWithSuccess(): void
+    {
+        $this->getSession()->setCookie(
+            HandlerQueueFactory::MOCK_HANDLER_QUEUE_COOKIE,
+            json_encode(['api_key_check_permission_success'])
+        );
     }
 }

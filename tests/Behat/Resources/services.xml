@@ -4,12 +4,54 @@
     <services>
         <defaults public="true" />
 
+        <!-- API Resolver - mock or e2e -->
+        <service id="synerise_integration.api.client_builder.factory" class="Synerise\Sdk\Api\ClientBuilderFactory">
+            <argument type="service" id="synerise_integration.api.default.authentication_provider.factory" />
+            <argument type="service" id="synerise_integration.behat.request_adapter.factory_resolver" />
+            <argument type="service" id="synerise_integration.api.middleware.default.factory" />
+        </service>
+        <service id="synerise_integration.behat.request_adapter.factory_resolver" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\RequestAdapterFactoryResolver">
+            <argument type="service" id="synerise_integration.api.request_adapter.factory" />
+            <argument type="service" id="synerise_integration.behat.mock.api.request_adapter.factory" />
+            <argument type="service" id="request_stack" />
+        </service>
+
+        <!-- Mock API -->
+        <service id="synerise_integration.behat.mock.api.request_adapter.factory" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\RequestAdapterFactory">
+            <argument type="service" id="synerise_integration.behat.mock.handler_queue.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.log.factory" />
+        </service>
+        <service id="synerise_integration.behat.mock.handler_queue.factory" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\HandlerQueueFactory">
+            <argument type="service" id="request_stack" />
+            <argument type="collection">
+                <argument key="api_key_check_permission_success" type="service" id="synerise_integration.behat.mock.response.check_permission.success"/>
+            </argument>
+        </service>
+        <service id="synerise_integration.behat.mock.response.check_permission.success" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\CheckPermissionSuccess" />
+
+        <!-- Logs Parser -->
+        <service id="synerise_sylius_integration.behat.log_parser" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\LogParser">
+            <argument type="service" id="kernel" />
+        </service>
+
         <!-- Factories -->
         <service id="sylius.behat.factory.default_azure_channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\DefaultAzureChannelConfigurationFactory">
             <argument type="service" id="synerise_integration.factory.channel_configuration" />
             <argument type="service" id="synerise_integration.factory.workspace" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
             <argument type="service" id="synerise_integration.repository.workspace" />
+        </service>
+
+        <!-- Hook -->
+        <service id="synerise_sylius_integration.behat.context.hook.e2e" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Hook\E2EContext" />
+        <service id="synerise_sylius_integration.behat.context.hook.log" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Hook\LogContext">
+            <argument type="service" id="synerise_sylius_integration.behat.log_parser" />
+        </service>
+
+        <!-- Domain -->
+        <service id="synerise_sylius_integration.behat.context.domain.e2e" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Domain\E2EContext" />
+        <service id="synerise_sylius_integration.behat.context.domain.log" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Domain\LogContext">
+            <argument type="service" id="synerise_sylius_integration.behat.log_parser" />
         </service>
 
         <!-- Setup -->

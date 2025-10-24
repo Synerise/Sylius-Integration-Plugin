@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Api;
 
-use Synerise\Sdk\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\RequestHandlerInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
@@ -16,7 +16,7 @@ class EventRequestHandlerFactory
     private array $handlers = [];
 
     public function __construct(
-        private ClientBuilderFactory $clientBuilderFactory,
+        private ClientBuilderFactoryInterface $clientBuilderFactory,
         private ChannelConfigurationFactory $channelConfigurationFactory,
         private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
         private array $handlersPool,

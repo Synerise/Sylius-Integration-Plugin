@@ -85,22 +85,25 @@ class ChannelConfigurationContext implements Context
         /** @var ChannelConfigurationInterface $channelConfiguration */
         $channelConfiguration = $this->sharedStorage->get('channelConfiguration');
 
-        foreach ($table->getHash() as $row) {
-            switch ($row['key']):
+        foreach ($table->getRowsHash() as $key => $value) {
+            switch ($key):
                 case 'trackingCode':
-                    $channelConfiguration->setTrackingCode($row['value']);
+                    $channelConfiguration->setTrackingCode($value);
                     break;
                 case 'customPageVisit':
-                    $channelConfiguration->setCustomPageVisit((bool) $row['value']);
+                    $channelConfiguration->setCustomPageVisit((bool) $value);
                     break;
                 case 'cookieDomain':
-                    $channelConfiguration->setCookieDomain($row['value']);
+                    $channelConfiguration->setCookieDomain($value);
                     break;
                 case 'virtualPage':
-                    $channelConfiguration->setVirtualPage((bool) $row['value']);
+                    $channelConfiguration->setVirtualPage((bool) $value);
+                    break;
+                case 'events':
+                    $channelConfiguration->setEvents(explode(',', $value));
                     break;
                 default:
-                    throw new \Exception("Undefined key {$row['key']}");
+                    throw new \Exception("Undefined key $key");
             endswitch;
         }
 

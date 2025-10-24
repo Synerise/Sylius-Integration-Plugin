@@ -19,6 +19,7 @@ final class WorkspaceContext implements Context
 
     /**
      * @Given /^there is a workspace with (test api key)$/
+     * @Given /^there is a workspace with (:apiKey)$/
      */
     public function thereIsAWorkspaceNamedWithApiKey(string $apiKey): void
     {
@@ -30,4 +31,21 @@ final class WorkspaceContext implements Context
 
         $this->sharedStorage->set('workspace', $workspace);
     }
+
+    /**
+     * @Given /^there is a workspace with (test api key) and request logging enabled$/
+     * @Given /^there is a workspace with (:apiKey)and request logging enabled$/
+     */
+    public function thereIsAWorkspaceNamedWithApiKeyAndRequestLoggingEnabled(string $apiKey): void
+    {
+        $workspace = new Workspace();
+        $workspace->setApiKey($apiKey);
+        $workspace->setRequestLoggingEnabled(true);
+
+        $this->entityManager->persist($workspace);
+        $this->entityManager->flush();
+
+        $this->sharedStorage->set('workspace', $workspace);
+    }
+
 }

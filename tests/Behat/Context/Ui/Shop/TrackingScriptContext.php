@@ -83,10 +83,7 @@ class TrackingScriptContext extends RawMinkContext implements Context
         $options = json_decode($optionsJson, true);
         Assert::isArray($options, 'Options should be valid JSON');
 
-        foreach ($table->getHash() as $row) {
-            $option = $row['option'];
-            $expectedValue = $row['value'];
-
+        foreach ($table->getRowsHash() as $option => $expectedValue) {
             Assert::keyExists($options, $option, "Option '{$option}' should be present");
 
             // Handle different value types

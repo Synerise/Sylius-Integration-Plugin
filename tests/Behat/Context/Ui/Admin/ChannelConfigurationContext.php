@@ -15,7 +15,7 @@ final class ChannelConfigurationContext extends MinkContext
      */
     public function IWaitFor(string $locator): void
     {
-        $this->getSession()->wait(1000, "document.querySelector('{$locator}') !== null");
+        $this->getSession()->wait(10000, "document.querySelector('{$locator}') !== null");
     }
 
     /**
