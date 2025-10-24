@@ -9,9 +9,10 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Model\CustomerInterface as BaseCustomerInterface;
 use Sylius\Resource\Model\ResourceInterface;
 use Synerise\Api\V4\Models\Agreements;
-use Synerise\Api\V4\Models\Attributes;
 use Synerise\Api\V4\Models\Profile;
 use Synerise\Api\V4\Models\ProfileSex;
+use Synerise\Sdk\Api\RequestBody\Models\ProfileBuilder;
+
 use Webmozart\Assert\Assert;
 
 class CustomerToProfileMapper implements RequestMapperInterface
@@ -28,43 +29,36 @@ class CustomerToProfileMapper implements RequestMapperInterface
     public function prepare(
         ResourceInterface $resource,
         string $type = 'synchronization',
-        ?ChannelInterface $channel = null,
-    ): Profile {
+        ?ChannelInterface $channel = null
+    ): Profile
+    {
         Assert::implementsInterface($resource, CustomerInterface::class);
 
-        $profile = new Profile();
-        $profile->setCustomId((string) $resource->getId());
-        $profile->setEmail($resource->getEmail());
-        $profile->setPhone($resource->getPhoneNumber());
-        $profile->setFirstName($resource->getFirstName());
-        $profile->setLastName($resource->getLastName());
-        $profile->setBirthDate($resource->getBirthday()?->format('Y-m-d'));
-        $profile->setSex($this->getClientGender($resource));
-
         $resourceDefaultAddress = $resource->getDefaultAddress();
-        $profile->setCountryCode($resourceDefaultAddress?->getCountryCode());
-        $profile->setProvince($resourceDefaultAddress?->getProvinceName());
-        $profile->setZipCode($resourceDefaultAddress?->getPostcode());
-        $profile->setCity($resourceDefaultAddress?->getCity());
-        $profile->setAddress($resourceDefaultAddress?->getStreet());
 
-        $additionalData = [
-            'createdAt' => $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM),
-        ];
+        $profileBuilder = ProfileBuilder::initialize()
+            ->setEmail($resource->getEmail())
+            ->setPhone($resource->getPhoneNumber())
+            ->setFirstName($resource->getFirstName())
+            ->setLastName($resource->getLastName())
+            ->setBirthDate($resource->getBirthday()?->format("Y-m-d"))
+            ->setSex($this->getClientGender($resource))
+            ->setCountryCode($resourceDefaultAddress?->getCountryCode())
+            ->setProvince($resourceDefaultAddress?->getProvinceName())
+            ->setZipCode($resourceDefaultAddress?->getPostcode())
+            ->setCity($resourceDefaultAddress?->getCity())
+            ->setAddress($resourceDefaultAddress?->getStreet())
+            ->addAttribute('createdAt', $resource->getCreatedAt()?->format(\DateTimeInterface::ATOM));
 
         if ($resource->getGroup() != null) {
-            $additionalData['group'] = $resource->getGroup()->getCode();
+            $profileBuilder->addAttribute('group', $resource->getGroup()->getCode());
         }
-
-        $attributes = new Attributes();
-        $attributes->setAdditionalData($additionalData);
-        $profile->setAttributes($attributes);
 
         $agreements = new Agreements();
         $agreements->setEmail($resource->isSubscribedToNewsletter());
-        $profile->setAgreements($agreements);
+        $profileBuilder->setAgreements($agreements);
 
-        return $profile;
+        return $profileBuilder->build();
     }
 
     private function getClientGender(CustomerInterface $resource): ProfileSex
