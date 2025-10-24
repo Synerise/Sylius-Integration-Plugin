@@ -94,7 +94,10 @@ synerise_integration:
                 label: 'Declare a specific domain/root domain'
             custom_page_visit:
                 label: 'Custom page visit implementation '
-                help: 'Recommended for PWA themes. Enabling this option requires code changes. For more information check the documentation.'
+                help: 'Recommended for PWA themes. Enabling this option requires code changes. For more information check <a href="%url%">%text%</a>.'
+                docs:
+                    text: 'the documentation'
+                    url: 'https://hub.synerise.com/docs/settings/tool/sylius-integration/#page-tracking'
             events:
                 label: 'Tracking events'
                 help: "Select customer activities (events) to be tracked on your website and sent to Synerise. Events will be available in the customer's profiles."
@@ -156,8 +159,12 @@ synerise_integration:
             product_attributes:
                 label: 'Product attributes'
                 placeholder: 'Select product attributes'
+            catalog_id:
+                label: 'Synerise catalog ID'
+            catalog_name:
+                label: 'Synerise catalog name'
             product_attributes_value:
-                label: 'Attribute value'
+                label: 'Product attribute value'
                 help: 'Select the variant of attribute values you want to send.'
         edit:
             title: 'Configuration'
@@ -175,7 +182,7 @@ synerise_integration:
             sections:
                 config:
                     card_title: 'Configuration'
-                    table_header: 'PRODUCTS & CUSTOMERS SETTINGS'
+                    table_header: 'PRODUCTS SETTINGS'
                 synchronizations:
                     card_title: '%channel_name% sync list'
                     card_subtitle: '%total% Synchronizations'
@@ -225,7 +232,7 @@ synerise_integration:
                     text: 'Enter the API key from Synerise (Settings > API keys). This key tracks customer activity in your store and saves it to Synerise. Ensure all required permissions are selected as listed in <a href="%url%">%text%</a>.'
                     docs:
                         text: 'the documentation'
-                        url: '#'
+                        url: 'https://hub.synerise.com/docs/settings/tool/sylius-integration/#add-a-workspace-api-key'
             environment:
                 label: 'Environment'
             authentication_method:
@@ -236,7 +243,7 @@ synerise_integration:
                     text: 'Locate the GUID in Synerise (Settings > API keys > Basic access authentication). For more information, check <a href="%url%">%text%</a>.'
                     docs:
                         text: 'the documentation'
-                        url: '#'
+                        url: 'https://hub.synerise.com/docs/settings/tool/sylius-integration/#enable-basic-workspace-authentication-optional'
             keep_alive_enabled:
                 label: 'Enable the keep-alive header'
             live_timeout:
@@ -251,7 +258,10 @@ synerise_integration:
                 advanced:
                     card_title: 'Advanced settings'
                     popover:
-                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds. <a href="#">Check the documentation.</a>'
+                        content: 'Enable the keep-alive header to keep connections open longer and set custom timeouts for live and scheduled requests to better control how your system responds. <a href=''%url%''>%text%</a>'
+                        docs:
+                            text: 'Check the documentation.'
+                            url: 'https://hub.synerise.com/docs/settings/tool/sylius-integration/#connect-synerise-and-sylius-workspaces'
         create:
             title: 'Connect workspace'
             subheader: 'Fill in the data in the form to connect your Synerise workspace with Sylius.'

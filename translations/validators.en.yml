@@ -14,7 +14,7 @@ synerise_integration:
         since_when:
             not_null: 'Since when date can not be null'
             less_than_or_equal: 'The "Since when" field must be less than or equal to the "Until when" field'
-        untilWhen:
+        until_when:
             not_null: 'Until when date can not be null'
             greater_than_or_equal: 'The "Until when" field must be greater than or equal to the "Since when" field'
     

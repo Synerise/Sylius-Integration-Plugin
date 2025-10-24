@@ -58,6 +58,7 @@ e2e:
         channel_configuration:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
 
                 - synerise_sylius_integration.behat.context.transform.channel_configuration
 
@@ -66,7 +67,8 @@ e2e:
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                     
                 - synerise_sylius_integration.behat.context.domain.e2e
-                    
+                - synerise_sylius_integration.behat.context.domain.log                
+                
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
             filters:
                 tags: "@channel_configuration&&@e2e"

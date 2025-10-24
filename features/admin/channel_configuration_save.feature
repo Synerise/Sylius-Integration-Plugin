@@ -59,7 +59,7 @@ Feature: Channel Configuration Save
     And the ".page-body #card-events tr:nth-child(3) td:last-child" element should contain "product.update"
 
   @javascript @e2e
-  Scenario: Filled inputs on edit view after successfull save
+  Scenario: Filled inputs on edit view after successful save
     Given the actual api requests will be sent
     And I am on "/admin/synerise/configuration/new"
     When I select "channelName" from "synerise_integration_channel_configuration_channel"
