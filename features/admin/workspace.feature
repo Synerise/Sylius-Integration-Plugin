@@ -10,7 +10,8 @@ Feature: Workspace management
 
   @default
   Scenario: Successfully saving a new workspace
-    Given check-permission will be mocked with a success response
+    Given api response will be mocked with:
+      | api_key_check_permission_success  |
     And I am on the workspace creation page
     When I fill in test api key
     And I select "basic" from "synerise_integration_workspace[authenticationMethod]"
@@ -48,7 +49,8 @@ Feature: Workspace management
 
   @default
   Scenario: Successfully updating an existing workspace
-    Given check-permission will be mocked with a success response
+    Given api response will be mocked with:
+      | api_key_check_permission_success  |
     And there is a workspace with test api key
     When I am on the edit page of this workspace
     And I change "synerise_integration_workspace[liveTimeout]" to "3"

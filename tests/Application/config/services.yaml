@@ -4,3 +4,4 @@ parameters:
     locale: en_US
     synerise.test.api_key: '%env(SYNERISE_TEST_API_KEY)%'
     synerise.test.api_guid: '%env(SYNERISE_TEST_API_GUID)%'
+    synerise.test.tracking_code: '%env(SYNERISE_TEST_TRACKING_CODE)%'

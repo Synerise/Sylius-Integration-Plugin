@@ -133,6 +133,14 @@ jobs:
                     (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv)
 
             -
+                name: Setup Messenger transports
+                run: (cd tests/Application && php bin/console messenger:setup-transports --no-interaction -vvv)
+
+            -
+                name: Generate JWT keys
+                run: (cd tests/Application && bin/console lexik:jwt:generate-keypair --overwrite)
+
+            -
                 name: Prepare test application assets
                 run: |
                     (cd tests/Application && bin/console assets:install public -vvv)
@@ -182,6 +190,8 @@ jobs:
                 uses: actions/upload-artifact@v4
                 if: failure()
                 with:
-                    name: Behat logs
+                    name: "Behat logs - ${{ matrix.sylius }}-${{ github.run_id }}-${{ github.run_number }}"
                     path: etc/build/
                     if-no-files-found: ignore
+                    compression-level: 6
+                    overwrite: true

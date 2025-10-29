@@ -2,13 +2,14 @@
 
 namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory;
 
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 class CheckPermissionSuccess implements ResponseFactoryInterface
 {
     public function create(): ResponseInterface
     {
-        return new \GuzzleHttp\Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode([
+        return new Response(200, ['Content-Type' => 'application/json'], json_encode([
             'businessProfileName' => 'Magento Plugin Local',
             'permissions' => [
                 'API_REMOVED_FROM_CART_EVENTS_CREATE' => true,
