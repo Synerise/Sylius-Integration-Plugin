@@ -71,7 +71,7 @@ jobs:
 
             -
                 name: Generate JWT keys
-                run: php bin/console lexik:jwt:generate-keypair --overwrite
+                run: (cd tests/Application && bin/console lexik:jwt:generate-keypair --overwrite)
 
             -
                 name: Run Chrome Headless
