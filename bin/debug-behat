@@ -1,0 +1,2 @@
+#!/bin/sh
+export XDEBUG_CONFIG="client_host=host.docker.internal client_port=9003 idekey=BEHAT xdebug.start_with_request=yes"

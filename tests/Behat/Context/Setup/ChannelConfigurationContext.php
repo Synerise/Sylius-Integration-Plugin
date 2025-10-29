@@ -26,20 +26,17 @@ class ChannelConfigurationContext implements Context
     ) {
     }
 
-    /**
-     * @Given I have a configured channel with workspace
-     */
-    public function iHaveAChannelWithConfiguration(): void
+    #[Given('/^(this workspace) is assigned to (this channel)$/')]
+    public function thisWorkspaceIsAssignedToThisChannel($workspace, $channel): void
     {
-        $channel = $this->sharedStorage->get('channel');
-        $defaultData = $this->defaultchannelConfigurationFactory->create($channel);
-
-        $this->sharedStorage->set('channelConfiguration', $defaultData['channelConfiguration']);
+        $data = $this->defaultchannelConfigurationFactory->create($channel, $workspace);
+        $this->sharedStorage->set('channelConfiguration', $data['channelConfiguration']);
     }
 
     /**
      * @Given the channel has tracking enabled without tracking code
      * @Given the channel has tracking enabled with tracking code :trackingCode
+     * @Given /^the channel has tracking enabled with (test tracking code)$/
      */
     public function trackingIsEnabledForTheChannel(?string $trackingCode = null): void
     {
@@ -101,6 +98,9 @@ class ChannelConfigurationContext implements Context
                     break;
                 case 'events':
                     $channelConfiguration->setEvents(explode(',', $value));
+                    break;
+                case 'queue_events':
+                    $channelConfiguration->setQueueEvents(explode(',', $value));
                     break;
                 default:
                     throw new \Exception("Undefined key $key");

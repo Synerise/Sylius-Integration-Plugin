@@ -5,8 +5,9 @@ Feature: Tracking Script Rendering
   I want the tracking script to be rendered correctly when enabled
 
   Background:
-    Given the store operates on a single channel in "United States"
-    And I have a configured channel with workspace
+    Given there is a workspace with test api key
+    And the store operates on a single channel in "United States"
+    And this workspace is assigned to this channel
 
   Scenario: Tracking script renders with minimal configuration
     Given the channel has tracking enabled with tracking code "test-tracker-key"

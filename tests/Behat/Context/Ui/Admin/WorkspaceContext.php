@@ -75,15 +75,4 @@ final class WorkspaceContext extends MinkContext implements Context
     {
         $this->fillField('synerise_integration_workspace_guid', $apiGuid);
     }
-
-    /**
-     * @Given check-permission will be mocked with a success response
-     */
-    public function checkPermissionWillBeMockedWithSuccess(): void
-    {
-        $this->getSession()->setCookie(
-            HandlerQueueFactory::MOCK_HANDLER_QUEUE_COOKIE,
-            json_encode(['api_key_check_permission_success'])
-        );
-    }
 }

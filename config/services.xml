@@ -26,6 +26,10 @@
         </service>
         <service id="synerise_integration.cookie_profile_manager" class="Synerise\Sdk\Cookie\CookieProfileManager">
             <argument type="service" id="synerise_integration.helper.cookie_container" />
+            <argument type="service" id="synerise_integration.cookie.symfony_cookie_profile_factory" />
+        </service>
+        <service id="synerise_integration.cookie.symfony_cookie_profile_factory" class="Synerise\SyliusIntegrationPlugin\Cookie\SymfonyCookieProfileFactory" >
+            <argument type="service" id="request_stack" />
         </service>
         <service id="synerise_integration.identity_manager" class="Synerise\Sdk\Tracking\IdentityManager">
             <argument type="service" id="synerise_integration.cookie_profile_manager" />
