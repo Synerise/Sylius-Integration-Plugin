@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration"
+                       table="synerise_synchronization_config">
+        <id name="id" column="id" type="integer">
+            <generator/>
+        </id>
+        <field name="catalogId" column="catalog_id" type="integer" nullable="true"/>
+        <many-to-many field="productAttributes"
+                      target-entity="Sylius\Component\Product\Model\ProductAttributeInterface">
+            <join-table name="synerise_synchronization_product_attributes">
+                <join-columns>
+                    <join-column name="synchronization_config_id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="attribute_id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        <field name="productAttributeValue" column="product_attribute_value" length="10">
+            <options>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue</option>
+            </options>
+        </field>
+
+        <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
+            <join-column name="channel_id" on-delete="CASCADE" />
+        </one-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

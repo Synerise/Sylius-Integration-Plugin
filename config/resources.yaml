@@ -1,0 +1,29 @@
+sylius_resource:
+    resources:
+        synerise_integration.channel_configuration:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration
+                interface: Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepository
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
+        synerise_integration.synchronization_configuration:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepository
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
+        synerise_integration.workspace:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\Workspace
+                interface: Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
+        synerise_integration.synchronization:
+            classes:
+                model: Synerise\SyliusIntegrationPlugin\Entity\Synchronization
+                interface: Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepository
+                form: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationType

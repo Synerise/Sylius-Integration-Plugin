@@ -2,7 +2,7 @@ synerise_integration_admin_channel_configuration:
     resource: |
         alias: synerise_integration.channel_configuration
         section: admin
-        templates: "@SyliusAdmin\\shared\\crud"
+        templates: "@SyliusAdmin/Crud"
         grid: synerise_integration_admin_channel_configuration
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\ChannelConfigurationType
@@ -20,7 +20,7 @@ synerise_integration_admin_synchronization_configuration:
     resource: |
         alias: synerise_integration.synchronization_configuration
         section: admin
-        templates: "@SyliusAdmin\\shared\\crud"
+        templates: "@SyliusAdmin/Crud"
         grid: synerise_integration_admin_synchronization_configuration
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\SynchronizationConfigurationType
@@ -38,7 +38,7 @@ synerise_integration_admin_workspace:
     resource: |
         alias: synerise_integration.workspace
         section: admin
-        templates: "@SyliusAdmin\\shared\\crud"
+        templates: "@SyliusAdmin/Crud"
         grid: synerise_integration_admin_workspace
         form:
             type: Synerise\SyliusIntegrationPlugin\Form\Type\WorkspaceType
@@ -55,7 +55,7 @@ synerise_integration_admin_workspace:
 synerise_integration_admin_synchronization:
     resource: |
         alias: synerise_integration.synchronization
-        templates: "@SyliusAdmin\\shared\\crud"
+        templates: "@SyliusAdmin/Crud"
         path: /synerise/synchronization_configuration/{configurationId}/synchronization
         only: ['show', 'create', 'delete']
         section: admin

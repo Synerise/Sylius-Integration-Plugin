@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
-use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
-use Symfony\UX\LiveComponent\DefaultActionTrait;
+//use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
+//use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
@@ -15,8 +15,8 @@ use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationConfigurationRepo
 #[AsTwigComponent]
 class SynchronizationConfigurationActions
 {
-    use HookableComponentTrait;
-    use DefaultActionTrait;
+//    use HookableComponentTrait;
+//    use DefaultActionTrait;
 
     /** @var array<int, SynchronizationConfigurationInterface> $configurations ; */
     #[ExposeInTemplate('configurations')]

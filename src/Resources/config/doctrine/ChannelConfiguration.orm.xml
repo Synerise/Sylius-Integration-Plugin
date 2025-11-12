@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration" table="synerise_channel_configuration">
+        <id name="id" column="id" type="integer">
+            <generator />
+        </id>
+
+        <field name="trackingCode" column="tracking_code" length="255" nullable="true" />
+        <field name="trackingEnabled" column="tracking_enabled" type="boolean" />
+        <field name="cookieDomain" column="cookie_domain" length="255" nullable="true" />
+        <field name="customPageVisit" column="custom_page_visit" type="boolean" />
+        <field name="virtualPage" column="virtual_page" type="boolean" />
+        <field name="opengraphEnabled" column="opengraph_enabled" type="boolean" />
+        <field name="events" column="events" type="json" nullable="true" />
+        <field name="queueEvents" column="queue_events" type="json" nullable="true" />
+        <field name="snrsParamsEnabled" column="snrs_params" type="boolean" />
+
+        <one-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
+            <join-column name="channel_id" on-delete="CASCADE" />
+        </one-to-one>
+        <many-to-one field="workspace" target-entity="Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface">
+            <join-column name="workspace_id" on-delete="CASCADE" />
+        </many-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

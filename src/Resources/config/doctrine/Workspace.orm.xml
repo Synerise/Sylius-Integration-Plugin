@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Synerise\SyliusIntegrationPlugin\Entity\Workspace" table="synerise_workspace">
+        <id name="id" column="id" type="integer">
+            <generator />
+        </id>
+        <field name="name" length="255" nullable="true" />
+        <field name="apiKey" type="uuid_binary" />
+        <field name="apiGuid" type="guid" nullable="true" />
+        <field name="authenticationMethod" length="10">
+            <options>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod</option>
+            </options>
+        </field>
+        <field name="environment" length="10" >
+            <options>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment</option>
+            </options>
+        </field>
+        <field name="permissionsStatus" length="15">
+            <options>
+                <option name="enumType">Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus</option>
+            </options>
+        </field>
+        <field name="liveTimeout" type="float" />
+        <field name="scheduledTimeout" type="float" />
+        <field name="keepAliveEnabled" type="boolean" />
+        <field name="requestLoggingEnabled" type="boolean" />
+    </mapped-superclass>
+</doctrine-mapping>

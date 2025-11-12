@@ -4,7 +4,7 @@ namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
+//use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
@@ -14,7 +14,7 @@ use Synerise\SyliusIntegrationPlugin\Repository\ChannelConfigurationRepositoryIn
 #[AsTwigComponent]
 class ChannelsConfiguredCheckComponent
 {
-    use HookableComponentTrait;
+//    use HookableComponentTrait;
 
     #[ExposeInTemplate]
     public int $count;

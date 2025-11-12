@@ -11,7 +11,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
-use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
+//use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
@@ -19,7 +19,7 @@ use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 
 class OpenGraphComponent
 {
-    use HookableComponentTrait;
+//    use HookableComponentTrait;
 
     #[ExposeInTemplate]
     public ?ProductInterface $product = null;

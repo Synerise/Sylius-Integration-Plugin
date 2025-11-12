@@ -7,10 +7,10 @@ namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
+//use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
-use Symfony\UX\LiveComponent\DefaultActionTrait;
+//use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationDataType;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface;
@@ -23,8 +23,8 @@ use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepositoryInterfa
 )]
 class SynchronizationsList
 {
-    use HookableLiveComponentTrait;
-    use DefaultActionTrait;
+//    use HookableLiveComponentTrait;
+//    use DefaultActionTrait;
 
     #[LiveProp(writable: true)]
     public int $page = 1;
