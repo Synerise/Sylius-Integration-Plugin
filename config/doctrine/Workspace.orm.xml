@@ -6,7 +6,7 @@
             <generator />
         </id>
         <field name="name" length="255" nullable="true" />
-        <field name="apiKey" type="uuid" />
+        <field name="apiKey" type="uuid_binary" />
         <field name="apiGuid" type="guid" nullable="true" />
         <field name="authenticationMethod" length="10">
             <options>
