@@ -25,6 +25,8 @@ class RecommendationsComponent
 
     public ?string $campaignId = null;
 
+    public ?string $correlationId = null;
+
     public ?OrderInterface $cart = null;
 
     public bool $showForEmptyCart = false;
@@ -60,6 +62,7 @@ class RecommendationsComponent
                         $skus[] = $recommendation->getItemId();
                     }
 
+                    $this->correlationId = $recommendations->getExtras()->getCorrelationId();
                     return $this->findBySkus($channel, $localeCode, $skus, $this->limit);
                 }
             }
@@ -70,6 +73,18 @@ class RecommendationsComponent
         return [];
     }
 
+    #[ExposeInTemplate(name: 'campaignId')]
+    public function getCampaignId(): string
+    {
+        return $this->campaignId;
+    }
+
+    #[ExposeInTemplate(name: 'correlationId')]
+    public function getCorrelationId(): ?string
+    {
+        return $this->correlationId;
+    }
+
     protected function findBySkus(ChannelInterface $channel, string $locale, array $skus, int $count): array
     {
         return $this->productRepository->createQueryBuilder('o')
@@ -78,7 +93,6 @@ class RecommendationsComponent
             ->andWhere(':channel MEMBER OF o.channels')
             ->andWhere('o.code IN (:codes)')
             ->andWhere('o.enabled = :enabled')
-            ->addOrderBy('o.createdAt', 'DESC')
             ->setParameter('channel', $channel)
             ->setParameter('codes', $skus)
             ->setParameter('locale', $locale)
@@ -86,7 +100,7 @@ class RecommendationsComponent
             ->setMaxResults($count)
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**
