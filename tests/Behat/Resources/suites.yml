@@ -10,7 +10,7 @@ default:
                 - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.channel
                 - synerise_sylius_integration.behat.context.setup.workspace
-                    
+
                 - synerise_sylius_integration.behat.context.domain.log
                 - synerise_sylius_integration.behat.context.domain.mock_api
 
@@ -43,7 +43,7 @@ default:
 
                 - sylius.behat.context.transform.shared_storage
                 - synerise_sylius_integration.behat.context.transform.workspace
-                
+
                 - synerise_sylius_integration.behat.context.ui.shop.tracking_script
             filters:
                 tags: "@tracking_script&&@default"
@@ -58,7 +58,23 @@ default:
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
             filters:
-                tags: "@channel_configuration&&@default"   
+                tags: "@channel_configuration&&@default"
+        synchronization_configuration:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.workspace
+                - synerise_sylius_integration.behat.context.transform.synchronization_configuration
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+                - synerise_sylius_integration.behat.context.ui.admin.synchronization_configuration
+                - synerise_sylius_integration.behat.context.domain.mock_api
+            filters:
+                tags: "@synchronization_configuration&&@default"
         client_login:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
@@ -73,9 +89,9 @@ default:
                 - sylius.behat.context.setup.user
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.setup.workspace
-                    
+
                 - sylius.behat.context.ui.shop.login
-                
+
                 - synerise_sylius_integration.behat.context.domain.messenger
                 - synerise_sylius_integration.behat.context.domain.mock_api
                 - synerise_sylius_integration.behat.context.domain.log
@@ -96,11 +112,11 @@ default:
                 - sylius.behat.context.setup.shop_security
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.setup.workspace
-                    
+
                 - sylius.behat.context.ui.shop.account
                 - sylius.behat.context.ui.shop.homepage
                 - sylius.behat.context.ui.user
-                
+
                 - synerise_sylius_integration.behat.context.domain.messenger
                 - synerise_sylius_integration.behat.context.domain.mock_api
                 - synerise_sylius_integration.behat.context.domain.log
@@ -119,7 +135,7 @@ default:
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.setup.workspace
                 - sylius.behat.context.ui.shop.registration
-                
+
                 - synerise_sylius_integration.behat.context.domain.messenger
                 - synerise_sylius_integration.behat.context.domain.mock_api
                 - synerise_sylius_integration.behat.context.domain.log
@@ -138,10 +154,10 @@ e2e:
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.admin_security
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
-                    
+
                 - synerise_sylius_integration.behat.context.domain.e2e
-                - synerise_sylius_integration.behat.context.domain.log                
-                
+                - synerise_sylius_integration.behat.context.domain.log
+
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
             filters:
                 tags: "@channel_configuration&&@e2e"
@@ -205,7 +221,7 @@ e2e:
                 - sylius.behat.context.ui.shop.account
                 - sylius.behat.context.ui.shop.homepage
                 - sylius.behat.context.ui.user
-                
+
                 - synerise_sylius_integration.behat.context.domain.messenger
                 - synerise_sylius_integration.behat.context.domain.e2e
                 - synerise_sylius_integration.behat.context.domain.log
@@ -215,17 +231,17 @@ e2e:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - synerise_sylius_integration.behat.context.hook.log
-                    
+
                 - sylius.behat.context.transform.shared_storage
                 - synerise_sylius_integration.behat.context.transform.channel_configuration
                 - synerise_sylius_integration.behat.context.transform.workspace
-                
+
                 - sylius.behat.context.setup.channel
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.setup.workspace
 
                 - sylius.behat.context.ui.shop.registration
-                
+
                 - synerise_sylius_integration.behat.context.domain.e2e
                 - synerise_sylius_integration.behat.context.domain.log
             filters:
