@@ -57,11 +57,13 @@ default:
                 - sylius.behat.context.setup.admin_security
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.javascript
             filters:
                 tags: "@channel_configuration&&@default"
         synchronization_configuration:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
 
                 - sylius.behat.context.transform.shared_storage
                 - synerise_sylius_integration.behat.context.transform.workspace
@@ -69,10 +71,15 @@ default:
 
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.admin_security
-                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - sylius.behat.context.setup.product_attribute
                 - synerise_sylius_integration.behat.context.setup.workspace
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.synchronization_configuration
                 - synerise_sylius_integration.behat.context.ui.admin.synchronization_configuration
+                - synerise_sylius_integration.behat.context.ui.javascript
+
                 - synerise_sylius_integration.behat.context.domain.mock_api
+                - synerise_sylius_integration.behat.context.domain.log
             filters:
                 tags: "@synchronization_configuration&&@default"
         client_login:
@@ -159,6 +166,7 @@ e2e:
                 - synerise_sylius_integration.behat.context.domain.log
 
                 - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.javascript
             filters:
                 tags: "@channel_configuration&&@e2e"
         workspace:

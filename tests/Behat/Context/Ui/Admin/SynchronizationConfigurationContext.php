@@ -15,4 +15,12 @@ final class SynchronizationConfigurationContext extends MinkContext
     {
         Assert::notNull($synchronizationConfiguration, 'Saved synchronization configuration not found');
     }
+
+    /**
+     * @Then /^the "(?P<element>[^"]*)" element should contain (catalog name)$/
+     */
+    public function assertElementContainsNewCatalogName($element, $name)
+    {
+        $this->assertElementContains($element, $name);
+    }
 }

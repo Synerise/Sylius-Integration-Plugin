@@ -25,4 +25,14 @@ class SynchronizationConfigurationContext implements Context
         $configuration = $this->entityManager->getRepository(SynchronizationConfiguration::class)->findOneBy(['channel' => $channel]);
         return $configuration;
     }
+
+    /**
+     * @Transform catalog name
+     */
+    public function newCatalogName()
+    {
+        $channel = $this->sharedStorage->get('channel');
+        $channelId = $channel?->getId() ?? 1;
+        return "channel-{$channelId}";
+    }
 }
