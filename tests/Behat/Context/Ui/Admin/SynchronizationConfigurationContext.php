@@ -23,4 +23,12 @@ final class SynchronizationConfigurationContext extends MinkContext
     {
         $this->assertElementContains($element, $name);
     }
+
+    /**
+     * @Then /^the "(?P<element>[^"]*)" element should contain current date$/
+     */
+    public function assertElementContainsCurrentDate($element)
+    {
+        $this->assertElementContains($element, date("Y-m-d H:i"));
+    }
 }

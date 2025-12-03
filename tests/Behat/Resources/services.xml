@@ -91,6 +91,8 @@
         </service>
         <service id="synerise_sylius_integration.behat.context.setup.synchronization_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\SynchronizationConfigurationContext">
             <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+            <argument type="service" id="synerise_integration.factory.synchronization_configuration" />
         </service>
         <service id="synerise_sylius_integration.behat.context.setup.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\WorkspaceContext">
             <argument type="service" id="sylius.behat.shared_storage" />

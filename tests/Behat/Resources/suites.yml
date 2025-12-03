@@ -64,12 +64,14 @@ default:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
 
                 - sylius.behat.context.transform.shared_storage
                 - synerise_sylius_integration.behat.context.transform.workspace
                 - synerise_sylius_integration.behat.context.transform.synchronization_configuration
 
                 - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.customer
                 - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.product_attribute
                 - synerise_sylius_integration.behat.context.setup.workspace
@@ -78,6 +80,7 @@ default:
                 - synerise_sylius_integration.behat.context.ui.admin.synchronization_configuration
                 - synerise_sylius_integration.behat.context.ui.javascript
 
+                - synerise_sylius_integration.behat.context.domain.messenger
                 - synerise_sylius_integration.behat.context.domain.mock_api
                 - synerise_sylius_integration.behat.context.domain.log
             filters:
