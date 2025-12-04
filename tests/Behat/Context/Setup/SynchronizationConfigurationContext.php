@@ -11,6 +11,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ProductAttributeValue;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 
 class SynchronizationConfigurationContext extends RawMinkContext implements Context
@@ -19,6 +20,7 @@ class SynchronizationConfigurationContext extends RawMinkContext implements Cont
         private SharedStorageInterface $sharedStorage,
         private RepositoryInterface $repository,
         private FactoryInterface $factory,
+        private RepositoryInterface $attributeRepository,
     ) {
     }
 
@@ -31,8 +33,6 @@ class SynchronizationConfigurationContext extends RawMinkContext implements Cont
         $this->sharedStorage->set('synchronizationConfiguration', $synchronizationConfiguration);
     }
 
-
-
     /**
      * @Given /^the synchronization configuration is configured with settings:$/
      */
@@ -44,7 +44,14 @@ class SynchronizationConfigurationContext extends RawMinkContext implements Cont
         foreach ($table->getRowsHash() as $key => $value) {
             switch ($key):
                 case 'productAttributes':
-                    $synchronizationConfiguration->setProductAttributes($value);
+                    $productAttributes = [];
+
+                    foreach (explode(',', $value) as $attributeCode) {
+                        $attribute = $this->attributeRepository->findOneBy(['code' => $attributeCode]);
+                        $productAttributes[] = $attribute;
+                    }
+
+                    $synchronizationConfiguration->setProductAttributes($productAttributes);
                     break;
                 case 'catalogId':
                     $synchronizationConfiguration->setCatalogId($value);
@@ -67,6 +74,14 @@ class SynchronizationConfigurationContext extends RawMinkContext implements Cont
     {
         $this->sharedStorage->set('channel', $channel);
         $this->getSession()->setCookie('channelId', $channel->getId());
+    }
+
+    /**
+     * @Given /^(?:|I )am on (saved synchronization configuration) page$/
+     */
+    public function visitSavedSynchronizationConfiguration(SynchronizationConfiguration $synchronizationConfiguration)
+    {
+        $this->visitPath("/admin/synerise/synchronization_configuration/".$synchronizationConfiguration->getId());
     }
 
     private function createSynchronizationConfiguration(?ChannelInterface $channel): SynchronizationConfigurationInterface

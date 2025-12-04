@@ -28,7 +28,7 @@ final class LogContext implements Context
     }
 
     #[Then('logs should show :count request(s) to :uri with data:')]
-    public function logsShouldShowRequestWithData(string $count, string $uri = null, TableNode $data): void
+    public function logsShouldShowRequestWithData(string $count, ?string $uri = null, TableNode $data): void
     {
         $filters = [];
         if ($uri !== null) {
@@ -37,13 +37,10 @@ final class LogContext implements Context
 
         $entries = $this->logParser->getEntries($filters);
 
-        foreach($entries as $entry) {
-            foreach($data->getRowsHash() as $key => $value) {
-                if($key == 'status_code') {
-                    Assert::eq($entry['response']['status_code'], $value);
-                } else {
-                    Assert::contains($entry[$key], $value);
-                }
+        foreach ($entries as $entry) {
+            foreach ($data->getRows() as [$key, $method, $value]) {
+                $field = $entry[$key] ?? $entry['response'][$key];
+                Assert::$method($field, $value);
             }
         }
 

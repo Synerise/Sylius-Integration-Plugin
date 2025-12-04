@@ -20,8 +20,8 @@ Feature: Customer login event processing
     When I log in with the email "car@better.com"
     Then I should be logged in
     And logs should show 1 request to "/v4/events/logged-in" with data:
-        | body          | "email":"car@better.com"  |
-        | status_code   | 202                       |
+        | body        | contains | "email":"car@better.com" |
+        | status_code | eq       | 202                      |
     And logs should show 1 request in total
 
   @default @identify @no-queue
@@ -36,11 +36,11 @@ Feature: Customer login event processing
     When I log in with the email "car@better.com"
     Then I should be logged in
     And logs should show 1 request to "/v4/clients/batch" with data:
-        | body          | [{"email":"car@better.com","uuid":"4b561e92-d398-45d8-b581-a6988627277a"},{"email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6"}]  |
-        | status_code   | 202                                                                                                                                                   |
+        | body        | contains | [{"email":"car@better.com","uuid":"4b561e92-d398-45d8-b581-a6988627277a"},{"email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6"}]  |
+        | status_code | eq       | 202                                                                                                                                                  |
     And logs should show 1 request to "/v4/events/logged-in" with data:
-        | body          | "email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6"    |
-        | status_code   | 202                                                                       |
+        | body        | contains | "email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6" |
+        | status_code | eq       | 202                                                                    |
     And logs should show 2 requests in total
 
   @default @queue
@@ -55,8 +55,8 @@ Feature: Customer login event processing
     And I should have 1 message in the queue
     When I process 1 message
     Then logs should show 1 request to "/v4/events/logged-in" with data:
-        | body          | "email":"car@better.com"  |
-        | status_code   | 202                       |
+        | body        | contains | "email":"car@better.com" |
+        | status_code | eq       | 202                      |
     And logs should show 1 request in total
 
   @e2e @javascript @identify @no-queue
@@ -72,6 +72,6 @@ Feature: Customer login event processing
         | body          | "email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6"    |
         | status_code   | 202                                                                       |
     And logs should show 1 request to "/v4/events/logged-in" with data:
-        | body          | "email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6"    |
-        | status_code   | 202                                                                       |
+        | body        | contains | "email":"car@better.com","uuid":"77cb3081-542b-5cf3-9938-26be8dcd27f6"    |
+        | status_code | eq       | 202                                                                       |
     And logs should show 2 requests in total

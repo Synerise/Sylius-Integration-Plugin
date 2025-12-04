@@ -5,8 +5,10 @@ namespace Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Transform;
 use Behat\Behat\Context\Context;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfiguration;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface;
 
 class SynchronizationConfigurationContext implements Context
 {
@@ -24,6 +26,15 @@ class SynchronizationConfigurationContext implements Context
         $channel = $this->sharedStorage->get('channel');
         $configuration = $this->entityManager->getRepository(SynchronizationConfiguration::class)->findOneBy(['channel' => $channel]);
         return $configuration;
+    }
+
+    /**
+     * @Transform saved synchronization
+     */
+    public function savedSynchronization(): SynchronizationInterface
+    {
+        $synchronization = $this->entityManager->getRepository(Synchronization::class)->findOneBy([], ['id' => 'DESC']);
+        return $synchronization;
     }
 
     /**
