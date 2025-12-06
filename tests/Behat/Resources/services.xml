@@ -104,6 +104,7 @@
         <service id="synerise_sylius_integration.behat.context.setup.order" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\OrderContext">
             <argument type="service" id="sylius.behat.shared_storage" />
             <argument type="service" id="sylius.behat.context.setup.order" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
 
         <!-- Transform -->

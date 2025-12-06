@@ -90,22 +90,18 @@ default:
 
                 - sylius.behat.context.transform.shared_storage
                 - sylius.behat.context.transform.product
-                - sylius.behat.context.transform.order
                 - sylius.behat.context.transform.taxon
-                - sylius.behat.context.transform.channel
-                - sylius.behat.context.transform.shipping_method
-                - sylius.behat.context.transform.payment
                 - sylius.behat.context.transform.lexical
+                - sylius.behat.context.transform.customer
                 - synerise_sylius_integration.behat.context.transform.workspace
                 - synerise_sylius_integration.behat.context.transform.synchronization_configuration
 
+                - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.customer
-                - sylius.behat.context.setup.order
                 - sylius.behat.context.setup.taxonomy
                 - sylius.behat.context.setup.shipping
                 - sylius.behat.context.setup.payment
-                - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.product
                 - sylius.behat.context.setup.product_attribute
                 - sylius.behat.context.setup.product_taxon
