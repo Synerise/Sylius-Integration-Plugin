@@ -76,6 +76,7 @@
         <service id="synerise_sylius_integration.behat.context.domain.messenger" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Domain\MessengerContext" >
             <argument type="service" id="doctrine.dbal.default_connection" />
             <argument type="service" id="messenger.transport.main" />
+            <argument type="service" id="sylius.command_bus" />
             <argument type="service" id="sylius.event_bus" />
             <argument type="service" id="synerise.synchronization_bus" />
         </service>
@@ -99,6 +100,10 @@
         <service id="synerise_sylius_integration.behat.context.setup.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\WorkspaceContext">
             <argument type="service" id="sylius.behat.shared_storage" />
             <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+        <service id="synerise_sylius_integration.behat.context.setup.order" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\OrderContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.behat.context.setup.order" />
         </service>
 
         <!-- Transform -->

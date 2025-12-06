@@ -75,7 +75,7 @@ Feature: Customer registration event processing
     Then I should be notified that new account has been successfully created
     And I should be on registration thank you page
     And I should have 1 message in the queue
-    When I process 1 message
+    When I process 1 message with event bus
     Then logs should show 1 request to "/v4/events/registered" with data:
         | body        | contains | "email":"goodman@example.com" |
         | status_code | eq       | 202                           |

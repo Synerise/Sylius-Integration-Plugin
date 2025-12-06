@@ -53,7 +53,7 @@ Feature: Customer login event processing
     When I log in with the email "car@better.com"
     Then I should be logged in
     And I should have 1 message in the queue
-    When I process 1 message
+    When I process 1 message with event bus
     Then logs should show 1 request to "/v4/events/logged-in" with data:
         | body        | contains | "email":"car@better.com" |
         | status_code | eq       | 202                      |

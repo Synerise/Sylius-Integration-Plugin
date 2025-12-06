@@ -64,16 +64,13 @@ default:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - synerise_sylius_integration.behat.context.hook.log
-                - synerise_sylius_integration.behat.context.hook.messenger
 
                 - sylius.behat.context.transform.shared_storage
                 - synerise_sylius_integration.behat.context.transform.workspace
                 - synerise_sylius_integration.behat.context.transform.synchronization_configuration
 
                 - sylius.behat.context.setup.channel
-                - sylius.behat.context.setup.customer
                 - sylius.behat.context.setup.admin_security
-                - sylius.behat.context.setup.product
                 - sylius.behat.context.setup.product_attribute
                 - synerise_sylius_integration.behat.context.setup.workspace
                 - synerise_sylius_integration.behat.context.setup.channel_configuration
@@ -81,11 +78,48 @@ default:
                 - synerise_sylius_integration.behat.context.ui.admin.synchronization_configuration
                 - synerise_sylius_integration.behat.context.ui.javascript
 
-                - synerise_sylius_integration.behat.context.domain.messenger
                 - synerise_sylius_integration.behat.context.domain.mock_api
                 - synerise_sylius_integration.behat.context.domain.log
             filters:
                 tags: "@synchronization_configuration&&@default"
+        synchronization:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
+
+                - sylius.behat.context.transform.shared_storage
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.order
+                - sylius.behat.context.transform.taxon
+                - sylius.behat.context.transform.channel
+                - sylius.behat.context.transform.shipping_method
+                - sylius.behat.context.transform.payment
+                - sylius.behat.context.transform.lexical
+                - synerise_sylius_integration.behat.context.transform.workspace
+                - synerise_sylius_integration.behat.context.transform.synchronization_configuration
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.order
+                - sylius.behat.context.setup.taxonomy
+                - sylius.behat.context.setup.shipping
+                - sylius.behat.context.setup.payment
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.product_attribute
+                - sylius.behat.context.setup.product_taxon
+                - synerise_sylius_integration.behat.context.setup.order
+                - synerise_sylius_integration.behat.context.setup.workspace
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.synchronization_configuration
+                - synerise_sylius_integration.behat.context.ui.admin.synchronization_configuration
+
+                - synerise_sylius_integration.behat.context.domain.messenger
+                - synerise_sylius_integration.behat.context.domain.mock_api
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@synchronization&&@default"
         client_login:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm

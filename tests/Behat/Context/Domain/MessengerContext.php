@@ -20,8 +20,9 @@ class MessengerContext implements Context
     public function __construct(
         private Connection $connection,
         private TransportInterface $transport,
+        private MessageBusInterface $defaultMessageBus,
         private MessageBusInterface $eventMessageBus,
-        private MessageBusInterface $syncMessageBus
+        private MessageBusInterface $syncMessageBus,
     ) {
     }
 
@@ -34,7 +35,7 @@ class MessengerContext implements Context
     #[When('I process all message(s)')]
     #[When('I process :limit message(s)')]
     #[When('I process :limit message(s) with :busName bus')]
-    public function iProcessAllMessages(?int $limit = null, string $busName = "event"): void
+    public function iProcessAllMessages(?int $limit = null, string $busName = "default"): void
     {
         $this->messageBus = $this->selectBus($busName);
         $this->processMessagesWithWorker($limit);
@@ -80,6 +81,7 @@ class MessengerContext implements Context
         return match ($name) {
             'event' => $this->eventMessageBus,
             'synchronization' => $this->syncMessageBus,
+            'default' => $this->defaultMessageBus,
             default => throw new \InvalidArgumentException("Unknown bus '$name'")
         };
     }
