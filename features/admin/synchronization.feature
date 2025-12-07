@@ -16,16 +16,17 @@ Feature: Synchronization
     And the store has a textarea product attribute "Description"
     And the store has a text product attribute "Brand"
     And the store has a integer product attribute "Pages"
+    And the store has a product "Jeans" with code "custom_code", created at "2025-01-10"
+    And this product has a text attribute "Brand" with value "Jeans brand"
     And the store has a product "T-Shirt" priced at "$20.00"
-    And this product has "white" variant priced at "$20.00"
-    And this product has "black" variant priced at "$30.00"
     And this product has a main taxon "Shirts"
     And this product has a text attribute "Brand" with value "Test brand"
     And this product has a textarea attribute "Description" with value "Test description"
     And the store has customer "John Doe" with email "john.doe@mail.com"
-    And the store has customer "Jane Doe" with email "jane.doe@mail.com"
+    And the store has customer "jane.doe@mail.com" with name "Jane Doe" and phone number "123123123" since "2025-01-10"
     And I am logged in as an administrator
-    When I process 1 message
+    And I should have 2 message in the queue
+    When I process 2 messages
 
   @default
   Scenario: Successfully save customer synchronization from listing
@@ -39,6 +40,8 @@ Feature: Synchronization
     When I follow "New sync"
     Then the url should match "/admin/synerise/synchronization_configuration/\d+/synchronization/new"
     When I select "customer" from "synerise_integration_synchronization[type]"
+    And I fill in "2025-01-01" for "synerise_integration_synchronization[sinceWhen]"
+    And I fill in "2025-02-01" for "synerise_integration_synchronization[untilWhen]"
     And I press "Create"
     Then I should see "Synchronization has been successfully created."
     And the url should match "/admin/synerise/synchronization_configuration/\d+"
@@ -55,14 +58,14 @@ Feature: Synchronization
     When I process 1 message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/v4/clients/batch" with data:
-        | body        | contains | "email":"john.doe@mail.com"  |
-        | body        | contains | "firstName":"John"           |
-        | body        | contains | "lastName":"Doe"             |
-        | body        | contains | "email":"jane.doe@mail.com"  |
-        | body        | contains | "firstName":"Jane"           |
-        | body        | contains | "sex":"NOT_SPECIFIED"        |
-        | body        | contains | "agreements":{"email":false} |
-        | status_code | eq       | 202                          |
+        | body        | notContains | "email":"john.doe@mail.com"  |
+        | body        | contains    | "email":"jane.doe@mail.com"  |
+        | body        | contains    | "firstName":"Jane"           |
+        | body        | contains    | "lastName":"Doe"             |
+        | body        | contains    | "phone":"123123123"          |
+        | body        | contains    | "sex":"NOT_SPECIFIED"        |
+        | body        | contains    | "agreements":{"email":false} |
+        | status_code | eq          | 202                          |
 
   @default
   Scenario: Successfully save product synchronization from synchronization configuration view
@@ -76,6 +79,8 @@ Feature: Synchronization
     And I am on saved synchronization configuration page
     When I follow "New sync"
     And I select "product" from "synerise_integration_synchronization[type]"
+    And I fill in "2025-01-01" for "synerise_integration_synchronization[sinceWhen]"
+    And I fill in "2025-02-01" for "synerise_integration_synchronization[untilWhen]"
     And I press "Create"
     Then I should see "Synchronization has been successfully created."
     And the url should match "/admin/synerise/synchronization_configuration/\d+"
@@ -92,14 +97,15 @@ Feature: Synchronization
     When I process 1 message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/catalogs/bags/1/items/batch" with data:
-        | body        | regex       | /"id":\d+/              |
-        | body        | contains    | "itemId":"T_SHIRT"      |
-        | body        | contains    | "title":"T-Shirt"       |
-        | body        | contains    | "link"                  |
-        | body        | contains    | "Brand":"Test brand"    |
-        | body        | notContains | "Description"           |
-        | body        | notContains | "Pages"                 |
-        | status_code | eq          | 202                     |
+        | body        | regex       | /"id":\d+/             |
+        | body        | contains    | "itemId":"custom_code" |
+        | body        | contains    | "title":"Jeans"        |
+        | body        | contains    | "link"                 |
+        | body        | contains    | "Brand":"Jeans brand"  |
+        | body        | notContains | "Description"          |
+        | body        | notContains | "Pages"                |
+        | body        | notContains | "title":"T-Shirt"      |
+        | status_code | eq          | 202                    |
 
   @default
   Scenario: Successfully save product synchronization with id_value mapping
@@ -114,6 +120,7 @@ Feature: Synchronization
     When I follow "New sync"
     And I select "product" from "synerise_integration_synchronization[type]"
     And I press "Create"
+    Then I should see "Synchronization has been successfully created."
     Then I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 more message in the queue
@@ -141,21 +148,25 @@ Feature: Synchronization
     And I am on saved synchronization configuration page
     When I follow "New sync"
     And I select "product" from "synerise_integration_synchronization[type]"
+    And I fill in "2025-01-01" for "synerise_integration_synchronization[sinceWhen]"
     And I press "Create"
+    Then I should see "Synchronization has been successfully created."
     Then I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 more message in the queue
     When I process 1 message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/catalogs/bags/1/items/batch" with data:
-        | body        | regex       | /"id":\d+/          |
-        | body        | contains    | "itemId":"T_SHIRT"  |
-        | body        | contains    | "title":"T-Shirt"   |
-        | body        | contains    | "link"              |
-        | body        | notContains | "Brand"             |
-        | body        | regex       | /"Description":\d+/ |
-        | body        | notContains | "Pages"             |
-        | status_code | eq          | 202                 |
+        | body        | regex       | /"id":\d+/             |
+        | body        | contains    | "itemId":"T_SHIRT"     |
+        | body        | contains    | "title":"T-Shirt"      |
+        | body        | contains    | "itemId":"custom_code" |
+        | body        | contains    | "title":"Jeans"        |
+        | body        | contains    | "link"                 |
+        | body        | regex       | /"Description":\d+/    |
+        | body        | notContains | "Brand"                |
+        | body        | notContains | "Pages"                |
+        | status_code | eq          | 202                    |
 
   @default
   Scenario: Successfully save order synchronization from listing
@@ -191,6 +202,8 @@ Feature: Synchronization
     When I process 1 message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/v4/transactions/batch" with data:
+        | body        | notContains | 2024-01-15                                      |
+        | body        | notContains | 2025-02-10                                      |
         | body        | Contains    | 2025-01-15                                      |
         | body        | Contains    | 2025-01-10                                      |
         | body        | Contains    | "name":"T-Shirt - T-Shirt"                      |
@@ -201,5 +214,23 @@ Feature: Synchronization
         | body        | Contains    | "finalUnitPrice":{"amount":20,"currency":"USD"} |
         | body        | Contains    | "value":{"amount":20,"currency":"USD"}          |
         | status_code | eq          | 202                                             |
-        # | body        | notContains | 2024-01-15                                    |
-        # | body        | notContains | 2025-02-10                                    |
+
+  @default
+  Scenario: Errors on invalid form during setting synchronization
+    Given there is a already configured synchronization configuration for this channel
+    And the synchronization configuration is configured with settings:
+        | catalogId             | 1     |
+        | productAttributeValue | value |
+    And I am on "/admin/synerise/synchronization_configuration/"
+    When I follow "New sync"
+    Then the url should match "/admin/synerise/synchronization_configuration/\d+/synchronization/new"
+    When I fill in "2025-02-01" for "synerise_integration_synchronization[sinceWhen]"
+    And I fill in "2025-01-01" for "synerise_integration_synchronization[untilWhen]"
+    And I press "Create"
+    Then I should see "This form contains errors."
+    And I should see 3 "[name='synerise_integration_synchronization[type]'].is-invalid" element
+    And the "#synerise_integration_synchronization_type + .invalid-feedback" element should contain "Please select an data scope"
+    And I should see a "#synerise_integration_synchronization_sinceWhen.is-invalid" element
+    And the "#synerise_integration_synchronization_sinceWhen + .invalid-feedback" element should contain "The \"Since when\" field must be less than or equal to the \"Until when\" field"
+    And I should see a "#synerise_integration_synchronization_untilWhen.is-invalid" element
+    And the "#synerise_integration_synchronization_untilWhen + .invalid-feedback" element should contain "The \"Until when\" field must be greater than or equal to the \"Since when\" field"

@@ -47,7 +47,7 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
         $entityIds = [];
         $totalCount = 0;
 
-        foreach ($this->dataProvider->getIds($synchronization->getChannel()) as $row) {
+        foreach ($this->dataProvider->getIds($synchronization->getChannel(), $synchronization->getSinceWhen(), $synchronization->getUntilWhen()) as $row) {
             $totalCount += 1;
 
             Assert::isArray($row);
