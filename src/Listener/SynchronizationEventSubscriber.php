@@ -66,6 +66,9 @@ final readonly class SynchronizationEventSubscriber implements EventSubscriberIn
         $synchronization->setChannel($synchronizationConfiguration->getChannel());
         $synchronization->setConfigurationSnapshot(json_encode($synchronizationConfiguration) ?: null);
         $synchronization->setSent(0);
+        if ($synchronization->getUntilWhen()) {
+            $synchronization->setUntilWhen($synchronization->getUntilWhen()->modify('+1 day'));
+        }
     }
 
     public function onPostCreate(ResourceControllerEvent $event): void
