@@ -27,7 +27,7 @@ class CustomerDataProvider implements DataProviderInterface
         // @phpstan-ignore-next-line
         $queryBuilder = $this->customerRepository->createQueryBuilder('c');
         $queryBuilder->select('c.id')
-            ->andWhere('(c.createdAt BETWEEN :sinceWhen AND :untilWhen) OR (c.updatedAt BETWEEN :sinceWhen AND :untilWhen)')
+            ->where('(c.createdAt BETWEEN :sinceWhen AND :untilWhen) OR (c.updatedAt BETWEEN :sinceWhen AND :untilWhen)')
             ->setParameters(new ArrayCollection([
                 new Parameter('sinceWhen', $sinceWhen),
                 new Parameter('untilWhen', $untilWhen)

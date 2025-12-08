@@ -33,8 +33,8 @@ class MessengerContext implements Context
     }
 
     #[When('I process all message(s)')]
-    #[When('I process :limit message(s)')]
-    #[When('I process :limit message(s) with :busName bus')]
+    #[When('I process :limit (more) message(s)')]
+    #[When('I process :limit (more) message(s) with :busName bus')]
     public function iProcessAllMessages(?int $limit = null, string $busName = "default"): void
     {
         $this->messageBus = $this->selectBus($busName);

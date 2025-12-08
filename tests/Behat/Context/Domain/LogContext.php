@@ -28,7 +28,7 @@ final class LogContext implements Context
     }
 
     #[Then('logs should show :count request(s) to :uri with data:')]
-    public function logsShouldShowRequestWithData(string $count, ?string $uri = null, TableNode $data): void
+    public function logsShouldShowRequestWithData(string $count, string $uri, TableNode $data): void
     {
         $filters = [];
         if ($uri !== null) {

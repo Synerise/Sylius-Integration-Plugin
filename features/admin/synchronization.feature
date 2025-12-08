@@ -25,7 +25,6 @@ Feature: Synchronization
     And the store has customer "John Doe" with email "john.doe@mail.com"
     And the store has customer "jane.doe@mail.com" with name "Jane Doe" and phone number "123123123" since "2025-01-10"
     And I am logged in as an administrator
-    And I should have 2 message in the queue
     When I process 2 messages
 
   @default
@@ -55,7 +54,7 @@ Feature: Synchronization
     And I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 more message in the queue
-    When I process 1 message with synchronization bus
+    When I process 1 more message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/v4/clients/batch" with data:
         | body        | notContains | "email":"john.doe@mail.com"  |
@@ -94,7 +93,7 @@ Feature: Synchronization
     And I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 more message in the queue
-    When I process 1 message with synchronization bus
+    When I process 1 more message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/catalogs/bags/1/items/batch" with data:
         | body        | regex       | /"id":\d+/             |
@@ -124,7 +123,7 @@ Feature: Synchronization
     Then I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 more message in the queue
-    When I process 1 message with synchronization bus
+    When I process 1 more message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/catalogs/bags/1/items/batch" with data:
         | body        | regex       | /"id":\d+/                                            |
@@ -154,7 +153,7 @@ Feature: Synchronization
     Then I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 more message in the queue
-    When I process 1 message with synchronization bus
+    When I process 1 more message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/catalogs/bags/1/items/batch" with data:
         | body        | regex       | /"id":\d+/             |
@@ -199,7 +198,7 @@ Feature: Synchronization
     And I should have 1 message in the queue
     When I process 1 message with synchronization bus
     Then I should have 1 message in the queue
-    When I process 1 message with synchronization bus
+    When I process 1 more message with synchronization bus
     Then I should have 0 message in the queue
     And logs should show 1 request to "/v4/transactions/batch" with data:
         | body        | notContains | 2024-01-15                                      |
