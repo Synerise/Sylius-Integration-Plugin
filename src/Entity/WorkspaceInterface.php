@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Synerise\Sdk\Api\Config;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\AuthenticationMethod;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\Environment;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\Mode;
 use Synerise\SyliusIntegrationPlugin\Model\Workspace\PermissionsStatus;
 
-interface WorkspaceInterface extends ResourceInterface
+interface WorkspaceInterface extends ResourceInterface, Config
 {
     public function getId(): ?int;
 

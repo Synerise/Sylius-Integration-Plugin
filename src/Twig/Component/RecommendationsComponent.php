@@ -3,6 +3,7 @@
 namespace Synerise\SyliusIntegrationPlugin\Twig\Component;
 
 use Psr\Log\LoggerInterface;
+use Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -12,10 +13,12 @@ use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Synerise\Api\Recommendations\Models\PostRecommendationsRequest;
 use Synerise\Api\Recommendations\Models\RecommendationResponseSchemaV2Materializer;
+use Synerise\Sdk\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Tracking\ProfileManager;
-use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
+use Webmozart\Assert\Assert;
 
 class RecommendationsComponent
 {
@@ -35,6 +38,9 @@ class RecommendationsComponent
 
     public int $limit = self::DEFAULT_LIMIT;
 
+    /**
+     * @param ProductRepository<ProductInterface> $productRepository
+     * */
     public function __construct(
         protected readonly LoggerInterface                $syneriseLogger,
         protected readonly ProductRepositoryInterface     $productRepository,
@@ -49,21 +55,23 @@ class RecommendationsComponent
     public function getProducts(): array
     {
         try {
-            /** @var ChannelInterface $channel */
             $channel = $this->channelConfiguration?->getChannel();
-            $localeCode = $this->localeContext->getLocaleCode();
-            $uuid = $this->profileManager->getProfile()->getUuid();
-
-            $client = $this->clientBuilderFactory->create($this->channelConfiguration?->getWorkspace());
-            if ($uuid != null && $this->campaignId != null && $channel != null && $client != null) {
+            if ($channel != null) {
                 if ($recommendations = $this->getRecommendations()) {
-                    $skus = [];
-                    foreach ($recommendations->getData() as $recommendation) {
-                        $skus[] = $recommendation->getItemId();
-                    }
+                    if ($data = $recommendations->getData()) {
+                        $skus = [];
+                        foreach ($data as $recommendation) {
+                            $skus[] = $recommendation->getItemId();
+                        }
 
-                    $this->correlationId = $recommendations->getExtras()->getCorrelationId();
-                    return $this->findBySkus($channel, $localeCode, $skus, $this->limit);
+                        $this->correlationId = $recommendations->getExtras()?->getCorrelationId();
+                        return $this->findBySkus(
+                            $channel,
+                            $this->localeContext->getLocaleCode(),
+                            $skus,
+                            $this->limit
+                        );
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -74,7 +82,7 @@ class RecommendationsComponent
     }
 
     #[ExposeInTemplate(name: 'campaignId')]
-    public function getCampaignId(): string
+    public function getCampaignId(): ?string
     {
         return $this->campaignId;
     }
@@ -87,7 +95,7 @@ class RecommendationsComponent
 
     protected function findBySkus(ChannelInterface $channel, string $locale, array $skus, int $count): array
     {
-        return $this->productRepository->createQueryBuilder('o')
+        $results = $this->productRepository->createQueryBuilder('o')
             ->addSelect('translation')
             ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
             ->andWhere(':channel MEMBER OF o.channels')
@@ -101,6 +109,9 @@ class RecommendationsComponent
             ->getQuery()
             ->getResult()
         ;
+
+        Assert::isArray($results);
+        return $results;
     }
 
     /**
@@ -108,14 +119,18 @@ class RecommendationsComponent
      */
     protected function getRecommendations(): ?RecommendationResponseSchemaV2Materializer
     {
-        $cartItems = $this->cart?->getItems();
+        $config = $this->channelConfiguration?->getWorkspace();
+        if ($config == null) {
+            return null;
+        }
 
+        $cartItems = $this->cart?->getItems();
         if ($cartItems != null && $cartItems->count() == 0 && !$this->showForEmptyCart) {
             return null;
         }
 
         $uuid = $this->profileManager->getProfile()->getUuid();
-        $client = $this->clientBuilderFactory->create($this->channelConfiguration?->getWorkspace());
+        $client = $this->clientBuilderFactory->create($config);
         if ($uuid != null && $this->campaignId != null && $client != null) {
             $postRecommendationsRequest = new PostRecommendationsRequest();
             $postRecommendationsRequest->setCampaignId($this->campaignId);
@@ -126,9 +141,15 @@ class RecommendationsComponent
             }
 
             if ($cartItems != null) {
+                /** @var string[] $skus */
                 $skus = [];
+
                 foreach ($cartItems as $cartItem) {
-                    $skus[] = $cartItem->getProduct()->getCode();
+                    $sku = $cartItem->getProduct()?->getCode();
+                    if ($sku != null) {
+                        $skus[] = $sku;
+                    }
+
                 }
                 $postRecommendationsRequest->setItems($skus);
             }
