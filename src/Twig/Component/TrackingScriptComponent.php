@@ -16,6 +16,12 @@ readonly class TrackingScriptComponent
     {
     }
 
+    #[ExposeInTemplate('is_available')]
+    public function isAvailable(): bool
+    {
+        return $this->isEnabled() && $this->channelConfiguration?->getTrackingCode() !== null;
+    }
+
     #[ExposeInTemplate('is_enabled')]
     public function isEnabled(): bool
     {

@@ -1,93 +1,106 @@
 # Sylius Integration Plugin
 
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.synerise.com/core/Integrations/sylius-integration-plugin.git
-git branch -M master
-git push -uf origin master
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.synerise.com/core/Integrations/sylius-integration-plugin/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
 ***
 
-# Editing this README
+Official [Synerise](https://www.synerise.com) plugin allowing configurable integration of [Sylius](https://sylius.com) applications with the platform. Main features include tracking customer actions (e.g. cart and transaction events) as well as data synchronisation of customers, orders and product catalog. The Synerise platform provides a variety of tools for building well-targeted and AI powered omnichannel marketing campaigns for any store. 
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Requirements
 
-## Suggestions for a good README
+Plugin usage requires access to the Synerise platform. Visit the [company website](https://www.synerise.com) to learn about the platform and its numerous features. There you can find useful resources, such as case studies and use cases, or request a demo presentation.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Technical requirements
 
-## Name
-Choose a self-explaining name for your project.
+Before integration, please make sure your application meets with the following requirements:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+* PHP 8.2+
+* Sylius 2.x
+* RabbitMQ (optional, but recommended as a message queues handler)
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Plugin is available as a composer package. Its registration is handled with Symfony Flex recipe. To benefit from autoconfiguration, please make sure that flex is available in your setup.
+
+### 1. Allow Symfony contrib recipes
+
+```bash
+composer config extra.symfony.allow-contrib true
+```
+
+###  2. Include Synerise recipes repository
+
+```bash
+composer config --json --merge extra.symfony.endpoint '["https://api.github.com/repos/synerise/symfony-recipes/contents/index.json?ref=flex/main"]'
+```
+
+Alternatively, edit `composer.json` file of your application to include an endpoint of Synerise recipes repository:
+
+```json
+    "extra": {
+        "symfony": {
+            "endpoint": [
+                "https://api.github.com/repos/synerise/symfony-recipes/contents/index.json?ref=flex/main",
+                "..."
+            ]
+        }
+        "..."
+    }
+```
+
+### 3. Install the plugin with composer
+
+```bash
+composer require synerise/sylius-integration-plugin
+```
+
+### 4. Run doctrine migrations
+
+```bash
+bin/console doctrine:migrations:migrate
+```
+Remember to use `-e prod` option for production environment.
+
+### 5. Build assets
+
+```bash
+yarn encore dev # for development
+yarn encore production # for production
+```
+
+### 6. Clear the application cache
+
+```bash
+bin/console cache:clear
+```
+
+## Installation without flex
+
+Although autoconfiguration with flex is the recommended option, the plugin can also be registered manually. 
+
+### 1. Register bundle
+
+Edit your bundles config file `config/bundles.php` and add plugin to the array:
+```
+<?php
+
+return [
+    ...
+    Synerise\SyliusIntegrationPlugin\SyneriseSyliusIntegrationPlugin::class => ['all' => true],
+];
+```
+
+### 2. Copy config files
+
+Head over to [recipes repository](https://github.com/Synerise/symfony-recipes/tree/flex/main/synerise/sylius-integration-plugin/). Select the appropriate version. Copy the contents of the config directory to your application config.
+
+### 3. Add admin entrypoint 
+
+Edit `assets/admin/entrypoint.js` script by adding the following lines:
+```
+    import '../../vendor/synerise/sylius-integration-plugin/assets/admin/entrypoint
+```
+
+## Documentation
+To learn how to properly configure the plugin, please head to our [documentation](https://hub.synerise.com/docs/settings/tool/sylius-integration/) page.
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+In case of a bug, feature request or any trouble with the integration, visit our [support](http://synerise.com/support/) page and fill in the proper form. 

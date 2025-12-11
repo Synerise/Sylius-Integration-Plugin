@@ -56,10 +56,18 @@
                 </tr>
                 <tr>
                     <td class="fw-medium">
-                        Override cookie domain
+                        Cookie domain
                     </td>
                     <td class="border-start">
                         {{ resource.cookieDomain }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fw-medium">
+                        Custom page visit implementation
+                    </td>
+                    <td class="border-start">
+                        {{ resource.customPageVisit ? 'Yes' : 'No' }}
                     </td>
                 </tr>
                 </tbody>

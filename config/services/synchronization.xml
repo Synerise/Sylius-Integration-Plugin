@@ -14,7 +14,7 @@
             <tag name="console.command" />
         </service>
         <!-- PROCESSORS FACTORY -->
-        <service id="synerise_integration.synchronization.processor_factory" class="Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory">
+        <service id="synerise_integration.synchronization.processor.factory" class="Synerise\SyliusIntegrationPlugin\Synchronization\SynchronizationProcessorFactory">
             <argument type="collection">
                 <argument key="customer" type="service" id="synerise_integration.synchronization.processor.customer"/>
                 <argument key="order" type="service" id="synerise_integration.synchronization.processor.order"/>
@@ -26,6 +26,7 @@
             <argument type="service" id="synerise_integration.synchronization.data_provider.customer" />
             <argument type="service" id="synerise_integration.api.request_mapper.resource.customer" />
             <argument type="service" id="synerise_integration.api.request_handler.batch.customer" />
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="synerise.synchronization_bus"/>
         </service>
@@ -33,6 +34,7 @@
             <argument type="service" id="synerise_integration.synchronization.data_provider.order" />
             <argument type="service" id="synerise_integration.api.request_mapper.resource.order" />
             <argument type="service" id="synerise_integration.api.request_handler.batch.order" />
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="synerise.synchronization_bus"/>
         </service>
@@ -40,18 +42,19 @@
             <argument type="service" id="synerise_integration.synchronization.data_provider.product" />
             <argument type="service" id="synerise_integration.api.request_mapper.resource.product" />
             <argument type="service" id="synerise_integration.api.request_handler.batch.product" />
+            <argument type="service" id="synerise_integration.repository.synchronization"/>
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="synerise.synchronization_bus"/>
         </service>
         <!-- DATA PROVIDERS -->
         <service id="synerise_integration.synchronization.data_provider.customer" class="Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider\CustomerDataProvider">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="sylius.repository.customer" />
         </service>
         <service id="synerise_integration.synchronization.data_provider.order" class="Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider\OrderDataProvider">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="sylius.repository.order" />
         </service>
         <service id="synerise_integration.synchronization.data_provider.product" class="Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider\ProductDataProvider">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="sylius.repository.product" />
         </service>
     </services>
 </container>

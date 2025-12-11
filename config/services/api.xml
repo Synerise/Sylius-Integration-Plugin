@@ -4,20 +4,58 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <!-- CLIENT BUILDER -->
-        <service id="synerise_integration.api_client_builder_factory" class="Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory">
+        <!-- For production environments, consider using Redis or APCu instead of filesystem -->
+        <service id="synerise_integration.api.cache_adapter" class="Synerise\Sdk\Api\Cache\PsrItemPoolTokenCache">
+            <argument type="service" id="cache.app" on-invalid="null" />
+        </service>
+        <service id="synerise_integration.api.middleware.log.factory" class="Synerise\Sdk\Guzzle\Middleware\LogMiddlewareFactory">
             <argument type="service" id="logger" on-invalid="null" />
 
             <tag name="monolog.logger" channel="synerise"/>
         </service>
-        <service id="synerise_integration.api_client_builder" class="Synerise\Sdk\Api\ClientBuilder">
+        <service id="synerise_integration.api.anonymous.middleware.retry.factory" class="Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.anonymous.authentication_provider.factory" />
+            <argument type="service" id="logger" on-invalid="null" />
+
+            <tag name="monolog.logger" channel="synerise"/>
+        </service>
+        <service id="synerise_integration.api.default.middleware.retry.factory" class="Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.default.authentication_provider.factory" />
+            <argument type="service" id="logger" on-invalid="null" />
+
+            <tag name="monolog.logger" channel="synerise"/>
+        </service>
+        <service id="synerise_integration.api.middleware.authentication.factory" class="Synerise\Sdk\Guzzle\AuthenticationMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.anonymous.middleware.retry.factory" />
+        </service>
+        <service id="synerise_integration.api.middleware.default.factory" class="Synerise\Sdk\Guzzle\DefaultMiddlewareFactory">
+            <argument type="service" id="synerise_integration.api.default.middleware.retry.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.log.factory" />
+        </service>
+        <service id="synerise_integration.api.request_adapter.factory" class="Synerise\Sdk\Guzzle\RequestAdapterFactory">
+            <argument type="service" id="synerise_integration.guzzle.client.factory" />
+        </service>
+        <service id="synerise_integration.api.anonymous.authentication_provider.factory" class="Synerise\Sdk\Api\Authentication\AnonymousAuthenticationProviderFactory"/>
+        <service id="synerise_integration.api.default.authentication_provider.factory" class="Synerise\Sdk\Api\Authentication\DefaultAuthenticationProviderFactory">
+            <argument type="service" id="synerise_integration.api.request_adapter.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.authentication.factory" />
+            <argument type="service" id="synerise_integration.api.cache_adapter" />
+        </service>
+        <service id="synerise_integration.api.client_builder.factory" class="Synerise\Sdk\Api\ClientBuilderFactory">
+            <argument type="service" id="synerise_integration.api.default.authentication_provider.factory" />
+            <argument type="service" id="synerise_integration.api.request_adapter.factory" />
+            <argument type="service" id="synerise_integration.api.middleware.default.factory" />
+        </service>
+        <service id="synerise_integration.api.client_builder" class="Synerise\Sdk\Api\ClientBuilder">
+            <factory service="synerise_integration.api.client_builder.factory" method="create"/>
             <argument type="service" id="synerise_integration.context.workspace" />
         </service>
+        <service id="synerise_integration.guzzle.client.factory" class="Synerise\Sdk\Guzzle\ClientFactory" />
         <!-- EVENT REQUEST HANDLER FACTORY -->
-        <service id="synerise_integration.api.request_handler.event.request_handler_factory" class="Synerise\SyliusIntegrationPlugin\Api\EventRequestHandlerFactory">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+        <service id="synerise_integration.api.request_handler.event.request_handler.factory" class="Synerise\SyliusIntegrationPlugin\Api\EventRequestHandlerFactory">
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration.factory" />
             <argument type="collection">
                 <argument key="product.addToCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\AddedToCartRequestHandler</argument>
                 <argument key="product.removeFromCart">Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Event\RemovedFromCartRequestHandler</argument>
@@ -33,19 +71,19 @@
         </service>
         <!-- RESOURCE REQUEST HANDLERS -->
         <service id="synerise_integration.api.request_handler.batch.customer" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource\ProfileRequestHandler">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration.factory" />
         </service>
         <service id="synerise_integration.api.request_handler.batch.order" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource\TransactionRequestHandler">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration.factory" />
         </service>
         <service id="synerise_integration.api.request_handler.batch.product" class="Synerise\SyliusIntegrationPlugin\Api\RequestHandler\Resource\AddItemRequestHandler">
-            <argument type="service" id="synerise_integration.api_client_builder_factory" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.api.client_builder.factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration.factory" />
         </service>
         <!-- EVENT REQUEST MAPPERS -->
         <service id="synerise_integration.api.request_mapper.event.cart_item_add" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Event\OrderItemAddToCartEventMapper">
@@ -85,7 +123,7 @@
         </service>
         <service id="synerise_integration.api.request_mapper.resource.product" class="Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\ProductToAddItemMapper">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="synerise_integration.synchronization_configuration_factory" />
+            <argument type="service" id="synerise_integration.synchronization_configuration.factory" />
             <argument type="service" id="synerise_integration.helper.product_data_formatter" />
         </service>
     </services>

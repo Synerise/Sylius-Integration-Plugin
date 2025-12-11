@@ -10,14 +10,14 @@
         </service>
         <!-- HANDLERS -->
         <service id="synerise_integration.event_handler.live_handler" class="Synerise\SyliusIntegrationPlugin\Event\Handler\LiveHandler">
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
-            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
+            <argument type="service" id="synerise_integration.api.request_handler.event.request_handler.factory" />
 
             <tag name="synerise_integration.event.handler" handler_key="live" />
         </service>
         <service id="synerise_integration.event_handler.message_queue_handler" class="Synerise\SyliusIntegrationPlugin\Event\Handler\MessageQueueHandler">
             <argument type="service" id="sylius.event_bus" />
-            <argument type="service" id="synerise_integration.kiota.serialization.json.serialization_writer_factory" />
+            <argument type="service" id="synerise_integration.kiota.serialization.json.serialization_writer.factory" />
 
             <tag name="synerise_integration.event.handler" handler_key="message_queue" />
         </service>
@@ -25,69 +25,69 @@
         <!-- CART PROCESSORS -->
         <service id="synerise_integration.event.processor.cart_item_add" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartItemAddProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.cart_item_add" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <service id="synerise_integration.processor.event.cart_item_remove" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartItemRemoveProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.cart_item_remove" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <service id="synerise_integration.processor.event.cart_status" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CartStatusProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.cart_status" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <!-- REVIEW PROCESSORS -->
         <service id="synerise_integration.processor.event.product_review_add" class="Synerise\SyliusIntegrationPlugin\Event\Processor\ReviewProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.product_add_review" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <!-- CUSTOMER PROCESSORS -->
         <service id="synerise_integration.processor.event.customer_register" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerRegisterProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.customer_registered" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <service id="synerise_integration.processor.event.customer_update" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerUpdateProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.resource.customer" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <service id="synerise_integration.processor.event.customer_login" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerLoginProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.customer_logged_in" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <service id="synerise_integration.processor.event.customer_logout" class="Synerise\SyliusIntegrationPlugin\Event\Processor\CustomerLogoutProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.customer_logged_out" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.identity_manager" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <!-- ORDER PROCESSORS -->
         <service id="synerise_integration.processor.event.order" class="Synerise\SyliusIntegrationPlugin\Event\Processor\OrderProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.event.order" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
             <argument type="service" id="synerise_integration.identity_manager" />
         </service>
         <service id="synerise_integration.processor.resource.order" class="Synerise\SyliusIntegrationPlugin\Event\Processor\OrderProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.resource.order" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <!-- PRODUCT PROCESSORS -->
         <service id="synerise_integration.processor.resource.product" class="Synerise\SyliusIntegrationPlugin\Event\Processor\ProductUpdateProcessor">
             <argument type="service" id="synerise_integration.api.request_mapper.resource.product" />
-            <argument type="service" id="synerise_integration.channel_configuration_factory" />
+            <argument type="service" id="synerise_integration.channel_configuration.factory" />
             <argument type="service" id="synerise_integration.event.handler_resolver" />
         </service>
         <!-- LISTENERS -->

@@ -20,12 +20,10 @@ class Workspace implements WorkspaceInterface, Config
     #[Assert\Uuid]
     private ?string $apiKey = null;
 
-    /**
-     * @Assert\Regex(
-     *     pattern="/^[{(]?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}[)}]?$/",
-     *     message="This value is not a valid GUID."
-     * )
-     */
+    #[Assert\Regex(
+        "/^[{(]?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}[)}]?$/",
+        "synerise_integration.workspace.guid.required_for_basic"
+    )]
     private ?string $apiGuid = null;
 
     private AuthenticationMethod $authenticationMethod = AuthenticationMethod::Bearer;

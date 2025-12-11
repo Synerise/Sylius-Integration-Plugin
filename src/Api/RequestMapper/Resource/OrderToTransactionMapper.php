@@ -18,6 +18,8 @@ use Synerise\Api\V4\Models\Revenue;
 use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Models\TransactionMeta;
 use Synerise\Api\V4\Models\Value;
+use Synerise\Sdk\Api\RequestBody\Models\ProductBuilder;
+use Synerise\Sdk\Api\RequestBody\Models\TransactionBuilder;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\SyliusIntegrationPlugin\Helper\ProductDataFormatter;
 use Webmozart\Assert\Assert;
@@ -47,11 +49,6 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $client->setEmail($customer->getEmail());
         $client->setCustomId((string) $customer->getId());
 
-        $transaction = new Transaction();
-        $transaction->setClient($client);
-        $transaction->setOrderId((string) $resource->getId());
-        $transaction->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM));
-
         $total = $resource->getTotal();
         $taxTotal = $resource->getTaxTotal();
         $promotionTotal = abs($resource->getOrderPromotionTotal());
@@ -60,17 +57,14 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $value = new Value();
         $value->setAmount($this->formatter->formatAmount($total - $taxTotal));
         $value->setCurrency($currency);
-        $transaction->setValue($value);
 
         $revenue = new Revenue();
         $revenue->setAmount($this->formatter->formatAmount($total));
         $revenue->setCurrency($currency);
-        $transaction->setRevenue($revenue);
 
         $discountAmount = new DiscountAmount();
         $discountAmount->setAmount($this->formatter->formatAmount($promotionTotal));
         $discountAmount->setCurrency($currency);
-        $transaction->setDiscountAmount($discountAmount);
 
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
@@ -78,37 +72,39 @@ class OrderToTransactionMapper implements RequestMapperInterface
             'discountCode' => $resource->getPromotionCoupon()?->getCode(),
             'lastUpdateType' => $type,
         ]);
-        $transaction->setMetadata($metadata);
 
-        /** @var array<Product> $products */
-        $products = [];
+        $transactionBuilder = TransactionBuilder::initialize()
+            ->setClient($client)
+            ->setOrderId((string) $resource->getId())
+            ->setRecordedAt($resource->getCheckoutCompletedAt()?->format(\DateTimeInterface::ATOM))
+            ->setValue($value)
+            ->setRevenue($revenue)
+            ->setDiscountAmount($discountAmount)
+            ->setMetadata($metadata)
+            ->setEventSalt($resource->getNumber());
+
         foreach ($resource->getItems() as $resourceItem) {
             /** @var OrderItemInterface $resourceItem */
-            $products[] = $this->prepareTransactionProductData($resourceItem);
+            $transactionBuilder->addProduct($this->prepareTransactionProductData($resourceItem));
         }
-        if ($this->sourceProvider) {
-            $transaction->setSource($this->sourceProvider->getEventSource());
-        }
-        $transaction->setProducts($products);
-        $transaction->setEventSalt($resource->getNumber());
 
-        return $transaction;
+        if ($this->sourceProvider) {
+            $transactionBuilder->setSource($this->sourceProvider->getEventSource());
+        }
+
+        return $transactionBuilder->build();
     }
 
     private function prepareTransactionProductData(OrderItemInterface $resourceItem): Product
     {
+        /** @var OrderInterface $resource */
         $resource = $resourceItem->getOrder();
-        Assert::implementsInterface($resource, \Sylius\Component\Order\Model\OrderInterface::class);
+        Assert::implementsInterface($resource, OrderInterface::class);
 
         $resourceProduct = $resourceItem->getProduct();
         $currencyCode = $resource->getCurrencyCode();
         $quantity = $resourceItem->getQuantity();
-
-        $product = new Product();
         $name = $resourceItem->getProductName() . ($resourceItem->getVariantName() ? ' - ' . $resourceItem->getVariantName() : '');
-        $product->setName($name);
-        $product->setQuantity($quantity);
-        $product->setSku($resourceProduct?->getCode());
 
         $unitPrice = $resourceItem->getUnitPrice();
         $originalUnitPrice = $resourceItem->getOriginalUnitPrice();
@@ -118,22 +114,26 @@ class OrderToTransactionMapper implements RequestMapperInterface
         $regularPrice = new RegularPrice();
         $regularPrice->setCurrency($currencyCode);
         $regularPrice->setAmount($originalUnitPrice ? $this->formatter->formatAmount($originalUnitPrice) : null);
-        $product->setRegularPrice($regularPrice);
 
         $finalUnitPrice = new FinalUnitPrice();
         $finalUnitPrice->setCurrency($currencyCode);
         $finalUnitPrice->setAmount($this->formatter->formatAmount($discountedUnitPrice + $unitTax));
-        $product->setFinalUnitPrice($finalUnitPrice);
 
         $discountPrice = new DiscountPrice();
         $discountPrice->setCurrency($currencyCode);
         $discountPrice->setAmount($this->formatter->formatAmount($unitPrice - $discountedUnitPrice));
-        $product->setDiscountPrice($discountPrice);
 
-        $product->setAdditionalData([
+        $productBuilder = ProductBuilder::initialize()
+            ->setName($name)
+            ->setQuantity($quantity)
+            ->setSku($resourceProduct?->getCode())
+            ->setRegularPrice($regularPrice)
+            ->setFinalUnitPrice($finalUnitPrice)
+            ->setDiscountPrice($discountPrice)
+            ->setAdditionalData([
             'category' => $this->formatter->formatTaxon($resourceProduct?->getMainTaxon()),
         ]);
 
-        return $product;
+        return $productBuilder->build();
     }
 }

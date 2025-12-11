@@ -1,0 +1,7 @@
+{% import '@SyliusShop/shared/buttons.html.twig' as buttons %}
+
+<div data-gb-custom-block data-tag="import" data-0='@SyliusUi/Macro/buttons.html.twig'></div>
+
+<div data-gb-custom-block data-tag="set"></div>
+
+{{ buttons.default(path('synerise_integration_admin_synchronization_create', {'configurationId': options.configurationId}), 'synerise_integration.synchronization_configuration.show.actions.new_sync'|trans, null, 'gridicons:add') }}

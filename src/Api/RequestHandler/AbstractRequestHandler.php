@@ -8,7 +8,7 @@ use Http\Promise\Promise;
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
 use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Sdk\Api\Config;
-use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory;
@@ -22,7 +22,7 @@ abstract class AbstractRequestHandler implements RequestHandlerInterface
     public static string $createMethod = 'createFromDiscriminatorValue';
 
     public function __construct(
-        private ClientBuilderFactory $clientBuilderFactory,
+        private ClientBuilderFactoryInterface $clientBuilderFactory,
         private ChannelConfigurationFactory $channelConfigurationFactory,
         private SynchronizationConfigurationFactory $synchronizationConfigurationFactory,
     ) {

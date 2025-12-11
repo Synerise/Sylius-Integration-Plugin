@@ -57,7 +57,7 @@ load-fixtures:
 	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php tests/Application/bin/console sylius:fixtures:load -n
 
 phpstan:
-	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/phpstan analyse -c phpstan.neon
+	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
 ecs:
 	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/ecs check src
@@ -75,4 +75,4 @@ mutagen-down:
 	@$(MUTAGEN_COMPOSE) down
 
 composer-update:
-	composer update --ignore-platform-reqs --no-interaction --no-scripts --no-plugins
+	composer update --ignore-platform-reqs --no-interaction --no-scripts --no-plugins --with-all-dependencies

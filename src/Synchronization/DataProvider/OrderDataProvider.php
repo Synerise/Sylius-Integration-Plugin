@@ -4,40 +4,42 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Sylius\Component\Channel\Model\ChannelInterface;
-use Sylius\Component\Core\Model\Order;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderCheckoutStates;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Resource\Model\ResourceInterface;
 
 class OrderDataProvider implements DataProviderInterface
 {
+    /**
+     * @param OrderRepositoryInterface<OrderInterface> $orderRepository
+     */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private OrderRepositoryInterface $orderRepository,
     ) {
     }
 
     public function getIds(ChannelInterface $channel): iterable
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
+        // @phpstan-ignore-next-line
+        $queryBuilder = $this->orderRepository->createQueryBuilder('o');
         $queryBuilder
             ->select('o.id')
-            ->from(Order::class, 'o')
             ->where('o.channel = :channel')
             ->andWhere('o.checkoutState = :checkoutState')
-            ->setParameters([
-                'channel' => $channel,
-                'checkoutState' => OrderCheckoutStates::STATE_COMPLETED,
-            ]);
+            ->setParameters(new ArrayCollection([
+                new Parameter('channel', $channel),
+                new Parameter('checkoutState', OrderCheckoutStates::STATE_COMPLETED)
+            ]));
 
         return $queryBuilder->getQuery()->toIterable();
     }
 
-    /**
-     * @return Order|null
-     */
     public function getEntity(int $id): ?ResourceInterface
     {
-        return $this->entityManager->getRepository(Order::class)->find($id);
+        return $this->orderRepository->find($id);
     }
 }

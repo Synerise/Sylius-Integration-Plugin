@@ -5,16 +5,37 @@ declare(strict_types=1);
 namespace Synerise\SyliusIntegrationPlugin\Repository;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfiguration;
+use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface;
 
-class ChannelConfigurationRepository extends EntityRepository
+/**
+ * @template T of ChannelConfigurationInterface
+ *
+ * @implements ChannelConfigurationRepositoryInterface<T>
+ */
+class ChannelConfigurationRepository extends EntityRepository implements ChannelConfigurationRepositoryInterface
 {
-    private const ORDER_BY = ['id' => 'ASC'];
-
-    public function findOneByChannel(ChannelInterface $channel): ?ChannelConfiguration
+    /**
+     * @return list<T> The entities.
+     */
+    public function findAllExceptId(?int $id = null)
     {
-        // @phpstan-ignore return.type
-        return $this->findOneBy(['channel' => $channel], self::ORDER_BY);
+        if ($id !== null) {
+            /** @var list<T> $result */
+            $result = $this->createQueryBuilder('c')
+                ->andWhere('c.id != (:id)')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getResult();
+        } else {
+            /** @var list<T> $result */
+            $result = $this->findAll();
+        }
+
+        return $result;
+    }
+
+    public function countAll(): int
+    {
+        return $this->count([]);
     }
 }

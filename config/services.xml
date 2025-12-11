@@ -10,22 +10,26 @@
     </imports>
 
     <services>
-        <service id="synerise_integration.channel_configuration_factory" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory">
+        <service id="synerise_integration.channel_configuration.factory" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory">
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.repository.channel_configuration" />
         </service>
-        <service id="synerise_integration.synchronization_configuration_factory" class="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory">
+        <service id="synerise_integration.synchronization_configuration.factory" class="Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationFactory">
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
         </service>
         <service id="synerise_integration.context.channel_configuration" class="Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationInterface">
-            <factory service="synerise_integration.channel_configuration_factory" method="get" />
+            <factory service="synerise_integration.channel_configuration.factory" method="get" />
         </service>
         <service id="synerise_integration.context.workspace" class="Synerise\SyliusIntegrationPlugin\Entity\WorkspaceInterface">
-            <factory service="synerise_integration.channel_configuration_factory" method="getWorkspace" />
+            <factory service="synerise_integration.channel_configuration.factory" method="getWorkspace" />
         </service>
         <service id="synerise_integration.cookie_profile_manager" class="Synerise\Sdk\Cookie\CookieProfileManager">
             <argument type="service" id="synerise_integration.helper.cookie_container" />
+            <argument type="service" id="synerise_integration.cookie.symfony_cookie_profile_factory" />
+        </service>
+        <service id="synerise_integration.cookie.symfony_cookie_profile_factory" class="Synerise\SyliusIntegrationPlugin\Cookie\SymfonyCookieProfileFactory" >
+            <argument type="service" id="request_stack" />
         </service>
         <service id="synerise_integration.identity_manager" class="Synerise\Sdk\Tracking\IdentityManager">
             <argument type="service" id="synerise_integration.cookie_profile_manager" />
@@ -46,10 +50,10 @@
             <argument type="service" id="synerise_integration.mobile_detect" />
         </service>
         <service id="synerise_integration.sdk.profile_merge_action" class="Synerise\Sdk\Tracking\ProfileMergeDoRequest" lazy="true">
-            <argument type="service" id="synerise_integration.api_client_builder" />
+            <argument type="service" id="synerise_integration.api.client_builder" />
         </service>
         <!-- KIOTA SERIALIZATION -->
-        <service id="synerise_integration.kiota.serialization.json.serialization_writer_factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
-        <service id="synerise_integration.serialization.string_json_parse_node_factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
+        <service id="synerise_integration.kiota.serialization.json.serialization_writer.factory" class="Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory" />
+        <service id="synerise_integration.serialization.string_json_parse_node.factory" class="Synerise\Sdk\Serialization\StringJsonParseNodeFactory" />
     </services>
 </container>

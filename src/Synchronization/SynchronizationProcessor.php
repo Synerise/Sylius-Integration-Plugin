@@ -9,18 +9,23 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Synerise\SyliusIntegrationPlugin\Api\RequestHandler\BatchRequestHandlerInterface;
 use Synerise\SyliusIntegrationPlugin\Api\RequestMapper\Resource\RequestMapperInterface;
-use Synerise\SyliusIntegrationPlugin\Entity\Synchronization;
+use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationInterface;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncMessage;
 use Synerise\SyliusIntegrationPlugin\MessageQueue\Message\SyncStartMessage;
+use Synerise\SyliusIntegrationPlugin\Repository\SynchronizationRepositoryInterface;
 use Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider\DataProviderInterface;
 use Webmozart\Assert\Assert;
 
 class SynchronizationProcessor implements SynchronizationProcessorInterface
 {
+    /**
+     * @param SynchronizationRepositoryInterface<SynchronizationInterface> $synchronizationRepository
+     */
     public function __construct(
         private DataProviderInterface $dataProvider,
         private RequestMapperInterface $requestMapper,
         private BatchRequestHandlerInterface $requestHandler,
+        private SynchronizationRepositoryInterface $synchronizationRepository,
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $messageBus,
     ) {
@@ -31,7 +36,8 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
      */
     public function dispatchSynchronization(SyncStartMessage $message): void
     {
-        $synchronization = $this->entityManager->getRepository(Synchronization::class)->find($message->getSynchronizationId());
+        /** @var SynchronizationInterface|null $synchronization */
+        $synchronization = $this->synchronizationRepository->find($message->getSynchronizationId());
         if (null === $synchronization?->getId()) {
             return;
         }
@@ -69,10 +75,9 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
      */
     public function processSynchronization(SyncMessage $message): void
     {
-        $synchronizationRepository = $this->entityManager->getRepository(Synchronization::class);
-
-        $synchronization = $synchronizationRepository->find($message->getSynchronizationId());
-        if (null === $synchronization) {
+        /** @var SynchronizationInterface|null $synchronization */
+        $synchronization = $this->synchronizationRepository->find($message->getSynchronizationId());
+        if (null === $synchronization?->getId()) {
             return;
         }
 
@@ -93,7 +98,6 @@ class SynchronizationProcessor implements SynchronizationProcessorInterface
 
         $this->requestHandler->sendBatch($batch, $channel->getId());
 
-        $synchronization->setSent($synchronization->getSent() + count($message->getEntityIds()));
-        $this->entityManager->persist($synchronization);
+        $this->synchronizationRepository->incrementSent($synchronization->getId(), count($message->getEntityIds()));
     }
 }

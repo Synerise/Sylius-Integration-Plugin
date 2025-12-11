@@ -46,6 +46,7 @@ x-mutagen:
               - "!translations/**"
               - "!composer.json"
               - "!composer.lock"
+              - "!phpstan.neon"
               # tests
               - "!ecs.php"
               - "!behat.yml.dist"

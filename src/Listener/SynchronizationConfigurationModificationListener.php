@@ -7,7 +7,7 @@ namespace Synerise\SyliusIntegrationPlugin\Listener;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Synerise\Api\Catalogs\Models\AddBag;
 use Synerise\Sdk\Api\ClientBuilder;
-use Synerise\SyliusIntegrationPlugin\Api\ClientBuilderFactory;
+use Synerise\Sdk\Api\ClientBuilderFactoryInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\ChannelConfigurationFactory;
 use Synerise\SyliusIntegrationPlugin\Entity\SynchronizationConfigurationInterface;
 use Synerise\SyliusIntegrationPlugin\Entity\Workspace;
@@ -18,7 +18,7 @@ final readonly class SynchronizationConfigurationModificationListener
     public const CATALOG_NAME_FORMAT = 'channel-%s';
 
     public function __construct(
-        private ClientBuilderFactory $clientBuilderFactory,
+        private ClientBuilderFactoryInterface $clientBuilderFactory,
         private ChannelConfigurationFactory $channelConfigurationFactory,
     ) {
     }
@@ -70,7 +70,7 @@ final readonly class SynchronizationConfigurationModificationListener
 
             $synchronizationConfiguration->setCatalogId($catalogId);
         } catch (\Exception $e) {
-            $event->stop('Catalog request request failed');
+            $event->stop('Catalog get request failed');
         }
     }
 }

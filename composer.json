@@ -12,11 +12,12 @@
         "php": "^8.2",
         "anik/loguzz": "^2.2 || ^4.0",
         "mobiledetect/mobiledetectlib": "^4.8",
-        "sylius/sylius": "~2.0.0",
-        "synerise/php-sdk": "^0.5.11"
+        "sylius/sylius": "^2.0",
+        "synerise/php-sdk": "^0.7"
     },
     "require-dev": {
         "behat/behat": "^3.16",
+        "dbrekelmans/bdi": "*",
         "dmore/behat-chrome-extension": "^1.4",
         "dmore/chrome-mink-driver": "^2.9",
         "friends-of-behat/mink": "^1.11",

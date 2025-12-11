@@ -1,5 +1,232 @@
-# Put your Behat suites definitions here
-
 default:
     suites:
+        workspace:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
 
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.setup.workspace
+                    
+                - synerise_sylius_integration.behat.context.domain.log
+                - synerise_sylius_integration.behat.context.domain.mock_api
+
+                - synerise_sylius_integration.behat.context.ui.admin.workspace
+            filters:
+                tags: "@workspace&&@default"
+        open_graph:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.lexical
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.shared_storage
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.product_attribute
+                - sylius.behat.context.ui.shop.product
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.shop.opengraph
+            filters:
+                tags: "@open_graph&&@default"
+        tracking_script:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.workspace
+                
+                - synerise_sylius_integration.behat.context.ui.shop.tracking_script
+            filters:
+                tags: "@tracking_script&&@default"
+        channel_configuration:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+            filters:
+                tags: "@channel_configuration&&@default"   
+        client_login:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.user
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+                    
+                - sylius.behat.context.ui.shop.login
+                
+                - synerise_sylius_integration.behat.context.domain.messenger
+                - synerise_sylius_integration.behat.context.domain.mock_api
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@client_login&&@default"
+        client_logout:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.user
+                - sylius.behat.context.setup.shop_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+                    
+                - sylius.behat.context.ui.shop.account
+                - sylius.behat.context.ui.shop.homepage
+                - sylius.behat.context.ui.user
+                
+                - synerise_sylius_integration.behat.context.domain.messenger
+                - synerise_sylius_integration.behat.context.domain.mock_api
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@client_logout&&@default"
+        client_register:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+                - sylius.behat.context.ui.shop.registration
+                
+                - synerise_sylius_integration.behat.context.domain.messenger
+                - synerise_sylius_integration.behat.context.domain.mock_api
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@client_register&&@default"
+
+e2e:
+    suites:
+        channel_configuration:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.admin_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                    
+                - synerise_sylius_integration.behat.context.domain.e2e
+                - synerise_sylius_integration.behat.context.domain.log                
+                
+                - synerise_sylius_integration.behat.context.ui.admin.channel_configuration
+            filters:
+                tags: "@channel_configuration&&@e2e"
+        workspace:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.e2e
+                - synerise_sylius_integration.behat.context.hook.log
+
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.setup.workspace
+
+                - synerise_sylius_integration.behat.context.domain.log
+
+                - synerise_sylius_integration.behat.context.ui.admin.workspace
+            filters:
+                tags: "@workspace&&@e2e"
+        client_login:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.user
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+
+                - sylius.behat.context.ui.shop.login
+
+                - synerise_sylius_integration.behat.context.domain.messenger
+                - synerise_sylius_integration.behat.context.domain.e2e
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@client_login&&@e2e"
+        client_logout:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                - synerise_sylius_integration.behat.context.hook.messenger
+
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+                - synerise_sylius_integration.behat.context.transform.workspace
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.user
+                - sylius.behat.context.setup.shop_security
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+
+                - sylius.behat.context.ui.shop.account
+                - sylius.behat.context.ui.shop.homepage
+                - sylius.behat.context.ui.user
+                
+                - synerise_sylius_integration.behat.context.domain.messenger
+                - synerise_sylius_integration.behat.context.domain.e2e
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@client_logout&&@e2e"
+        client_register:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - synerise_sylius_integration.behat.context.hook.log
+                    
+                - sylius.behat.context.transform.shared_storage
+                - synerise_sylius_integration.behat.context.transform.channel_configuration
+                - synerise_sylius_integration.behat.context.transform.workspace
+                
+                - sylius.behat.context.setup.channel
+                - synerise_sylius_integration.behat.context.setup.channel_configuration
+                - synerise_sylius_integration.behat.context.setup.workspace
+
+                - sylius.behat.context.ui.shop.registration
+                
+                - synerise_sylius_integration.behat.context.domain.e2e
+                - synerise_sylius_integration.behat.context.domain.log
+            filters:
+                tags: "@client_register&&@e2e"
