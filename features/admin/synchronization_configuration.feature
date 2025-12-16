@@ -35,11 +35,12 @@ Feature: Synchronization Configuration
     And api response will be mocked with:
       | get_catalogs_bags_success |
     When I click "#synerise_integration_synchronization_configuration_productAttributes-ts-control" element
-    And I click "#synerise_integration_synchronization_configuration_productAttributes option:nth-child(2)" element
-    And I click "#synerise_integration_synchronization_configuration_productAttributes option:nth-child(1)" element
+    And I click "#synerise_integration_synchronization_configuration_productAttributes-opt-1" element
+    And I click "#synerise_integration_synchronization_configuration_productAttributes-opt-2" element
     And I click "#synerise_integration_synchronization_configuration_productAttributes-ts-control" element
     And I select "id" from "synerise_integration_synchronization_configuration[productAttributeValue]"
     And I press "Create"
+    And I wait for ".alert" element
     Then logs should show 1 request in total
     And logs should show 1 requests to "/catalogs/bags"
     And I should see "Synchronization configuration has been successfully created."
