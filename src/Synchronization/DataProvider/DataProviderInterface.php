@@ -10,7 +10,7 @@ use Sylius\Resource\Model\ResourceInterface;
 
 interface DataProviderInterface
 {
-    public function getIds(ChannelInterface $channel, DateTimeImmutable $sinceWhen, DateTimeImmutable $untilWhen): iterable;
+    public function getIds(ChannelInterface $channel, ?\DateTimeImmutable $sinceWhen, ?\DateTimeImmutable $untilWhen): iterable;
 
     public function getEntity(int $id): ?ResourceInterface;
 }

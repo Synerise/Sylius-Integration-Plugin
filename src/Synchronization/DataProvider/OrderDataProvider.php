@@ -23,7 +23,7 @@ class OrderDataProvider implements DataProviderInterface
     ) {
     }
 
-    public function getIds(ChannelInterface $channel, DateTimeImmutable $sinceWhen, DateTimeImmutable $untilWhen): iterable
+    public function getIds(ChannelInterface $channel, ?\DateTimeImmutable $sinceWhen, ?\DateTimeImmutable $untilWhen): iterable
     {
         // @phpstan-ignore-next-line
         $queryBuilder = $this->orderRepository->createQueryBuilder('o');
@@ -31,13 +31,22 @@ class OrderDataProvider implements DataProviderInterface
             ->select('o.id')
             ->where('o.channel = :channel')
             ->andWhere('o.checkoutState = :checkoutState')
-            ->andWhere('o.checkoutCompletedAt BETWEEN :sinceWhen AND :untilWhen')
             ->setParameters(new ArrayCollection([
                 new Parameter('channel', $channel),
                 new Parameter('checkoutState', OrderCheckoutStates::STATE_COMPLETED),
-                new Parameter('sinceWhen', $sinceWhen),
-                new Parameter('untilWhen', $untilWhen)
             ]));
+
+        if ($sinceWhen !== null) {
+            $queryBuilder
+                ->andWhere('o.checkoutCompletedAt >= :sinceWhen')
+                ->setParameter('sinceWhen', $sinceWhen);
+        }
+
+        if ($untilWhen !== null) {
+            $queryBuilder
+                ->andWhere('o.checkoutCompletedAt <= :untilWhen')
+                ->setParameter('untilWhen', $untilWhen);
+        }
 
         return $queryBuilder->getQuery()->toIterable();
     }

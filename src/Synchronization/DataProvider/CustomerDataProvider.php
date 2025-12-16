@@ -22,16 +22,26 @@ class CustomerDataProvider implements DataProviderInterface
     ) {
     }
 
-    public function getIds(ChannelInterface $channel, DateTimeImmutable $sinceWhen, DateTimeImmutable $untilWhen): iterable
+    public function getIds(ChannelInterface $channel, ?\DateTimeImmutable $sinceWhen, ?\DateTimeImmutable $untilWhen): iterable
     {
         // @phpstan-ignore-next-line
         $queryBuilder = $this->customerRepository->createQueryBuilder('c');
-        $queryBuilder->select('c.id')
-            ->where('(c.createdAt BETWEEN :sinceWhen AND :untilWhen) OR (c.updatedAt BETWEEN :sinceWhen AND :untilWhen)')
-            ->setParameters(new ArrayCollection([
-                new Parameter('sinceWhen', $sinceWhen),
-                new Parameter('untilWhen', $untilWhen)
-            ]));
+        $queryBuilder->select('c.id');
+
+        if ($sinceWhen !== null && $untilWhen !== null) {
+            $queryBuilder
+                ->andWhere('(c.createdAt BETWEEN :sinceWhen AND :untilWhen) OR (c.updatedAt BETWEEN :sinceWhen AND :untilWhen)')
+                ->setParameter('sinceWhen', $sinceWhen)
+                ->setParameter('untilWhen', $untilWhen);
+        } elseif ($sinceWhen !== null) {
+            $queryBuilder
+                ->andWhere('c.createdAt >= :sinceWhen OR c.updatedAt >= :sinceWhen')
+                ->setParameter('sinceWhen', $sinceWhen);
+        } elseif ($untilWhen !== null) {
+            $queryBuilder
+                ->andWhere('c.updatedAt <= :untilWhen OR c.updatedAt <= :untilWhen')
+                ->setParameter('untilWhen', $untilWhen);
+        }
 
         return $queryBuilder->getQuery()->toIterable();
     }
