@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Synerise\SyliusIntegrationPlugin\Synchronization\DataProvider;
 
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
@@ -19,13 +22,28 @@ class ProductDataProvider implements DataProviderInterface
     ) {
     }
 
-    public function getIds(ChannelInterface $channel): iterable
+    public function getIds(ChannelInterface $channel, ?\DateTimeImmutable $sinceWhen, ?\DateTimeImmutable $untilWhen): iterable
     {
         // @phpstan-ignore-next-line
-        $queryBuilder = $this->productRepository->createQueryBuilder('o');
-        $queryBuilder->select('o.id')
-            ->andWhere(':channel MEMBER OF o.channels')
-            ->setParameter('channel', $channel);
+        $queryBuilder = $this->productRepository->createQueryBuilder('p');
+        $queryBuilder->select('p.id')
+        ->where(':channel MEMBER OF p.channels')
+        ->setParameter('channel', $channel);
+
+        if ($sinceWhen !== null && $untilWhen !== null) {
+            $queryBuilder
+                ->andWhere('(p.createdAt BETWEEN :sinceWhen AND :untilWhen) OR (p.updatedAt BETWEEN :sinceWhen AND :untilWhen)')
+                ->setParameter('sinceWhen', $sinceWhen)
+                ->setParameter('untilWhen', $untilWhen);
+        } elseif ($sinceWhen !== null) {
+            $queryBuilder
+                ->andWhere('p.createdAt >= :sinceWhen OR p.updatedAt >= :sinceWhen')
+                ->setParameter('sinceWhen', $sinceWhen);
+        } elseif ($untilWhen !== null) {
+            $queryBuilder
+                ->andWhere('p.updatedAt <= :untilWhen OR p.updatedAt <= :untilWhen')
+                ->setParameter('untilWhen', $untilWhen);
+        }
 
         return $queryBuilder->getQuery()->toIterable();
     }
