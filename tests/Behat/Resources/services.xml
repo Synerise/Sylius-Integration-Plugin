@@ -28,10 +28,16 @@
             <argument type="collection">
                 <argument key="api_key_check_permission_success" type="service" id="synerise_integration.behat.mock.response.check_permission.success"/>
                 <argument key="accepted" type="service" id="synerise_integration.behat.mock.response.accepted"/>
+                <argument key="get_catalogs_bags_success" type="service" id="synerise_integration.behat.mock.response.get_catalogs.success"/>
+                <argument key="post_catalogs_bags_success" type="service" id="synerise_integration.behat.mock.response.post_catalogs.success"/>
             </argument>
         </service>
         <service id="synerise_integration.behat.mock.response.check_permission.success" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\CheckPermissionSuccess" />
         <service id="synerise_integration.behat.mock.response.accepted" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\Accepted" />
+        <service id="synerise_integration.behat.mock.response.get_catalogs.success" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\GetCatalogsSuccess" >
+            <argument type="service" id="request_stack" />
+        </service>
+        <service id="synerise_integration.behat.mock.response.post_catalogs.success" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\Mock\ResponseFactory\CreateCatalogSuccess" />
 
         <!-- Logs Parser -->
         <service id="synerise_sylius_integration.behat.log_parser" class="\Tests\Synerise\SyliusIntegrationPlugin\Behat\Services\LogParser">
@@ -70,7 +76,9 @@
         <service id="synerise_sylius_integration.behat.context.domain.messenger" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Domain\MessengerContext" >
             <argument type="service" id="doctrine.dbal.default_connection" />
             <argument type="service" id="messenger.transport.main" />
+            <argument type="service" id="sylius.command_bus" />
             <argument type="service" id="sylius.event_bus" />
+            <argument type="service" id="synerise.synchronization_bus" />
         </service>
 
         <!-- Setup -->
@@ -83,8 +91,19 @@
             <argument type="service" id="synerise_integration.repository.workspace" />
             <argument type="service" id="parameter_bag" />
         </service>
+        <service id="synerise_sylius_integration.behat.context.setup.synchronization_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\SynchronizationConfigurationContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="synerise_integration.repository.synchronization_configuration" />
+            <argument type="service" id="synerise_integration.factory.synchronization_configuration" />
+            <argument type="service" id="sylius.repository.product_attribute" />
+        </service>
         <service id="synerise_sylius_integration.behat.context.setup.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\WorkspaceContext">
             <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+        <service id="synerise_sylius_integration.behat.context.setup.order" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Setup\OrderContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.behat.context.setup.order" />
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
 
@@ -99,10 +118,19 @@
             <argument type="service" id="sylius.behat.shared_storage" />
             <argument type="service" id="parameter_bag" />
         </service>
+        <service id="synerise_sylius_integration.behat.context.transform.synchronization_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Transform\SynchronizationConfigurationContext">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="parameter_bag" />
+        </service>
+
+        <!-- UI -->
+        <service id="synerise_sylius_integration.behat.context.ui.javascript" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\JavaScriptContext" />
 
         <!-- UI Admin -->
         <service id="synerise_sylius_integration.behat.context.ui.admin.workspace" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\WorkspaceContext" />
         <service id="synerise_sylius_integration.behat.context.ui.admin.channel_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\ChannelConfigurationContext" />
+        <service id="synerise_sylius_integration.behat.context.ui.admin.synchronization_configuration" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Admin\SynchronizationConfigurationContext" />
 
         <!-- UI Shop -->
         <service id="synerise_sylius_integration.behat.context.ui.shop.opengraph" class="Tests\Synerise\SyliusIntegrationPlugin\Behat\Context\Ui\Shop\OpenGraphContext">

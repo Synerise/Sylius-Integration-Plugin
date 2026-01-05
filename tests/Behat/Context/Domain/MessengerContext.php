@@ -15,23 +15,29 @@ use Webmozart\Assert\Assert;
 
 class MessengerContext implements Context
 {
+    private MessageBusInterface $messageBus;
+
     public function __construct(
         private Connection $connection,
         private TransportInterface $transport,
-        private MessageBusInterface $messageBus
+        private MessageBusInterface $defaultMessageBus,
+        private MessageBusInterface $eventMessageBus,
+        private MessageBusInterface $syncMessageBus,
     ) {
     }
 
-    #[Then('I should have :count message(s) in the queue')]
+    #[Then('I should have :count (more) message(s) in the queue')]
     public function iShouldHaveMessagesInTheQueue($count): void
     {
         Assert::eq($this->getQueueCount(), $count);
     }
 
     #[When('I process all message(s)')]
-    #[When('I process :limit message(s)')]
-    public function iProcessAllMessages(?int $limit = null): void
+    #[When('I process :limit (more) message(s)')]
+    #[When('I process :limit (more) message(s) with :busName bus')]
+    public function iProcessAllMessages(?int $limit = null, string $busName = "default"): void
     {
+        $this->messageBus = $this->selectBus($busName);
         $this->processMessagesWithWorker($limit);
     }
 
@@ -41,7 +47,7 @@ class MessengerContext implements Context
         return (int) $this->connection->fetchOne($sql);
     }
 
-    public function processMessagesWithWorker(int $limit = null): int
+    public function processMessagesWithWorker(?int $limit = null): int
     {
         $eventDispatcher = new EventDispatcher();
 
@@ -68,5 +74,15 @@ class MessengerContext implements Context
         $worker->run();
 
         return $limit ?? 0;
+    }
+
+    private function selectBus(string $name): MessageBusInterface
+    {
+        return match ($name) {
+            'event' => $this->eventMessageBus,
+            'synchronization' => $this->syncMessageBus,
+            'default' => $this->defaultMessageBus,
+            default => throw new \InvalidArgumentException("Unknown bus '$name'")
+        };
     }
 }

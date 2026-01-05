@@ -21,8 +21,8 @@ Feature: Customer logout event processing
     Then I should be redirected to the homepage
     And I should not be logged in
     And logs should show 1 request to "/v4/events/logged-out" with data:
-        | body          | "email":"shop@example.com" |
-        | status_code   | 202                        |
+        | body        | contains | "email":"shop@example.com" |
+        | status_code | eq       | 202                        |
     And logs should show 1 request in total
 
   @default @queue
@@ -36,10 +36,10 @@ Feature: Customer logout event processing
     Then I should be redirected to the homepage
     And I should not be logged in
     And I should have 1 message in the queue
-    When I process 1 message
+    When I process 1 message with event bus
     Then logs should show 1 request to "/v4/events/logged-out" with data:
-        | body          | "email":"shop@example.com" |
-        | status_code   | 202                        |
+        | body        | contains | "email":"shop@example.com" |
+        | status_code | eq       | 202                        |
     And logs should show 1 request in total
 
   @e2e @no-queue
@@ -52,6 +52,6 @@ Feature: Customer logout event processing
     Then I should be redirected to the homepage
     And I should not be logged in
     And logs should show 1 request to "/v4/events/logged-out" with data:
-        | body          | "email":"shop@example.com"    |
-        | status_code   | 202                           |
+        | body        | contains | "email":"shop@example.com" |
+        | status_code | eq       | 202                        |
     And logs should show 1 request in total
