@@ -1,5 +1,8 @@
 synerise_integration:
     ui:
+        last_seen: 'Last seen'
+        top_items: 'Top items'
+        similar_items: 'Similar items'
         check_docs: 'Check docs'
         change: 'Change'
         channel_configurations: 'Channel configurations'
