@@ -27,8 +27,10 @@ jobs:
                 node: ["22.x"]
                 mysql: ["8.4"]
                 exclude:
+                    - sylius: "~2.0.0"
+                      symfony: "^7.4"
                     - php: "8.4"
-                      symfony: "^6.4"
+                      sylius: "~2.0.0"
 
         env:
             APP_ENV: test
