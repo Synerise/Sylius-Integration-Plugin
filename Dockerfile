@@ -1,4 +1,4 @@
-FROM ghcr.io/sylius/sylius-php:8.3-fixuid-xdebug-alpine
+FROM ghcr.io/sylius/sylius-php:8.4-fixuid-xdebug-alpine
 
 # Switch to root to install packages
 USER root

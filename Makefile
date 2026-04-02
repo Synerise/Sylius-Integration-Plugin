@@ -1,5 +1,7 @@
 .PHONY: run
 
+-include .env.local
+
 DOCKER_COMPOSE ?= docker compose
 DOCKER_USER ?= "$(shell id -u):$(shell id -g)"
 ENV ?= "dev"
@@ -66,7 +68,11 @@ phpunit:
 	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/phpunit
 
 behat:
-	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm php vendor/bin/behat
+	@ENV=$(ENV) DOCKER_USER=$(DOCKER_USER) $(DOCKER_COMPOSE) run --rm \
+		-e SYNERISE_TEST_API_KEY=$(SYNERISE_TEST_API_KEY) \
+		-e SYNERISE_TEST_API_GUID=$(SYNERISE_TEST_API_GUID) \
+		-e SYNERISE_TEST_TRACKING_CODE=$(SYNERISE_TEST_TRACKING_CODE) \
+		php vendor/bin/behat
 
 mutagen-up:
 	@$(MUTAGEN_COMPOSE) -f compose.yml -f compose.override.mutagen.yml -f docker-compose.mutagen.yml up -d

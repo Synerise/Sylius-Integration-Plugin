@@ -68,3 +68,7 @@ phpstan.neon
 ###< liip/imagine-bundle ###
 
 .DS_Store
+/.claude/
+/symfony.lock
+/tests/Application/config/jwt/
+/tests/Application/config/reference.php
