@@ -36,9 +36,13 @@ class CartItemAddProcessor
             return;
         }
 
+        $snrsParams = $configuration->isSnrsParamsEnabled()
+            ? $this->identityManager->getProfile()->getExtraParams()
+            : null;
+
         $this->eventHandlerResolver->get($type)->processEvent(
             AddedToCartBuilder::ACTION,
-            $this->mapper->prepare($cartItem, $this->identityManager->getClient()),
+            $this->mapper->prepare($cartItem, $this->identityManager->getClient(), $snrsParams),
             $cart->getChannel()?->getId(),
         );
     }

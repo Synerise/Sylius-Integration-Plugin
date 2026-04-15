@@ -52,4 +52,8 @@ interface ChannelConfigurationInterface extends ResourceInterface
     public function setQueueEvents(?array $queueEvents): void;
 
     public function getEventHandlerType(string $action): ?string;
+
+    public function isSnrsParamsEnabled(): bool;
+
+    public function setSnrsParamsEnabled(bool $snrsParamsEnabled): void;
 }

@@ -31,9 +31,13 @@ class CartStatusProcessor
             return;
         }
 
+        $snrsParams = $configuration->isSnrsParamsEnabled()
+            ? $this->identityManager->getProfile()->getExtraParams()
+            : null;
+
         $this->eventHandlerResolver->get($type)->processEvent(
             CartStatusBuilder::ACTION,
-            $this->mapper->prepare($this->identityManager->getClient(), $cart),
+            $this->mapper->prepare($this->identityManager->getClient(), $cart, $snrsParams),
             $configuration->getChannel()?->getId(),
         );
     }

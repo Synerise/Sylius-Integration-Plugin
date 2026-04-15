@@ -46,8 +46,13 @@ class SymfonyCookieProfileFactory extends CookieProfileFactory
     protected function getExtraParams(): ?array
     {
         $params = $this->getCookieValue(Constants::COOKIE_PARAMS);
-        return $params ? $this->parseNodeFactory->getRootParseNode($params)
-            ->getCollectionOfPrimitiveValues('string') : null;
+        if ($params === null) {
+            return null;
+        }
+
+        $decoded = json_decode($params, true);
+
+        return is_array($decoded) ? $decoded : null;
     }
 
     protected function parseBaseParams(?string $string): ?Profile\BaseParams

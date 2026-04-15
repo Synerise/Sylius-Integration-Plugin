@@ -25,7 +25,7 @@ class OrderItemRemoveToCartEventMapper
     ) {
     }
 
-    public function prepare(OrderItemInterface $cartItem, Client $client): CartEvent
+    public function prepare(OrderItemInterface $cartItem, Client $client, ?array $snrsParams = null): CartEvent
     {
         /** @var \Sylius\Component\Core\Model\OrderInterface $cart */
         $cart = $cartItem->getOrder();
@@ -66,6 +66,7 @@ class OrderItemRemoveToCartEventMapper
             ->setCategory($this->formatter->formatTaxon($product->getMainTaxon()))
             ->setCategories($this->formatter->formatTaxonsCollection($product->getTaxons()) ?: null)
             ->setParam('skuVariant', $variant->getCode())
+            ->setSnrsParams($snrsParams)
             ->build();
 
         $genericEvent = new GenericEvent($cartEvent, ['cart' => $cart, 'cartItem' => $cartItem]);

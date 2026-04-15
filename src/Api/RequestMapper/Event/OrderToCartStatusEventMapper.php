@@ -21,21 +21,22 @@ class OrderToCartStatusEventMapper
     ) {
     }
 
-    public function prepare(Client $client, ?OrderInterface $cart = null): CustomEvent
+    public function prepare(Client $client, ?OrderInterface $cart = null, ?array $snrsParams = null): CustomEvent
     {
         if ($cart === null) {
-            return $this->prepareEmptyCartStatus($client);
+            return $this->prepareEmptyCartStatus($client, $snrsParams);
         }
 
-        return $this->prepareCartStatus($cart, $client);
+        return $this->prepareCartStatus($cart, $client, $snrsParams);
     }
 
-    private function prepareEmptyCartStatus(Client $client): CustomEvent
+    private function prepareEmptyCartStatus(Client $client, ?array $snrsParams = null): CustomEvent
     {
         $customEvent = CartStatusBuilder::initialize($client)
             ->setTotalAmount(0)
             ->setTotalQuantity(0.0)
             ->setProducts([])
+            ->setSnrsParams($snrsParams)
             ->build();
 
         $genericEvent = new GenericEvent($customEvent);
@@ -49,7 +50,7 @@ class OrderToCartStatusEventMapper
         return $genericEvent->getSubject();
     }
 
-    private function prepareCartStatus(OrderInterface $cart, Client $client): CustomEvent
+    private function prepareCartStatus(OrderInterface $cart, Client $client, ?array $snrsParams = null): CustomEvent
     {
         $products = [];
         foreach ($cart->getItems() as $item) {
@@ -64,6 +65,7 @@ class OrderToCartStatusEventMapper
             ->setTotalAmount($this->formatter->formatAmount($cart->getItemsTotal()))
             ->setTotalQuantity($cart->getTotalQuantity())
             ->setProducts($products)
+            ->setSnrsParams($snrsParams)
             ->build();
 
         $genericEvent = new GenericEvent($customEvent, ['cart' => $cart]);

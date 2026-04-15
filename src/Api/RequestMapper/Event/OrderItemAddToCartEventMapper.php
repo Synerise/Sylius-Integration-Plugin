@@ -26,7 +26,7 @@ class OrderItemAddToCartEventMapper
     ) {
     }
 
-    public function prepare(OrderItemInterface $cartItem, Client $client): CartEvent
+    public function prepare(OrderItemInterface $cartItem, Client $client, ?array $snrsParams = null): CartEvent
     {
         /** @var OrderInterface $cart */
         $cart = $cartItem->getOrder();
@@ -67,6 +67,7 @@ class OrderItemAddToCartEventMapper
             ->setCategory($this->formatter->formatTaxon($product->getMainTaxon()))
             ->setCategories($this->formatter->formatTaxonsCollection($product->getTaxons()) ?: null)
             ->setParam('skuVariant', $variant->getCode())
+            ->setSnrsParams($snrsParams)
             ->build();
 
         $genericEvent = new GenericEvent($cartEvent, ['cart' => $cart, 'cartItem' => $cartItem]);
